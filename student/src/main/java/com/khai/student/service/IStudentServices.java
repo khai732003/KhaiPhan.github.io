@@ -59,4 +59,11 @@ public class IStudentServices implements StudentService{
 
     return studentRepositories.findById(id);
   }
+
+  @Override
+  public List<Student> findByString(String key) {
+    return studentRepositories.findByNameContaining(key);
+  }
+
+
 }

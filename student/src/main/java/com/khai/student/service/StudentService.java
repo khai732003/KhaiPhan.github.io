@@ -20,4 +20,6 @@ public interface StudentService {
     //list a student
     public Optional<Student> listAStudent(long id);
 
+    //test find a String
+    public List<Student> findByString(String key);
 }
