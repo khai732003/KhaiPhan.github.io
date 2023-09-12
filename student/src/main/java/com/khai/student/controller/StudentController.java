@@ -3,6 +3,7 @@ package com.khai.student.controller;
 import com.khai.student.model.Student;
 import com.khai.student.service.IStudentServices;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class StudentController {
   }
 
   @GetMapping("/list/{id}")
-  public Student listById(@PathVariable("id") long id){
+  public Optional<Student> listById(@PathVariable("id") long id){
 
     return iStudentServices.listAStudent(id);
   }

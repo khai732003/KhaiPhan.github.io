@@ -3,6 +3,7 @@ package com.khai.student.service;
 import com.khai.student.model.Student;
 import com.khai.student.repository.StudentRepositories;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,11 +50,13 @@ public class IStudentServices implements StudentService{
 
   @Override
   public List<Student> listAllStudent() {
+
     return studentRepositories.findAll();
   }
 
   @Override
-  public List<Student> listAStudent(long id) {
+  public Optional<Student> listAStudent(long id) {
+
     return studentRepositories.findById(id);
   }
 }

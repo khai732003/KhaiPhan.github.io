@@ -2,6 +2,7 @@ package com.khai.student.service;
 
 import com.khai.student.model.Student;
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentService {
     //add
@@ -17,6 +18,6 @@ public interface StudentService {
     public List<Student> listAllStudent();
 
     //list a student
-    public List<Student> listAStudent(long id);
+    public Optional<Student> listAStudent(long id);
 
 }
