@@ -1,7 +1,7 @@
 package com.khai.student.controller;
 
 import com.khai.student.model.Student;
-import com.khai.student.service.IStudentServices;
+import com.khai.student.service.StudentService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,36 +21,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("student")
 public class StudentController {
   @Autowired
-  private IStudentServices iStudentServices;
+  private StudentService studentService;
 
+  @GetMapping("")
+  public String viewHomePage() {
+    return "index";
+  }
   @PostMapping("/add")
   public Student add(@RequestBody Student student){
-    return iStudentServices.addStudent(student);
+    return studentService.addStudent(student);
   }
 
   @PutMapping("/update/{id}")
   public Student update(@PathVariable("id") long id, @RequestBody Student student){
-     return iStudentServices.updateStudent(id, student);
+     return studentService.updateStudent(id, student);
   }
 
   @DeleteMapping("/delete/{id}")
   public boolean delete(@PathVariable("id") long id){
-    return iStudentServices.deleteStudent(id);
+    return studentService.deleteStudent(id);
   }
 
   @GetMapping("/list")
   public List<Student> listAll(){
-    return iStudentServices.listAllStudent();
+    return studentService.listAllStudent();
   }
 
   @GetMapping("/list/{id}")
   public Optional<Student> listById(@PathVariable("id") long id){
 
-    return iStudentServices.listAStudent(id);
+    return studentService.listAStudent(id);
   }
 
   @GetMapping("/list/name")
   public ResponseEntity<List<Student>> listByContain(@RequestParam String name){
-    return new ResponseEntity<List<Student>>(iStudentServices.findByString(name),HttpStatus.OK);
+    return new ResponseEntity<List<Student>>(studentService.findByString(name),HttpStatus.OK);
   }
 }
