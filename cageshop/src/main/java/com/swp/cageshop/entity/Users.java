@@ -43,11 +43,6 @@ public class Users {
   @JoinColumn(name = "role_id")
   private Roles role;
 
-  //N:1 voi Role
-  @ManyToOne
-  @JoinColumn(name = "admin_id")
-  private Admins admin;
-
   //1:N voi Marketing
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Marketings> marketings;
