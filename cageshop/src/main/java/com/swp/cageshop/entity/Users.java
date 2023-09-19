@@ -1,6 +1,7 @@
 package com.swp.cageshop.entity;
 
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,11 +13,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Table(name = "Users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
 
   @Id
@@ -37,6 +43,10 @@ public class Users {
 
   @Column(nullable = false)
   private String address;
+
+  @NotNull
+  @Transient
+  private Long roleId;
 
   //N:1 voi Role
   @ManyToOne
