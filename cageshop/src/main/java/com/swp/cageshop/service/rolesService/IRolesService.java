@@ -7,5 +7,7 @@ import java.util.List;
 public interface IRolesService {
   public Roles addRoles(Roles roles);
 
+  public boolean deleteRoles(long id);
+
   public List<Roles> listRoles();
 }
