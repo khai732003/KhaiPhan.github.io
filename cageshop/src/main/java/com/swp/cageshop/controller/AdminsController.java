@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("cageshop")
+@RequestMapping("/cageshop")
 public class AdminsController {
 
   @Autowired
@@ -21,7 +21,7 @@ public class AdminsController {
 
 @GetMapping("/role/haha")
   public String test(){
-    return "cmmsds";
+    return "djt me may";
   }
 
   @PostMapping("/role/add")
