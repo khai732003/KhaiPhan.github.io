@@ -1,6 +1,5 @@
-package com.example.demo.entity;
+package com.sho.demo;
 
-import jakarta.persistence.Entity;
 import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +11,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
+@Table(name = "Roles")
 @Data
-public class Role {
+public class Roles {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +25,6 @@ public class Role {
   // 1:N với User
   @OneToMany(mappedBy = "role")
   private List<Users> users;
+
 
 }

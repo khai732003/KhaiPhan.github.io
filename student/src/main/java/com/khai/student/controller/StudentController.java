@@ -23,10 +23,6 @@ public class StudentController {
   @Autowired
   private StudentService studentService;
 
-  @GetMapping("")
-  public String viewHomePage() {
-    return "index";
-  }
   @PostMapping("/add")
   public Student add(@RequestBody Student student){
     return studentService.addStudent(student);

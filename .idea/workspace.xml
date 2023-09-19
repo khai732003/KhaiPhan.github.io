@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c0d698-622f-4273-9579-2897f1873a57" name="Changes" comment="" />
+    <list default="true" id="35c0d698-622f-4273-9579-2897f1873a57" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cageshop/src/main/java/com/swp/cageshop/entity/Admins.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cageshop/src/main/java/com/swp/cageshop/repository/RolesRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cageshop/src/main/java/com/swp/cageshop/repository/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cageshop/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cageshop/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cageshop/src/main/java/com/swp/cageshop/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/cageshop/src/main/java/com/swp/cageshop/entity/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/example/demo/DemoApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/example/demo/entity/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/java/com/example/demo/entity/Users.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/src/test/java/com/example/demo/DemoApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/student/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/src/main/java/com/khai/student/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/student/src/main/java/com/khai/student/controller/StudentController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,24 +29,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2VIjkRGkbUKbQSR0V6fAJZRU777" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/DLCT/Desktop/SWP.CAGE.github.io/student",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DLCT/Desktop/SWP.CAGE.github.io/student&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -37,6 +59,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694530630639</updated>
       <workItem from="1694530631646" duration="13000" />
+      <workItem from="1695106092939" duration="37000" />
     </task>
     <servers />
   </component>

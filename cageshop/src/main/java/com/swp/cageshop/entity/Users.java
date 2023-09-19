@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import jakarta.persistence.OneToOne;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,7 +32,7 @@ public class Users {
   @Column(nullable = false)
   private String password;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 10)
   private String phone;
 
   @Column(nullable = false)
@@ -42,15 +43,10 @@ public class Users {
   @JoinColumn(name = "role_id")
   private Roles role;
 
-  // Trường để chỉ định người dùng "admin"
+  //N:1 voi Role
   @ManyToOne
-  @JoinColumn(name = "admin_user_id")
-  private Users adminUser;
-
-  // 1:N với các người dùng "manager"
-  @OneToMany(mappedBy = "adminUser")
-  private List<Users> managedUsers;
-
+  @JoinColumn(name = "admin_id")
+  private Admins admin;
 
   //1:N voi Marketing
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
