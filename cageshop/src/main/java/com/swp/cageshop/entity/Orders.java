@@ -43,4 +43,7 @@ public class Orders {
   @OneToOne
   @JoinColumn(name = "cart_id", unique = true, nullable = false)
   private Carts cart;
+
+  @OneToOne(mappedBy = "order")
+  private HistoryOrders historyOrder;
   }

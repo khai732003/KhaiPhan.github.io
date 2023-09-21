@@ -69,4 +69,9 @@ public class Users {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 
+  // Mối quan hệ OneToMany với HistoryOrder
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<HistoryOrders> historyOrders;
+
+
 }
