@@ -35,6 +35,12 @@ public class Products {
   private double price;
 
   @Column(nullable = false)
+  private String material;
+
+  @Column(nullable = false)
+  private String size;
+
+  @Column(nullable = false)
   private String image;
 
   @Column(nullable = false)
