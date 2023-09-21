@@ -43,4 +43,7 @@ public class Orders {
   @OneToOne
   @JoinColumn(name = "cart_id", unique = true, nullable = false)
   private Carts cart;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<Rating> ratings;
   }
