@@ -14,7 +14,7 @@ import java.util.List;
 import lombok.Data;
 
 @Entity
-@Table(name = "historyorders")
+@Table(name = "History_Orders")
 @Data
 public class HistoryOrders {
   @Id
