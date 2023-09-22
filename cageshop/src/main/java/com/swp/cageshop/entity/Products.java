@@ -63,5 +63,9 @@ public class Products {
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")
 //  private List<Carts> carts;
+
+
+
+
 }
 

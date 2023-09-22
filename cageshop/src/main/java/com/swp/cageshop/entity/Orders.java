@@ -44,11 +44,6 @@ public class Orders {
   @JoinColumn(name = "cart_id", unique = true, nullable = false)
   private Carts cart;
 
-<<<<<<< HEAD
   @OneToOne(mappedBy = "order")
   private HistoryOrders historyOrder;
-=======
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Rating> ratings;
->>>>>>> 2f2ffec46c4f2e6afdd04e6d54e3f2cbaae9559c
-  }
+}
