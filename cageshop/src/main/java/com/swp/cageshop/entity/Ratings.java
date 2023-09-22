@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "Rating")
+@Table(name = "Ratings")
 @Data
-public class Rating {
+public class Ratings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private int stars;
+    private int score;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

@@ -46,4 +46,11 @@ public class Orders {
 
   @OneToOne(mappedBy = "order")
   private HistoryOrders historyOrder;
+<<<<<<< HEAD
 }
+=======
+
+
+
+  }
+>>>>>>> 1445a67b85297b2cfe30d6e0d97fff9d8ca688ef

@@ -1,6 +1,5 @@
 package com.swp.cageshop.entity;
 
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -44,9 +43,6 @@ public class Users {
   @Column(nullable = false)
   private String address;
 
-  @NotNull
-  @Transient
-  private Long roleId;
 
   //N:1 voi Role
   @ManyToOne
@@ -63,7 +59,7 @@ public class Users {
 
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Feedbacks> feedbacks;
+  private List<Comments> comments;
 
   // Mối quan hệ OneToMany với Order
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

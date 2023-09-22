@@ -15,9 +15,9 @@ import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Entity
-@Table(name = "Feedbacks")
+@Table(name = "Comments")
 @Data
-public class Feedbacks {
+public class Comments {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Feedbacks {
   private String content;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "feedback_date", nullable = false)
+  @Column(name = "comment_date", nullable = false)
   private Date date;
 
   // N:1 voi user
