@@ -63,6 +63,7 @@ public class Products {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
+<<<<<<< HEAD
 
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")
@@ -72,12 +73,22 @@ public class Products {
 
 
 
+=======
+  // Mối quan hệ Many-to-Many với Cart
+  @ManyToMany(mappedBy = "products")
+  private List<Carts> carts;
+
+>>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Ratings> ratings;
 
   // Mối quan hệ Many-to-Many với Cart
   @ManyToMany(mappedBy = "products")
+<<<<<<< HEAD
   private List<Carts> carts;
 
+=======
+  private List<Carts> Carts;
+>>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
 }
 
