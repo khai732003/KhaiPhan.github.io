@@ -15,11 +15,15 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Orders")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
 
   @Id
