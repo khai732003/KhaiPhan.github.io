@@ -43,8 +43,7 @@ public class Users {
   @Column(nullable = false)
   private String address;
 
-
-  //N:1 voi Role
+  // N:1 with Role
   @ManyToOne
   @JoinColumn(name = "role_id")
   private Roles role;
@@ -61,13 +60,12 @@ public class Users {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
-  // Mối quan hệ OneToMany với Order
+  // Mối quan hệ OneToMany với Order`
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 
   // Mối quan hệ OneToMany với HistoryOrder
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<HistoryOrders> historyOrders;
-
 
 }

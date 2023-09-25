@@ -1,6 +1,8 @@
 package com.swp.cageshop.service.usersService;
 
+import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.entity.Users;
+import com.swp.cageshop.repository.RolesRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,18 @@ public class UsersServiceImpl implements IUsersService {
 
   @Autowired
   private UsersRepository usersRepository;
+  @Autowired
+  private RolesRepository rolesRepository;
+
+  private Roles roles;
 
   @Override
   public Users registerUsers(Users users) {
-    if (users != null) {
-      return usersRepository.save(users);
+    if (users != null && users.getRole() != null) {
+      Roles existingRole = rolesRepository.getReferenceById(users.getRole().getId());
+      if (existingRole != null) {
+        return usersRepository.save(users);
+      }
     }
     return null;
   }
