@@ -46,6 +46,9 @@ public class Products {
   @Column(nullable = false)
   private String title;
 
+  @Column(nullable = false)
+  private String type;
+
   // N:1 voi User
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -60,18 +63,38 @@ public class Products {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
+<<<<<<< HEAD
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
+=======
+<<<<<<< HEAD
+
+//  // Mối quan hệ Many-to-Many với Cart
+//  @ManyToMany(mappedBy = "products")
+//  private List<Carts> carts;
+
+
+
+
+
+=======
+>>>>>>> c4eb069804362324453c0fa65de634d1d148bb04
   // Mối quan hệ Many-to-Many với Cart
   @ManyToMany(mappedBy = "products")
   private List<Carts> carts;
 
+>>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Ratings> ratings;
 
   // Mối quan hệ Many-to-Many với Cart
   @ManyToMany(mappedBy = "products")
+<<<<<<< HEAD
+  private List<Carts> carts;
+
+=======
   private List<Carts> Carts;
+>>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
 }
 
