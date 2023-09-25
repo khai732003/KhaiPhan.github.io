@@ -61,6 +61,10 @@ public class Users {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
+  // 1:N voi Feedback
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Feedbacks> feedbacks;
+
   // Mối quan hệ OneToMany với Order
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
