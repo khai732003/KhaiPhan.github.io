@@ -4,6 +4,7 @@ import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.service.rolesService.IRolesService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +26,12 @@ public class RolesController {
   }
 
   @PostMapping("/role/add")
-  public Roles addRoles(@RequestBody Roles roles){
+  public ResponseEntity<?> addRoles(@RequestBody Roles roles){
     return iRolesService.addRoles(roles);
   }
 
   @GetMapping("/role/list")
-  public List<Roles> listMarketings(){
+  public List<Roles> listRoles(){
     return iRolesService.listRoles();
   }
 

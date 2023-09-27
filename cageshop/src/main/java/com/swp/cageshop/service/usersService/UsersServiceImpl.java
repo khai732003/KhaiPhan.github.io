@@ -5,7 +5,10 @@ import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.RolesRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import java.util.List;
+import javax.management.relation.RoleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,16 +21,26 @@ public class UsersServiceImpl implements IUsersService {
 
   private Roles roles;
 
+
   @Override
-  public Users registerUsers(Users users) {
+  public ResponseEntity<?> registerUsers(Users users) {
     if (users != null && users.getRole() != null) {
-      Roles existingRole = rolesRepository.getReferenceById(users.getRole().getId());
+      Roles existingRole = rolesRepository.findById(users.getRole().getId()).orElse(null);
       if (existingRole != null) {
-        return usersRepository.save(users);
+        if (users.getRole().getName().equals(existingRole.getName())) {
+          Users registeredUser = usersRepository.save(users);
+          return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+        } else {
+          return new ResponseEntity<>("NameRole không khớp với vai trò", HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        return new ResponseEntity<>("Vai trò không tồn tại", HttpStatus.BAD_REQUEST);
       }
+    } else {
+      return new ResponseEntity<>("Thông tin người dùng không hợp lệ", HttpStatus.BAD_REQUEST);
     }
-    return null;
   }
+
 
 
   @Override

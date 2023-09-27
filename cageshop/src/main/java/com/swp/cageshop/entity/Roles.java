@@ -1,5 +1,7 @@
 package com.swp.cageshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,11 +25,15 @@ public class Roles {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String name;
 
+  @Column(nullable = false)
+  private int permission;
+
   // 1:N với User
-  @OneToMany(mappedBy = "role")
+  @JsonIgnore //ngăn chặn stackoverflow
+  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
   private List<Users> users;
 
 }
