@@ -5,9 +5,13 @@ import com.swp.cageshop.entity.Orders;
 import java.util.List;
 
 public interface IOrdersService {
-    public Orders addOrders(Orders Orders);
+    public Orders addOrders(Orders orders);
 
-    public Orders updateOrders(long id, Orders Orders);
+
+//    public Orders updateOrders(long id, Orders Orders);
+
+    public Orders updateOrders(long id, Orders orders);
+
 
     public boolean deleteOrders(long id);
 

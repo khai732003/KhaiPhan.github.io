@@ -1,4 +1,5 @@
 package com.swp.cageshop.entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -65,6 +66,7 @@ public class Products {
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+<<<<<<< HEAD
   private List<Feedbacks> feedbacks;
 
 
@@ -72,28 +74,18 @@ public class Products {
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")
 //  private List<Carts> carts;
-
-
-
-
-
 =======
->>>>>>> c4eb069804362324453c0fa65de634d1d148bb04
-  // Mối quan hệ Many-to-Many với Cart
-  @ManyToMany(mappedBy = "products")
-  private List<Carts> carts;
+  private List<OrderDetail> orderDetails;
+>>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
 
->>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
+
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Ratings> ratings;
 
-  // Mối quan hệ Many-to-Many với Cart
-  @ManyToMany(mappedBy = "products")
-<<<<<<< HEAD
-  private List<Carts> carts;
 
-=======
-  private List<Carts> Carts;
->>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14
+
+
+
+
 }
 

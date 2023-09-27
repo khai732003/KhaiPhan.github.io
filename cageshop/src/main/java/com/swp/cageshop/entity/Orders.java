@@ -15,11 +15,15 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Orders")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
 
   @Id
@@ -39,17 +43,9 @@ public class Orders {
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetails;
 
-  // Mối quan hệ One-to-One với Cart
-  @OneToOne
-  @JoinColumn(name = "cart_id", unique = true, nullable = false)
-  private Carts cart;
-
-  @OneToOne(mappedBy = "order")
-  private HistoryOrders historyOrder;
+  @OneToMany(mappedBy = "order")
+  private List<Vouchers> vouchers;
 
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> a6063c75275c152e20c75029fb4cf9c773ca6c14

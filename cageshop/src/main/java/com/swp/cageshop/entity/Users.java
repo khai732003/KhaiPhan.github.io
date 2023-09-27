@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Transient;
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -16,6 +17,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Users")
@@ -44,36 +47,42 @@ public class Users {
   private String address;
 
   // N:1 with Role
-  @ManyToOne
-  @JoinColumn(name = "role_id")
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "role_id", referencedColumnName = "name")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Roles role;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+  private List<Vouchers> vouchers;
+
   //1:N voi Marketing
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Marketings> marketings;
 
   //1:N voi Product
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Products> products;
 
   // 1:N voi Feedback
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
+<<<<<<< HEAD
   // Mối quan hệ OneToMany với Order
 
   // Mối quan hệ OneToMany với Order`
 
+=======
+>>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
-
-  // Mối quan hệ OneToMany với HistoryOrder
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<HistoryOrders> historyOrders;
 
 }
