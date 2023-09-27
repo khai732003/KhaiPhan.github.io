@@ -1,6 +1,7 @@
 package com.swp.cageshop.service.feedbacksService;
 
 import com.swp.cageshop.entity.Feedbacks;
+
 import java.util.List;
 
 public interface IFeedbacksService {
@@ -11,4 +12,8 @@ public interface IFeedbacksService {
   public boolean deleteFeedBack(Long id);
 
   public Feedbacks updateFeedbacks(Long id, Feedbacks feedbacks);
+
+  public List<Feedbacks> getAllFeedbacks();
+
+  public Feedbacks getOneFeedback(long id);
 }

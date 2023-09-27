@@ -1,9 +1,12 @@
 package com.swp.cageshop.entity;
 
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "Feedbacks")
@@ -11,17 +14,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Feedbacks {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Column(nullable = false, length = 100)
+    private String title;
 
-  @Column(nullable = false)
-  private String content;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private Users user;
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
+    private String content;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "feedback_date", nullable = false)
+    private Date date;
+
+    // N:1 voi user
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
 }
 

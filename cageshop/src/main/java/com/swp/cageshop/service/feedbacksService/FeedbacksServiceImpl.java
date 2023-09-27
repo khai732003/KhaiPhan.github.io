@@ -61,6 +61,26 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
 
   @Override
   public Feedbacks updateFeedbacks(Long id, Feedbacks feedbacks) {
+    if (feedbacks != null) {
+      Feedbacks feedbacks1 = feedbacksRepository.getReferenceById(id);
+      if (feedbacks1 != null) {
+        return null;
+
+      }
+    }
     return null;
   }
+
+
+
+    @Override
+    public List<Feedbacks> getAllFeedbacks() {
+        return null;
+    }
+
+    @Override
+    public Feedbacks getOneFeedback(long id) {
+        return null;
+    }
+
 }
