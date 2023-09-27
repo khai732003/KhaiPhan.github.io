@@ -63,12 +63,11 @@ public class Products {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
-<<<<<<< HEAD
+
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
-=======
-<<<<<<< HEAD
+
 
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")

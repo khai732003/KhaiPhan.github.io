@@ -1,2 +1,4 @@
-package com.swp.cageshop.controller;public class VounchersController {
+package com.swp.cageshop.controller;
+
+public class VounchersController {
 }

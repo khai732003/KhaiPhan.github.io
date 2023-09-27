@@ -26,26 +26,34 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
         if (feedbacks != null) {
             Feedbacks feedbacks1 = feedbacksRepository.getReferenceById(id);
             if (feedbacks1 != null) {
-             return null;
-
+                feedbacks1.setContent(feedbacks1.getContent());
+                return feedbacksRepository.save(feedbacks1);
             }
-
+        }
             return null;
         }
-    }
+
 
     @Override
     public boolean deleteFeedbacks(long id) {
+        if (id >=1){
+            Feedbacks feedbacks = feedbacksRepository.getReferenceById(id);
+           if(feedbacks!=null){
+               feedbacksRepository.delete(feedbacks);
+                return true;
+           }
+        }
+
         return false;
     }
 
     @Override
     public List<Feedbacks> getAllFeedbacks() {
-        return null;
+        return feedbacksRepository.findAll();
     }
 
     @Override
     public Feedbacks getOneFeedback(long id) {
-        return null;
+        return feedbacksRepository.getReferenceById(id);
     }
 }
