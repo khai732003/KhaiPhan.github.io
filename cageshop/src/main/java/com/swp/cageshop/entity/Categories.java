@@ -24,6 +24,7 @@ public class Categories {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  // For different chim
   @Column(nullable = false)
   private String name;
 

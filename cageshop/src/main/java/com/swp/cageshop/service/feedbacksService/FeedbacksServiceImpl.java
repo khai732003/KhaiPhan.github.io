@@ -45,9 +45,24 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
     return null;
   }
 
-<<<<<<< HEAD
     @Override
-    public Feedbacks updateFeedbacks(long id, Feedbacks feedbacks) {
+    public boolean deleteFeedbacks(Long id) {
+        if (id >= 1) {
+            Feedbacks feedbacks = feedbacksRepository.getReferenceById(id);
+            if (feedbacks != null) {
+                feedbacksRepository.delete(feedbacks);
+                return true;
+            }
+        }
+
+        return false;
+
+
+    }
+
+
+    @Override
+    public Feedbacks updateFeedbacks(Long id, Feedbacks feedbacks) {
         if (feedbacks != null) {
             Feedbacks feedbacks1 = feedbacksRepository.getReferenceById(id);
             if (feedbacks1 != null) {
@@ -59,44 +74,6 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
         }
 
 
-    @Override
-    public boolean deleteFeedbacks(long id) {
-        if (id >=1){
-            Feedbacks feedbacks = feedbacksRepository.getReferenceById(id);
-           if(feedbacks!=null){
-               feedbacksRepository.delete(feedbacks);
-                return true;
-           }
-        }
-
-        return false;
-=======
-
-
-  @Override
-  public boolean deleteFeedBack(Long id) {
-  if (id >= 1) {
-    Feedbacks feedbacks = feedbacksRepository.getReferenceById(id);
-    if (feedbacks != null) {
-      feedbacksRepository.delete(feedbacks);
-      return true;
-    }
-  }
-  return false;
-}
-
-  @Override
-  public Feedbacks updateFeedbacks(Long id, Feedbacks feedbacks) {
-    if (feedbacks != null) {
-      Feedbacks feedbacks1 = feedbacksRepository.getReferenceById(id);
-      if (feedbacks1 != null) {
-        return null;
-
-      }
->>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
-    }
-    return null;
-  }
 
 
 

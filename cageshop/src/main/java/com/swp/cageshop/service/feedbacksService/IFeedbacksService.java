@@ -9,7 +9,7 @@ public interface IFeedbacksService {
   public List<Feedbacks> listFeedbacks();
   public Feedbacks addFeedBack(Feedbacks feedbacks, Long UserId);
 
-  public boolean deleteFeedBack(Long id);
+   public boolean deleteFeedbacks(Long id);
 
   public Feedbacks updateFeedbacks(Long id, Feedbacks feedbacks);
 
