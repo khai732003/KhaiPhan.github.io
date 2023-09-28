@@ -45,6 +45,32 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
     return null;
   }
 
+<<<<<<< HEAD
+    @Override
+    public Feedbacks updateFeedbacks(long id, Feedbacks feedbacks) {
+        if (feedbacks != null) {
+            Feedbacks feedbacks1 = feedbacksRepository.getReferenceById(id);
+            if (feedbacks1 != null) {
+                feedbacks1.setContent(feedbacks1.getContent());
+                return feedbacksRepository.save(feedbacks1);
+            }
+        }
+            return null;
+        }
+
+
+    @Override
+    public boolean deleteFeedbacks(long id) {
+        if (id >=1){
+            Feedbacks feedbacks = feedbacksRepository.getReferenceById(id);
+           if(feedbacks!=null){
+               feedbacksRepository.delete(feedbacks);
+                return true;
+           }
+        }
+
+        return false;
+=======
 
 
   @Override
@@ -67,6 +93,7 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
         return null;
 
       }
+>>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
     }
     return null;
   }
@@ -75,12 +102,12 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
 
     @Override
     public List<Feedbacks> getAllFeedbacks() {
-        return null;
+        return feedbacksRepository.findAll();
     }
 
     @Override
     public Feedbacks getOneFeedback(long id) {
-        return null;
+        return feedbacksRepository.getReferenceById(id);
     }
 
 }
