@@ -1,9 +1,11 @@
 package com.swp.cageshop.controller;
 
+import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.service.usersService.IUsersService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +22,13 @@ public class UsersController {
   private IUsersService iUsersService;
 
   @PostMapping("/user/register")
-  public Users registerUsers(@RequestBody  Users users){
-    return iUsersService.registerUsers(users);
+  public UserDTO registerUsers(@RequestBody  UserDTO userDTO){
+    return iUsersService.registerUsers(userDTO);
   }
 
   @PutMapping("/user/update/{id}")
-  public Users updateProfile(@PathVariable long id,@RequestBody Users users){
-    return iUsersService.updateUsers(id,users);
+  public UserDTO updateProfile(@PathVariable long id,@RequestBody UserDTO userDTO){
+    return iUsersService.updateUsers(id,userDTO);
   }
 
   @GetMapping("/user/list")

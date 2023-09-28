@@ -19,6 +19,20 @@ public class OrdersServiceImpl implements IOrdersService{
         return null;
     }
 
+
+//    @Override
+//    public Orders updateOrders(long id, Orders orders) {
+//        if(orders!=null){
+//            Orders orders1 = ordersRepository.getReferenceById(id);
+//            if(orders1 != null){
+//                orders1.
+//                orders1.setAddress(orders.getAddress());
+//                return ordersRepository.save(orders1);
+//            }
+//        }
+//        return null;
+//    }
+
     @Override
     public Orders updateOrders(long id, Orders orders) {
         if(orders!=null){
@@ -31,6 +45,7 @@ public class OrdersServiceImpl implements IOrdersService{
         }
         return null;
     }
+
 
     @Override
     public boolean deleteOrders(long id) {

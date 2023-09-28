@@ -1,13 +1,18 @@
 package com.swp.cageshop.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "Feedbacks")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Feedbacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +34,10 @@ public class Feedbacks {
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
-    // N:1 voi product
+
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
+
 }
+

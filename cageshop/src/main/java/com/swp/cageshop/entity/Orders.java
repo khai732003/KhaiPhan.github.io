@@ -34,11 +34,9 @@ public class Orders {
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetails;
 
-  // Mối quan hệ One-to-One với Cart
-  @OneToOne
-  @JoinColumn(name = "cart_id", unique = true, nullable = false)
-  private Carts cart;
 
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<Vouchers> vouchers;
 
 }
 

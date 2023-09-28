@@ -1,12 +1,14 @@
 package com.swp.cageshop.service.usersService;
 
+import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Users;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface IUsersService {
-  public Users registerUsers(Users users);
+  public UserDTO registerUsers(UserDTO userDTO);
 
-  public Users updateUsers(long id,Users users);
+  public UserDTO updateUsers(long id,UserDTO userDTO);
 
   public List<Users> listAll();
 }
