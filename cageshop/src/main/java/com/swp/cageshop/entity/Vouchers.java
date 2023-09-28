@@ -1,4 +1,4 @@
 package com.swp.cageshop.entity;
 
-public class Vounchers {
+public class Vouchers {
 }

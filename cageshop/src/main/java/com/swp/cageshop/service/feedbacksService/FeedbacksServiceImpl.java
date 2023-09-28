@@ -29,9 +29,9 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
              return null;
 
             }
-
             return null;
         }
+        return feedbacks;
     }
 
     @Override
