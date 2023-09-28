@@ -82,12 +82,6 @@ public class Products {
   private List<Comments> comments;
 
 
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//
-//  private List<Feedbacks> feedbacks;
-
-
-
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 
   private List<Feedbacks> feedbacks;
@@ -101,6 +95,13 @@ public class Products {
 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 private List<OrderDetail>  orderdetail;
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 2f2ea1e75c22ff773cdc4120ee0145c9d1811f24
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Ratings> ratings;
 

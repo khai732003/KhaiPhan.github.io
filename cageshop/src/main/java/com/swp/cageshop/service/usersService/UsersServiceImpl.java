@@ -36,7 +36,6 @@ public class UsersServiceImpl implements IUsersService {
     if (userDTO == null) {
       throw new IllegalArgumentException("UserDTO không hợp lệ");
     }
-
     // Chuyển đổi từ UserDTO sang Users
     Users users = modelMapper.map(userDTO, Users.class);
 
@@ -44,11 +43,9 @@ public class UsersServiceImpl implements IUsersService {
     if (users.getRole() == null || users.getRole().getId() == null) {
       throw new IllegalArgumentException("Role không tồn tại");
     }
-
     try {
       // Lưu Users vào cơ sở dữ liệu
       Users savedUsers = usersRepository.save(users);
-
       // Chuyển đổi từ Users sang UserDTO
       UserDTO savedUserDTO = modelMapper.map(savedUsers, UserDTO.class);
 
@@ -62,14 +59,19 @@ public class UsersServiceImpl implements IUsersService {
 
 
   @Override
-  public Users updateUsers(long id, Users users) {
+  public UserDTO updateUsers(long id, UserDTO userDTO) {
+    //chuyển dto -> entity
+    Users users = modelMapper.map(userDTO, Users.class);
     if (users != null) {
       Users users1 = usersRepository.getReferenceById(id);
       if (users1 != null) {
         users1.setName(users.getName());
         users1.setAddress(users.getAddress());
         users1.setPhone(users.getPhone());
-        return usersRepository.save(users1);
+        users1.setCreateDate(users.getCreateDate());
+        //chuyển lại dto -> enitity
+        UserDTO saveUserDTO = modelMapper.map(users1, UserDTO.class);
+        return saveUserDTO;
       }
     }
     return null;

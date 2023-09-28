@@ -21,11 +21,6 @@ public class RolesController {
   @Autowired
   private IRolesService iRolesService;
 
-  @GetMapping("/role/haha")
-  public String test(){
-    return "djt me may";
-  }
-
   @PostMapping("/role/add")
   public RoleDTO addRoles(@RequestBody RoleDTO roleDTO){
     return iRolesService.addRole(roleDTO);
@@ -35,10 +30,4 @@ public class RolesController {
   public List<Roles> listRoles(){
     return iRolesService.listRoles();
   }
-
-  @DeleteMapping("/role/delete/{id}")
-  public boolean deleteRoles(@PathVariable long id){
-    return iRolesService.deleteRoles(id);
-  }
-
 }

@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-  private Long id;
+public class UserDTO extends DTOBase{
 
   private String email;
 
@@ -21,4 +21,5 @@ public class UserDTO {
   private String address;
 
   private Long roleId;
+
 }
