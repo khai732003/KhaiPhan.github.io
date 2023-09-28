@@ -55,13 +55,28 @@ public class Users extends EntityBase{
   private List<Vouchers> vouchers;
 
 
+  //1:N voi Marketing
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+  private List<Marketings> marketings;
+
+//  //1:N voi Product
+//  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+//  private List<Products> products;
+
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
+
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
+
+
+  // Mối quan hệ OneToMany với Order
+
+  // Mối quan hệ OneToMany với Order`
+
 
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

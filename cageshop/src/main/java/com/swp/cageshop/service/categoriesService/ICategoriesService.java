@@ -9,4 +9,6 @@ public interface ICategoriesService {
     public Categories addCategories(Categories categories);
     public List<Categories> getAllCategories();
 
+
+
 }

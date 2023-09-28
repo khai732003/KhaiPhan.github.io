@@ -29,11 +29,11 @@ public class Products {
   @Column(nullable = false)
   private String name;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date date;
+  @Column(nullable = false)
+  private String code;
 
   @Column(nullable = false)
-  private double price;
+  private String description;
 
   @Column(nullable = false)
   private String material;
@@ -41,14 +41,37 @@ public class Products {
   @Column(nullable = false)
   private String size;
 
+
+  @Column(nullable = false)
+  private double price;
+
   @Column(nullable = false)
   private String image;
 
-  @Column(nullable = false)
-  private String title;
+// -------------------------------------------------
 
+  // 1: cage 2: accessory
   @Column(nullable = false)
   private String type;
+  // 1: arrived soon  2: already   3: out of stock
+  @Column(nullable = false)
+  private String status;
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date date;
+
+
+// -------------------------------------------------
+
+
+
+
+
+
+//  // N:1 voi User
+//  @ManyToOne
+//  @JoinColumn(name = "user_id", nullable = false)
+//  private Users user;
+
 
   //N:1 voi Category
   @ManyToOne
@@ -61,7 +84,20 @@ public class Products {
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<OrderDetail> orderDetails;
+
+  private List<Feedbacks> feedbacks;
+
+
+
+//  // Mối quan hệ Many-to-Many với Cart
+//  @ManyToMany(mappedBy = "products")
+
+//  private List<Carts> carts;
+@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+private List<OrderDetail>  orderdetail;
+
+
+
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

@@ -35,6 +35,9 @@ public class Feedbacks {
     private Users user;
 
 
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Products product;
 
 }
 
