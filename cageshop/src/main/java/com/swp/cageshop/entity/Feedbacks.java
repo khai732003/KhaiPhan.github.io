@@ -34,5 +34,7 @@ public class Feedbacks {
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
+
+
 }
 

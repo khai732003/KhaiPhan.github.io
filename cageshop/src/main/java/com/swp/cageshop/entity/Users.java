@@ -59,21 +59,11 @@ public class Users {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
-<<<<<<< HEAD
-  // Mối quan hệ OneToMany với Order
 
-  // Mối quan hệ OneToMany với Order`
-
-=======
->>>>>>> 41d88712177ff5d68a79e7e142f6426dfdab4c68
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 
