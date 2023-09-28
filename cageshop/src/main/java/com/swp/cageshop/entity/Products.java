@@ -50,11 +50,6 @@ public class Products {
   @Column(nullable = false)
   private String type;
 
-  // N:1 voi User
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private Users user;
-
   //N:1 voi Category
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)

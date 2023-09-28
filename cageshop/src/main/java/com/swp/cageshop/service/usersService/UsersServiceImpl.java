@@ -1,12 +1,17 @@
 package com.swp.cageshop.service.usersService;
 
+import com.swp.cageshop.DTO.RoleDTO;
+import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.RolesRepository;
 import com.swp.cageshop.repository.UsersRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import javax.management.relation.RoleNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,28 +21,41 @@ public class UsersServiceImpl implements IUsersService {
 
   @Autowired
   private UsersRepository usersRepository;
+
   @Autowired
   private RolesRepository rolesRepository;
 
-  private Roles roles;
+  @Autowired
+  private ModelMapper modelMapper;
 
 
   @Override
-  public ResponseEntity<?> registerUsers(Users users) {
-    if (users != null && users.getRole() != null) {
-      Roles existingRole = rolesRepository.findById(users.getRole().getId()).orElse(null);
-      if (existingRole != null) {
-        if (users.getRole().getName().equals(existingRole.getName())) {
-          Users registeredUser = usersRepository.save(users);
-          return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
-        } else {
-          return new ResponseEntity<>("NameRole không khớp với vai trò", HttpStatus.BAD_REQUEST);
-        }
-      } else {
-        return new ResponseEntity<>("Vai trò không tồn tại", HttpStatus.BAD_REQUEST);
-      }
-    } else {
-      return new ResponseEntity<>("Thông tin người dùng không hợp lệ", HttpStatus.BAD_REQUEST);
+  @Transactional
+  public UserDTO registerUsers(UserDTO userDTO) {
+    // Kiểm tra xem userDTO có tồn tại
+    if (userDTO == null) {
+      throw new IllegalArgumentException("UserDTO không hợp lệ");
+    }
+
+    // Chuyển đổi từ UserDTO sang Users
+    Users users = modelMapper.map(userDTO, Users.class);
+
+    // Kiểm tra xem role_id có tồn tại trong bảng roles không
+    if (users.getRole() == null || users.getRole().getId() == null) {
+      throw new IllegalArgumentException("Role không tồn tại");
+    }
+
+    try {
+      // Lưu Users vào cơ sở dữ liệu
+      Users savedUsers = usersRepository.save(users);
+
+      // Chuyển đổi từ Users sang UserDTO
+      UserDTO savedUserDTO = modelMapper.map(savedUsers, UserDTO.class);
+
+      return savedUserDTO;
+    } catch (DataIntegrityViolationException e) {
+      // Xử lý trường hợp trùng username hoặc lỗi khác
+      throw new RuntimeException("Lỗi khi đăng ký người dùng: " + e.getMessage());
     }
   }
 
