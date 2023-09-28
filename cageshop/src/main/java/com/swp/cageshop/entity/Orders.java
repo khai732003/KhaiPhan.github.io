@@ -13,11 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orders {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Orders extends EntityBase{
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "order_date")

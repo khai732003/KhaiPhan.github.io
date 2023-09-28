@@ -1,17 +1,17 @@
 package com.swp.cageshop.service.orderdetailService;
 
-import com.swp.cageshop.entity.OrderDetail;
+import com.swp.cageshop.DTO.OrderDetailDTO;
 
 import java.util.List;
 
 public interface IOrderDetailService {
-    OrderDetail addOrderDetail(OrderDetail orderDetail);
+    OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO);
 
-    OrderDetail updateOrderDetail(long id, OrderDetail orderDetail);
+    OrderDetailDTO updateOrderDetailDTO(long id, OrderDetailDTO orderDetailDTO);
 
-    boolean deleteOrderDetail(long id);
+    boolean deleteOrderDetailDTO(long id);
 
-    List<OrderDetail> getAllOrderDetails();
+    List<OrderDetailDTO> getAllOrderDetailDTOs();
 
-    OrderDetail getOneOrderDetail(long id);
+    OrderDetailDTO getOneOrderDetailDTO(long id);
 }
