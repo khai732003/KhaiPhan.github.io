@@ -70,9 +70,13 @@ public class FeedbacksServiceImpl implements IFeedbacksService {
                 feedbacks1.setContent(feedbacks1.getContent());
                 return feedbacksRepository.save(feedbacks1);
             }
-        }
             return null;
         }
+        return feedbacks;
+    }
+
+
+
 
 
 //    @Override
