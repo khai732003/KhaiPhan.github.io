@@ -43,7 +43,7 @@ public class Orders {
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetails;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<Vouchers> vouchers;
 
 }

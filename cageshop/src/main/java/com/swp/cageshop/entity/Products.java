@@ -15,11 +15,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Products")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Products {
 
   @Id
@@ -62,11 +66,6 @@ public class Products {
 
 // -------------------------------------------------
 
-
-
-
-
-
 //  // N:1 voi User
 //  @ManyToOne
 //  @JoinColumn(name = "user_id", nullable = false)
@@ -102,16 +101,8 @@ public class Products {
 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 private List<OrderDetail>  orderdetail;
 
-
-
-
-
-
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Ratings> ratings;
-
-
-
 
 
 
