@@ -1,7 +1,11 @@
 package com.swp.cageshop.entity;
 
 import jakarta.persistence.FetchType;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
+import java.util.Date;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,11 +29,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Users extends EntityBase{
 
   @Column(unique = true, nullable = false)
   private String email;
@@ -47,7 +47,7 @@ public class Users {
   private String address;
 
   // N:1 with Role
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id")
   private Roles role;
 

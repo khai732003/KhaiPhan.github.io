@@ -9,7 +9,5 @@ import org.springframework.http.ResponseEntity;
 public interface IRolesService {
   public RoleDTO addRole(RoleDTO roleDTO);
 
-  public boolean deleteRoles(long id);
-
   public List<Roles> listRoles();
 }

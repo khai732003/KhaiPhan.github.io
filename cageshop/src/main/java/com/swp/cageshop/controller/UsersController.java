@@ -27,8 +27,8 @@ public class UsersController {
   }
 
   @PutMapping("/user/update/{id}")
-  public Users updateProfile(@PathVariable long id,@RequestBody Users users){
-    return iUsersService.updateUsers(id,users);
+  public UserDTO updateProfile(@PathVariable long id,@RequestBody UserDTO userDTO){
+    return iUsersService.updateUsers(id,userDTO);
   }
 
   @GetMapping("/user/list")

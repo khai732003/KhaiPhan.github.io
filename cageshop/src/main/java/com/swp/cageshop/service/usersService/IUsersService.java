@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 public interface IUsersService {
   public UserDTO registerUsers(UserDTO userDTO);
 
-  public Users updateUsers(long id,Users users);
+  public UserDTO updateUsers(long id,UserDTO userDTO);
 
   public List<Users> listAll();
 }
