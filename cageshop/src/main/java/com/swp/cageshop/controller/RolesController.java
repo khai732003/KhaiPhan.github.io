@@ -1,5 +1,6 @@
 package com.swp.cageshop.controller;
 
+import com.swp.cageshop.DTO.RoleDTO;
 import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.service.rolesService.IRolesService;
 import java.util.List;
@@ -26,8 +27,8 @@ public class RolesController {
   }
 
   @PostMapping("/role/add")
-  public ResponseEntity<?> addRoles(@RequestBody Roles roles){
-    return iRolesService.addRoles(roles);
+  public RoleDTO addRoles(@RequestBody RoleDTO roleDTO){
+    return iRolesService.addRole(roleDTO);
   }
 
   @GetMapping("/role/list")

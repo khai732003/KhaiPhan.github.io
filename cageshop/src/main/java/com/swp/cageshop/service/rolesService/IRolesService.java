@@ -1,12 +1,13 @@
 package com.swp.cageshop.service.rolesService;
 
+import com.swp.cageshop.DTO.RoleDTO;
 import com.swp.cageshop.entity.Roles;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 
 public interface IRolesService {
-  public ResponseEntity<?> addRoles(Roles roles);
+  public RoleDTO addRole(RoleDTO roleDTO);
 
   public boolean deleteRoles(long id);
 

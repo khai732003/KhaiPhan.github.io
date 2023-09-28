@@ -59,6 +59,7 @@ public class Products {
   @Temporal(TemporalType.TIMESTAMP)
   private Date date;
 
+
 // -------------------------------------------------
 
 
@@ -71,6 +72,7 @@ public class Products {
 //  @JoinColumn(name = "user_id", nullable = false)
 //  private Users user;
 
+
   //N:1 voi Category
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)
@@ -79,6 +81,12 @@ public class Products {
   // 1:N voi Comments
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Comments> comments;
+
+
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//
+//  private List<Feedbacks> feedbacks;
+
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -93,6 +101,10 @@ public class Products {
 //  private List<Carts> carts;
 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 private List<OrderDetail>  orderdetail;
+
+
+
+
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

@@ -24,6 +24,18 @@ public class FeedbacksController {
     @Autowired
     private IFeedbacksService iFeedbacksService;
 
+
+//   @PutMapping("feedbacks/update")
+//    public Feedbacks updateFeedbacks(@RequestParam("id") long id, @RequestBody Feedbacks feedbacks){
+//       return iFeedbacksService.updateFeedbacks(id,feedbacks);
+//   }
+
+
+
+//   @PostMapping("/feedbacks/add")
+//    public Feedbacks addFeedbacks(@RequestBody Feedbacks feedbacks){
+//       return iFeedbacksService.addFeedBack(feedbacks);
+//   }
 //   @PutMapping("feedbacks/update")
 //    public Feedbacks updateFeedbacks(@RequestParam("id") long id, @RequestBody Feedbacks feedbacks){
 //       return iFeedbacksService.updateFeedbacks(id,feedbacks);
@@ -55,5 +67,11 @@ public class FeedbacksController {
     public List<Feedbacks> listFeedbacks() {
         return iFeedbacksService.getAllFeedbacks();
     }
+
+//  @PostMapping("/feedback/add/{id}")
+//  public Feedbacks addFeedback(@RequestBody Feedbacks feedbacks, @PathVariable Long id){
+//    return iFeedbacksService.addFeedBack(feedbacks, id);
+//  }
+
 
 }

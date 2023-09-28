@@ -48,12 +48,12 @@ public class Users {
 
   // N:1 with Role
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "role_id", referencedColumnName = "name")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "role_id")
   private Roles role;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Vouchers> vouchers;
+
 
   //1:N voi Marketing
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
@@ -76,6 +76,7 @@ public class Users {
   // Mối quan hệ OneToMany với Order
 
   // Mối quan hệ OneToMany với Order`
+
 
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

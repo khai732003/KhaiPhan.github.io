@@ -1,5 +1,6 @@
 package com.swp.cageshop.controller;
 
+import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.service.usersService.IUsersService;
 import java.util.List;
@@ -21,8 +22,8 @@ public class UsersController {
   private IUsersService iUsersService;
 
   @PostMapping("/user/register")
-  public ResponseEntity<?> registerUsers(@RequestBody  Users users){
-    return iUsersService.registerUsers(users);
+  public UserDTO registerUsers(@RequestBody  UserDTO userDTO){
+    return iUsersService.registerUsers(userDTO);
   }
 
   @PutMapping("/user/update/{id}")

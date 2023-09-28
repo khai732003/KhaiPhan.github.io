@@ -1,8 +1,10 @@
 package com.swp.cageshop.service.rolesService;
 
+import com.swp.cageshop.DTO.RoleDTO;
 import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.repository.RolesRepository;
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -10,43 +12,42 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RolesServiceImpl implements IRolesService{
+public class RolesServiceImpl implements IRolesService {
 
   @Autowired
   private RolesRepository rolesRepository;
 
+  @Autowired
+  private ModelMapper modelMapper;
+
   @Override
-  public ResponseEntity<?> addRoles(Roles roles) {
-    if (roles != null) {
+  public RoleDTO addRole(RoleDTO roleDTO) {
+    if (roleDTO != null) {
       try {
-        // Thử lưu Roles vào cơ sở dữ liệu
+        // Chuyển đổi từ RoleDTO sang Roles
+        Roles roles = modelMapper.map(roleDTO, Roles.class);
+
+        // Lưu Roles vào cơ sở dữ liệu
         Roles savedRoles = rolesRepository.save(roles);
-        return new ResponseEntity<>(savedRoles, HttpStatus.CREATED);
+
+        // Chuyển đổi từ Roles sang RoleDTO
+        RoleDTO savedRoleDTO = modelMapper.map(savedRoles, RoleDTO.class);
+
+        return savedRoleDTO;
       } catch (DataIntegrityViolationException e) {
         // Xử lý trường hợp trùng roleName
-        return new ResponseEntity<>("Tên vai trò đã tồn tại", HttpStatus.BAD_REQUEST);
+        throw new RuntimeException("Tên vai trò đã tồn tại");
       }
     } else {
-      return new ResponseEntity<>("Roles không hợp lệ", HttpStatus.BAD_REQUEST);
+      throw new RuntimeException("RoleDTO không hợp lệ");
     }
   }
 
-
-
-
-
   @Override
   public boolean deleteRoles(long id) {
-      if(id >= 1){
-        Roles roles = rolesRepository.getReferenceById(id);
-        if (roles != null){
-          rolesRepository.delete(roles);
-          return true;
-        }
-      }
-      return false;
-
+    return false;
   }
+
 
   @Override
   public List<Roles> listRoles() {

@@ -28,9 +28,6 @@ public class Roles {
   @Column(nullable = false, unique = true)
   private String name;
 
-  @Column(nullable = false)
-  private int permission;
-
   // 1:N với User
   @JsonIgnore //ngăn chặn stackoverflow
   @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
