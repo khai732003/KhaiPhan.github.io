@@ -21,6 +21,8 @@ public class ProductDTO extends DTOBase {
         private double price;
         private String image;
         private String type;
+
+        // Hang sap co, hang co san, hang
         private String status;
         private Date date;
         private Long categoryId;

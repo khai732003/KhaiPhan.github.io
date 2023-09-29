@@ -158,8 +158,6 @@ public class ProductsServiceImpl implements IProductsService {
         Categories category = categoriesRepository.findOneById(categoryId);
         if (category != null) {
             List<Products> products = productsRepository.findByCategory(category);
-
-            // Convert the list of Products entities to a list of ProductDTOs
             return products.stream()
                     .map(product -> modelMapper.map(product, ProductDTO.class))
                     .collect(Collectors.toList());

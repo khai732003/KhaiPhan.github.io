@@ -1,17 +1,18 @@
 package com.swp.cageshop.service.commentsService;
 
+import com.swp.cageshop.DTO.CommentDTO;
 import com.swp.cageshop.entity.Comments;
 
 import java.util.List;
 
 public interface ICommentsService {
-    public Comments addComments(Comments comments);
+    public CommentDTO addComment(CommentDTO commentDTO);
 
-    public Comments updateComments(long id, Comments comments);
+    public CommentDTO updateComment(long id, CommentDTO commentDTO);
 
-    public boolean deleteComments(long id);
+    public boolean deleteComment(long id);
 
-    public List<Comments> getAllComments();
+    public List<CommentDTO> getAllComments();
 
-    public Comments getOneComments(long id);
+    public CommentDTO getOneComment(long id);
 }
