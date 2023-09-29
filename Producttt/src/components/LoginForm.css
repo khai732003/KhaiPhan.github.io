@@ -1,0 +1,63 @@
+/* Container styles */
+.login-form {
+    max-width: 300px;
+    margin: 3em 10rem 10rem 10rem;
+    padding: 50px 50px 50px 50px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Form group styles */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Input styles */
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Checkbox styles */
+  .login-form label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  /* Button styles */
+  .login-form button {
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-form button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Reset password link styles */
+  .reset-password {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Animation for fading in the container */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
