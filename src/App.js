@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.scss';
+import Login from './components/loggin/loggin';
+import SignUp from './components/loggin/signup';
+import Gioithieu from './content/Gioithieu/Gioithieu';
+import Trangchu from './content/Trangchu/Trangchu';
+import Tintuc from './content/tintuc/tintuc';
+import Dichvu from './content/dichvu/dichvu';
+import SanPham from './content/SanPham/SanPham';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Trangchu />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Gioithieu" element={<Gioithieu />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/sanpham" element={<SanPham />} />
+          <Route path="/tintuc" element={<Tintuc />} />
+          <Route path="/dichvu" element={<Dichvu />} />
+          
+        </Routes>
+      </Router>
+
+    </>
   );
 }
 

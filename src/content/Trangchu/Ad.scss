@@ -1,0 +1,42 @@
+.Whyus {
+    color: white;
+    font-family: 'Roboto Slab';
+    font-weight: bold;
+    background-color: white;
+    
+    h2{
+        padding-top: 50px;
+    }
+    .Container-W {
+        
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        .card {
+            margin: 50px 20px 50px 0;
+            
+            border: none;
+            display: inline-block;
+            background-color: #fff;
+            padding: 20px 25px;
+
+            h7 {
+                display: block;
+                text-align: left;
+            }
+
+            i {
+                cursor: pointer;
+                font-size: 50px;
+                text-align: center;
+                justify-content: center;
+                padding: 16px 12.5px;
+                background-color: #cc6119;
+                margin-right: 20px;
+                border-radius: 4px;
+                color: white;
+            }
+        }
+    }
+}

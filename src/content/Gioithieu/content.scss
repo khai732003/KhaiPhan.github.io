@@ -1,0 +1,127 @@
+.container {
+    margin-bottom: 50px;
+    .row {
+        font-family: 'Roboto Slab';
+
+        .left-content {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+
+            h2 {
+                padding-bottom: 20px;
+                margin-bottom: 25px;
+                font-weight: bold;
+                padding: 20px 20px;
+                color: #cc6119;
+            }
+
+            /* Add your custom SCSS styles here */
+
+            .company-info {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                line-height: 26px;
+                font-size: 16px;
+
+                h2 {
+                    color: #cc6119;
+                    border-bottom: 4px solid #cc6119;
+                }
+
+                p {
+                    margin: 10px 0;
+                }
+
+                ul {
+                    list-style-type: none;
+                    /* Remove default bullet points */
+                    margin-left: 20px;
+
+                    li::before {
+                        content: "-";
+                        /* Use a hyphen as the list item marker */
+                        margin-right: 5px;
+                    }
+                }
+
+                /* Add your custom styles here */
+
+                .company-image {
+
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    /* Adjust the width as needed */
+                    margin: 20px;
+                    /* Adjust the margin as needed */
+                }
+
+            }
+
+        }
+
+        /* Right side news */
+        .right-news {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-left: 20px;
+            h2{
+                text-align: center;
+                margin-bottom: 20px;
+                font-weight: 900;
+                color: #cc6119;
+                
+            }
+            li {
+                list-style: none;
+            }
+
+            .news-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 27px;
+                overflow: hidden;
+                cursor: pointer;
+                /* Add overflow property to hide overflowed content */
+               
+            }
+            .news-item:hover{
+                box-shadow: 0 4px 8px 0 rgba(173, 170, 170, 0.2), 0 6px 20px 0 rgba(173, 170, 170, 0.2);
+            }
+
+            /* Style for news item image */
+            .news-image {
+                width: 90px;
+                height: 90px;
+                object-fit: cover;
+                border-radius: 4px;
+                transition: transform 0.2s ease-in-out;
+                /* Add transition for smooth scaling */
+                max-width: 100%;
+                /* Set maximum width to 100% of its container */
+            }
+
+            /* Hover effect for news item image */
+            .news-image:hover {
+                transform: scale(1.1);
+                /* Adjust the scale factor as needed */
+                cursor: pointer;
+            }
+
+            /* Style for news item title */
+            .news-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin: 0 20px;
+            }
+        }
+
+
+
+    }
+}

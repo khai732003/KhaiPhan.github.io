@@ -1,0 +1,88 @@
+/* NewProduct.scss */
+.newproduct {
+    font-family: 'Roboto Slab';
+    margin-top: 40px;
+
+    .container {
+        padding: 20px;
+        font-weight: bold;
+        .Col{
+            border: 2px solid white;
+        }
+        .Col:hover {
+            border: 2px solid #cc6119;
+            box-shadow: 0 4px 8px 0 rgba(124, 120, 120, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            transition: 0.5s;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h3:hover{
+            color: #cc6119;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        
+        .row {
+            .cardi {
+                padding: 20px 20px;
+                border: none;
+
+                img:hover {
+                    transform: scale(1.1);
+                    transition: 1s;
+                    cursor: pointer;
+                }
+            }
+            img {
+                height: 300px;
+                width: 100%;
+                border-radius: 4px;
+            }
+
+            .col-md-4 {
+                margin-bottom: 20px;
+
+
+                border-radius: 5px;
+
+                h3 {
+                    font-size: 23px;
+                    margin-top: 20px;
+                }
+                
+
+                .rating {
+                    margin-top: 10px;
+
+                    .star {
+                        font-size: 16px;
+                        color: #fba317;
+
+                        &.empty {
+                            color: #ccc;
+                        }
+                    }
+                }
+
+                p {
+                    font-size: 16px;
+                    margin: 10px 0;
+                }
+
+                .btn-primary {
+                    background-color: #cc6119;
+                    border: none;
+                    font-size: 16px;
+                    padding: 10px 20px;
+
+                    &:hover {
+                        background-color: #2adc1d;
+                    }
+                }
+            }
+        }
+    }
+}
