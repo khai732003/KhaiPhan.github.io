@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
-  const apiUrl = 'https://api.example.com/products';
+  const apiUrl = 'http://localhost:8080/cageshop/product/list';
 
   useEffect(() => {
     fetch(apiUrl)
