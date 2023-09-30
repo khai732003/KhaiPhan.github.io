@@ -13,7 +13,6 @@ public class CommentDTO extends DTOBase {
 
     private String title;
     private String content;
-    private Date commentDate;
     private Long userId; // Representing the user's ID
     private Long productId; // Representing the product's ID
 

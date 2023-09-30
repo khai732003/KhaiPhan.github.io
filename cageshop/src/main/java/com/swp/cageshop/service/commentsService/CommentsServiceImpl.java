@@ -1,46 +1,60 @@
 package com.swp.cageshop.service.commentsService;
 
+import com.swp.cageshop.DTO.CommentDTO;
 import com.swp.cageshop.entity.Comments;
 import com.swp.cageshop.repository.CommentsRepository;
 import com.swp.cageshop.service.commentsService.ICommentsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentsServiceImpl implements ICommentsService {
+
     @Autowired
     private CommentsRepository commentsRepository;
+
+    @Autowired
+    private ModelMapper modelMapper; // Assuming you have configured ModelMapper
+
     @Override
-    public Comments addComments(Comments comments) {
-        if(comments!=null){
-            return commentsRepository.save(comments);
+    public CommentDTO addComment(CommentDTO commentDTO) {
+        if (commentDTO != null) {
+            Comments comment = modelMapper.map(commentDTO, Comments.class);
+            Comments savedComment = commentsRepository.save(comment);
+            return modelMapper.map(savedComment, CommentDTO.class);
         }
         return null;
     }
 
     @Override
-    public Comments updateComments(long id, Comments comments) {
-        if(comments!=null){
-            Comments comments1 = commentsRepository.getReferenceById(id);
-            if(comments1!=null){
-                comments1.setId(comments.getId());
-                comments1.setTitle(comments.getTitle());
-                comments1.setContent(comments.getContent());
-                comments1.setDate(comments.getDate());
-                return commentsRepository.save(comments1);
+    public CommentDTO updateComment(long id, CommentDTO commentDTO) {
+        if (commentDTO != null) {
+            Comments existingComment = commentsRepository.getReferenceById(id);
+            if (existingComment != null) {
+                // Update the existing comment with data from commentDTO
+                existingComment.setTitle(commentDTO.getTitle());
+                existingComment.setContent(commentDTO.getContent());
+                existingComment.setDate(commentDTO.getCreateDate());
+
+                // Save the updated comment
+                Comments updatedComment = commentsRepository.save(existingComment);
+
+                return modelMapper.map(updatedComment, CommentDTO.class);
             }
         }
         return null;
     }
 
     @Override
-    public boolean deleteComments(long id) {
-        if(id>1){
-            Comments comments=commentsRepository.getReferenceById(id);
-            if(comments!=null){
-                commentsRepository.delete(comments);
+    public boolean deleteComment(long id) {
+        if (id >= 1) {
+            Comments comment = commentsRepository.getReferenceById(id);
+            if (comment != null) {
+                commentsRepository.delete(comment);
                 return true;
             }
         }
@@ -48,12 +62,19 @@ public class CommentsServiceImpl implements ICommentsService {
     }
 
     @Override
-    public List<Comments> getAllComments() {
-        return commentsRepository.findAll();
+    public List<CommentDTO> getAllComments() {
+        List<Comments> comments = commentsRepository.findAll();
+        return comments.stream()
+                .map(comment -> modelMapper.map(comment, CommentDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Comments getOneComments(long id) {
-        return commentsRepository.getReferenceById(id);
+    public CommentDTO getOneComment(long id) {
+        Comments comment = commentsRepository.getReferenceById(id);
+        if (comment != null) {
+            return modelMapper.map(comment, CommentDTO.class);
+        }
+        return null;
     }
 }

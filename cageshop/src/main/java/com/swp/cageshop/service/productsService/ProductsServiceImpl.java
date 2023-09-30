@@ -1,5 +1,6 @@
 package com.swp.cageshop.service.productsService;
 
+import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.DTO.CategoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.Categories;
@@ -8,6 +9,7 @@ import com.swp.cageshop.entity.Products;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.swp.cageshop.repository.CategoriesRepository;
@@ -76,19 +78,17 @@ public class ProductsServiceImpl implements IProductsService {
 //  }
 
 
-    @Override
     public ProductDTO addProduct(ProductDTO productDTO) {
         if (productDTO != null) {
-
             Products product = modelMapper.map(productDTO, Products.class);
-
-
-            Products savedProduct = productsRepository.save(product);
-
-
-            ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
-
-            return savedProductDTO;
+            // Set the category for the product
+            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+            if (category != null) {
+                product.setCategory(category);
+                Products savedProduct = productsRepository.save(product);
+                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+                return savedProductDTO;
+            }
         }
         return null;
     }
@@ -97,27 +97,28 @@ public class ProductsServiceImpl implements IProductsService {
     @Override
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
         if (productDTO != null) {
+            Optional<Products> optionalExistingProduct = productsRepository.findById(id);
+            if (optionalExistingProduct.isPresent()) {
+                Products existingProduct = optionalExistingProduct.get();
 
-            Products existingProduct = productsRepository.getReferenceById(id);
-            if (existingProduct != null) {
+                // Update fields as needed
                 existingProduct.setName(productDTO.getName());
                 existingProduct.setCode(productDTO.getCode());
-                existingProduct.setDescription(productDTO.getDescription());
-                existingProduct.setSize(productDTO.getSize());
-                existingProduct.setMaterial(productDTO.getMaterial());
-                existingProduct.setImage(productDTO.getImage());
+                existingProduct.setProductImage(productDTO.getProductImage());
+                existingProduct.setProductDetailImage(productDTO.getProductDetailImage());
+                existingProduct.setStock(productDTO.getStock());
+                existingProduct.setTotalPrice(productDTO.getTotalPrice());
                 existingProduct.setStatus(productDTO.getStatus());
 
-
+                // Save the updated product
                 Products updatedProduct = productsRepository.save(existingProduct);
 
-
+                // Map the updated product to a DTO
                 ProductDTO updatedProductDTO = modelMapper.map(updatedProduct, ProductDTO.class);
-
                 return updatedProductDTO;
             }
         }
-        return null;
+        return null; // Product not found or DTO is null
     }
 
 
@@ -158,57 +159,100 @@ public class ProductsServiceImpl implements IProductsService {
         Categories category = categoriesRepository.findOneById(categoryId);
         if (category != null) {
             List<Products> products = productsRepository.findByCategory(category);
-
-            // Convert the list of Products entities to a list of ProductDTOs
             return products.stream()
                     .map(product -> modelMapper.map(product, ProductDTO.class))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
+///////////// addtoOrder
 
-    @Override
-    public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId) {
-        if (mainProduct != null) {
-            // Check if the category exists
-            CategoryDTO category = categoriesService.getOneCategory(categoryId);
-            if (category == null) {
-                return null; // Category not found
-            }
+    public ProductDTO addProductBirdcagewithAccessories(ProductDTO mainProductDTO, List<AccessoryDTO> accessoryDTOs) {
+        if (mainProductDTO != null) {
+            // Create the main product entity
+            Products mainProduct = modelMapper.map(mainProductDTO, Products.class);
 
-            // Set the category for the main product
-            mainProduct.setCategoryId(categoryId);
+            // Create a list to store accessory entities
+            List<Products> accessories = new ArrayList<>();
 
-            // Save the main product
-            Products mainProductEntity = modelMapper.map(mainProduct, Products.class);
-            mainProductEntity = productsRepository.save(mainProductEntity);
+            if (accessoryDTOs != null && !accessoryDTOs.isEmpty()) {
+                for (AccessoryDTO accessoryDTO : accessoryDTOs) {
+                    // Create each accessory entity
+                    Products accessory = modelMapper.map(accessoryDTO, Products.class);
 
-            // Map the saved main product back to DTO
-            ProductDTO savedMainProductDTO = modelMapper.map(mainProductEntity, ProductDTO.class);
+                    // Set the main product as the parent for each accessory
+                    accessory.setCategory(mainProduct.getCategory());
 
-            if (accessories != null && !accessories.isEmpty()) {
-                for (ProductDTO accessory : accessories) {
-                    // Set the same category for accessories
-                    accessory.setCategoryId(categoryId);
-
-                    // Save each accessory
-                    Products accessoryEntity = modelMapper.map(accessory, Products.class);
-                    accessoryEntity = productsRepository.save(accessoryEntity);
-
-                    // Map the saved accessory back to DTO
-                    ProductDTO savedAccessoryDTO = modelMapper.map(accessoryEntity, ProductDTO.class);
-
-                    // Add the accessory to the main product
-                    savedMainProductDTO.addAccessory(savedAccessoryDTO);
+                    // Add each accessory to the list
+                    accessories.add(accessory);
                 }
             }
+////////////////////////////////////////////
+            // Set the accessories for the main product
+//            mainProduct.setAccessories(accessories)
+////////////////////////////////////////////////////////////////////
+            // Save the main product along with its accessories to the database
+            mainProduct = productsRepository.save(mainProduct);
+
+            // Map the saved main product with accessories back to DTO
+            ProductDTO savedMainProductDTO = modelMapper.map(mainProduct, ProductDTO.class);
 
             return savedMainProductDTO;
         }
-        return null;
+        return null; // mainProductDTO is null
     }
 
 
-
-
 }
+
+
+
+
+
+
+
+//    @Override
+//    public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId) {
+//        if (mainProduct != null) {
+//            // Check if the category exists
+//            CategoryDTO category = categoriesService.getOneCategory(categoryId);
+//            if (category == null) {
+//                return null; // Category not found
+//            }
+//
+//            // Set the category for the main product
+//            mainProduct.setCategoryId(categoryId);
+//
+//            // Save the main product
+//            Products mainProductEntity = modelMapper.map(mainProduct, Products.class);
+//            mainProductEntity = productsRepository.save(mainProductEntity);
+//
+//            // Map the saved main product back to DTO
+//            ProductDTO savedMainProductDTO = modelMapper.map(mainProductEntity, ProductDTO.class);
+//
+//            if (accessories != null && !accessories.isEmpty()) {
+//                for (ProductDTO accessory : accessories) {
+//                    // Set the same category for accessories
+//                    accessory.setCategoryId(categoryId);
+//
+//                    // Save each accessory
+//                    Products accessoryEntity = modelMapper.map(accessory, Products.class);
+//                    accessoryEntity = productsRepository.save(accessoryEntity);
+//
+//                    // Map the saved accessory back to DTO
+//                    ProductDTO savedAccessoryDTO = modelMapper.map(accessoryEntity, ProductDTO.class);
+//
+//                    // Add the accessory to the main product
+//                    savedMainProductDTO.addAccessory(savedAccessoryDTO);
+//                }
+//            }
+//
+//            return savedMainProductDTO;
+//        }
+//        return null;
+//    }
+
+
+
+
+

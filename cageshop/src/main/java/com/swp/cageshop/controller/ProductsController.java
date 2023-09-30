@@ -80,16 +80,16 @@ public class ProductsController {
             return ResponseEntity.badRequest().body("Failed to update product.");
         }
     }
-    @PostMapping("/product/addWithAccessories")
-    public ResponseEntity<?> addProductWithAccessories(@RequestBody ProductDTO mainProductDTO, @RequestParam Long categoryId, @RequestBody List<ProductDTO> accessoryDTOs) {
-        ProductDTO savedMainProductDTO = productsService.addProductWithAccessories(mainProductDTO, accessoryDTOs, categoryId);
-
-        if (savedMainProductDTO != null) {
-            return ResponseEntity.ok(savedMainProductDTO);
-        } else {
-            return ResponseEntity.badRequest().body("Failed to add main product.");
-        }
-    }
+//    @PostMapping("/product/addWithAccessories")
+//    public ResponseEntity<?> addProductWithAccessories(@RequestBody ProductDTO mainProductDTO, @RequestParam Long categoryId, @RequestBody List<ProductDTO> accessoryDTOs) {
+//        ProductDTO savedMainProductDTO = productsService.addProductWithAccessories(mainProductDTO, accessoryDTOs, categoryId);
+//
+//        if (savedMainProductDTO != null) {
+//            return ResponseEntity.ok(savedMainProductDTO);
+//        } else {
+//            return ResponseEntity.badRequest().body("Failed to add main product.");
+//        }
+//    }
 }
 
 

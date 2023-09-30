@@ -13,40 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductDTO extends DTOBase {
 
+        private Long id;
         private String name;
         private String code;
-        private String description;
-        private String material;
-        private String size;
-        private double price;
-        private String image;
-        private String type;
+        private String productImage;
+        private List<String> productDetailImage;
+        private int stock;
+        private double totalPrice;
         private String status;
-        private Date date;
-        private Long categoryId;
+        private Long categoryId; // To represent the category ID
+        private List<CommentDTO> comments;
+        private List<FeedbackDTO> feedbacks;
+        private List<OrderDetailDTO> orderDetails;
+        private List<RatingDTO> ratings;
+        private BirdCageDTO cage;
+        private List<AccessoryDTO> accessories;
 
-
-        private List<ProductDTO> accessories;
-
-
-
-        public void addAccessory(ProductDTO accessory) {
-                if (accessory != null) {
-                        if (accessories == null) {
-                                accessories = new ArrayList<>();
-                        }
-                        accessories.add(accessory);
-                }
-        }
-
-        public double getTotalPrice() {
-                double totalPrice = this.price;
-                if (accessories != null) {
-                        for (ProductDTO accessory : accessories) {
-                                totalPrice += accessory.getPrice();
-                        }
-                }
-                return totalPrice;
-        }
-
-    }
+}
