@@ -7,7 +7,7 @@ import java.util.List;
 public interface IOrderDetailService {
     OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO);
 
-    OrderDetailDTO updateOrderDetailDTO(long id, OrderDetailDTO orderDetailDTO);
+    public OrderDetailDTO updateOrderDetailDTO(long orderDetailId, int newQuantity, double newPrice, OrderDetailDTO updatedOrderDetailDTO);
 
     boolean deleteOrderDetailDTO(long id);
 

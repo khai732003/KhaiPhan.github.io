@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO extends DTOBase{
-    private Long userId;
+    private Long userID;
 }

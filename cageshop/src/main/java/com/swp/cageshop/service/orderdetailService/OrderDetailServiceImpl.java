@@ -5,12 +5,15 @@ import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.repository.OrderDetailsRepository;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,21 +29,30 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         if (orderDetailDTO != null) {
             // Chuyển đổi từ DTO sang Entity:
             OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-
             // Lưu Entity vao csdl
             OrderDetail orderDetail1 = orderDetailRepository.save(orderDetail);
-
             // Chuyển đổi từ Entity sang DTO
             OrderDetailDTO orderDetailDTO1 = modelMapper.map(orderDetail1, OrderDetailDTO.class);
-
             return orderDetailDTO1;
+        }else{
+
         }
         return null;
     }
 
     @Override
-    public OrderDetailDTO updateOrderDetailDTO(long id, OrderDetailDTO orderDetailDTO) {
-        return null;
+    public OrderDetailDTO updateOrderDetailDTO(long orderDetailId, int newQuantity, double newPrice, OrderDetailDTO updatedOrderDetailDTO) {
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
+        if (orderDetail != null) {
+            orderDetail.setQuantity(newQuantity);
+            orderDetail.setPrice(newPrice);
+            OrderDetail updatedOrderDetail = orderDetailRepository.save(orderDetail);
+            OrderDetailDTO updatedOrderDetailDTO1 = modelMapper.map(updatedOrderDetail, OrderDetailDTO.class);
+            return updatedOrderDetailDTO1;
+        } else {
+            // Xử lý trường hợp không tìm thấy OrderDetail
+            throw new ResourceNotFoundException("Không tìm thấy OrderDetail với ID: " + orderDetailId);
+        }
     }
 
     @Override
@@ -57,6 +69,8 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
                 .collect(Collectors.toList());
         return orderDetailDTOs;
     }
+
+
 
     @Override
     public OrderDetailDTO getOneOrderDetailDTO(long id) {
