@@ -34,11 +34,20 @@ public class Users extends EntityBase{
   @Column(unique = true, nullable = false)
   private String email;
 
-  @Column(nullable = false)
+  @Column(unique = true, nullable = false)
   private String name;
 
   @Column(nullable = false)
+  private String fullname;
+
+  @Column(nullable = false)
+  private Integer gender;
+
+  @Column(nullable = false)
   private String password;
+
+  @Column(nullable = false)
+  private String image;
 
   @Column(nullable = false, length = 10)
   private String phone;
@@ -51,6 +60,16 @@ public class Users extends EntityBase{
   @JoinColumn(name = "role_id")
   private Roles role;
 
+  // N:1 with itself (Users OneToMany Users)
+  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+  private List<Users> relatedUsers;
+
+  // N:1 with itself (Users ManyToOne Users)
+  @ManyToOne
+  @JoinColumn(name = "parent_id")
+  private Users parent;
+
+
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Vouchers> vouchers;
 
@@ -59,9 +78,6 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Marketings> marketings;
 
-//  //1:N voi Product
-//  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-//  private List<Products> products;
 
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -71,13 +87,6 @@ public class Users extends EntityBase{
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
-
-
-  // Mối quan hệ OneToMany với Order
-
-  // Mối quan hệ OneToMany với Order`
-
-
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
