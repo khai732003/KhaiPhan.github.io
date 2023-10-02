@@ -83,11 +83,14 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
-
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 79d3a4826c08defa0322ad6e05c33f5428ffc97e
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 

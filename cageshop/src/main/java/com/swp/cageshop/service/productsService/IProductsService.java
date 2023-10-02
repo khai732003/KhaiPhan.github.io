@@ -1,16 +1,23 @@
 package com.swp.cageshop.service.productsService;
 
+import com.swp.cageshop.DTO.AccessoryDTO;
+import com.swp.cageshop.DTO.ProductDTO;
+import com.swp.cageshop.entity.Categories;
 import com.swp.cageshop.entity.Products;
 import java.util.List;
 
 public interface IProductsService {
-  public Products addProducts(Products products);
+  public ProductDTO addProduct(ProductDTO productDTO);
 
-  public Products updateProducts(Products products);
+  public ProductDTO updateProduct(long id, ProductDTO productDTO);
 
-  public boolean deleteProducts(long id);
+  public boolean deleteProduct(long id);
 
-  public List<Products> listAllProducts();
+  public List<ProductDTO>listAllProducts();
 
-  public List<Products> listProducts(String key);
+  public ProductDTO listProducts(long id);
+
+  public List<ProductDTO> getProductsByCategory(Long categoryId);
+  public ProductDTO addProductBirdcagewithAccessories(ProductDTO mainProductDTO, List<AccessoryDTO> accessoryDTOs);
+//  public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId);
 }
