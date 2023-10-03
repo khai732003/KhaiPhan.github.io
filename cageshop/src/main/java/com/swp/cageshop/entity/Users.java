@@ -55,6 +55,10 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String address;
 
+  @Column(nullable = false)
+  private String verfiCode;
+
+
   // N:1 with Role
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id")
@@ -87,10 +91,7 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 79d3a4826c08defa0322ad6e05c33f5428ffc97e
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 

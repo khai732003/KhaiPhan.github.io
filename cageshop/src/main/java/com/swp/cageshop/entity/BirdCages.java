@@ -6,11 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-    @Table(name = "BirdCages")
+@Table(name = "BirdCages")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BirdCages extends EntityBase {
+public class BirdCages {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     @Column(nullable = false)
     private String description;
@@ -25,6 +29,6 @@ public class BirdCages extends EntityBase {
     private double price;
 
     @OneToOne
-    @JoinColumn(name = "product_id", unique = true)
+    @JoinColumn(name = "product_id", nullable = false)
     private Products product;
 }

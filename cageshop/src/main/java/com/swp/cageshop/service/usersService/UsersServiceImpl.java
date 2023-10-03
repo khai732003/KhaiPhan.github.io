@@ -7,9 +7,10 @@ import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.security.JwtUtilities;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+
 
 @Service
 public class UsersServiceImpl implements IUsersService {
@@ -40,6 +44,7 @@ public class UsersServiceImpl implements IUsersService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+
 
 
   @Override
@@ -139,5 +144,95 @@ public class UsersServiceImpl implements IUsersService {
     return usersRepository.findAll();
   }
 
+  @Override
+  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException {
+    // Email sending code
+    try {
+    String subject = "Email xác thực tài khoản BirdCageShop";
+    String senderName = "Đội ngũ Steam";
+    String mailContent = "<p>Hello " + userDTO.getFullname() + ",</p>";
+    mailContent += "<p>Để tiếp tục tạo tài khoản Steam mới, vui lòng xác thực địa chỉ email của bạn bên dưới. " +
+            "\n" +
+            "Steam\n" +
+            "Để tiếp tục tạo tài khoản Steam mới, vui lòng xác thực địa chỉ email của bạn bên dưới.\n" +
+            "XÁC THỰC ĐỊA CHỈ EMAIL CỦA TÔI   \n" +
+            "Bạn phải xác thực địa chỉ email của mình để sử dụng những tính năng như bảo mật Steam Guard, chợ cộng đồng, trao đổi Steam, cũng như là để lấy lại tài khoản của mình một cách an toàn trong tương lai. " +
+            "Nếu gần đây bạn chưa từng dùng địa chỉ email này để tạo tài khoản Steam mới, xin hãy phớt lờ email này..</p>";
+    String verifyURL = "https://example.com/verify?code=" + userDTO.getVerfiCode(); // Update with your verification URL
+    mailContent += "<a href='" + verifyURL
+            + "' style='background-color: blue; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>XÁC THỰC ĐỊA CHỈ EMAIL CỦA TÔI</a>";
+    mailContent += "<p>Chúc vui vẻ,</p>";
+    mailContent += "<p>Đội ngũ Steam</p></br>";
+
+    // Set up mail server properties
+    Properties properties = System.getProperties();
+    properties.setProperty("mail.smtp.host", "your-smtp-server.com"); // Update with your SMTP server
+    properties.setProperty("mail.smtp.port", "your-smtp-port"); // Update with your SMTP port
+    properties.setProperty("mail.smtp.auth", "true");
+
+    // Create a session with authentication
+    Session session = Session.getInstance(properties, new Authenticator() {
+      protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication("your-email@gmail.com", "your-password"); // Update with your email and password
+      }
+    });
+
+    // Create a MimeMessage
+    MimeMessage message = new MimeMessage(session);
+
+    // Set From, To, Subject, and Content
+    message.setFrom(new InternetAddress("your-email@gmail.com", senderName)); // Update with your email and sender name
+    message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(userDTO.getEmail()));
+    message.setSubject(subject);
+    message.setContent(mailContent, "text/html");
+
+    // Send the message
+    Transport.send(message);
+  } catch (UnsupportedEncodingException e) {
+    // Handle the exception here or log it
+    e.printStackTrace();
+  }
+  }
+git 
+
+  public void registerUser(UserDTO userDTO) {
+    // Check if a user with the provided email already exists
+    if (usersRepository.existsByEmail(userDTO.getEmail())) {
+      throw new UserAlreadyExistsException("A user with this email already exists.");
+    }
+
+
+    Users user = new Users();
+    user.setEmail(userDTO.getEmail());
+    user.setName(userDTO.getName());
+    user.setFullname(userDTO.getFullname());
+    user.setGender(userDTO.getGender());
+    user.setPassword(userDTO.getPassword());
+    user.setImage(userDTO.getImage());
+    user.setPhone(userDTO.getPhone());
+    user.setAddress(userDTO.getAddress());
+//    user.setRole(userDTO.getRoleId());
+//    user.setParent(userDTO.getParentId());
+
+    // Generate a verification code (you can use a UUID or any other method)
+    String verificationCode = UUID.randomUUID().toString();
+    user.setVerfiCode(verificationCode);
+    usersRepository.save(user);
+
+    // Send a verification email
+    try {
+      sendVerificationEmail(userDTO);
+    } catch (MessagingException | UnsupportedEncodingException e) {
+      // Handle email sending errors
+      e.printStackTrace();
+    }
+  }
+
+  public class UserAlreadyExistsException extends RuntimeException {
+
+    public UserAlreadyExistsException(String message) {
+      super(message);
+    }
+  }
 
 }

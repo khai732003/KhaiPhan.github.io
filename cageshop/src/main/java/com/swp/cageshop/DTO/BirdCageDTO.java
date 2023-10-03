@@ -1,7 +1,8 @@
 package com.swp.cageshop.DTO;
 
-public class BirdCageDTO extends DTOBase {
+public class BirdCageDTO   {
 
+    private Long id;
     private String description;
     private String material;
     private String size;

@@ -1,10 +1,11 @@
 package com.swp.cageshop.controller;
 
+import com.swp.cageshop.DTO.BirdCageDTO;
 import com.swp.cageshop.DTO.CategoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
-import com.swp.cageshop.entity.Categories;
-import com.swp.cageshop.entity.Products;
+import com.swp.cageshop.entity.BirdCages;
 import com.swp.cageshop.service.categoriesService.ICategoriesService;
+import com.swp.cageshop.service.productsService.IBirdCagesService;
 import com.swp.cageshop.service.productsService.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,8 @@ public class ProductsController {
     private ICategoriesService categoriesService;
 
 
-
+    @Autowired(required=false)
+    private IBirdCagesService birdCageService;
 
 
     @PostMapping("/product/add")
@@ -80,6 +82,40 @@ public class ProductsController {
             return ResponseEntity.badRequest().body("Failed to update product.");
         }
     }
+
+    @GetMapping("/product/select/{productId}/birdcage")
+    public ResponseEntity<?> getBirdCageForProduct(@PathVariable Long productId) {
+        // Retrieve the product based on the productId
+        ProductDTO product = productsService.listProducts(productId);
+
+        if (product != null) {
+            // Retrieve the bird cage associated with the product
+            BirdCages birdCage = birdCageService.getBirdCageByProductId(productId);
+
+            if (birdCage != null) {
+                return ResponseEntity.ok(birdCage);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/product/addwithbirdcage")
+    public ResponseEntity<?> addProductWithBirdCage(@RequestBody ProductDTO productDTO, @RequestBody BirdCageDTO birdCageDTO) {
+        ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
+
+        if (savedProductDTO != null) {
+            return ResponseEntity.ok(savedProductDTO);
+        } else {
+            return ResponseEntity.badRequest().body("Failed to add product with bird cage.");
+        }
+    }
+}
+
+
+
 //    @PostMapping("/product/addWithAccessories")
 //    public ResponseEntity<?> addProductWithAccessories(@RequestBody ProductDTO mainProductDTO, @RequestParam Long categoryId, @RequestBody List<ProductDTO> accessoryDTOs) {
 //        ProductDTO savedMainProductDTO = productsService.addProductWithAccessories(mainProductDTO, accessoryDTOs, categoryId);
@@ -90,7 +126,7 @@ public class ProductsController {
 //            return ResponseEntity.badRequest().body("Failed to add main product.");
 //        }
 //    }
-}
+
 
 
 
