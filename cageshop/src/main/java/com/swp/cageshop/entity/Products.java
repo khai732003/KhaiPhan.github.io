@@ -46,13 +46,6 @@ public class Products extends EntityBase {
 
 // -------------------------------------------------
 
-//  // N:1 voi User
-//  @ManyToOne
-//  @JoinColumn(name = "user_id", nullable = false)
-//  private Users user;
-
-
-  //N:1 voi Category
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)
   private Categories category;
@@ -64,26 +57,32 @@ public class Products extends EntityBase {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
+  @OneToOne
+  @JoinColumn(name = "product_id", referencedColumnName = "id") // Thay thế "id" bằng tên cột khóa chính trong Products entity
+  private OrderDetail orderDetail;
+
+
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<Ratings> ratings;
+
+  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private BirdCages cage;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<Accessories> accessories;
+}
+
+//  // N:1 voi User
+//  @ManyToOne
+//  @JoinColumn(name = "user_id", nullable = false)
+//  private Users user;
+
+
+//N:1 voi Category
 
 
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")
 
 //  private List<Carts> carts;
- @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
- private List<OrderDetail>  orderDetails;
-
-
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Ratings> ratings;
-
-  @OneToOne(mappedBy = "cage", cascade = CascadeType.ALL)
-  private BirdCages cage;
-
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Accessories> accessories;
-}
-
-
-
-

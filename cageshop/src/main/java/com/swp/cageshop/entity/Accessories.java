@@ -10,13 +10,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Accessories extends EntityBase {
+public class Accessories {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
     private String type;
+
+    @Column(nullable = false)
+    private double price;
+
 
     @ManyToOne
     @JoinColumn(name = "product_id")

@@ -30,6 +30,6 @@ public class OrderDetail extends EntityBase {
   // One-to-One với Product
   @OneToOne
   @JoinColumn(name = "product_id", referencedColumnName = "id")
-  private Products products;
+  private Products product;
 }
 

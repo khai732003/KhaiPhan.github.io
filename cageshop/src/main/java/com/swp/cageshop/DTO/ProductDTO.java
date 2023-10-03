@@ -12,8 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO extends DTOBase {
-
-        private Long id;
         private String name;
         private String code;
         private String productImage;

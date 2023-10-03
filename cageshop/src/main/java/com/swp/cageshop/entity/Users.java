@@ -55,19 +55,23 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String address;
 
+  @Column(nullable = false)
+  private String verfiCode;
+
+
   // N:1 with Role
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id")
   private Roles role;
 
   // N:1 with itself (Users OneToMany Users)
-  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "depend_id", cascade = CascadeType.ALL)
   private List<Users> relatedUsers;
 
   // N:1 with itself (Users ManyToOne Users)
   @ManyToOne
   @JoinColumn(name = "depend_id")
-  private Users parent;
+  private Users depend_id;
 
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)

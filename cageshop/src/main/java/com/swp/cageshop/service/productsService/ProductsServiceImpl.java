@@ -1,8 +1,10 @@
 package com.swp.cageshop.service.productsService;
 
 import com.swp.cageshop.DTO.AccessoryDTO;
+import com.swp.cageshop.DTO.BirdCageDTO;
 import com.swp.cageshop.DTO.CategoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
+import com.swp.cageshop.entity.BirdCages;
 import com.swp.cageshop.entity.Categories;
 import com.swp.cageshop.entity.Products;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.swp.cageshop.repository.BirdCagesRepository;
 import com.swp.cageshop.repository.CategoriesRepository;
 import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.service.categoriesService.ICategoriesService;
@@ -30,6 +33,8 @@ public class ProductsServiceImpl implements IProductsService {
 
     @Autowired
     private ICategoriesService categoriesService;
+    @Autowired
+    private BirdCagesRepository birdCageRepository;
 
 
     @Autowired
@@ -203,12 +208,33 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
+    public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO) {
+        if (productDTO != null && birdCageDTO != null) {
+
+            Products product = modelMapper.map(productDTO, Products.class);
+            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+
+            if (category != null) {
+                product.setCategory(category);
+                Products savedProduct = productsRepository.save(product);
+
+                if (savedProduct != null) {
+                    BirdCages birdCage = modelMapper.map(birdCageDTO, BirdCages.class);
+                    birdCage.setProduct(savedProduct);
+                    BirdCages savedBirdCage = birdCageRepository.save(birdCage);
+                    savedProduct.setCage(savedBirdCage);
+                    productsRepository.save(savedProduct);
+
+                    ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+                    return savedProductDTO;
+                }
+            }
+        }
+        return null;
+    }
+
+
 }
-
-
-
-
-
 
 
 //    @Override
