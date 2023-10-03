@@ -66,7 +66,7 @@ public class Users extends EntityBase{
 
   // N:1 with itself (Users ManyToOne Users)
   @ManyToOne
-  @JoinColumn(name = "parent_id")
+  @JoinColumn(name = "depend_id")
   private Users parent;
 
 
@@ -87,10 +87,6 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 79d3a4826c08defa0322ad6e05c33f5428ffc97e
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 

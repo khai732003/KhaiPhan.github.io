@@ -54,7 +54,6 @@ public class UsersServiceImpl implements IUsersService {
     Users users = usersRepository.findByName(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     String rolesNames = users.getRole().getName();
 
-
     String token = jwtUtilities.generateToken(users.getName(),rolesNames);
     return token;
   }
@@ -75,27 +74,6 @@ public class UsersServiceImpl implements IUsersService {
     }
   }
 
-  @Override
-  @Transactional
-  public UserDTO registerUsers(UserDTO userDTO) {
-    if (userDTO == null) {
-      throw new IllegalArgumentException("UserDTO không hợp lệ");
-    }
-    Users users = modelMapper.map(userDTO, Users.class);
-
-    if (users.getRole() == null || users.getRole().getId() == null) {
-      throw new IllegalArgumentException("Role không tồn tại");
-    }
-    try {
-      users.setPassword(passwordEncoder.encode(users.getPassword()));
-      Users savedUsers = usersRepository.save(users);
-      UserDTO savedUserDTO = modelMapper.map(savedUsers, UserDTO.class);
-
-      return savedUserDTO;
-    } catch (DataIntegrityViolationException e) {
-      throw new RuntimeException("Lỗi khi đăng ký người dùng: " + e.getMessage());
-    }
-  }
 
   @Override
   public UserDTO updateUsers(long id, UserDTO userDTO) {

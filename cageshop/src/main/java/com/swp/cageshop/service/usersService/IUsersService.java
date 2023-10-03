@@ -10,9 +10,8 @@ import org.springframework.http.ResponseEntity;
 public interface IUsersService {
 
   String authenticate(LoginDTO loginDTO);
-  ResponseEntity<?> register (UserDTO userDTO);
 
-  public UserDTO registerUsers(UserDTO userDTO);
+  ResponseEntity<?> register (UserDTO userDTO);
 
   public UserDTO updateUsers(long id,UserDTO userDTO);
 
