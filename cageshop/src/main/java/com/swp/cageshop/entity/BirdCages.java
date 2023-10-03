@@ -27,4 +27,6 @@ public class BirdCages extends EntityBase {
     @OneToOne
     @JoinColumn(name = "product_id", unique = true)
     private Products product;
+
+
 }

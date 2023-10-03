@@ -70,14 +70,14 @@ public class Products extends EntityBase {
 //  @ManyToMany(mappedBy = "products")
 
 //  private List<Carts> carts;
- @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
- private List<OrderDetail>  orderDetails;
+ @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+ private OrderDetail  orderDetail;
 
 
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Ratings> ratings;
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
 
-  @OneToOne(mappedBy = "cage", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
   private BirdCages cage;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

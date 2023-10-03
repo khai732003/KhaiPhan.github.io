@@ -15,6 +15,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Orders extends EntityBase{
 
+  @Column
+  private String status;
+
+  @Column
+  private String paymentMethod;
+
+  @Column
+  private String shipAddress;
+
+  @Column
+  private String content;
+
+  @Column
+  @Temporal(TemporalType.TIMESTAMP)
+  private String shipDate;
+
+  @Column
+  private double price;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -26,6 +44,11 @@ public class Orders extends EntityBase{
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<Vouchers> vouchers;
 
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Feedbacks feedbacks;
+
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<Pays> pays;
 }
 
 

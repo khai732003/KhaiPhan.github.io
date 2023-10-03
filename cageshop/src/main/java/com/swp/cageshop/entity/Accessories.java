@@ -18,6 +18,9 @@ public class Accessories extends EntityBase {
     @Column(nullable = false)
     private String type;
 
+    @Column(nullable = false)
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;
