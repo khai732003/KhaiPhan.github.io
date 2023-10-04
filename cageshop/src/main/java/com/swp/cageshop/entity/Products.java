@@ -46,13 +46,6 @@ public class Products extends EntityBase {
 
 // -------------------------------------------------
 
-//  // N:1 voi User
-//  @ManyToOne
-//  @JoinColumn(name = "user_id", nullable = false)
-//  private Users user;
-
-
-  //N:1 voi Category
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)
   private Categories category;
@@ -64,14 +57,12 @@ public class Products extends EntityBase {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
-
-
-//  // Mối quan hệ Many-to-Many với Cart
-//  @ManyToMany(mappedBy = "products")
-
 //  private List<Carts> carts;
  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
  private OrderDetail  orderDetail;
+
+ @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+ private List<OrderDetail>  orderDetails;
 
 
 //  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -80,10 +71,21 @@ public class Products extends EntityBase {
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
   private BirdCages cage;
 
+
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Accessories> accessories;
 }
 
+//  // N:1 voi User
+//  @ManyToOne
+//  @JoinColumn(name = "user_id", nullable = false)
+//  private Users user;
 
 
+//N:1 voi Category
 
+
+//  // Mối quan hệ Many-to-Many với Cart
+//  @ManyToMany(mappedBy = "products")
+
+//  private List<Carts> carts;

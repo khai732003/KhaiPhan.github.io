@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrdersServiceImpl implements IOrdersService{
+public class OrdersServiceImpl implements IOrdersService {
     @Autowired
     private OrdersRepository ordersRepository;
     @Autowired
@@ -24,18 +24,18 @@ public class OrdersServiceImpl implements IOrdersService{
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
-                // Chuyển đổi từ DTO sang Entity
-                Orders orders = modelMapper.map(orderDTO, Orders.class);
+            // Chuyển đổi từ DTO sang Entity
+            Orders orders = modelMapper.map(orderDTO, Orders.class);
 
-                // Lưu Entity vào cơ sở dữ liệu
-                Orders orders1 = ordersRepository.save(orders);
+            // Lưu Entity vào cơ sở dữ liệu
+            Orders orders1 = ordersRepository.save(orders);
 
-                // Chuyển đổi từ Entity sang DTO
-               OrderDTO orderDTO1 = modelMapper.map(orders1, OrderDTO.class);
+            // Chuyển đổi từ Entity sang DTO
+            OrderDTO orderDTO1 = modelMapper.map(orders1, OrderDTO.class);
 
-                return orderDTO1;
-            }
-         return null;
+            return orderDTO1;
+        }
+        return null;
     }
 
     @Override
@@ -82,7 +82,6 @@ public class OrdersServiceImpl implements IOrdersService{
         }
         return orderDTOList;
     }
-
 
 
     @Override
