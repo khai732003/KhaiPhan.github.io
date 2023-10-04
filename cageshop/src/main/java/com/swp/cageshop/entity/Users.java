@@ -65,13 +65,13 @@ public class Users extends EntityBase{
   private Roles role;
 
   // N:1 with itself (Users OneToMany Users)
-  @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "depend_id", cascade = CascadeType.ALL)
   private List<Users> relatedUsers;
 
   // N:1 with itself (Users ManyToOne Users)
   @ManyToOne
-  @JoinColumn(name = "parent_id")
-  private Users parent;
+  @JoinColumn(name = "depend_id")
+  private Users depend_id;
 
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
@@ -90,7 +90,6 @@ public class Users extends EntityBase{
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
-
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
