@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -65,12 +66,16 @@ public class UsersServiceImpl implements IUsersService {
 
   @Override
   public ResponseEntity<?> register(UserDTO userDTO) {
-    if(usersRepository.existsByName(userDTO.getName()))
-    { return  new ResponseEntity<>("name is already taken !", HttpStatus.SEE_OTHER); }
+    if(usersRepository.existsByName(userDTO.getName()) || usersRepository.existsByEmail(userDTO.getEmail()))
+    { return  new ResponseEntity<>("name or email is already taken !", HttpStatus.SEE_OTHER); }
     else
     { Users users = modelMapper.map(userDTO, Users.class);
+      if (userDTO.getManagerId() != null){
+        Users users1 = usersRepository.getReferenceById(userDTO.getManagerId());
+        users.setManager(users1);
+      }
       users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-      Users savedUsers = usersRepository.save(users);
+      usersRepository.save(users);
 
       String token = jwtUtilities.generateToken(userDTO.getName(),users.getRole().getName());
       return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
@@ -90,6 +95,7 @@ public class UsersServiceImpl implements IUsersService {
         Date currentCreateDate = users1.getCreateDate();
 
         users1.setName(users.getName());
+        users1.setFullname(users.getFullname());
         users1.setAddress(users.getAddress());
         users1.setPhone(users.getPhone());
         users1.setCreateDate(currentCreateDate);
@@ -120,6 +126,36 @@ public class UsersServiceImpl implements IUsersService {
   public List<Users> listAll(){
     return usersRepository.findAll();
   }
+
+  public List<UserDTO> list() {
+    List<Users> users = usersRepository.findAll();
+
+    // Chuyển đổi từ Users sang UserDTO bằng cách sử dụng Java Stream API
+    List<UserDTO> userDTOs = users.stream()
+        .map(user -> {
+          UserDTO userDTO = new UserDTO();
+          userDTO.setId(user.getId());
+          userDTO.setName(user.getName());
+          userDTO.setFullname(user.getFullname());
+          userDTO.setEmail(user.getEmail());
+          userDTO.setAddress(user.getAddress());
+          userDTO.setGender(user.getGender());
+          userDTO.setPassword(user.getPassword());
+          userDTO.setImage(user.getImage());
+          userDTO.setPhone(user.getPhone());
+          userDTO.setRoleId(user.getRole().getId());
+          userDTO.setCreateDate(user.getCreateDate());
+          Users users1 = user.getManager();
+          if(users1 != null) {
+            userDTO.setManagerId(users1.getId());
+          }
+          return userDTO;
+        })
+        .collect(Collectors.toList());
+
+    return userDTOs;
+  }
+
 
 //  @Override
 //  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException {

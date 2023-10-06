@@ -23,6 +23,8 @@ public interface IUsersService {
 
   public List<Users> listAll();
 
+  public List<UserDTO> list();
+
 //  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException;
 
 }

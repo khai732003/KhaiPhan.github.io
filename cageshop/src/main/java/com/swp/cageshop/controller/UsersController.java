@@ -44,4 +44,11 @@ public class UsersController {
   public List<Users> listAllUsers(){
     return iUsersService.listAll();
   }
+
+
+  @GetMapping("/user/test")
+  public List<UserDTO> listAll(){
+    return iUsersService.list();
+  }
+
 }

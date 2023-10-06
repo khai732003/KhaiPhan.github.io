@@ -33,7 +33,7 @@ public class UserDTO extends DTOBase implements Serializable {
 
   private Long roleId;
 
-  private Long dependId;
+  private Long managerId;
 
 
 //  private String verfiCode;
