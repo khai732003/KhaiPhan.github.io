@@ -6,6 +6,9 @@ import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.security.JwtUtilities;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 
 import java.io.UnsupportedEncodingException;
@@ -157,6 +160,7 @@ public class UsersServiceImpl implements IUsersService {
   }
 
 
+
 //  @Override
 //  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException {
 //    // Email sending code
@@ -206,50 +210,48 @@ public class UsersServiceImpl implements IUsersService {
 //    e.printStackTrace();
 //  }
 //  }
-//
-//  public ResponseEntity<?> registerUser(UserDTO userDTO) {
-//    Users users = modelMapper.map(userDTO, Users.class);
+
+
+//  public void registerUser(UserDTO userDTO) {
 //    // Check if a user with the provided email already exists
-//
-//    if (usersRepository.existsByEmail(users.getEmail())) {
+//    if (usersRepository.existsByEmail(userDTO.getEmail())) {
 //      throw new UserAlreadyExistsException("A user with this email already exists.");
 //    }
 //
-//    users.setEmail(users.getEmail());
-//    users.setName(users.getName());
-//    users.setFullname(users.getFullname());
-//    users.setGender(users.getGender());
-//    users.setPassword(passwordEncoder.encode(users.getPassword()));
-//    users.setImage(users.getImage());
-//    users.setPhone(users.getPhone());
-//    users.setAddress(users.getAddress());
-//    users.setRole(users.getRole());
-//    users.setDepend_id(users.getDepend_id());
+//
+//    Users user = new Users();
+//    user.setEmail(userDTO.getEmail());
+//    user.setName(userDTO.getName());
+//    user.setFullname(userDTO.getFullname());
+//    user.setGender(userDTO.getGender());
+//    user.setPassword(userDTO.getPassword());
+//    user.setImage(userDTO.getImage());
+//    user.setPhone(userDTO.getPhone());
+//    user.setAddress(userDTO.getAddress());
+////    user.setRole(userDTO.getRoleId());
+////    user.setParent(userDTO.getParentId());
 //
 //    // Generate a verification code (you can use a UUID or any other method)
 //    String verificationCode = UUID.randomUUID().toString();
-//    users.setVerfiCode(verificationCode);
-//    usersRepository.save(users);
-//
-//    UserDTO saveUserDTO = modelMapper.map(users, UserDTO.class);
-//
-//    String token = jwtUtilities.generateToken(userDTO.getName(),users.getRole().getName());
-//    return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
+//    user.setVerfiCode(verificationCode);
+//    usersRepository.save(user);
 //
 //    // Send a verification email
 //    try {
-//      sendVerificationEmail(saveUserDTO.);
+//      sendVerificationEmail(userDTO);
 //    } catch (MessagingException | UnsupportedEncodingException e) {
 //      // Handle email sending errors
 //      e.printStackTrace();
 //    }
 //  }
-//
+
 //  public class UserAlreadyExistsException extends RuntimeException {
 //
 //    public UserAlreadyExistsException(String message) {
 //      super(message);
 //    }
 //  }
+
+/
 
 }

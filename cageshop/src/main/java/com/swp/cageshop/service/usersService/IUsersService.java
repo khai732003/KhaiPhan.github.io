@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 //import jakarta.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 
 
@@ -25,6 +26,6 @@ public interface IUsersService {
 
   public List<UserDTO> list();
 
-//  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException;
+
 
 }

@@ -5,10 +5,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
+
 import java.util.Date;
 
 
 @Entity
+@Check(constraints = "rating >= 1 and rating <= 5")
 @Table(name = "Feedbacks")
 @Data
 @NoArgsConstructor
@@ -18,9 +21,8 @@ public class Feedbacks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String title;
-
+    @Column(nullable = false)
+    private int rating;
 
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;
@@ -39,5 +41,8 @@ public class Feedbacks {
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
 
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Orders order;
 }
 

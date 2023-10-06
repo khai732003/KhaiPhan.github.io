@@ -31,4 +31,6 @@ public class BirdCages {
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
+
+
 }

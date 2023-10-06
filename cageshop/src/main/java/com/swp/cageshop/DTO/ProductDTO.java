@@ -23,7 +23,7 @@ public class ProductDTO extends DTOBase {
         private List<CommentDTO> comments;
         private List<FeedbackDTO> feedbacks;
         private List<OrderDetailDTO> orderDetails;
-        private List<RatingDTO> ratings;
+//        private List<RatingDTO> ratings;
         private BirdCageDTO cage;
         private List<AccessoryDTO> accessories;
 

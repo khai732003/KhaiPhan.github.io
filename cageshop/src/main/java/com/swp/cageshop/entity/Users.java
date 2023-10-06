@@ -44,8 +44,8 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String address;
 
-//  @Column(nullable = false)
-//  private String verfiCode;
+  @Column(nullable = false)
+  private String verfiCode;
 
   // N:1 with Role
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -77,5 +77,8 @@ public class Users extends EntityBase{
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Pays> pays; // Thêm trường danh sách các giao dịch thanh toán
 
 }

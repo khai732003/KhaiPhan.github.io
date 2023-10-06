@@ -15,4 +15,5 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   @Query(value = "select * from users", nativeQuery = true)
   String listUser (String all);
+
 }
