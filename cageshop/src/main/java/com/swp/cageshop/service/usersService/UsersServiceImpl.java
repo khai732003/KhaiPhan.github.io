@@ -193,7 +193,7 @@ public class UsersServiceImpl implements IUsersService {
     e.printStackTrace();
   }
   }
-git 
+
 
   public void registerUser(UserDTO userDTO) {
     // Check if a user with the provided email already exists
