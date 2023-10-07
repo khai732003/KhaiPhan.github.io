@@ -26,7 +26,6 @@ public class Accessories {
     @Column(nullable = false)
     private double price;
 
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Products product;

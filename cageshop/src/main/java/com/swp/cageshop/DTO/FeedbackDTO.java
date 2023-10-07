@@ -13,10 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class FeedbackDTO extends DTOBase
 {
-        private String title;
+        private int rating;
         private String content;
         private Long userId; // Representing the user's ID
-        private Long productId; // Representing the product's ID
-
+        private Long productId; // Representing the product's I
 
     }

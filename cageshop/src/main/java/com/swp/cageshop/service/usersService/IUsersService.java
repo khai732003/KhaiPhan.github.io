@@ -7,6 +7,7 @@ import com.swp.cageshop.entity.Users;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+//import jakarta.mail.MessagingException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 
@@ -14,9 +15,8 @@ import org.springframework.http.ResponseEntity;
 public interface IUsersService {
 
   String authenticate(LoginDTO loginDTO);
-  ResponseEntity<?> register (UserDTO userDTO);
 
-  public UserDTO registerUsers(UserDTO userDTO);
+  ResponseEntity<?> register (UserDTO userDTO);
 
   public UserDTO updateUsers(long id,UserDTO userDTO);
 
@@ -24,6 +24,8 @@ public interface IUsersService {
 
   public List<Users> listAll();
 
-  public void sendVerificationEmail(UserDTO userDTO) throws MessagingException, UnsupportedEncodingException;
+  public List<UserDTO> list();
+
+
 
 }

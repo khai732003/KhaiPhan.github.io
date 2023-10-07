@@ -30,10 +30,6 @@ public class UsersController {
   public String haha(){
     return "helo";
   }
-//  @PostMapping("/user/register")
-//  public UserDTO registerUsers(@RequestBody  UserDTO userDTO){
-//    return iUsersService.registerUsers(userDTO);
-//  }
 
   @PostMapping("/register")
   public ResponseEntity<?> register (@RequestBody UserDTO userDTO)
@@ -48,4 +44,11 @@ public class UsersController {
   public List<Users> listAllUsers(){
     return iUsersService.listAll();
   }
+
+
+  @GetMapping("/user/test")
+  public List<UserDTO> listAll(){
+    return iUsersService.list();
+  }
+
 }

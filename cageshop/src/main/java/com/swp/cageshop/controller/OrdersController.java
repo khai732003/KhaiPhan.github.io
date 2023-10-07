@@ -22,7 +22,7 @@ public class OrdersController {
     private UsersRepository usersRepository;
     @PostMapping("/order/add")
     public ResponseEntity<?> addOrders(@RequestBody OrderDTO orderDTO) {
-       Long userID = orderDTO.getUserID();
+       Long userID = orderDTO.getUserId();
         Optional<Users> users = usersRepository.findById(userID);
         if(!users.isPresent()){
             return ResponseEntity.badRequest().body("userID không tồn tại trong cơ sở dữ liệu");
