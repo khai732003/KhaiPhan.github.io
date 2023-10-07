@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.FetchType;
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -78,6 +79,7 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Pays> pays; // Thêm trường danh sách các giao dịch thanh toán
 

@@ -62,15 +62,8 @@ public class Products extends EntityBase {
 // @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
 // private OrderDetail  orderDetail;
 
- @OneToOne(mappedBy = "products", cascade = CascadeType.ALL)
+ @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
  private OrderDetail  orderDetails;
-
-
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
-  @OneToOne
-  @JoinColumn(name = "product_id", referencedColumnName = "id") // Thay thế "id" bằng tên cột khóa chính trong Products entity
-  private OrderDetail orderDetail;
 
 
 //
