@@ -13,7 +13,5 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   boolean existsByEmail(String email);
 
-  @Query(value = "select * from users", nativeQuery = true)
-  String listUser (String all);
 
 }
