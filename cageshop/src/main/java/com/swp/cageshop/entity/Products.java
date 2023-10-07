@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Products extends EntityBase {
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length=6)
   private String code;
 
   @Column(nullable = false)
@@ -28,11 +28,11 @@ public class Products extends EntityBase {
   @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
   @Column(name = "image_url")
   private List<String> productDetailImage;
-  @Column(nullable = false)
+  @Column(nullable = false,length = 10)
   private int stock;
 
 
-  @Column(nullable = false)
+  @Column(nullable = false,length = 10)
   private double totalPrice;
 
 // -------------------------------------------------
@@ -65,6 +65,8 @@ public class Products extends EntityBase {
  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
  private OrderDetail  orderDetails;
 
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
 
 //
 //  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

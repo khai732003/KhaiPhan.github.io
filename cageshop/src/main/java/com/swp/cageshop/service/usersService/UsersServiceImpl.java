@@ -131,7 +131,7 @@ public class UsersServiceImpl implements IUsersService {
   }
 
   public List<UserDTO> list() {
-    List<Users> users = usersRepository.findAll();
+      List<Users> users = usersRepository.findAll();
 
     // Chuyển đổi từ Users sang UserDTO bằng cách sử dụng Java Stream API
     List<UserDTO> userDTOs = users.stream()

@@ -17,10 +17,10 @@ public class Accessories {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 3000)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 35)
     private String type;
 
     @Column(nullable = false)
