@@ -5,6 +5,7 @@ import com.swp.cageshop.DTO.UserDTO;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.service.usersService.IUsersService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,4 +52,8 @@ public class UsersController {
     return iUsersService.list();
   }
 
+  @GetMapping("/find/{name}")
+public List<Users> findByName(@PathVariable String name, @RequestBody Users users){
+    return iUsersService.findByName(name, users);
+  }
 }

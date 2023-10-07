@@ -9,6 +9,7 @@ import java.util.List;
 
 //import jakarta.mail.MessagingException;
 import jakarta.mail.MessagingException;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 
 
@@ -25,6 +26,8 @@ public interface IUsersService {
   public List<Users> listAll();
 
   public List<UserDTO> list();
+
+  public List<Users> findByName(String name, Users users);
 
 
 
