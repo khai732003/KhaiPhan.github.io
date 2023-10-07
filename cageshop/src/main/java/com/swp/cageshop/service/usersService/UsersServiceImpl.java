@@ -156,7 +156,66 @@ public class UsersServiceImpl implements IUsersService {
         })
         .collect(Collectors.toList());
 
+<<<<<<< HEAD
+    // Create a session with authentication
+    Session session = Session.getInstance(properties, new Authenticator() {
+      protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication("your-email@gmail.com", "your-password"); // Update with your email and password
+      }
+    });
+
+    // Create a MimeMessage
+    MimeMessage message = new MimeMessage(session);
+
+    // Set From, To, Subject, and Content
+    message.setFrom(new InternetAddress("your-email@gmail.com", senderName)); // Update with your email and sender name
+    message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(userDTO.getEmail()));
+    message.setSubject(subject);
+    message.setContent(mailContent, "text/html");
+
+    // Send the message
+    Transport.send(message);
+  } catch (UnsupportedEncodingException e) {
+    // Handle the exception here or log it
+    e.printStackTrace();
+  }
+  }
+
+
+  public void registerUser(UserDTO userDTO) {
+    // Check if a user with the provided email already exists
+    if (usersRepository.existsByEmail(userDTO.getEmail())) {
+      throw new UserAlreadyExistsException("A user with this email already exists.");
+    }
+
+
+    Users user = new Users();
+    user.setEmail(userDTO.getEmail());
+    user.setName(userDTO.getName());
+    user.setFullname(userDTO.getFullname());
+    user.setGender(userDTO.getGender());
+    user.setPassword(userDTO.getPassword());
+    user.setImage(userDTO.getImage());
+    user.setPhone(userDTO.getPhone());
+    user.setAddress(userDTO.getAddress());
+//    user.setRole(userDTO.getRoleId());
+//    user.setParent(userDTO.getParentId());
+
+    // Generate a verification code (you can use a UUID or any other method)
+    String verificationCode = UUID.randomUUID().toString();
+    user.setVerfiCode(verificationCode);
+    usersRepository.save(user);
+
+    // Send a verification email
+    try {
+      sendVerificationEmail(userDTO);
+    } catch (MessagingException | UnsupportedEncodingException e) {
+      // Handle email sending errors
+      e.printStackTrace();
+    }
+=======
     return userDTOs;
+>>>>>>> b8b541dcf6990e844c0a6cc6ab205884efbb29fc
   }
 
   @Override
