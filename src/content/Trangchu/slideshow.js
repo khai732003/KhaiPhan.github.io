@@ -5,6 +5,7 @@ const ImageSlider = () => {
     const [slide , setslide ]= ([
         
     ])
+    
     return (
 
         <div className='slideshow'>

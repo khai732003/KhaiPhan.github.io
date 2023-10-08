@@ -69,15 +69,17 @@
 
 .custom-dropdown .dropdown-menu {
   display: none;
+ 
 }
 .custom-dropdown{
   cursor: pointer;
   i{
-    font-size: 12px;
-    padding-left: 5px;
+    font-size: 19px;
+  
   }
   .btnhead{
     background-color: white ;
+    
   }
   .dropdown-menu{
     .dropdown-item{

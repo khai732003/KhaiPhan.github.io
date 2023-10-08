@@ -27,7 +27,9 @@ const ProductSearch = () => {
                                     placeholder="Tìm kiếm..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
+
                                 />
+                                
                             </Form.Group>
                         </Col>
 

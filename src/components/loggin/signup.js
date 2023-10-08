@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../loggin/signup.scss'
 import Header from '../../header/Header';
 import Footer from '../../footer/Footer';
+
 const SignUp = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -11,6 +12,7 @@ const SignUp = () => {
         address: '',
         confirmPassword: '',
         email: '',
+        gender: 'male', // Default value is set to 'male'
     });
 
     const handleChange = (e) => {
@@ -33,7 +35,6 @@ const SignUp = () => {
                     <center><span><h2>Đăng Ký</h2></span></center>
                     <div className="row">
                         <div className="col-md-6">
-
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <input
@@ -79,10 +80,23 @@ const SignUp = () => {
                                         required
                                     />
                                 </div>
+                                <div className="form-group gender-select">
+                                    <label>Gender:</label>
+                                    <select
+                                        className="form-control "
+                                        name="gender"
+                                        value={formData.gender}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
                             </form>
                         </div>
                         <div className="col-md-6">
-
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <input

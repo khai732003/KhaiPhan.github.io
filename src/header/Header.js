@@ -29,11 +29,10 @@ function Header(props) {
                             <NavLink to="/" activeClassName="active" className="nav-link">TRANG CHỦ</NavLink>
                             <NavLink to="/Gioithieu" className="nav-link">GIỚI THIỆU</NavLink>
 
-                            <div className="custom-dropdown nav-link">
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }}>SẢN PHẨM</NavLink>
-                                <i class="bi bi-caret-down-fill"></i>
+                            <div className="custom-dropdown nav-link" >
+                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }}>SẢN PHẨM <span class="bi bi-caret-down-fill"/></NavLink>
                                 <div className="dropdown-menu">
-                                    <NavLink to="/login" className="dropdown-item nav-link">
+                                    <NavLink to="/profile" className="dropdown-item nav-link">
                                         Đăng Nhập
                                     </NavLink>
                                     <NavLink to="/signup" className="dropdown-item nav-link">
@@ -42,9 +41,9 @@ function Header(props) {
                                 </div>
                             </div>
 
-                            <div className="custom-dropdown nav-link">
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }}>DỊCH VỤ</NavLink>
-                                <i class="bi bi-caret-down-fill"></i>
+                            <div className="custom-dropdown nav-link" >
+                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} >DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
+                                
                                 <div className="dropdown-menu">
                                     <NavLink to="/login" className="dropdown-item nav-link">
                                         Đăng Nhập
@@ -81,7 +80,7 @@ function Header(props) {
                                     </NavLink>
                                 </div>
                             </div>
-                            <Button variant="outline-secondary" href="#cart" className='btn' title='Giỏ Hàng'>
+                            <Button variant="outline-secondary" to="/profile" className='btn' title='Giỏ Hàng'>
                                 <i className=" bi-cart-check"></i>
                             </Button>
                         </Nav>

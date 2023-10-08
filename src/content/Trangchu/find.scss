@@ -19,7 +19,6 @@
         }
 
         form {
-
             background-color: #343a40;
             padding: 20px;
             border: 1px solid #343a40;
@@ -27,18 +26,21 @@
 
             .Form-Group {
                 margin-bottom: 100px;
-
                 .form-control {
                     width: 100%;
                     padding: 15px;
                     font-size: 32px;
                     border: 1px solid #ccc;
                     border-radius: 2px;
-
                 }
 
+                /* Style the select input */
                 select.form-control {
                     cursor: pointer;
+
+                    /* Adjust the padding and margin to align the dropdown icon */
+                    padding-right: 30px;
+                    margin-right: -30px;
                 }
             }
 

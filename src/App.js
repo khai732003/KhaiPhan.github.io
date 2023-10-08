@@ -8,19 +8,22 @@ import Tintuc from './content/tintuc/tintuc';
 import Dichvu from './content/dichvu/dichvu';
 import SanPham from './content/SanPham/SanPham';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Profile from './content/userprofile/profile';
+
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Trangchu />} />
+
+          <Route exact path="/" element={<Trangchu />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/Gioithieu" element={<Gioithieu />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/Gioithieu" element={<Gioithieu />} />
           <Route path="/sanpham" element={<SanPham />} />
           <Route path="/tintuc" element={<Tintuc />} />
           <Route path="/dichvu" element={<Dichvu />} />
-          
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </Router>
 
