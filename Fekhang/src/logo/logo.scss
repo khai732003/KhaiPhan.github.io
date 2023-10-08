@@ -1,0 +1,39 @@
+img {
+    width: 150px;
+    height: 70px;
+}
+
+.containerlogo {
+    display: flex;
+    align-items: center;
+    background-color: black;
+   
+    left: 0;
+
+    a {
+        display: block;
+        margin-left: 10%;
+    }
+
+    .search {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-left: 40%;
+       
+        input{
+            line-height: 40px;
+            padding: 0;
+            border: 0;
+            border-radius: 3px 0px 0px 3px;
+        }
+        button{
+            padding: 5px 10px;
+            background-color:  #cc6119;
+            font-size: 20px;
+            border: 0;
+            border-radius: 0px 3px 3px 0px;
+            
+        }
+    }
+}

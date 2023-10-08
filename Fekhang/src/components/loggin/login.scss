@@ -1,0 +1,85 @@
+/* login.scss */
+
+/* Style the login container */
+.login-container {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: 150px auto;
+  
+
+  span {
+    font-size: 30px;
+    font-weight: 600;
+    color: #cc6119;
+    border-bottom: 3.5px solid #cc6119;
+    padding-bottom: 7px;
+    margin-bottom: 30px;
+    
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+  }
+
+  .error {
+    color: #f00;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+    
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+  .fg-password{
+    text-decoration: none;
+    margin-bottom: 30px;
+  }
+  .fg-password:hover{
+  border-bottom: 1px solid;
+  }
+  .sign-up{
+    text-decoration: none;
+    color: white;
+    padding: 5px 12.5px;
+    display: inline-block;
+    background-color: rgb(26, 202, 26);
+    margin-top: 20px;
+    border-radius: 4px;
+
+  }
+  .sign-up:hover{
+    color: white;
+    background-color: green;
+    transition: 0.3s;
+  }
+
+
+}
+
