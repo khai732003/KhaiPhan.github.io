@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RequestMapping("/cageshop")
 @RestController
+@CrossOrigin
 public class PayController{
     @Autowired
     private PaysService payService;
