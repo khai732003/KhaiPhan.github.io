@@ -15,25 +15,40 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Orders extends EntityBase{
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "order_date")
-  private Date orderDate;
+  @Column
+  private String status;
 
-  // Mối quan hệ ManyToOne với User
+  @Column
+  private String paymentMethod;
+
+  @Column
+  private String shipAddress;
+
+  @Column
+  private String content;
+
+  @Column
+  @Temporal(TemporalType.TIMESTAMP)
+  private String shipDate;
+
+  @Column
+  private double price;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private Users user;
 
-  // Mối quan hệ OneToMany với OrderDetail
-
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetails;
-
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<Vouchers> vouchers;
 
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Feedbacks feedbacks;
+
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  private List<Pays> pays;
 }
 
 

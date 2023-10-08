@@ -1,20 +1,9 @@
 package com.swp.cageshop.entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+
 import java.util.List;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import java.util.Date;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,55 +13,39 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Products {
+public class Products extends EntityBase {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Column(nullable = false)
+  @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length=6)
   private String code;
 
   @Column(nullable = false)
-  private String description;
+  private String productImage;
 
-  @Column(nullable = false)
-  private String material;
+  @ElementCollection
+  @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
+  @Column(name = "image_url")
+  private List<String> productDetailImage;
+  @Column(nullable = false,length = 10)
+  private int stock;
 
-  @Column(nullable = false)
-  private String size;
 
-
-  @Column(nullable = false)
-  private double price;
-
-  @Column(nullable = false)
-  private String image;
+  @Column(nullable = false,length = 10)
+  private double totalPrice;
 
 // -------------------------------------------------
 
   // 1: cage 2: accessory
-  @Column(nullable = false)
-  private String type;
+
   // 1: arrived soon  2: already   3: out of stock
   @Column(nullable = false)
   private String status;
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date date;
 
 
 // -------------------------------------------------
 
-//  // N:1 voi User
-//  @ManyToOne
-//  @JoinColumn(name = "user_id", nullable = false)
-//  private Users user;
-
-
-  //N:1 voi Category
   @ManyToOne
   @JoinColumn(name = "category_id", nullable = false)
   private Categories category;
@@ -85,19 +58,39 @@ public class Products {
   private List<Feedbacks> feedbacks;
 
 
+//  private List<Carts> carts;
+// @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+// private OrderDetail  orderDetail;
+
+ @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+ private OrderDetail  orderDetails;
+
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
+
+//
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
+
+
+  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+  private BirdCages cage;
+
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<Accessories> accessories;
+}
+
+//  // N:1 voi User
+//  @ManyToOne
+//  @JoinColumn(name = "user_id", nullable = false)
+//  private Users user;
+
+
+//N:1 voi Category
+
 
 //  // Mối quan hệ Many-to-Many với Cart
 //  @ManyToMany(mappedBy = "products")
 
 //  private List<Carts> carts;
-@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-private List<OrderDetail>  orderdetail;
-
-
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Ratings> ratings;
-
-
-
-}
-

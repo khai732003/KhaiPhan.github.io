@@ -8,5 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO extends DTOBase{
+    private String status;
+    private String paymentMethod;
+    private String shipAddress;
+    private String shipDate;
+    private double price;
+    private String content;
     private Long userId;
 }
