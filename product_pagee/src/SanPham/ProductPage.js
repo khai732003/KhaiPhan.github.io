@@ -49,8 +49,10 @@ const ProductPage = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
 
+  
+
   useEffect(() => {
-    fetch("http://localhost:8080/cageshop/product/list") // thêm dùm bố cái url đi con trai
+    fetch('http://localhost:8080/cageshop/product/list') // thêm dùm bố cái url đi con trai
       .then((response) => response.json())
       .then((data) => {
         setProducts(data); 
