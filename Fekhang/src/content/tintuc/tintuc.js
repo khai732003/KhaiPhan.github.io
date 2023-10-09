@@ -10,16 +10,18 @@ export default function tintuc() {
   return (
     <>
       <Header />
-      <Box  minHeight="calc(100vh - 120px)">
-        <Grid container display="flex" justifyContent="center" alignItems="center"> 
-          <Grid item xs={12} md={7}  justifyContent="center" alignItems="center"  className='slide-s'>
+      <div className='tintuc-container'>
+        <Box minHeight="calc(100vh - 120px)">
+          <Grid container display="flex" justifyContent="center" alignItems="center">
+            <Grid item xs={12} md={6} justifyContent="center" alignItems="center" className='slide-s'>
               <ImageSlider />
-          </Grid>
-          <Grid item xs={12} md={3.5} display="flex" justifyContent="center" alignItems="center">
+            </Grid>
+            <Grid item xs={12} md={5} display="flex" justifyContent="center" alignItems="center">
               <NewsPage />
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </div>
       <Footer />
     </>
   );

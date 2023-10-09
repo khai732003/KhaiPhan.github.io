@@ -6,8 +6,8 @@ import '../tintuc/slideshow.scss'
 const ImageSlider = () => {
     return (
         <>
-            <div className='slideshow' >
-                <Carousel>
+            <div className='container-news'>
+                <Carousel  className='slideshow-news'>
                     {slides.map((src, index) => (
                         <Carousel.Item key={index}>
                             <img
