@@ -15,13 +15,13 @@ function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState('');
 
-  // Define a function to handle form input changes
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Define a function to handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,10 +35,10 @@ function Login() {
       });
 
       if (response.ok) {
-        // Authentication succeeded, set loggedIn to true
+      
         setLoggedIn(true);
       } else {
-        // Authentication failed, set an error message
+    
         setError('Đăng nhập không thành công. Vui lòng kiểm tra thông tin đăng nhập.');
       }
     } catch (error) {
@@ -55,7 +55,7 @@ function Login() {
         {loggedIn ? (
           <div>
             <p>Đăng nhập thành công!</p>
-            {/* You can redirect to the home page or another page here */}
+  
           </div>
         ) : (
           <form onSubmit={handleSubmit}>

@@ -1,0 +1,27 @@
+/* slideshow.scss */
+
+.slideshow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+
+    .carousel-item {
+        img {
+            height: 90%;
+            width: 50%;
+        }
+
+        .S-content {
+            h2 {
+                font-weight: bold;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            position: absolute;
+            top: 75%;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: rgb(247, 245, 245);
+            padding: 10px;
+        }
+    }
+}

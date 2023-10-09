@@ -9,6 +9,7 @@ import Dichvu from './content/dichvu/dichvu';
 import SanPham from './content/SanPham/SanPham';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Profile from './content/userprofile/profile';
+import NewsPage from './content/tintuc/tintuc';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/Gioithieu" element={<Gioithieu />} />
           <Route path="/sanpham" element={<SanPham />} />
-          <Route path="/tintuc" element={<Tintuc />} />
+          <Route path="/tintuc" element={<NewsPage />} />
           <Route path="/dichvu" element={<Dichvu />} />
           <Route path="/profile" element={<Profile/>} />
         </Routes>
