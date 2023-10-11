@@ -25,7 +25,7 @@ Thank you for considering contributing to Bird Cage Shop. We welcome your contri
 7. **Push Your Changes:** Push your changes to your forked repository:
 
    ```sh
-  git push origin feature/new-feature
+   git push origin feature/new-feature
 8. **Create a Pull Request:** Go to the main repository on GitHub and click the "New Pull Request" button. Provide a detailed description of your changes in the pull request, and submit it for review.
 
 ## Code of Conduct
