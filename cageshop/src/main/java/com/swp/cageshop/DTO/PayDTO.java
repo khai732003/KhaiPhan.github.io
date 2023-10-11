@@ -16,4 +16,5 @@ public class PayDTO extends DTOBase{
     public Long userId;
     public Long orderId;
     public String vnp_BankCode;
+    public String status;
 }

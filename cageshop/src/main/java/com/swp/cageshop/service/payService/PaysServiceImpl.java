@@ -12,6 +12,6 @@ import java.util.List;
 public interface PaysServiceImpl {
     public String payWithVNPAY(PayDTO payDTO, HttpServletRequest request) throws UnsupportedEncodingException;
 
-    public List<PayDTO> getAllPayDTO();
+
 
 }

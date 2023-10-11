@@ -1,8 +1,6 @@
 package com.swp.cageshop.controller;
 
-import com.swp.cageshop.DTO.OrderDTO;
-import com.swp.cageshop.DTO.OrderDetailDTO;
-import com.swp.cageshop.DTO.PayDTO;
+import com.swp.cageshop.DTO.*;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Pays;
 import com.swp.cageshop.entity.Users;
@@ -50,21 +48,48 @@ public class PayController{
             if (!userOptional.isPresent() || !orderOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
             }
-            Pays paysEntity = modelMapper.map(payDTO, Pays.class);
-            paysRepository.save(paysEntity);
+            PayResponseDTO payResponseDTO = new PayResponseDTO();
+            payResponseDTO.setStatus("OK");
+            payResponseDTO.setMessage("Success");
+            payResponseDTO.setUrl(paymentResult);
             return ResponseEntity.ok(paymentResult);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi trong quá trình xử lý thanh toán.");
         }
     }
 
-    @GetMapping("/payments")
-    public ResponseEntity<List<PayDTO>> getAllPayments() {
-        List<PayDTO> paymentList = payService.getAllPayDTO();
-        if (paymentList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentList);
+//    @GetMapping("/payments")
+//    public ResponseEntity<List<PayDTO>> getAllPayments() {
+//        List<PayDTO> paymentList = payService.getAllPayDTO();
+//        if (paymentList.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentList);
+//        }
+//        return ResponseEntity.ok(paymentList);
+//    }
+
+    @GetMapping("/payment_infor")
+    public ResponseEntity<?> transaction(
+            @RequestParam(value = "vnp_Amount") Long amount,
+            @RequestParam(value = "vnp_BankCode") String bankCode,
+            @RequestParam(value = "vnp_ResponseCode") String responseCode,
+            @RequestParam(value = "vnp_TxnRef") String txnRef
+    ) {
+        TransactionDTO transactionDTO = new TransactionDTO();
+
+        // Kiểm tra responseCode
+        if ("00".equals(responseCode)) {
+            // Trạng thái thành công
+            transactionDTO.setStatus("OK");
+            transactionDTO.setMessage("Success");
+            transactionDTO.setData("");
+        } else {
+            // Trạng thái thất bại
+            transactionDTO.setStatus("No");
+            transactionDTO.setMessage("Fail");
+            transactionDTO.setData("");
         }
-        return ResponseEntity.ok(paymentList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transactionDTO);
     }
 
 }
