@@ -40,12 +40,11 @@ The website is primarily intended for Vietnamese users, and the main language of
 5. Access the application in your web browser at `http://localhost:3000`
 
 ## Technologies Used
-
-- Node.js
-- React
-- SpringBoot 
 - HTML/CSS
 - JavaScript
+- React
+- SpringBoot 
+- Postman
 - MySQL
 ## Contributing
 
