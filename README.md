@@ -6,7 +6,7 @@ Leader: SE172631_PHAN_QUOC_KHAI
    - SE172664_NGUYEN_PHUOC_THIEN_AN
    - SE172699_BUI_NGOC_VAN_SON
    - SE172648_NGUYEN_HUU_BAO
-   - cai gi KHANG
+   - SE172533_NGUYEN_TRONG_KHANG
 #  Software Project name:
 Bird Cage Shop
 ## Description
