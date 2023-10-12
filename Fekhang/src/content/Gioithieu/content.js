@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Gioithieu/content.scss';
 import { useState } from 'react';
+import { listofnews } from '../../share/listOfnews';
 const IntroductionPage = () => {
     const [newsArticles, setNewsArticles] = useState([
         {
