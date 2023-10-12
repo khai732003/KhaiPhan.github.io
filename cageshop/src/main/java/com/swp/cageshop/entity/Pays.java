@@ -5,13 +5,10 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.transaction.Status;
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -32,8 +29,6 @@ public class Pays extends EntityBase{
     @Column(unique = true)
     private String vnp_TxnRef;
 
-    @Column
-    private String status;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -43,9 +38,5 @@ public class Pays extends EntityBase{
     @JoinColumn(name = "user_id")
     private Users user; // Thêm trường tham chiếu đến người dùng
 
-    @PrePersist
-    public void Status(){
-        this.status = "Processing";
-    }
 
 }

@@ -38,7 +38,8 @@ public class PaysService implements PaysServiceImpl {
         cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
 
-        String vnp_TxnRefRan = Config.getRandomNumber(8);
+        Random random = new Random();
+        Long randomTxnRef = (long) (100000000 + random.nextInt(900000000));
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VnPayConstant.vnp_Version);
@@ -53,7 +54,7 @@ public class PaysService implements PaysServiceImpl {
         vnp_Params.put("vnp_OrderInfo", payDTO.vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", payDTO.vnp_OrderType);
         vnp_Params.put("vnp_ReturnUrl", VnPayConstant.vnp_ReturnUrl);
-        vnp_Params.put("vnp_TxnRef", String.valueOf(vnp_TxnRefRan));
+        vnp_Params.put("vnp_TxnRef", String.valueOf(randomTxnRef));
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
         List fieldList = new ArrayList(vnp_Params.keySet());
@@ -87,12 +88,23 @@ public class PaysService implements PaysServiceImpl {
         String paymentUrl = VnPayConstant.vnp_Url + "?" + queryUrl;
 
         Pays paysEntity = modelMapper.map(payDTO, Pays.class);
-        paysEntity.setVnp_TxnRef(vnp_TxnRefRan);
         paysRepository.save(paysEntity);
 
         return paymentUrl;
     }
 
 
+    @Override
+    public List<PayDTO> getAllPayDTO() {
+        List<Pays> payEntities = paysRepository.findAll();
+        List<PayDTO> payDTOList = new ArrayList<>();
+
+        for (Pays pays : payEntities) {
+            PayDTO payDTO = modelMapper.map(pays, PayDTO.class);
+            payDTOList.add(payDTO);
+        }
+
+        return payDTOList;
+    }
 
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 public class FeedbacksController {
 
     @Autowired

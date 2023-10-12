@@ -25,8 +25,8 @@ public class Roles extends EntityBase{
   private String name;
 
   // 1:N với User
-  @JsonIgnore //ngăn chặn stackoverflow
-  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-  private List<Users> users;
+//  @JsonIgnore //ngăn chặn stackoverflow
+//  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+//  private List<Users> users;
 
 }

@@ -3,7 +3,9 @@ package com.swp.cageshop.service.usersService;
 import com.swp.cageshop.DTO.BearerToken;
 import com.swp.cageshop.DTO.LoginDTO;
 import com.swp.cageshop.DTO.UserDTO;
+import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.entity.Users;
+import com.swp.cageshop.repository.RolesRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.security.JwtUtilities;
 import jakarta.mail.*;
@@ -49,6 +51,9 @@ public class UsersServiceImpl implements IUsersService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  @Autowired
+  private RolesRepository rolesRepository;
+
 
 
   @Override
@@ -72,15 +77,18 @@ public class UsersServiceImpl implements IUsersService {
     if(usersRepository.existsByName(userDTO.getName()) || usersRepository.existsByEmail(userDTO.getEmail()))
     { return  new ResponseEntity<>("name or email is already taken !", HttpStatus.SEE_OTHER); }
     else
-    { Users users = modelMapper.map(userDTO, Users.class);
+    {
+      Users users = modelMapper.map(userDTO, Users.class);
       if (userDTO.getManagerId() != null){
         Users users1 = usersRepository.getReferenceById(userDTO.getManagerId());
         users.setManager(users1);
       }
       users.setPassword(passwordEncoder.encode(userDTO.getPassword()));
       usersRepository.save(users);
+      Roles roles = rolesRepository.getReferenceById(userDTO.getRoleId());
+      String rolesNames = roles.getName();
 
-      String token = jwtUtilities.generateToken(userDTO.getName(),users.getRole().getName());
+      String token = jwtUtilities.generateToken(userDTO.getName(),rolesNames);
       return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
 
     }
