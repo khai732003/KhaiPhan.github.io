@@ -24,7 +24,7 @@ public class CommentsController {
 
     @Autowired
     private UsersRepository usersRepository;
-    @PostMapping("/comment/add")
+    @PostMapping("/comment/add-to-product")
     public ResponseEntity<CommentDTO> addCommentToProduct(
             @PathVariable Long productId,
             @RequestBody CommentDTO commentDTO) {
@@ -39,7 +39,7 @@ public class CommentsController {
         }
     }
 
-    @PostMapping("/comment/adds")
+    @PostMapping("/comment/add-to-marketing")
     public ResponseEntity<CommentDTO> addCommentToMarketing(
             @PathVariable Long marketingId,
             @RequestBody CommentDTO commentDTO) {

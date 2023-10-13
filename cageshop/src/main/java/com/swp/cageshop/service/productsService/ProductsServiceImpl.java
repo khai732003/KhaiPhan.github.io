@@ -129,91 +129,27 @@ public class ProductsServiceImpl implements IProductsService {
         return false;
     }
 
+    public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories) {
+        Optional<Products> optionalProduct = productsRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Products product = optionalProduct.get();
+            List<Accessories> productAccessories = product.getAccessories();
+            for (AccessoryDTO accessoryDTO : accessories) {
+                Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+                accessory.setProduct(product);
+                productAccessories.add(accessory);
+            }
+            product.setAccessories(productAccessories);
+            Products updatedProduct = productsRepository.save(product);
+            return modelMapper.map(updatedProduct, ProductDTO.class);
+        }
+        return null;
+    }
+
+
+
 ////////////////////////////////////////////////////
 
-    public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO) {
-        if (productDTO != null && birdCageDTO != null) {
-            // Map the ProductDTO to a Products entity
-            Products product = modelMapper.map(productDTO, Products.class);
-
-            // Retrieve the category by ID
-            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
-
-            if (category != null) {
-                // Set the category for the product
-                product.setCategory(category);
-
-                // Save the product to the database
-                Products savedProduct = productsRepository.save(product);
-
-                if (savedProduct != null) {
-                    // Map the BirdCageDTO to a BirdCages entity
-                    BirdCages birdCage = modelMapper.map(birdCageDTO, BirdCages.class);
-
-                    // Associate the bird cage with the saved product
-                    birdCage.setProduct(savedProduct);
-                    // Save the bird cage to the database
-                    BirdCages savedBirdCage = birdCageRepository.save(birdCage);
-
-                    // Associate the saved bird cage with the saved product
-                    savedProduct.setCage(savedBirdCage);
-
-                    // Update the product's total price with the cage's price
-                    savedProduct.setTotalPrice(savedProduct.getTotalPrice());
-
-                    // Save the updated product to ensure the association and total price
-                    productsRepository.save(savedProduct);
-
-                    // Map the saved product back to a DTO
-                    ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
-                    return savedProductDTO;
-                }
-            }
-        }
-        return null;
-    }
-
-
-    public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories) {
-        if (productDTO != null && accessories != null) {
-            // Map the ProductDTO to a Products entity
-            Products product = modelMapper.map(productDTO, Products.class);
-
-            // Retrieve the category by ID
-            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
-
-            if (category != null) {
-                // Set the category for the product
-                product.setCategory(category);
-
-                // Save the product to the database
-                Products savedProduct = productsRepository.save(product);
-
-                if (savedProduct != null) {
-                    // Map each AccessoryDTO to Accessories entities
-                    List<Accessories> accessoriesList = accessories.stream()
-                            .map(accessoryDTO -> {
-                                Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
-                                accessory.setProduct(savedProduct);
-                                return accessory;
-                            })
-                            .collect(Collectors.toList());
-
-                    // Save the list of accessories to the database
-                    List<Accessories> savedAccessories = accessoriesRepository.saveAll(accessoriesList);
-
-                    // Update the product to include the saved accessories
-                    savedProduct.setAccessories(savedAccessories);
-                    productsRepository.save(savedProduct);
-
-                    // Map the saved product back to a DTO
-                    ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
-                    return savedProductDTO;
-                }
-            }
-        }
-        return null;
-    }
 
 
     public boolean moveProductToOrderDetail(Long orderId, Long productId) {
@@ -310,6 +246,28 @@ public class ProductsServiceImpl implements IProductsService {
         }
         return null;
     }
+
+    public List<ProductDTO> findProductsWithoutCage() {
+        List<Products> productsWithoutCage = productsRepository.findProductsWithoutCage();
+        return productsWithoutCage.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductsWithAccessories() {
+        List<Products> productsWithAccessories = productsRepository.findProductsWithAccessories();
+        return productsWithAccessories.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> findProductsWithoutAccessories() {
+        List<Products> productsWithoutAccessories = productsRepository.findProductsWithoutAccessories();
+        return productsWithoutAccessories.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<ProductDTO> getProductsByCategory(Long categoryId) {
@@ -437,6 +395,91 @@ public class ProductsServiceImpl implements IProductsService {
 
 
         //////////////////////////////////////////
+//        public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO) {
+//            if (productDTO != null && birdCageDTO != null) {
+//                // Map the ProductDTO to a Products entity
+//                Products product = modelMapper.map(productDTO, Products.class);
+//
+//                // Retrieve the category by ID
+//                Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+//
+//                if (category != null) {
+//                    // Set the category for the product
+//                    product.setCategory(category);
+//
+//                    // Save the product to the database
+//                    Products savedProduct = productsRepository.save(product);
+//
+//                    if (savedProduct != null) {
+//                        // Map the BirdCageDTO to a BirdCages entity
+//                        BirdCages birdCage = modelMapper.map(birdCageDTO, BirdCages.class);
+//
+//                        // Associate the bird cage with the saved product
+//                        birdCage.setProduct(savedProduct);
+//                        // Save the bird cage to the database
+//                        BirdCages savedBirdCage = birdCageRepository.save(birdCage);
+//
+//                        // Associate the saved bird cage with the saved product
+//                        savedProduct.setCage(savedBirdCage);
+//
+//                        // Update the product's total price with the cage's price
+//                        savedProduct.setTotalPrice(savedProduct.getTotalPrice());
+//
+//                        // Save the updated product to ensure the association and total price
+//                        productsRepository.save(savedProduct);
+//
+//                        // Map the saved product back to a DTO
+//                        ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+//                        return savedProductDTO;
+//                    }
+//                }
+//            }
+//            return null;
+//        }
+//
+//
+//    public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories) {
+//        if (productDTO != null && accessories != null) {
+//            // Map the ProductDTO to a Products entity
+//            Products product = modelMapper.map(productDTO, Products.class);
+//
+//            // Retrieve the category by ID
+//            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+//
+//            if (category != null) {
+//                // Set the category for the product
+//                product.setCategory(category);
+//
+//                // Save the product to the database
+//                Products savedProduct = productsRepository.save(product);
+//
+//                if (savedProduct != null) {
+//                    // Map each AccessoryDTO to Accessories entities
+//                    List<Accessories> accessoriesList = accessories.stream()
+//                            .map(accessoryDTO -> {
+//                                Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+//                                accessory.setProduct(savedProduct);
+//                                return accessory;
+//                            })
+//                            .collect(Collectors.toList());
+//
+//                    // Save the list of accessories to the database
+//                    List<Accessories> savedAccessories = accessoriesRepository.saveAll(accessoriesList);
+//
+//                    // Update the product to include the saved accessories
+//                    savedProduct.setAccessories(savedAccessories);
+//                    productsRepository.save(savedProduct);
+//
+//                    // Map the saved product back to a DTO
+//                    ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+//                    return savedProductDTO;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
+
 
 //    public ProductDTO addBirdCageProduct(BirdCageDTO birdCageDTO, Categories category) {
 //        // Create a new ProductDTO

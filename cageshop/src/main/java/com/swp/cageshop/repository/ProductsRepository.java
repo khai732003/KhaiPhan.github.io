@@ -51,7 +51,15 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     List<Products> findAll(Sort sort);
 
+    @Query("SELECT p FROM Products p WHERE p.accessories IS NOT NULL")
+    List<Products> findProductsWithAccessories();
 
+    @Query("SELECT p FROM Products p WHERE p.accessories IS NULL")
+    List<Products> findProductsWithoutAccessories();
+
+
+    @Query("SELECT p FROM Products p WHERE p.cage IS NULL")
+    List<Products> findProductsWithoutCage();
 
 
 
