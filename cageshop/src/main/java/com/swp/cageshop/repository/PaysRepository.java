@@ -8,10 +8,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PaysRepository extends JpaRepository<Pays, Long> {
+
     @Query("SELECT p FROM Pays p WHERE p.vnp_TxnRef = :vnp_TxnRef")
-    Optional<Pays> findByVnpTxnRef(@Param("vnp_TxnRef") String vnp_TxnRef);
+    Pays findByVnp_TxnRef(@Param("vnp_TxnRef") String vnp_TxnRef);
+
 }

@@ -15,7 +15,13 @@ public class OrderDetail extends EntityBase {
   @Column(nullable = false)
   private int quantity;
   @Column(nullable = false)
-  private double price;
+  private double productPrice;
+  @Column(nullable = false)
+  private double hirePrice;
+  @Column(nullable = false)
+  private double shipPrice;
+  @Column(nullable = false)
+  private String note;
 
   // Mối quan hệ ManyToOne với Order
   @ManyToOne
@@ -24,7 +30,8 @@ public class OrderDetail extends EntityBase {
 
   // One-to-One với Product
   @OneToOne
-  @JoinColumn(name = "product_id", referencedColumnName = "id")
+  @JoinColumn(name="product_id")
   private Products product;
+
 }
 

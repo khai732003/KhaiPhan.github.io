@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,14 +42,16 @@ public class PayController{
     @PostMapping("/pay")
     public ResponseEntity<String> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
         try {
-            String paymentResult = payService.payWithVNPAY(payDTO, request);
-            Long userId = payDTO.getUserId();
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            Principal principal = (Principal) authentication.getPrincipal();
+//            Long userId = Long.parseLong(principal.getName());
             Long orderId = payDTO.getOrderId();
-            Optional<Users> userOptional = usersRepository.findById(userId);
+//            Optional<Users> userOptional = usersRepository.findById(userId);
             Optional<Orders> orderOptional = ordersRepository.findById(orderId);
-            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
-            }
+//            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
+//            }
+            String paymentResult = payService.payWithVNPAY(payDTO, request);
             PayResponseDTO payResponseDTO = new PayResponseDTO();
             payResponseDTO.setStatus("OK");
             payResponseDTO.setMessage("Success");
@@ -67,6 +71,7 @@ public class PayController{
 //        return ResponseEntity.ok(paymentList);
 //    }
 
+    // String responseCode, = 00
     @GetMapping("/payment_infor")
     public ResponseEntity<?> transaction(
             @RequestParam(value = "vnp_Amount") Long amount,
@@ -76,14 +81,16 @@ public class PayController{
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
 
-        // Kiểm tra responseCode
         if ("00".equals(responseCode)) {
-            // Trạng thái thành công
-            transactionDTO.setStatus("OK");
-            transactionDTO.setMessage("Success");
-            transactionDTO.setData("");
+            Pays pays = paysRepository.findByVnp_TxnRef(txnRef);
+            if(pays!=null) {
+                pays.setStatus("Success");
+                paysRepository.save(pays);
+                transactionDTO.setStatus("OK");
+                transactionDTO.setMessage("Success");
+                transactionDTO.setData("");
+            }
         } else {
-            // Trạng thái thất bại
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
