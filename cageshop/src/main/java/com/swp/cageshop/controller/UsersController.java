@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 public class UsersController {
 
   @Autowired
@@ -28,11 +28,6 @@ public class UsersController {
   @PostMapping("/authenticate")
   public String authenticate(@RequestBody LoginDTO loginDTO)
   { return  iUsersService.authenticate(loginDTO);}
-
-  @GetMapping("/haha")
-  public String haha(){
-    return "helo";
-  }
 
   @PostMapping("/register")
   public ResponseEntity<?> register (@RequestBody UserDTO userDTO)

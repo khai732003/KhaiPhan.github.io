@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 public class VouchersController {
     @Autowired(required = false)
     private IVouchersService vouchersService;

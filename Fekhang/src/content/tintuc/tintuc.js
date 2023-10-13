@@ -10,20 +10,22 @@ import "@fontsource/roboto/500.css";
 export default function tintuc() {
   return (
     <>
-      <Header />
-      <div className='tintuc-container'>
-        <Box minHeight="calc(100vh - 120px)">
-          <Grid container display="flex" justifyContent="center" alignItems="center">
-            <Grid item xs={12} md={7.5} justifyContent="center" alignItems="center" className='slide-s'>
-              <ImageSlider />
+      <div>
+        <Header />
+        <div className='tintuc-container'>
+          <Box minHeight="calc(100vh - 120px)">
+            <Grid container display="flex" justifyContent="center" alignItems="center">
+              <Grid item xs={12} md={7.5} justifyContent="center" alignItems="center" className='slide-s'>
+                <ImageSlider />
+              </Grid>
+              <Grid item xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
+                <NewsPage />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
-              <NewsPage />
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }

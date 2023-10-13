@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import '../tintuc/listitem.scss'
 import { listofnews } from '../../share/listOfnews';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import { Link } from 'react-router-dom';
 const NewsPage = () => {
   return (
     <>
@@ -15,17 +16,19 @@ const NewsPage = () => {
           <List >
             {listofnews.map((news, index) => (
               <ListItem key={index}>
-                <div className='news-c'>
-                  <img alt={`News ${index + 1}`} src={news.img} />
-                  <div className='news-icon'>
-                    <span id='news-hot-icon'>Mới <LocalFireDepartmentIcon fontSize="small" /></span>
-                    <span id='news-date'>{news.date}</span>
+                <Link to={`newsdetail/${news.id}`}  style={{ textDecoration: 'none' }}>
+                  <div className='news-c'>
+                    <img alt={`News ${index + 1}`} src={news.img} />
+                    <div className='news-icon'>
+                      <span id='news-hot-icon'>Mới <LocalFireDepartmentIcon fontSize="small" /></span>
+                      <span id='news-date'>{news.date}</span>
+                    </div>
+                    <ListItemText
+                      className='ct-n'
+                      primary={<span id='content-news'>{news.title}</span>}
+                    />
                   </div>
-                  <ListItemText
-                    className='ct-n'
-                    primary={<span id='content-news'>{news.title}</span>}
-                  />
-                </div>
+                </Link>
               </ListItem>
             ))}
           </List>

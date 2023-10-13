@@ -24,6 +24,7 @@ public class Products extends EntityBase {
   @Column(nullable = false)
   private String productImage;
 
+
   @ElementCollection
   @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
   @Column(name = "image_url")
@@ -43,6 +44,9 @@ public class Products extends EntityBase {
   @Column(nullable = false)
   private String status;
 
+  @Column(nullable = true)
+  private String orderLevel;
+
 
 // -------------------------------------------------
 
@@ -58,19 +62,11 @@ public class Products extends EntityBase {
   private List<Feedbacks> feedbacks;
 
 
-//  private List<Carts> carts;
-// @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-// private OrderDetail  orderDetail;
+
 
   @OneToOne(mappedBy = "product")
   private OrderDetail orderDetail;
 
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
-
-//
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
 
 
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
@@ -81,6 +77,14 @@ public class Products extends EntityBase {
   private List<Accessories> accessories;
 }
 
+
+
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
+
+//
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
 //  // N:1 voi User
 //  @ManyToOne
 //  @JoinColumn(name = "user_id", nullable = false)
@@ -94,3 +98,8 @@ public class Products extends EntityBase {
 //  @ManyToMany(mappedBy = "products")
 
 //  private List<Carts> carts;
+
+
+//  private List<Carts> carts;
+// @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+// private OrderDetail  orderDetail;

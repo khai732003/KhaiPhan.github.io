@@ -2,16 +2,8 @@ package com.swp.cageshop.entity;
 
 
 import java.util.Date;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -41,7 +33,12 @@ public class Comments {
 
   // N:1 voi product
   @ManyToOne
-  @JoinColumn(name = "product_id", nullable = false)
+  @JoinColumn(name = "product_id", nullable = true)
   private Products product;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "marketing_id", nullable = true)
+  private Marketings marketing;
 }
+
 

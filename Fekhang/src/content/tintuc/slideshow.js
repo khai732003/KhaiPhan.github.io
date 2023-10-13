@@ -16,9 +16,11 @@ const ImageSlider = () => {
                                 alt={`Slide ${index + 1}`}
                             />
                             <div className='S-content'>
-                                <span id='news-d'>{src.date}</span>
-                                <Link id='news-l'>{src.title}</Link>
-                                <span id='news-short'>{src.shortinfo}</span>
+                                <Link to={`newsdetail/${src.id}`} style={{ textDecoration: 'none' }}>
+                                    <span id='news-d'>{src.date}</span>
+                                    <span id='news-l'>{src.title}</span>
+                                    <span id='news-short'>{src.shortinfo}</span>
+                                </Link>
                             </div>
                         </Carousel.Item>
                     ))}

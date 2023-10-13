@@ -1,12 +1,13 @@
 package com.swp.cageshop.DTO;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-@Getter
-@Setter
-public class TransactionDTO implements Serializable {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransactionDTO {
     private String status;
     private String message;
     private String data;

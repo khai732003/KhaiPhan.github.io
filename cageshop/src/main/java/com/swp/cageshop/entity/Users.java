@@ -26,7 +26,7 @@ public class Users extends EntityBase{
   private String fullname;
 
   @Column(nullable = false)
-  private Integer gender;
+  private String gender;
 
   @Column(nullable = false)
   private String password;
@@ -49,6 +49,7 @@ public class Users extends EntityBase{
   private Roles role;
 
   // N:1 with itself (Users ManyToOne Users)
+
   @ManyToOne
   @JoinColumn(name = "manager_id")
   private Users manager;
@@ -71,6 +72,7 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedbacks> feedbacks;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 

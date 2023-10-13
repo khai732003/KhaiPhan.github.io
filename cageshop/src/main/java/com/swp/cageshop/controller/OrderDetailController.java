@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 public class OrderDetailController {
     @Autowired
     private IOrderDetailService orderDetailService;

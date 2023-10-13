@@ -21,7 +21,7 @@ public class UserDTO extends DTOBase implements Serializable {
 
   private String fullname;
 
-  private Integer gender;
+  private String gender;
 
   private String password;
 

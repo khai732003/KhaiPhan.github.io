@@ -21,10 +21,10 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 @RestController
 @CrossOrigin
-public class PayController{
+public class PayController {
     @Autowired
     private PaysService payService;
 
@@ -56,6 +56,11 @@ public class PayController{
             payResponseDTO.setStatus("OK");
             payResponseDTO.setMessage("Success");
             payResponseDTO.setUrl(paymentResult);
+            if (!orderOptional.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OrderId không tồn tại!");
+            }
+            Pays paysEntity = modelMapper.map(payDTO, Pays.class);
+            paysRepository.save(paysEntity);
             return ResponseEntity.ok(paymentResult);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi trong quá trình xử lý thanh toán.");
@@ -83,7 +88,7 @@ public class PayController{
 
         if ("00".equals(responseCode)) {
             Pays pays = paysRepository.findByVnp_TxnRef(txnRef);
-            if(pays!=null) {
+            if (pays != null) {
                 pays.setStatus("Success");
                 paysRepository.save(pays);
                 transactionDTO.setStatus("OK");
@@ -94,9 +99,9 @@ public class PayController{
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
-        }
 
+
+        }
         return ResponseEntity.status(HttpStatus.OK).body(transactionDTO);
     }
-
 }

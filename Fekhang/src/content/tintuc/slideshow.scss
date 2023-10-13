@@ -1,6 +1,7 @@
 /* slideshow.scss */
 $textnewscolor: rgb(236, 240, 246);
-$marginbot-text:15px;
+$marginbot-text: 15px;
+
 .container-news {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -10,8 +11,10 @@ $marginbot-text:15px;
     .slideshow-news {
         padding: 10px 10px;
         width: 100%;
+
         .carousel-item {
             width: 100%;
+
             img {
                 height: 34rem;
                 width: 57rem;
@@ -20,7 +23,7 @@ $marginbot-text:15px;
 
             .S-content {
                 position: absolute;
-                top:67%;
+                top: 67%;
                 left: 35%;
                 transform: translate(-50%, -50%);
                 background: rgba(0, 0, 0, 0.3);
@@ -28,11 +31,15 @@ $marginbot-text:15px;
                 padding: 10px;
                 border-radius: 5px;
                 padding: 15px;
+
+                
+
                 #news-l {
                     display: block;
                     text-decoration: none;
                     color: $textnewscolor;
                     margin-bottom: $marginbot-text;
+
                     font: {
                         size: 36px;
                         weight: 400px;
@@ -52,13 +59,14 @@ $marginbot-text:15px;
                     width: fit-content;
                     display: block;
                     margin-bottom: $marginbot-text;
+
                     font: {
                         weight: 550;
                         size: 12px;
                     }
                 }
-                
-                #news-short{
+
+                #news-short {
                     color: rgb(239, 229, 229);
                     font-size: 14px;
                 }

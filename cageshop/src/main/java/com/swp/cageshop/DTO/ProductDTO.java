@@ -19,12 +19,36 @@ public class ProductDTO extends DTOBase {
         private int stock;
         private double totalPrice;
         private String status;
+        private int orderLevel;
         private Long categoryId; // To represent the category ID
         private List<CommentDTO> comments;
         private List<FeedbackDTO> feedbacks;
         private List<OrderDetailDTO> orderDetails;
-//        private List<RatingDTO> ratings;
+
         private BirdCageDTO cage;
         private List<AccessoryDTO> accessories;
 
+
+
+        public double getTotalPrice() {
+                double totalPrice = 0;
+
+                if (cage != null) {
+                        totalPrice += cage.getPrice();
+                }
+
+                // Thêm giá tiền của AccessoryDTO nếu chúng tồn tại
+                if (accessories != null) {
+                        for (AccessoryDTO accessory : accessories) {
+                                totalPrice += accessory.getPrice();
+                        }
+                }
+
+                return totalPrice;
+        }
 }
+
+
+
+
+

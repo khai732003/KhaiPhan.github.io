@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import '../header/Header.scss'
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
@@ -18,7 +17,7 @@ function Header(props) {
         <div className='fixed-header'>
             <Navbar expand="lg" className="bg-body-tertiary" style={{ padding: '0 0 ' }}>
                 <Container fluid style={{ backgroundColor: 'white' }}>
-                    <Navbar.Brand className='brand ' href="/"><img className='logo' src='image/logo.png'></img></Navbar.Brand>
+                    <Navbar.Brand className='brand ' href="/"><img className='logo' src='https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg'></img></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav

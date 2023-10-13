@@ -14,4 +14,6 @@ public interface ICategoriesService {
     public CategoryDTO getOneCategory(Long id);
 
     public boolean deleteCategory(Long id);
+
+
 }

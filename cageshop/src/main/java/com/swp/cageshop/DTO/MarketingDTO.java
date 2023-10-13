@@ -4,17 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
+import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDTO extends DTOBase {
-
+public class MarketingDTO extends DTOBase{
     private String title;
     private String content;
-    private Long userId; // Representing the user's ID
-    private Long productId; // Representing the product's ID
-    private Long marketingId;
+    private Long userId;
+
+    private List<CommentDTO> comments;
 
 }
