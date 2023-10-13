@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop")
+@RequestMapping("/cageshop/api")
 public class CommentsController {
     @Autowired
     private ICommentsService commentsService;

@@ -3,15 +3,6 @@ package com.swp.cageshop.repository;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Pays;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-@Repository
 public interface PaysRepository extends JpaRepository<Pays, Long> {
-    @Query("SELECT p FROM Pays p WHERE p.vnp_TxnRef = :vnp_TxnRef")
-    Optional<Pays> findByVnpTxnRef(@Param("vnp_TxnRef") String vnp_TxnRef);
 }
