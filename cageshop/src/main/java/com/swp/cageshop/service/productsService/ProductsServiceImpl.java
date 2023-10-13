@@ -54,6 +54,13 @@ public class ProductsServiceImpl implements IProductsService {
                 product.setCategory(category);
                 Products savedProduct = productsRepository.save(product);
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+
+                if (productDTO.getCage() != null) {
+                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
+                    birdCages.setProduct(savedProduct); // Set the product for the bird cage
+                    birdCageRepository.save(birdCages);
+                }
+
                 return savedProductDTO;
             }
         }
@@ -145,14 +152,16 @@ public class ProductsServiceImpl implements IProductsService {
 
                     // Associate the bird cage with the saved product
                     birdCage.setProduct(savedProduct);
-
                     // Save the bird cage to the database
                     BirdCages savedBirdCage = birdCageRepository.save(birdCage);
 
                     // Associate the saved bird cage with the saved product
                     savedProduct.setCage(savedBirdCage);
 
-                    // Save the updated product to ensure the association
+                    // Update the product's total price with the cage's price
+                    savedProduct.setTotalPrice(savedProduct.getTotalPrice());
+
+                    // Save the updated product to ensure the association and total price
                     productsRepository.save(savedProduct);
 
                     // Map the saved product back to a DTO
@@ -163,6 +172,7 @@ public class ProductsServiceImpl implements IProductsService {
         }
         return null;
     }
+
 
     public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories) {
         if (productDTO != null && accessories != null) {

@@ -18,7 +18,7 @@ public class Products extends EntityBase {
   @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false, length=6)
+  @Column(nullable = true, length=6)
   private String code;
 
   @Column(nullable = false)
@@ -51,7 +51,7 @@ public class Products extends EntityBase {
 // -------------------------------------------------
 
   @ManyToOne
-  @JoinColumn(name = "category_id", nullable = false)
+  @JoinColumn(name = "category_id", nullable = true)
   private Categories category;
 
   // 1:N voi Comments
@@ -66,7 +66,6 @@ public class Products extends EntityBase {
 
  @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
  private OrderDetail  orderDetails;
-
 
 
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)

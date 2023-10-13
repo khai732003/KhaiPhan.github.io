@@ -139,8 +139,8 @@ public class ProductsController {
     @PostMapping("/{productCategoryId}/add-with-birdcage")
     public ResponseEntity<ProductDTO> addProductWithBirdCage(
             @PathVariable Long productCategoryId,
+            @RequestBody ProductDTO productDTO,
             @RequestBody BirdCageDTO birdCageDTO) {
-        ProductDTO productDTO = new ProductDTO();
         productDTO.setCategoryId(productCategoryId);
 
         ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
