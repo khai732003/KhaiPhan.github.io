@@ -15,5 +15,6 @@ public class CommentDTO extends DTOBase {
     private String content;
     private Long userId; // Representing the user's ID
     private Long productId; // Representing the product's ID
+    private Long marketingId;
 
 }
