@@ -24,15 +24,9 @@ public class OrdersServiceImpl implements IOrdersService {
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
-            // Chuyển đổi từ DTO sang Entity
             Orders orders = modelMapper.map(orderDTO, Orders.class);
-
-            // Lưu Entity vào cơ sở dữ liệu
             Orders orders1 = ordersRepository.save(orders);
-
-            // Chuyển đổi từ Entity sang DTO
             OrderDTO orderDTO1 = modelMapper.map(orders1, OrderDTO.class);
-
             return orderDTO1;
         }
         return null;

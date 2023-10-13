@@ -1,8 +1,6 @@
 package com.swp.cageshop.controller;
 
-import com.swp.cageshop.DTO.OrderDTO;
-import com.swp.cageshop.DTO.OrderDetailDTO;
-import com.swp.cageshop.DTO.PayDTO;
+import com.swp.cageshop.DTO.*;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Pays;
 import com.swp.cageshop.entity.Users;
@@ -15,16 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/cageshop/api")
 @RestController
 @CrossOrigin
-public class PayController{
+public class PayController {
     @Autowired
     private PaysService payService;
 
@@ -42,13 +42,22 @@ public class PayController{
     @PostMapping("/pay")
     public ResponseEntity<String> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
         try {
-            String paymentResult = payService.payWithVNPAY(payDTO, request);
-            Long userId = payDTO.getUserId();
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            Principal principal = (Principal) authentication.getPrincipal();
+//            Long userId = Long.parseLong(principal.getName());
             Long orderId = payDTO.getOrderId();
-            Optional<Users> userOptional = usersRepository.findById(userId);
+//            Optional<Users> userOptional = usersRepository.findById(userId);
             Optional<Orders> orderOptional = ordersRepository.findById(orderId);
-            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
+//            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
+//            }
+            String paymentResult = payService.payWithVNPAY(payDTO, request);
+            PayResponseDTO payResponseDTO = new PayResponseDTO();
+            payResponseDTO.setStatus("OK");
+            payResponseDTO.setMessage("Success");
+            payResponseDTO.setUrl(paymentResult);
+            if (!orderOptional.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OrderId không tồn tại!");
             }
             Pays paysEntity = modelMapper.map(payDTO, Pays.class);
             paysRepository.save(paysEntity);
@@ -58,13 +67,41 @@ public class PayController{
         }
     }
 
-    @GetMapping("/payments")
-    public ResponseEntity<List<PayDTO>> getAllPayments() {
-        List<PayDTO> paymentList = payService.getAllPayDTO();
-        if (paymentList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentList);
-        }
-        return ResponseEntity.ok(paymentList);
-    }
+//    @GetMapping("/payments")
+//    public ResponseEntity<List<PayDTO>> getAllPayments() {
+//        List<PayDTO> paymentList = payService.getAllPayDTO();
+//        if (paymentList.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentList);
+//        }
+//        return ResponseEntity.ok(paymentList);
+//    }
 
+    // String responseCode, = 00
+    @GetMapping("/payment_infor")
+    public ResponseEntity<?> transaction(
+            @RequestParam(value = "vnp_Amount") Long amount,
+            @RequestParam(value = "vnp_BankCode") String bankCode,
+            @RequestParam(value = "vnp_ResponseCode") String responseCode,
+            @RequestParam(value = "vnp_TxnRef") String txnRef
+    ) {
+        TransactionDTO transactionDTO = new TransactionDTO();
+
+        if ("00".equals(responseCode)) {
+            Pays pays = paysRepository.findByVnp_TxnRef(txnRef);
+            if (pays != null) {
+                pays.setStatus("Success");
+                paysRepository.save(pays);
+                transactionDTO.setStatus("OK");
+                transactionDTO.setMessage("Success");
+                transactionDTO.setData("");
+            }
+        } else {
+            transactionDTO.setStatus("No");
+            transactionDTO.setMessage("Fail");
+            transactionDTO.setData("");
+
+
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(transactionDTO);
+    }
 }

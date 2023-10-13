@@ -227,7 +227,7 @@ public class ProductsServiceImpl implements IProductsService {
             // Create a new OrderDetail
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setQuantity(1);
-            orderDetail.setPrice(product.getTotalPrice());
+            orderDetail.setProductPrice(product.getTotalPrice());
             orderDetail.setOrder(order);
             orderDetail.setProduct(product);
 

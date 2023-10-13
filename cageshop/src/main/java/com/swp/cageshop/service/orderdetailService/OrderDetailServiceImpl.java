@@ -27,27 +27,24 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Override
     public OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO) {
         if (orderDetailDTO != null) {
-            // Chuyển đổi từ DTO sang Entity:
             OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-            // Lưu Entity vao csdl
             OrderDetail orderDetail1 = orderDetailRepository.save(orderDetail);
-            // Chuyển đổi từ Entity sang DTO
             OrderDetailDTO orderDetailDTO1 = modelMapper.map(orderDetail1, OrderDetailDTO.class);
             return orderDetailDTO1;
-        }else{
-
         }
         return null;
     }
+
 
     @Override
     public OrderDetailDTO updateOrderDetailDTO(long orderDetailId, int newQuantity, double newPrice, OrderDetailDTO updatedOrderDetailDTO) {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if (orderDetail != null) {
             orderDetail.setQuantity(newQuantity);
-            orderDetail.setPrice(newPrice);
+            orderDetail.setProductPrice(newPrice);
             OrderDetail updatedOrderDetail = orderDetailRepository.save(orderDetail);
             OrderDetailDTO updatedOrderDetailDTO1 = modelMapper.map(updatedOrderDetail, OrderDetailDTO.class);
+            orderDetailRepository.save(updatedOrderDetail);
             return updatedOrderDetailDTO1;
         } else {
             // Xử lý trường hợp không tìm thấy OrderDetail
