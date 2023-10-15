@@ -5,7 +5,7 @@ import com.swp.cageshop.DTO.OrderDetailDTO;
 import java.util.List;
 
 public interface IOrderDetailService {
-    OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO);
+    OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO);
 
     public OrderDetailDTO updateOrderDetailDTO(long orderDetailId, int newQuantity, double newPrice, OrderDetailDTO updatedOrderDetailDTO);
 
@@ -14,4 +14,6 @@ public interface IOrderDetailService {
     List<OrderDetailDTO> getAllOrderDetailDTOs();
 
     OrderDetailDTO getOneOrderDetailDTO(long id);
+
+    public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
 }

@@ -6,9 +6,11 @@ import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Products;
+import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.service.orderdetailService.IOrderDetailService;
+import com.swp.cageshop.service.ordersService.IOrdersService;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,26 +26,26 @@ import java.util.Optional;
 public class OrderDetailController {
     @Autowired
     private IOrderDetailService orderDetailService;
+
     @Autowired
     private OrdersRepository ordersRepository;
-
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
     @Autowired
     private ProductsRepository productsRepository;
 
-    @PostMapping("/orderdetail/add")
-    public ResponseEntity<OrderDetailDTO> addOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
-        OrderDetailDTO addedOrderDetail = orderDetailService.addOrderDetailDTO(orderDetailDTO);
+    @Autowired
+    private IOrderDetailService iOrderDetailService;
+    @PostMapping("/order_detail/add")
+    public OrderDetailDTO addOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
 
-        if (addedOrderDetail != null) {
-            return new ResponseEntity<>(addedOrderDetail, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return orderDetailService.addOrderDetail(orderDetailDTO);
+
     }
 
 
 
-    @PutMapping("/orderdetail/update/{orderDetailId}")
+    @PutMapping("/order_detail/update/{orderDetailId}")
     public ResponseEntity<?> updateOrderDetail(
             @PathVariable Long orderDetailId,
             @RequestParam int newQuantity,
@@ -63,10 +65,13 @@ public class OrderDetailController {
         }
     }
 
-    @GetMapping("/orderdetail/list")
+    @GetMapping("/order_detail/list")
     public List<OrderDetailDTO> getAllOrderDetails() {
         return orderDetailService.getAllOrderDetailDTOs();
     }
 
-
+    @GetMapping("/order_detail/{orderId}")
+    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable Long orderId) {
+        return iOrderDetailService.getAllOrderDetailsByOrderId(orderId);
+    }
 }

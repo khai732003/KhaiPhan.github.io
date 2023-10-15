@@ -41,7 +41,7 @@ public interface IProductsService {
 //  public List<ProductDTO> getProductsByType(String type);
 
   public List<AccessoryDTO> getProductAccessories(Long productId);
-  public boolean moveProductToOrderDetail(Long orderId, Long productId);
+//  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
   public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO);
   public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories);

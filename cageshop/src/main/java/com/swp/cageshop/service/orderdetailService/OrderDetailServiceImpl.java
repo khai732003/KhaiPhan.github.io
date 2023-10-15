@@ -25,14 +25,19 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     private ModelMapper modelMapper;
 
     @Override
-    public OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO) {
-        if (orderDetailDTO != null) {
-            OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-            OrderDetail orderDetail1 = orderDetailRepository.save(orderDetail);
-            OrderDetailDTO orderDetailDTO1 = modelMapper.map(orderDetail1, OrderDetailDTO.class);
-            return orderDetailDTO1;
-        }
-        return null;
+    public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
+
+        // Map DTO -> Entity
+        OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
+
+        // Gọi repository thêm mới
+        orderDetail = orderDetailRepository.save(orderDetail);
+
+        // Map entity -> DTO để trả về controller
+        OrderDetailDTO result = modelMapper.map(orderDetail, OrderDetailDTO.class);
+
+        return result;
+
     }
 
 
@@ -41,7 +46,6 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if (orderDetail != null) {
             orderDetail.setQuantity(newQuantity);
-            orderDetail.setProductPrice(newPrice);
             OrderDetail updatedOrderDetail = orderDetailRepository.save(orderDetail);
             OrderDetailDTO updatedOrderDetailDTO1 = modelMapper.map(updatedOrderDetail, OrderDetailDTO.class);
             orderDetailRepository.save(updatedOrderDetail);
@@ -67,7 +71,18 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return orderDetailDTOs;
     }
 
+    @Override
+    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderId(orderId);
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
 
+        for (OrderDetail orderDetail : orderDetailList) {
+            OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+            orderDetailDTOList.add(orderDetailDTO);
+        }
+
+        return orderDetailDTOList;
+    }
 
     @Override
     public OrderDetailDTO getOneOrderDetailDTO(long id) {

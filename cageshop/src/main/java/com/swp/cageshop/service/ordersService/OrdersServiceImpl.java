@@ -1,13 +1,13 @@
 package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
-import com.swp.cageshop.DTO.RoleDTO;
+import com.swp.cageshop.DTO.OrderDetailDTO;
+import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.Roles;
+import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +20,9 @@ public class OrdersServiceImpl implements IOrdersService {
     private OrdersRepository ordersRepository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
 
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
@@ -77,9 +80,10 @@ public class OrdersServiceImpl implements IOrdersService {
         return orderDTOList;
     }
 
-
     @Override
     public OrderDTO getOneOrderDTO(long id) {
         return null;
     }
+
+
 }

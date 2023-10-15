@@ -178,16 +178,16 @@ public class ProductsController {
     }
 
 
-    @PostMapping("/{orderId}/add-product/{productId}")
-    public ResponseEntity<String> moveProductToOrderDetail(
-            @PathVariable Long orderId,
-            @PathVariable Long productId) {
-        if (productsService.moveProductToOrderDetail(orderId, productId)) {
-            return new ResponseEntity<>("Product moved to order detail successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Failed to move product to order detail", HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/{orderId}/add-product/{productId}")
+//    public ResponseEntity<String> moveProductToOrderDetail(
+//            @PathVariable Long orderId,
+//            @PathVariable Long productId) {
+//        if (productsService.moveProductToOrderDetail(orderId, productId)) {
+//            return new ResponseEntity<>("Product moved to order detail successfully", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Failed to move product to order detail", HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductDTO>> searchProductsByKeyword(@RequestParam String keyword) {

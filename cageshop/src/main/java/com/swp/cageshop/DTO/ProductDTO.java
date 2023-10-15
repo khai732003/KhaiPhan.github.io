@@ -24,7 +24,6 @@ public class ProductDTO extends DTOBase {
         private List<CommentDTO> comments;
         private List<FeedbackDTO> feedbacks;
         private List<OrderDetailDTO> orderDetails;
-
         private BirdCageDTO cage;
         private List<AccessoryDTO> accessories;
 
