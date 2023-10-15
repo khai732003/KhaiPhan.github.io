@@ -1,5 +1,7 @@
 package com.swp.cageshop.service.payService;
 
+import com.swp.cageshop.entity.Products;
+import com.swp.cageshop.repository.OrdersRepository;
 import org.modelmapper.ModelMapper;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.PayDTO;
@@ -27,6 +29,8 @@ public class PaysService implements PaysServiceImpl {
     private PaysRepository paysRepository;
 
     @Autowired
+    private OrdersRepository ordersRepository;
+    @Autowired
     private ModelMapper modelMapper;
 
     public String payWithVNPAY(PayDTO payDTO, HttpServletRequest request) throws UnsupportedEncodingException {
@@ -38,14 +42,18 @@ public class PaysService implements PaysServiceImpl {
         cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
 
-        Random random = new Random();
-        Long randomTxnRef = (long) (100000000 + random.nextInt(900000000));
+        String randomTxnRef = Config.getRandomNumber(8);
+        Long orderId = payDTO.getOrderId();
+        Orders orders = ordersRepository.getReferenceById(orderId);
+        double getPrice = orders.getTotal_Price();
+        payDTO.setVnp_TxnRef(randomTxnRef);
+        payDTO.setVnp_Ammount(getPrice);
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VnPayConstant.vnp_Version);
         vnp_Params.put("vnp_Command", VnPayConstant.vnp_Command);
         vnp_Params.put("vnp_TmnCode", VnPayConstant.vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf((long) (payDTO.getVnp_Ammount() * 100.0)));  // Chuyển đổi và nhân với 100, sau đó đặt vào vnp_Amount
+        vnp_Params.put("vnp_Amount", String.valueOf((long) (getPrice * 100.0)));  // Chuyển đổi và nhân với 100, sau đó đặt vào vnp_Amount
         vnp_Params.put("vnp_BankCode", payDTO.vnp_BankCode);
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
         vnp_Params.put("vnp_CurrCode", VnPayConstant.vnp_CurrCode);

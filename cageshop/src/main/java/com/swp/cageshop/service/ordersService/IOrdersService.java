@@ -21,5 +21,6 @@ public interface IOrdersService {
 
     public OrderDTO getOneOrderDTO(long id);
 
+    public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
 
 }

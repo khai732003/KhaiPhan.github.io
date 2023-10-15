@@ -68,22 +68,39 @@ public class OrdersServiceImpl implements IOrdersService {
         return false;
     }
 
-    @Override
     public List<OrderDTO> getAllOrderDTO() {
-        // Lấy tất cả các đơn hàng từ cơ sở dữ liệu
         List<Orders> ordersList = ordersRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Orders orders : ordersList) {
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+            double totalPrice = 0.0;
+            for (OrderDetail orderDetail : orders.getOrderDetails()) {
+                totalPrice += orderDetail.getTotalOfProd();
+            }
+            orderDTO.setTotal_price(totalPrice);
             orderDTOList.add(orderDTO);
         }
         return orderDTOList;
     }
+
+
 
     @Override
     public OrderDTO getOneOrderDTO(long id) {
         return null;
     }
 
+
+    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
+        List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(orderId);
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+
+        for (OrderDetail orderDetail : orderDetailList) {
+            OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+            orderDetailDTOList.add(orderDetailDTO);
+        }
+
+        return orderDetailDTOList;
+    }
 
 }

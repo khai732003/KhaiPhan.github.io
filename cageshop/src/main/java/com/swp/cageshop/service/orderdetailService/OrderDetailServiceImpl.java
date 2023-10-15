@@ -4,7 +4,9 @@ import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.repository.OrderDetailsRepository;
+import com.swp.cageshop.repository.ProductsRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +26,30 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ProductsRepository productsRepository;
+
     @Override
     public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
-
-        // Map DTO -> Entity
+        double totalCost,hireCost, totalProduct;
+        int quantity;
+        Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
+        totalProduct = product.getTotalPrice();
+        hireCost = orderDetailDTO.getHirePrice();
+        quantity = orderDetailDTO.getQuantity();
+            if(quantity > 1){
+                totalProduct = totalProduct * quantity;
+        }
+        orderDetailDTO.setTotalOfProd(totalProduct);
+            totalCost = totalProduct + hireCost;
+        orderDetailDTO.setTotalCost(totalCost);
         OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-
-        // Gọi repository thêm mới
         orderDetail = orderDetailRepository.save(orderDetail);
-
-        // Map entity -> DTO để trả về controller
         OrderDetailDTO result = modelMapper.map(orderDetail, OrderDetailDTO.class);
-
         return result;
-
     }
+
+
 
 
     @Override
@@ -88,4 +99,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public OrderDetailDTO getOneOrderDetailDTO(long id) {
         return null;
     }
+
+
+
 }

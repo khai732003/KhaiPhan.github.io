@@ -11,12 +11,17 @@ public class OrderDetailDTO extends DTOBase {
 
     private int quantity;
 
+    private double totalOfProd;
+
     private double hirePrice;
+
+    private double totalCost;
 
     private String note;
 
     private Long orderId;
 
     private Long productId;
+
 
 }
