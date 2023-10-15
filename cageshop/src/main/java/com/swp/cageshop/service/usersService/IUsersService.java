@@ -29,6 +29,11 @@ public interface IUsersService {
 
   public List<Users> findByName(String name, Users users);
 
+  public ResponseEntity<String> deleteById(Long id);
 
+ public void deleteAllUsers();
 
+public List<Users> listAllExpectAdmin();
+
+  public List<Users> listAllStaff();
 }
