@@ -49,12 +49,13 @@ public class JwtUtilities{
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String name , String roles) {
-
-        return Jwts.builder().setSubject(name).claim("role",roles).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(Date.from(Instant.now().plus(jwtExpiration, ChronoUnit.MILLIS)))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+    public String generateToken(String username, String roles, Long id) {
+        return Jwts.builder().setSubject(username).claim("role", roles).claim("userid", id)
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(Date.from(Instant.now().plus(jwtExpiration, java.time.temporal.ChronoUnit.MILLIS)))
+            .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
+
 
     public boolean validateToken(String token) {
         try {

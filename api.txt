@@ -1,5 +1,11 @@
-.../cageshop/api/users/list (list all users)
-
+.../cageshop/api/user/list          (list all users)
+.../cageshop/api/user/authenticate  (login)
+.../cageshop/api/user/register      (register)
+.../cageshop/api/user/update/{id}  (update by id)
+.../cageshop/api/user/listdto 	    (list all user v2)
+.../cageshop/api/user/find/{name}   (find by string name)
+.../cageshop/api/user/listformadmin (list for admin))
+.../cageshop/api/user/liststaff		(list for manager)
 
 --------------------------------------------
 

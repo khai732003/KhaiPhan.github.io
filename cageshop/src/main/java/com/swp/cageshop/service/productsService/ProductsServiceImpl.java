@@ -60,6 +60,13 @@ public class ProductsServiceImpl implements IProductsService {
                     birdCages.setProduct(savedProduct); // Set the product for the bird cage
                     birdCageRepository.save(birdCages);
                 }
+                if (productDTO.getAccessories() != null) {
+                    for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
+                        Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+                        accessory.setProduct(savedProduct); // Set the product for the accessory
+                        accessoriesRepository.save(accessory);
+                    }
+                }
 
                 return savedProductDTO;
             }
