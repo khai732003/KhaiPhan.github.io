@@ -11,3 +11,85 @@
 
 
 --------------------------------------------
+Product API
+@POST METHOD {ROLE ALLOWED: ADMIN, STAFF, MANAGER} 
+-(Add product where category = ?)
+.../cageshop/api/product/add/{categoryId}
+
+-(Add accessories where product id = ?)
+.../cageshop/api/product/add-accessories/{productId}
+
+-(Add accessories where product id = ?)
+.../cageshop/api/product/add-accessories/{productId}
+
+@PUT METHOD {ROLE ALLOWED: ADMIN, STAFF, MANAGER}
+-(Update product where product id = ?)
+.../cageshop/api/product/update/{id}
+
+@DELETE METHOD{ROLE ALLOWED: ADMIN, STAFF, MANAGER}
+-(Delete product where product id = ?)
+.../cageshop/api/product/delete/{id}
+
+@GET METHOD{ROLE ALLOWED: ALL}
+-(Get list product)
+.../cageshop/api/product/get-list
+
+-(Get product detail)
+.../cageshop/api/product/select/{id}
+
+-(Get list accessories products)
+.../cageshop/api/products/list-without-cage
+
+-(Get list cage with accessories)
+.../cageshop/api/products/list-with-accessories
+
+-(Get list cage without accessories)
+.../cageshop/api/products/list-without-accessories
+
+-(Get product where categoryId = ?)
+.../cageshop/api/products/category/{categoryId}
+
+-(Get product where status = outofstock)
+.../cageshop/api/products/outofstock
+
+-(Get product where status = available)
+.../cageshop/api/products/available
+
+-(Get product where status = nomoremade)
+.../cageshop/api/products/nomoremade
+
+-(Get product where status = new)
+.../cageshop/api/products/new
+
+Need update!
+########################
+-(Search product name by keyword= ?)
+.../cageshop/api/product/search
+
+.../cageshop/api/products/price-range
+
+.../cageshop/api/products/size/{size}
+
+.../cageshop/api/products/material/{material}
+
+########################
+
+Comment API
+POST METHOD
+-(Add comment to Product)
+.../cageshop/api/comment/add-to-product
+-(Add comment to Marketing)
+.../cageshop/api/comment/add-to-marketing
+
+GET METHOD
+
+.../cageshop/api/comment/list
+
+.../cageshop/api/users/{userId}/comments
+
+
+.../cageshop/api
+
+
+
+

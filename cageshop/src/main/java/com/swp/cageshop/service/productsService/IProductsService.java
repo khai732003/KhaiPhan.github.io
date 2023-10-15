@@ -20,8 +20,42 @@ public interface IProductsService {
 
   public List<ProductDTO> getProductsByCategory(Long categoryId);
 
+  public List<ProductDTO> findProductsWithoutCage();
 
-  public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO);
-  public ProductDTO addProductBirdcagewithAccessories(ProductDTO mainProductDTO, List<AccessoryDTO> accessoryDTOs);
+  public List<ProductDTO> findProductsWithAccessories();
+
+  public List<ProductDTO> findProductsWithoutAccessories();
+
+  public List<ProductDTO> getProductsOutOfStock();
+
+  public List<ProductDTO> getProductsByStatusAvailable();
+
+  public List<ProductDTO> getProductsStatusNoMoreMade();
+
+  public List<ProductDTO> getProductsByStatusNew();
+
+  public List<ProductDTO> getProductsByReleaseDateRange(String startDate, String endDate);
+  public List<ProductDTO> getProductsByPriceRange(double minPrice, double maxPrice);
+
+  public List<ProductDTO> searchProductsByKeyword(String keyword);
+  public List<ProductDTO> getProductsWithLimitedStock(int maxStock);
+
+  public List<ProductDTO> getProductsSortedBy(String sortBy);
+
+  public List<ProductDTO> getProductsByMaterial(String material);
+  public List<ProductDTO> getProductsBySize(String size);
+
+  public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories);
+//  public List<ProductDTO> getProductsByType(String type);
+
+  public List<AccessoryDTO> getProductAccessories(Long productId);
+  public boolean moveProductToOrderDetail(Long orderId, Long productId);
+
+
+
+
+
+//  public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO);
+//  public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories);
 //  public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId);
 }

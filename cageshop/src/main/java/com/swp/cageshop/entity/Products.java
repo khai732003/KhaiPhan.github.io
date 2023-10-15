@@ -18,11 +18,12 @@ public class Products extends EntityBase {
   @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false, length=6)
+  @Column(nullable = true, length=6)
   private String code;
 
   @Column(nullable = false)
   private String productImage;
+
 
   @ElementCollection
   @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
@@ -43,11 +44,14 @@ public class Products extends EntityBase {
   @Column(nullable = false)
   private String status;
 
+  @Column(nullable = true)
+  private String orderLevel;
+
 
 // -------------------------------------------------
 
   @ManyToOne
-  @JoinColumn(name = "category_id", nullable = false)
+  @JoinColumn(name = "category_id", nullable = true)
   private Categories category;
 
   // 1:N voi Comments
@@ -58,19 +62,10 @@ public class Products extends EntityBase {
   private List<Feedbacks> feedbacks;
 
 
-//  private List<Carts> carts;
-// @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-// private OrderDetail  orderDetail;
 
- @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
- private OrderDetail  orderDetails;
 
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
-
-//
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
+  @OneToOne(mappedBy = "product")
+  private OrderDetail orderDetail;
 
 
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
@@ -81,6 +76,14 @@ public class Products extends EntityBase {
   private List<Accessories> accessories;
 }
 
+
+
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
+
+//
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<Ratings> ratings;
 //  // N:1 voi User
 //  @ManyToOne
 //  @JoinColumn(name = "user_id", nullable = false)
@@ -94,3 +97,8 @@ public class Products extends EntityBase {
 //  @ManyToMany(mappedBy = "products")
 
 //  private List<Carts> carts;
+
+
+//  private List<Carts> carts;
+// @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+// private OrderDetail  orderDetail;

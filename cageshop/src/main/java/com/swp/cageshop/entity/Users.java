@@ -1,15 +1,10 @@
 package com.swp.cageshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
+
 import java.util.List;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -80,9 +75,5 @@ public class Users extends EntityBase{
   @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
-
-  @JsonIgnore
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Pays> pays; // Thêm trường danh sách các giao dịch thanh toán
 
 }

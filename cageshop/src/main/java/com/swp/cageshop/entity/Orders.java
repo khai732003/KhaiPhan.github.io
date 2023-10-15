@@ -34,12 +34,6 @@ public class Orders extends EntityBase{
   @Column
   private double price;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private Users user;
-
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-  private List<OrderDetail> orderDetails;
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<Vouchers> vouchers;
@@ -47,8 +41,15 @@ public class Orders extends EntityBase{
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
   private Feedbacks feedbacks;
 
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Pays pays;
+
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-  private List<Pays> pays;
+  private List<OrderDetail> orderDetails;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private Users user;
 }
 
 

@@ -13,7 +13,7 @@ public class PayDTO extends DTOBase{
     public String vnp_OrderInfo;
     public String vnp_OrderType = "200000";
     public Long vnp_TxnRef;
-    public Long userId;
-    public Long orderId;
     public String vnp_BankCode;
+    public String status;
+    public Long orderId;
 }

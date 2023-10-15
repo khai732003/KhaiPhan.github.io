@@ -11,6 +11,7 @@ import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.service.orderdetailService.IOrderDetailService;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,19 +31,13 @@ public class OrderDetailController {
     private ProductsRepository productsRepository;
 
     @PostMapping("/orderdetail/add")
-    public ResponseEntity<?> addOrderDetailDTO(@RequestBody OrderDetailDTO orderDetailDTO) {
-        Long orderID = orderDetailDTO.getOrderID();
-        Long productID = orderDetailDTO.getProductID();
-        Optional<Orders> order = ordersRepository.findById(orderID);
-        Optional<Products> product = productsRepository.findById(productID);
-        if (!order.isPresent() || !product.isPresent()) {
-            return ResponseEntity.badRequest().body("orderID hoặc productID không tồn tại trong cơ sở dữ liệu");
-        }
-        OrderDetailDTO savedOrderDetailDTO = orderDetailService.addOrderDetailDTO(orderDetailDTO);
-        if (savedOrderDetailDTO != null) {
-            return ResponseEntity.ok(savedOrderDetailDTO);
+    public ResponseEntity<OrderDetailDTO> addOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
+        OrderDetailDTO addedOrderDetail = orderDetailService.addOrderDetailDTO(orderDetailDTO);
+
+        if (addedOrderDetail != null) {
+            return new ResponseEntity<>(addedOrderDetail, HttpStatus.CREATED);
         } else {
-            return ResponseEntity.badRequest().body("Add thất bại");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -68,24 +63,10 @@ public class OrderDetailController {
         }
     }
 
-
-
-
-
-
     @GetMapping("/orderdetail/list")
     public List<OrderDetailDTO> getAllOrderDetails() {
         return orderDetailService.getAllOrderDetailDTOs();
     }
 
-    public class ErrorResponse {
-        private String message;
-
-        public ErrorResponse(String message) {
-            this.message = message;
-        }
-
-        // Getter và setter
-    }
 
 }

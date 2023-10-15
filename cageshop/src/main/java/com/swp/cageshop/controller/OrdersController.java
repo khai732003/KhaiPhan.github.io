@@ -7,8 +7,11 @@ import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.ordersService.IOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +26,13 @@ public class OrdersController {
     private UsersRepository usersRepository;
     @PostMapping("/order/add")
     public ResponseEntity<?> addOrders(@RequestBody OrderDTO orderDTO) {
-       Long userID = orderDTO.getUserId();
-        Optional<Users> users = usersRepository.findById(userID);
-        if(!users.isPresent()){
-            return ResponseEntity.badRequest().body("userID không tồn tại trong cơ sở dữ liệu");
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Principal principal = (Principal) authentication.getPrincipal();
+//        Long userId = Long.parseLong(principal.getName());
+//        Optional<Users> users = usersRepository.findById(userId);
+//        if(!users.isPresent()){
+//            return ResponseEntity.badRequest().body("userID không tồn tại trong cơ sở dữ liệu");
+//        }
         OrderDTO savedOrderDTO = iOrdersService.addOrderDTO(orderDTO);
         if (savedOrderDTO != null) {
             return ResponseEntity.ok(savedOrderDTO);

@@ -5,12 +5,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.logging.Logger;
+
 @SpringBootApplication
 public class CageshopApplication {
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static void main(String[] args) {
 		SpringApplication.run(CageshopApplication.class, args);
 	}
