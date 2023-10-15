@@ -34,8 +34,8 @@ public class ProductsController {
     @Autowired
     private IOrdersService iOrdersService;
 
-    @PostMapping("/product/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO, @RequestParam Long categoryId) {
+    @PostMapping("/product/add/{categoryId}")
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO, @PathVariable Long categoryId) {
         CategoryDTO category = categoriesService.getOneCategory(categoryId);
         if (category != null) {
             // Set the category for the product
@@ -53,8 +53,19 @@ public class ProductsController {
             return ResponseEntity.badRequest().body("Category not found.");
         }
     }
+    @PostMapping("/product/add-accessories/{productId}")
+    public ResponseEntity<ProductDTO> addAccessoriesToProduct(
+            @PathVariable Long productId,
+            @RequestBody List<AccessoryDTO> accessories) {
+        ProductDTO updatedProduct = productsService.addAccessoriesToProduct(productId, accessories);
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    @GetMapping("/product/list")
+    @GetMapping("/product/get-list")
     public List<ProductDTO> listProducts() {
         return productsService.listAllProducts();
     }
@@ -89,90 +100,53 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/product/select/{productId}/birdcage")
-    public ResponseEntity<?> getBirdCageForProduct(@PathVariable Long productId) {
-        // Retrieve the product based on the productId
-        ProductDTO product = productsService.listProducts(productId);
 
-        if (product != null) {
-            // Retrieve the bird cage associated with the product
-            BirdCages birdCage = birdCageService.getBirdCageByProductId(productId);
 
-            if (birdCage != null) {
-                return ResponseEntity.ok(birdCage);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/products/list-without-cage")
+    public ResponseEntity<List<ProductDTO>> getProductsWithoutCage() {
+        List<ProductDTO> productsWithoutCage = productsService.findProductsWithoutCage();
+        return ResponseEntity.ok(productsWithoutCage);
     }
 
-//    @PostMapping("/product/addwithbirdcage")
-//    public ResponseEntity<?> addProductWithBirdCage(@RequestBody ProductDTO productDTO, @RequestBody BirdCageDTO birdCageDTO) {
-//        ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
-//
-//        if (savedProductDTO != null) {
-//            return ResponseEntity.ok(savedProductDTO);
-//        } else {
-//            return ResponseEntity.badRequest().body("Failed to add product with bird cage.");
-//        }
-//    }
-
-
-    @PostMapping("/{productCategoryId}/add-with-accessories")
-    public ResponseEntity<ProductDTO> addProductWithAccessories(
-            @PathVariable Long productCategoryId,
-            @RequestBody List<AccessoryDTO> accessories) {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setCategoryId(productCategoryId);
-
-        ProductDTO savedProductDTO = productsService.addProductWithAccessories(productDTO, accessories);
-
-        if (savedProductDTO != null) {
-            return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/products/list-with-accessories")
+    public ResponseEntity<List<ProductDTO>> getProductsWithAccessories() {
+        List<ProductDTO> productsWithAccessories = productsService.findProductsWithAccessories();
+        return ResponseEntity.ok(productsWithAccessories);
     }
 
-    @PostMapping("/{productCategoryId}/add-with-birdcage")
-    public ResponseEntity<ProductDTO> addProductWithBirdCage(
-            @PathVariable Long productCategoryId,
-            @RequestBody ProductDTO productDTO,
-            @RequestBody BirdCageDTO birdCageDTO) {
-        productDTO.setCategoryId(productCategoryId);
-
-        ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
-
-        if (savedProductDTO != null) {
-            return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/products/list-without-accessories")
+    public ResponseEntity<List<ProductDTO>> getProductsWithoutAccessories() {
+        List<ProductDTO> productsWithoutAccessories = productsService.findProductsWithoutAccessories();
+        return ResponseEntity.ok(productsWithoutAccessories);
     }
 
-    @GetMapping("/category/{categoryId}")
+
+
+
+
+
+
+    @GetMapping("/products/category/{categoryId}")
     public List<ProductDTO> getProductsByCategory(@PathVariable Long categoryId) {
         return productsService.getProductsByCategory(categoryId);
     }
 
-    @GetMapping("/outofstock")
+    @GetMapping("/products/outofstock")
     public List<ProductDTO> getProductsOutOfStock() {
         return productsService.getProductsOutOfStock();
     }
 
-    @GetMapping("/available")
+    @GetMapping("/products/available")
     public List<ProductDTO> getProductsByStatusAvailable() {
         return productsService.getProductsByStatusAvailable();
     }
 
-    @GetMapping("/nomoremade")
+    @GetMapping("/products/nomoremade")
     public List<ProductDTO> getProductsStatusNoMoreMade() {
         return productsService.getProductsStatusNoMoreMade();
     }
 
-    @GetMapping("/new")
+    @GetMapping("/products/new")
     public List<ProductDTO> getProductsByStatusNew() {
         return productsService.getProductsByStatusNew();
     }
@@ -189,7 +163,7 @@ public class ProductsController {
 //        }
 //    }
 
-    @GetMapping("/search")
+    @GetMapping("/products/search")
     public ResponseEntity<List<ProductDTO>> searchProductsByKeyword(@RequestParam String keyword) {
         List<ProductDTO> products = productsService.searchProductsByKeyword(keyword);
 
@@ -200,7 +174,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/price-range")
+    @GetMapping("/products/price-range")
     public ResponseEntity<List<ProductDTO>> getProductsByPriceRange(
             @RequestParam double minPrice,
             @RequestParam double maxPrice) {
@@ -214,18 +188,18 @@ public class ProductsController {
     }
 
 
-    @GetMapping("/{productId}/accessories")
-    public ResponseEntity<List<AccessoryDTO>> getProductAccessories(@PathVariable Long productId) {
-        List<AccessoryDTO> accessories = productsService.getProductAccessories(productId);
+//    @GetMapping("/{productId}/accessories")
+//    public ResponseEntity<List<AccessoryDTO>> getProductAccessories(@PathVariable Long productId) {
+//        List<AccessoryDTO> accessories = productsService.getProductAccessories(productId);
+//
+//        if (!accessories.isEmpty()) {
+//            return new ResponseEntity<>(accessories, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//    }
 
-        if (!accessories.isEmpty()) {
-            return new ResponseEntity<>(accessories, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-    }
-
-    @GetMapping("/size/{size}/products")
+    @GetMapping("/products/size/{size}")
     public ResponseEntity<List<ProductDTO>> getProductsBySize(@PathVariable String size) {
         List<ProductDTO> products = productsService.getProductsBySize(size);
 
@@ -236,7 +210,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/material/{material}/products")
+    @GetMapping("/products/material/{material}")
     public ResponseEntity<List<ProductDTO>> getProductsByMaterial(@PathVariable String material) {
         List<ProductDTO> products = productsService.getProductsByMaterial(material);
 
@@ -297,6 +271,25 @@ public class ProductsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    @GetMapping("/product/select/{productId}/birdcage")
+    public ResponseEntity<?> getBirdCageForProduct(@PathVariable Long productId) {
+        // Retrieve the product based on the productId
+        ProductDTO product = productsService.listProducts(productId);
+
+        if (product != null) {
+            // Retrieve the bird cage associated with the product
+            BirdCages birdCage = birdCageService.getBirdCageByProductId(productId);
+
+            if (birdCage != null) {
+                return ResponseEntity.ok(birdCage);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
 // @GetMapping("/recommended/{count}/products")
@@ -331,6 +324,56 @@ public class ProductsController {
 //            return ResponseEntity.ok(savedMainProductDTO);
 //        } else {
 //            return ResponseEntity.badRequest().body("Failed to add main product.");
+//        }
+//    }
+//    @PostMapping("/product/addwithbirdcage")
+//    public ResponseEntity<?> addProductWithBirdCage(@RequestBody ProductDTO productDTO, @RequestBody BirdCageDTO birdCageDTO) {
+//        ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
+//
+//        if (savedProductDTO != null) {
+//            return ResponseEntity.ok(savedProductDTO);
+//        } else {
+//            return ResponseEntity.badRequest().body("Failed to add product with bird cage.");
+//        }
+//    }
+
+
+
+
+
+
+
+//    @PostMapping("/{productCategoryId}/add-with-accessories")
+//    public ResponseEntity<ProductDTO> addProductWithAccessories(
+//            @PathVariable Long productCategoryId,
+//            @RequestBody List<AccessoryDTO> accessories) {
+//        ProductDTO productDTO = new ProductDTO();
+//        productDTO.setCategoryId(productCategoryId);
+//
+//        ProductDTO savedProductDTO = productsService.addProductWithAccessories(productDTO, accessories);
+//
+//        if (savedProductDTO != null) {
+//            return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//
+//
+//    @PostMapping("/{productCategoryId}/add-with-birdcage")
+//    public ResponseEntity<ProductDTO> addProductWithBirdCage(
+//            @PathVariable Long productCategoryId,
+//            @RequestBody ProductDTO productDTO,
+//            @RequestBody BirdCageDTO birdCageDTO) {
+//        productDTO.setCategoryId(productCategoryId);
+//
+//        ProductDTO savedProductDTO = productsService.addProductWithBirdCage(productDTO, birdCageDTO);
+//
+//        if (savedProductDTO != null) {
+//            return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
 //    }
 

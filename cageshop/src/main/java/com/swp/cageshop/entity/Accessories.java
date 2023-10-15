@@ -29,6 +29,7 @@ public class Accessories {
 
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Products product;
 
 
