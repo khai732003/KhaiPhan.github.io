@@ -60,8 +60,6 @@ public class PayController {
             payResponseDTO.setStatus("OK");
             payResponseDTO.setMessage("Success");
             payResponseDTO.setUrl(paymentResult);
-            Pays paysEntity = modelMapper.map(payDTO, Pays.class);
-//            paysRepository.save(paysEntity);
             return ResponseEntity.ok(paymentResult);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi trong quá trình xử lý thanh toán.");
@@ -92,6 +90,11 @@ public class PayController {
             if (pays != null) {
                 pays.setStatus("Success");
                 paysRepository.save(pays);
+                if (pays.getOrder() != null) {
+                    Orders order = pays.getOrder();
+                    order.setStatus("Success");
+                    ordersRepository.save(order);
+                }
                 transactionDTO.setStatus("OK");
                 transactionDTO.setMessage("Success");
                 transactionDTO.setData("");

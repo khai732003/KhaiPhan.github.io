@@ -1,6 +1,7 @@
 package com.swp.cageshop.repository;
 
 import com.swp.cageshop.DTO.OrderDTO;
+import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

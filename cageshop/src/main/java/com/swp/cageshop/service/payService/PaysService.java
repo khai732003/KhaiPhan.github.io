@@ -46,6 +46,7 @@ public class PaysService implements PaysServiceImpl {
         Long orderId = payDTO.getOrderId();
         Orders orders = ordersRepository.getReferenceById(orderId);
         double getPrice = orders.getTotal_Price();
+        System.out.println("The value of total_price is: " + getPrice);
         payDTO.setVnp_TxnRef(randomTxnRef);
         payDTO.setVnp_Ammount(getPrice);
 
