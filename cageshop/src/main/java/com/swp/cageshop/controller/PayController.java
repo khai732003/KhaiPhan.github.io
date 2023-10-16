@@ -45,22 +45,23 @@ public class PayController {
 //            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //            Principal principal = (Principal) authentication.getPrincipal();
 //            Long userId = Long.parseLong(principal.getName());
-            Long orderId = payDTO.getOrderId();
 //            Optional<Users> userOptional = usersRepository.findById(userId);
-            Optional<Orders> orderOptional = ordersRepository.findById(orderId);
 //            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
 //                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
 //            }
+
+            Long orderId = payDTO.getOrderId();
+            Optional<Orders> orderOptional = ordersRepository.findById(orderId);
+            if (!orderOptional.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OrderId không tồn tại!");
+            }
             String paymentResult = payService.payWithVNPAY(payDTO, request);
             PayResponseDTO payResponseDTO = new PayResponseDTO();
             payResponseDTO.setStatus("OK");
             payResponseDTO.setMessage("Success");
             payResponseDTO.setUrl(paymentResult);
-            if (!orderOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OrderId không tồn tại!");
-            }
             Pays paysEntity = modelMapper.map(payDTO, Pays.class);
-            paysRepository.save(paysEntity);
+//            paysRepository.save(paysEntity);
             return ResponseEntity.ok(paymentResult);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi trong quá trình xử lý thanh toán.");

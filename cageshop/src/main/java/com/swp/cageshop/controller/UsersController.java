@@ -25,11 +25,11 @@ public class UsersController {
   @Autowired
   private IUsersService iUsersService;
 
-  @PostMapping("/authenticate")
+  @PostMapping("/user/authenticate")
   public String authenticate(@RequestBody LoginDTO loginDTO)
   { return  iUsersService.authenticate(loginDTO);}
 
-  @PostMapping("/register")
+  @PostMapping("/user/register")
   public ResponseEntity<?> register (@RequestBody UserDTO userDTO)
   { return  iUsersService.register(userDTO);}
 
@@ -44,13 +44,28 @@ public class UsersController {
   }
 
 
-  @GetMapping("/user/test")
+  @GetMapping("/user/listdto")
   public List<UserDTO> listAll(){
     return iUsersService.list();
   }
 
-  @GetMapping("/find/{name}")
+  @GetMapping("/user/find/{name}")
 public List<Users> findByName(@PathVariable String name, @RequestBody Users users){
     return iUsersService.findByName(name, users);
+  }
+
+  @PostMapping("/user/deleteAll")
+  public void deleteAll(){
+     iUsersService.deleteAllUsers();
+  }
+
+  @GetMapping("/user/listformadmin")
+  public List<Users> listAllExpectAdmin(){
+    return iUsersService.listAllExpectAdmin();
+  }
+
+  @GetMapping("/user/liststaff")
+  public List<Users> listAllStaff(){
+    return iUsersService.listAllStaff();
   }
 }

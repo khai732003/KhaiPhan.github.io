@@ -1,25 +1,34 @@
 package com.swp.cageshop.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.swp.cageshop.DTO.DTOBase;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "Order_detail")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetail extends EntityBase {
 
   @Column(nullable = false)
   private int quantity;
+
   @Column(nullable = false)
-  private double productPrice;
-  @Column(nullable = false)
+  private double totalOfProd;
+
+  @Column(nullable = false,name="hirePrice")
   private double hirePrice;
+
   @Column(nullable = false)
-  private double shipPrice;
+  private double totalCost;
+
   @Column(nullable = false)
   private String note;
 
@@ -29,9 +38,10 @@ public class OrderDetail extends EntityBase {
   private Orders order;
 
   // One-to-One với Product
-  @OneToOne
-  @JoinColumn(name="product_id")
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name="product_id", referencedColumnName = "id")
   private Products product;
+
 
 }
 

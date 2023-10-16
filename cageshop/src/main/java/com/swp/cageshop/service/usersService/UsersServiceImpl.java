@@ -67,8 +67,8 @@ public class UsersServiceImpl implements IUsersService {
     SecurityContextHolder.getContext().setAuthentication(authentication);
     Users users = usersRepository.findByName(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     String rolesNames = users.getRole().getName();
-
-    String token = jwtUtilities.generateToken(users.getName(),rolesNames);
+    Long id = users.getId();
+    String token = jwtUtilities.generateToken(users.getName(),rolesNames, id);
     return token;
   }
 
@@ -87,8 +87,8 @@ public class UsersServiceImpl implements IUsersService {
       usersRepository.save(users);
       Roles roles = rolesRepository.getReferenceById(userDTO.getRoleId());
       String rolesNames = roles.getName();
-
-      String token = jwtUtilities.generateToken(userDTO.getName(),rolesNames);
+      Long id = users.getId();
+      String token = jwtUtilities.generateToken(userDTO.getName(),rolesNames, id);
       return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
 
     }
@@ -169,6 +169,31 @@ public class UsersServiceImpl implements IUsersService {
   public List<Users> findByName(String name, Users users) {
 
     return usersRepository.findByNameContaining(name);
+  }
+
+  public ResponseEntity<String> deleteById(Long id) {
+    try {
+      usersRepository.deleteById(id);
+      return ResponseEntity.status(HttpStatus.OK).body("Đã xóa.");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Xóa không thành công.");
+    }
+  }
+
+
+  @Override
+  public void deleteAllUsers() {
+    usersRepository.deleteAll();
+  }
+
+  @Override
+  public List<Users> listAllExpectAdmin() {
+    return usersRepository.findAllExceptAdmin();
+  }
+
+  @Override
+  public List<Users> listAllStaff() {
+    return usersRepository.findAllStaff();
   }
 
 

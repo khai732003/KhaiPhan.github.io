@@ -17,5 +17,12 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   List<Users> findByNameContaining(String name);
 
+  void deleteAll();
+
+  @Query("SELECT u FROM Users u WHERE u.role.name != 'ADMIN'")
+  List<Users> findAllExceptAdmin();
+
+  @Query("SELECT u FROM Users u WHERE u.role.name = 'Staff'")
+  List<Users> findAllStaff();
 
 }

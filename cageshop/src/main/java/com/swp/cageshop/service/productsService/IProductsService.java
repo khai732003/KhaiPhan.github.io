@@ -58,7 +58,7 @@ public interface IProductsService {
   public List<ProductDTO> getProductsByTotalPriceDesc();
 
   public List<AccessoryDTO> getProductAccessories(Long productId);
-  public boolean moveProductToOrderDetail(Long orderId, Long productId);
+//  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
 
 

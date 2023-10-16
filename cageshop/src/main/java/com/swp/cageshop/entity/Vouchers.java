@@ -27,7 +27,7 @@ public class Vouchers {
   @Column(nullable = false)
   private boolean isActive;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")
   private Users user;
 

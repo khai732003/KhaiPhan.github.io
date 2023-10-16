@@ -161,36 +161,36 @@ public class ProductsServiceImpl implements IProductsService {
 
 
 
-    public boolean moveProductToOrderDetail(Long orderId, Long productId) {
-        // Find the order by orderId
-        Orders order = ordersRepository.findById(orderId).orElse(null);
-
-        // Find the product by productId
-        Products product = productsRepository.findById(productId).orElse(null);
-
-        if (order != null && product != null && product.getStock() > 0) {
-            // Create a new OrderDetail
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setQuantity(1);
-            orderDetail.setProductPrice(product.getTotalPrice());
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(product);
-
-            // Save the new OrderDetail
-            order.getOrderDetails().add(orderDetail);
-
-            // Decrement the product's stock by 1
-            product.setStock(product.getStock() - 1);
-
-            // Save the changes to the database
-            ordersRepository.save(order);
-            productsRepository.save(product);
-
-            return true;
-        }
-
-        return false;
-    }
+//    public boolean moveProductToOrderDetail(Long orderId, Long productId) {
+//        // Find the order by orderId
+//        Orders order = ordersRepository.findById(orderId).orElse(null);
+//
+//        // Find the product by productId
+//        Products product = productsRepository.findById(productId).orElse(null);
+//
+//        if (order != null && product != null && product.getStock() > 0) {
+//            // Create a new OrderDetail
+//            OrderDetail orderDetail = new OrderDetail();
+//            orderDetail.setQuantity(1);
+//            orderDetail.setProductPrice(product.getTotalPrice());
+//            orderDetail.setOrder(order);
+//            orderDetail.setProduct(product);
+//
+//            // Save the new OrderDetail
+//            order.getOrderDetails().add(orderDetail);
+//
+//            // Decrement the product's stock by 1
+//            product.setStock(product.getStock() - 1);
+//
+//            // Save the changes to the database
+//            ordersRepository.save(order);
+//            productsRepository.save(product);
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
 
 //////////////////////////////////////////////////////////

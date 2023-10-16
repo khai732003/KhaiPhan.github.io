@@ -24,6 +24,9 @@ public class Orders extends EntityBase{
   @Column
   private String shipAddress;
 
+  @Column(nullable = false,name="shipPrice")
+  private double shipPrice;
+
   @Column
   private String content;
 
@@ -31,8 +34,8 @@ public class Orders extends EntityBase{
   @Temporal(TemporalType.TIMESTAMP)
   private String shipDate;
 
-  @Column
-  private double price;
+  @Column(name="total_Price")
+  private double total_Price;
 
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -50,6 +53,8 @@ public class Orders extends EntityBase{
   @ManyToOne
   @JoinColumn(name = "user_id")
   private Users user;
+
+
 }
 
 

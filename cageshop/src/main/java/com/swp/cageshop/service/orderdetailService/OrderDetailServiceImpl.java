@@ -4,7 +4,9 @@ import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.repository.OrderDetailsRepository;
+import com.swp.cageshop.repository.ProductsRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +26,30 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ProductsRepository productsRepository;
+
     @Override
-    public OrderDetailDTO addOrderDetailDTO(OrderDetailDTO orderDetailDTO) {
-        if (orderDetailDTO != null) {
-            OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-            OrderDetail orderDetail1 = orderDetailRepository.save(orderDetail);
-            OrderDetailDTO orderDetailDTO1 = modelMapper.map(orderDetail1, OrderDetailDTO.class);
-            return orderDetailDTO1;
+    public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
+        double totalCost,hireCost, totalProduct;
+        int quantity;
+        Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
+        totalProduct = product.getTotalPrice();
+        hireCost = orderDetailDTO.getHirePrice();
+        quantity = orderDetailDTO.getQuantity();
+            if(quantity > 1){
+                totalProduct = totalProduct * quantity;
         }
-        return null;
+        orderDetailDTO.setTotalOfProd(totalProduct);
+            totalCost = totalProduct + hireCost;
+        orderDetailDTO.setTotalCost(totalCost);
+        OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
+        orderDetail = orderDetailRepository.save(orderDetail);
+        OrderDetailDTO result = modelMapper.map(orderDetail, OrderDetailDTO.class);
+        return result;
     }
+
+
 
 
     @Override
@@ -41,7 +57,6 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if (orderDetail != null) {
             orderDetail.setQuantity(newQuantity);
-            orderDetail.setProductPrice(newPrice);
             OrderDetail updatedOrderDetail = orderDetailRepository.save(orderDetail);
             OrderDetailDTO updatedOrderDetailDTO1 = modelMapper.map(updatedOrderDetail, OrderDetailDTO.class);
             orderDetailRepository.save(updatedOrderDetail);
@@ -67,10 +82,24 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return orderDetailDTOs;
     }
 
+    @Override
+    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrderId(orderId);
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
 
+        for (OrderDetail orderDetail : orderDetailList) {
+            OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+            orderDetailDTOList.add(orderDetailDTO);
+        }
+
+        return orderDetailDTOList;
+    }
 
     @Override
     public OrderDetailDTO getOneOrderDetailDTO(long id) {
         return null;
     }
+
+
+
 }
