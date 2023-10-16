@@ -120,9 +120,22 @@ public class ProductsController {
         return ResponseEntity.ok(productsWithoutAccessories);
     }
 
+    @GetMapping("/products/list-with-cage-and-accessories")
+    public ResponseEntity<List<ProductDTO>> getProductsWithCageWithAccessories() {
+        List<ProductDTO> productsWithoutAccessories = productsService.productsWithCageWithAccessories();
+        return ResponseEntity.ok(productsWithoutAccessories);
+    }
 
 
+    @GetMapping("/products/list-price-asc")
+    public List<ProductDTO> getProductsByTotalPriceAsc() {
+        return productsService.getProductsByTotalPriceAsc();
+    }
 
+    @GetMapping("/products/list-price-desc")
+    public List<ProductDTO> getProductsByTotalPriceDesc() {
+        return productsService.getProductsByTotalPriceDesc();
+    }
 
 
 
@@ -163,8 +176,8 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/search")
-    public ResponseEntity<List<ProductDTO>> searchProductsByKeyword(@RequestParam String keyword) {
+    @GetMapping("/products/search/{keyword}")
+    public ResponseEntity<List<ProductDTO>> searchProductsByKeyword(@PathVariable String keyword) {
         List<ProductDTO> products = productsService.searchProductsByKeyword(keyword);
 
         if (!products.isEmpty()) {
@@ -173,11 +186,10 @@ public class ProductsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-
-    @GetMapping("/products/price-range")
+    @GetMapping("/products/price-range/{minPrice}/{maxPrice}")
     public ResponseEntity<List<ProductDTO>> getProductsByPriceRange(
-            @RequestParam double minPrice,
-            @RequestParam double maxPrice) {
+            @PathVariable double minPrice,
+            @PathVariable double maxPrice) {
         List<ProductDTO> products = productsService.getProductsByPriceRange(minPrice, maxPrice);
 
         if (!products.isEmpty()) {
@@ -214,6 +226,15 @@ public class ProductsController {
     public ResponseEntity<List<ProductDTO>> getProductsByMaterial(@PathVariable String material) {
         List<ProductDTO> products = productsService.getProductsByMaterial(material);
 
+        if (!products.isEmpty()) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+    @GetMapping("/products/accessories-type/{accessoryType}")
+    public ResponseEntity<List<ProductDTO>> getProductsByAccessoriesType(@PathVariable String accessoryType) {
+        List<ProductDTO> products = productsService.getProductsByAccessoriesType(accessoryType);
         if (!products.isEmpty()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {

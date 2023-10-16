@@ -48,6 +48,15 @@ public interface IProductsService {
   public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories);
 //  public List<ProductDTO> getProductsByType(String type);
 
+  public List<ProductDTO> productsWithCageWithAccessories();
+
+
+  public List<ProductDTO> getProductsByAccessoriesType(String accessoryType);
+
+  public List<ProductDTO> getProductsByTotalPriceAsc();
+
+  public List<ProductDTO> getProductsByTotalPriceDesc();
+
   public List<AccessoryDTO> getProductAccessories(Long productId);
   public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
