@@ -1,115 +1,116 @@
-import React from 'react';
-import '../Gioithieu/content.scss';
-import { useState } from 'react';
-import { listofnews } from '../../share/listOfnews';
-const IntroductionPage = () => {
-    const [newsArticles, setNewsArticles] = useState([
+import React, { useState } from 'react';
+import { Container, Card, CardContent, Button, Typography, Box, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Card as BootstrapCard } from 'react-bootstrap';
+import '../Gioithieu/content.scss'
+export default function AboutPage() {
+    const [products, setProducts] = useState([
         {
             id: 1,
-            title: 'Top 6 mẫu xe điện Yadea chuẩn Châu Âu đi hơn 100km/h chỉ với 1 lần sạc',
-            imageUrl: 'image/new1.jpg', // Replace with actual image URLs
+            name: 'Designer Chair',
+            type: 'Interior Design',
+            price: 'from $ 135',
+            image: 'image/1.jpg',
         },
         {
             id: 2,
-            title: 'Xe đạp điện cao cấp RideScoozy VeeGo 750: Con thú tốc độ cao',
-            imageUrl: 'image/new2.jpg',
+            name: 'Product 2',
+            type: 'Type B',
+            price: '$15',
+            image: 'image/2.jpg',
         },
-        {
-            id: 3,
-            title: 'Kế hoạch phát triển xe điện tương lai của hãng Nissan với 17 tỷ USD',
-            imageUrl: 'image/new3.jpg',
-        },
-        // Add more news articles as needed
+        // Add more products as needed
     ]);
-    const [selectedArticle, setSelectedArticle] = useState(null);
-
-    const handleArticleClick = (article) => {
-        setSelectedArticle(article);
-    };
     return (
-        <div className="container mt-5">
-            <div className="row">
-                {/* Left side content */}
-                <div className="col-md-8">
-                    <div className="left-content">
-                        {selectedArticle ? (
-                            <div>
-                                <button onClick={() => setSelectedArticle(null)}>TRỞ VỀ </button>
-                                <h3>{selectedArticle.title}</h3>
-                                <p>{selectedArticle.content}</p>
+        <>
+
+            <div className='about-container'>
+                <Box>
+                    <Grid xs={12} md={12} className='about-header-container'>
+                        <div className='card-header-about'>
+                            <p id='date-header-about'><strong>October 12 2023</strong></p>
+                            <h1 id='title-header-about'><strong>Bird Cage Store</strong></h1>
+                            <h2 id='content-header-about'>Revive every area in your house for less with furnishings that's on-trend and also economical, also.
+                                Find ideal pieces for huge residences, little spaces, houses, workshops.
+                                Locate both comfort and also innovative style amongst our choice of furniture. Visit your
+                                regional store to browse even more and also purchase.
+                                What do you think of the Furniture Store Template?
+                            </h2>
+                            <Link id='shopnowB-header-about'>Shop Now</Link>
+                            <div className='shop-header-about'>
+                                <h2>London, UK</h2>
+                                <h3>Chestnut Street 22, 163</h3>
                             </div>
-                        ) : (
-                            <div>
-                                <h2 style={{ borderBottom: '1px solid #ccc' }}> GIỚI THIỆU</h2>
-                                <h5>Công ty TNHH Đầu tư Motors</h5>
-                                <div class="company-info">
-                                    <p>
-                                        Công ty TNHH Đầu tư Motors là một trong những công ty đi đầu trong lĩnh vực kinh doanh xe đạp điện, xe máy điện có hệ thống showroom trải rộng trên khắp địa bàn Hồ Chí Minh.
+                        </div>
+                    </Grid>
+                    <div className='feature-content-about'>
+                        <div className='container-content-about'>
+                            <div className='card-content-about'>
+                                <div className='scrip-content-about'>
+                                    <h3 id='intro-script-content-about'>OUR SHOP FEATURES</h3>
+                                    <h1 id='title-script-content-about'>
+                                        <strog>Core advantages & reasons
+                                            to shop with us.</strog>
+                                    </h1>
+                                    <p id='content-script-content-about'>In our store, you would find all the necessary styles and pieces of furniture,
+                                        which would perfectly suit your needs.
+                                        Furniture Store Template contains all you need for the successful site creation.
                                     </p>
-                                    <ul>
-                                        <li>Cam kết giá tốt nhất cho khách hàng</li>
-                                        <li>Dịch vụ giao hàng toàn quốc</li>
-                                        <li>Hàng chính hãng mới 100% chưa qua sử dụng</li>
-                                    </ul>
-                                    <p>
-                                        Với đội ngũ nhân viên trẻ năng động, chúng tôi cam kết mang đến cho khách hàng sự hài lòng tuyệt đối về chất lượng hàng hóa.
-                                    </p>
-                                    <p>
-                                        Đến với chúng tôi, bạn sẽ được phục vụ tốt nhất, giá rẻ và dịch vụ hậu mãi tốt nhất.
-                                    </p>
-                                    <p>
-                                        Với phương châm “Hợp tác để cùng thành công” và định hướng “Liên tục cải tiến”, <strong>Motors</strong> đã luôn nỗ lực cả về nhân lực, vật lực, xây dựng uy tín thương hiệu và niềm tin với khách hàng với những sản phẩm chúng tôi cung cấp.
-                                    </p>
-                                    <p>
-                                        Với bề dày nhiều năm kinh nghiệm, chúng tôi luôn lắng nghe ý kiến của khách hàng, nỗ lực hàng ngày và tìm tòi áp dụng những công nghệ tốt nhất và an toàn nhất để mang lại lợi ích tốt nhất cho khách hàng.
-                                    </p>
-                                    <p>
-                                        Sự tin tưởng và ủng hộ của khách hàng trong suốt thời gian qua là nguồn động viên to lớn trên bước đường phát triển của <strong>Motors</strong>. Chúng tôi xin hứa sẽ không ngừng hoàn thiện, phục vụ khách hàng tốt nhất để luôn xứng đáng với niềm tin ấy.
-                                    </p>
-                                    <p>
-                                        Ban giám đốc và toàn thể cán bộ công nhân viên công ty <strong>Motors</strong> xin gửi lời tri ân sâu sắc đến toàn thể quý khách hàng, quý đối tác chiến lược đã và đang hợp tác với chúng tôi.
-                                    </p>
-                                    <p>
-                                        Cảm ơn vì đã chọn chúng tôi!
-                                    </p>
-                                    <img src='image/imgcontent.jpg' className='company-image'></img>
                                 </div>
 
-
-
-                            </div>
-                        )}
-                    </div>
-
-
-
-                </div>
-
-                {/* Right side news */}
-                <div className="col-md-4">
-                    <div className="right-news">
-                        <h2>TIN TỨC</h2>
-                        <ul>
-                            {newsArticles.map((article) => (
-                                <li key={article.id}>
-                                    <div className="news-item" onClick={() => handleArticleClick(article)}>
-                                        <img
-                                            src={article.imageUrl}
-                                            alt={article.title}
-                                            className="news-image"
-                                        />
-                                        <p className="news-title">{article.title}</p>
+                                <div className='icons-content-about'>
+                                    <div className='element-icons-about'>
+                                        <span><i class="bi bi-cart3"></i></span>
+                                        <p>Wide Selection</p>
                                     </div>
-                                </li>
-                            ))}
-                        </ul>
+                                    <div className='element-icons-about' style={{ borderLeft: '0.2px solid grey', borderRight: '0.2px solid grey', padding: '0 25px' }}>
+                                        <span><i class="bi bi-box2-heart"></i></span>
+                                        <p>Fast Delivery</p>
+                                    </div>
+                                    <div className='element-icons-about'>
+                                        <span><i class="bi bi-people"></i></span>
+                                        <p>Friendly Staff</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    {/* Unique style */}
+                    <div className='Unique-content-about'>
+                        <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Grid item md={5.5} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div className='Unique-content-about-container'>
+                                    <p id='intro-Unique-content-about'>INTERIOR DESIGN COLLECTION</p>
+                                    <h1 id='title-Unique-content-about'>Create Your Unique Style</h1>
+                                    <p id='content-Unique-content-about'>Our designers would help you to create an awesome style, properly combining different elements of your decor.</p>
+                                    <button id='btn-Unique-content-about'>
+                                        <Link to="/shop">Shop Now
+                                            <span class="bi bi-chevron-right"></span>
+                                        </Link>
+                                    </button>
+                                </div>
+                            </Grid>
+
+                            {products.map((product) => (
+                                <Grid key={product.id} item md={2.25}>
+                                    <div className='container-content-about-container'>
+                                        <div className='product-content-about-container'>
+                                            <img src={product.image} alt={product.name} />
+                                            <CardContent style={{ padding: 'none' }}>
+                                                <Link id='link-product-content-about-container'>Read More</Link>
+                                                <h5> <strong>{product.name}</strong></h5>
+                                                <p style={{ fontSize: '18px' }}>{product.type}</p>
+                                                <p style={{ fontSize: '18px' }}><strong>{product.price}</strong></p>
+                                            </CardContent>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                </Box>
             </div>
-        </div>
 
-
+        </>
     );
 };
-
-export default IntroductionPage;

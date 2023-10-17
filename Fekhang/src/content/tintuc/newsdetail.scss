@@ -1,16 +1,18 @@
 .full-container-details {
     background-color: rgb(243, 246, 243);
-    padding-top: 50px;
+    padding-top: 15vh;
     position: relative;
 
     .Box-newsdetail {
+       padding-bottom: 1px;
+  
         .colored-background {
             padding-top: 300px;
             background-color: rgb(35, 176, 176);
             display: flex;
             align-items: center;
             min-height: 100vh;
-
+            
 
         }
 
@@ -29,118 +31,120 @@
             border-radius: 3px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
         }
-    }
-
-    .container-newsdetail {
-
-        font-family: 'Fraunces';
-
-        #title-newsdetail {
-            font-size: 48px;
-            font-weight: 600;
-            letter-spacing: -2.4px;
-        }
-
-        #name-newsdetail {
-            letter-spacing: -1px;
-            font-family: serif;
-            font-size: 2rem;
-            font-weight: 605;
-            margin: 25px 0 0 0;
-        }
-
-        #info-newsdetail {
-            color: rgb(76, 80, 83);
-            font-style: inherit;
-            font-weight: inherit;
-            font-size: 20px;
-            margin: 25px 0 0 0;
-            width: 80%;
-        }
-
-        $color-strong: rgb(0, 172, 151);
-
-        #button-newsdetail {
-            border: 1.5px solid $color-strong;
-            text-decoration: none;
-            padding: 8px 15px;
-            color: $color-strong;
-            background-color: #f3f6f3;
-            margin-top: 60px;
-            display: block;
-            width: fit-content;
-            border-radius: 2px;
-
-            &:hover {
-                background-color: $color-strong ;
-                color: white;
-                transition: 0.35s;
-            }
-        }
-
-        .centered-line {
-            align-items: flex-start;
-            justify-content: left;
-            display: flex;
-            text-align: center;
-            position: relative;
-            color: rgb(103, 216, 199);
-            margin-bottom: 10vh;
-
-            .text {
-                font: {
-                    size: 20px;
-                    weight: 800;
-                    family: 'Montserrat';
 
 
-                }
+        .container-newsdetail {
 
-
-                display: inline-block;
-                position: relative;
-
-
+            font-family: 'Fraunces';
+            // margin: -30px -30px;
+            margin-top: -50px;
+            #title-newsdetail {
+                font-size: 48px;
+                font-weight: 600;
+                letter-spacing: -2.4px;
             }
 
-            .text::after {
-                content: '';
+            #name-newsdetail {
+                letter-spacing: -1px;
+                font-family: serif;
+                font-size: 2rem;
+                font-weight: 605;
+                margin: 25px 0 0 0;
+            }
+
+            #info-newsdetail {
+                color: rgb(76, 80, 83);
+                font-style: inherit;
+                font-weight: inherit;
+                font-size: 20px;
+                margin: 25px 0 0 0;
+                width: 80%;
+            }
+
+            $color-strong: rgb(0, 172, 151);
+
+            #button-newsdetail {
+                border: 1.5px solid $color-strong;
+                text-decoration: none;
+                padding: 8px 15px;
+                color: $color-strong;
+                background-color: #f3f6f3;
+                margin-top: 60px;
                 display: block;
-                width: 90%;
-                height: 1px;
-                background-color: rgb(130, 218, 235);
-                ;
-                margin: 0 auto;
-                position: absolute;
-                bottom: 0;
-                right: 110%;
-                top: 50%;
-            }
-
-            #news-date {
-                padding: 5px 10px;
-                color: rgb(236, 236, 237);
-                background-color: rgb(71, 85, 105);
-                border-radius: 6px;
                 width: fit-content;
-                display: block;
-                right: 100%;
-                margin-left: 20vh;
+                border-radius: 2px;
 
-                font: {
-                    weight: 550;
-                    size: 12px;
+                &:hover {
+                    background-color: $color-strong ;
+                    color: white;
+                    transition: 0.35s;
                 }
             }
+
+            .centered-line {
+                align-items: flex-start;
+                justify-content: left;
+                display: flex;
+                text-align: center;
+                position: relative;
+                color: rgb(103, 216, 199);
+                margin-bottom: 10vh;
+                
+                .text {
+                    font: {
+                        size: 20px;
+                        weight: 800;
+                        family: 'Montserrat';
+
+
+                    }
+
+
+                    display: inline-block;
+                    position: relative;
+
+
+                }
+
+                .text::after {
+                    content: '';
+                    display: block;
+                    width: 90%;
+                    height: 1px;
+                    background-color: rgb(130, 218, 235);
+                    ;
+                    margin: 0 auto;
+                    position: absolute;
+                    bottom: 0;
+                    right: 110%;
+                    top: 50%;
+                }
+
+                #news-date {
+                    padding: 5px 10px;
+                    color: rgb(236, 236, 237);
+                    background-color: rgb(71, 85, 105);
+                    border-radius: 6px;
+                    width: fit-content;
+                    display: block;
+                    right: 100%;
+                    margin-left: 20vh;
+
+                    font: {
+                        weight: 550;
+                        size: 12px;
+                    }
+                }
+            }
+
+
+
+
+
         }
 
-
-
-
-
-    }
-
-    .bottom-newsdetail {
-        height: 500px;
+        .bottom-newsdetail {
+            height: 500px;
+        }
     }
 }
