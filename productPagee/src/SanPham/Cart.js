@@ -56,13 +56,13 @@ const Cart = ({ isOpen, cart, onClose , onDeleteItem}) => {
         });
       }
 
-      // Chuyển hướng đến trang Order sau khi thêm thành công
       onClose();
       navigate("/order");
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
     }
   };
+  
 
   const handleDelete = (index) => {
     const updatedCart = [...cart];

@@ -64,8 +64,11 @@ public class Products extends EntityBase {
 
 
 
-  @OneToOne(mappedBy = "product", cascade = CascadeType.MERGE)
-  private OrderDetail orderDetail;
+//  @OneToOne(mappedBy = "product", cascade = CascadeType.MERGE)
+//  private OrderDetail orderDetail;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<OrderDetail> orderDetails;
 
 
 
