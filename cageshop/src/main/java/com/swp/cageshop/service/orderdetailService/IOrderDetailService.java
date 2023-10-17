@@ -2,6 +2,7 @@ package com.swp.cageshop.service.orderdetailService;
 
 import com.swp.cageshop.DTO.OrderDetailDTO;
 
+import com.swp.cageshop.entity.OrderDetail;
 import java.util.List;
 
 public interface IOrderDetailService {
@@ -15,4 +16,6 @@ public interface IOrderDetailService {
 
 
     public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
+
+    public List<OrderDetail> listAll();
 }

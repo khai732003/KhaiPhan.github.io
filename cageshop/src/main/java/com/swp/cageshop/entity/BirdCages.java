@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class BirdCages {
     private double price;
 
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "product_id")
    private Products product;

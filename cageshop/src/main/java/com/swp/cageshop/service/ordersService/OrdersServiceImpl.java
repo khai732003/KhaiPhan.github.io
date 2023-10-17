@@ -113,4 +113,14 @@ public class OrdersServiceImpl implements IOrdersService {
         return ordersRepository.findAllById(orderId);
     }
 
+    @Override
+    public OrderDTO findById(Long id){
+        Orders orders = ordersRepository.getReferenceById(id);
+
+        OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+
+        return orderDTO;
+    }
+
+
 }

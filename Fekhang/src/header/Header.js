@@ -34,14 +34,14 @@ function Header(props) {
                                     <NavLink to="/profile" className="dropdown-item nav-link">
                                         Đăng Nhập
                                     </NavLink>
-                                    <NavLink to="/signup" className="dropdown-item nav-link">
+                                    <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
                                     </NavLink>
                                 </div>
                             </div>
 
                             <div className="custom-dropdown nav-link" >
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} >DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
+                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} >DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
                                 
                                 <div className="dropdown-menu">
                                     <NavLink to="/login" className="dropdown-item nav-link">

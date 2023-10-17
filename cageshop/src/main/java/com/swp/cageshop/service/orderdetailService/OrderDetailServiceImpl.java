@@ -95,6 +95,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return orderDetailDTOList;
     }
 
-
+    @Override
+    public List<OrderDetail> listAll() {
+        return orderDetailRepository.findAll();
+    }
 
 }

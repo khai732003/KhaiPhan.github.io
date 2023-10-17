@@ -46,6 +46,10 @@ public class ProductsServiceImpl implements IProductsService {
 
 
 
+    @Override
+    public void deleteAll() {
+        productsRepository.deleteAll();
+    }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
         if (productDTO != null) {

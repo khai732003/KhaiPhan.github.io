@@ -51,8 +51,7 @@ public class OrdersController {
     }
 
     @GetMapping("/order/list/{id}")
-    public List<Orders> orders(@PathVariable Long id){
-        return ordersService.getAllOrdersByUserId(id);
+    public OrderDTO findOrderById(@PathVariable Long id) {
+        return iOrdersService.findById(id);
     }
-
 }

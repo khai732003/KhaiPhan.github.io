@@ -16,6 +16,8 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
     @Query("SELECT p FROM Pays p WHERE p.vnp_TxnRef = :vnp_TxnRef")
     Pays findByVnp_TxnRef(@Param("vnp_TxnRef") String vnp_TxnRef);
 
+
 //    @Query("SELECT p FROM Pays p WHERE p.status = 'Success' AND p.orderId = :orderId")
 //    Pays findByOrderIdAndStatus(@Param("orderId") String orderId);
+
 }

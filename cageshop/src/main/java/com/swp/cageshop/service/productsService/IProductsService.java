@@ -9,6 +9,8 @@ import com.swp.cageshop.entity.Products;
 import java.util.List;
 
 public interface IProductsService {
+
+  public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);
 
   public ProductDTO updateProduct(long id, ProductDTO productDTO);

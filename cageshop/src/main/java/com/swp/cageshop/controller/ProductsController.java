@@ -34,6 +34,11 @@ public class ProductsController {
     @Autowired
     private IOrdersService iOrdersService;
 
+    @DeleteMapping("/product/deleteall")
+    public void deleteAll(){
+        productsService.deleteAll();
+    }
+
     @PostMapping("/product/add/{categoryId}")
     public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO, @PathVariable Long categoryId) {
         CategoryDTO category = categoriesService.getOneCategory(categoryId);

@@ -1,24 +1,24 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Product from "./Product";
 import ProductFilters from "./ProductFilters";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
-import Cart from "./Cart";
 import {
   Box,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  IconButton,
+  Button,
   List,
   ListItem,
   ListItemText,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// import { makeStyles } from "@mui/styles";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -27,34 +27,29 @@ const ProductPage = () => {
   const [productsPerPage] = useState(6);
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-
-  // const addToCart = (product) => {
-  //   setCart([...cart, product]);
-  //   window.alert(`Added ${product.name} to the cart!`); // Hiển thị thông báo khi sản phẩm được thêm vào giỏ hàng
-  // };
-
-  const addToCart = (productId) => {
-
-    const productToAdd = products.find(p => p.id === productId);
-  
-    setCart([...cart, productToAdd]);
-  
-    window.alert(`Added ${productToAdd.name} to the cart!`); 
-  
-  }
-  
-
-  
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
+  const calculateTotalPrice = () => {
+    let total = 0;
+    for (const product of cart) {
+      total += product.price;
+    }
+    return total;
+  };
+
+  const totalCartPrice = calculateTotalPrice();
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    const apiUrl = "http://localhost:8080/cageshop/api/product/get-list";
+    const apiUrl =
+      "https://652aea854791d884f1fd8029.mockapi.io/api/product/v1/news";
     const headers = {
       "ngrok-skip-browser-warning": "123",
     };
@@ -62,7 +57,9 @@ const ProductPage = () => {
     axios
       .get(apiUrl, { headers: headers })
       .then((response) => {
+        console.log("API Response:", response.data);
         setProducts(response.data);
+        setFilteredProducts(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -73,19 +70,25 @@ const ProductPage = () => {
 
   if (isLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
         <CircularProgress />
       </Box>
     );
   }
 
-  const handleDeleteItem = (updatedCart) => {
-    setCart(updatedCart);
-  }
-
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -96,12 +99,11 @@ const ProductPage = () => {
               {currentProducts.map((product) => (
                 <div className="col-md-6" key={product.id}>
                   <Product
-                    id={product.id}
                     name={product.name}
-                    totalPrice={product.totalPrice}
+                    price={product.price}
                     productImage={product.productImage}
                     code={product.code}
-                    onAddToCart={() => addToCart(product.id)}
+                    onAddToCart={() => addToCart(product)}
                   />
                 </div>
               ))}
@@ -121,16 +123,49 @@ const ProductPage = () => {
             </Box>
           </div>
           <div className="col-lg-3">
-            <ProductFilters products={products} setFilteredProducts={setProducts} />
+            <ProductFilters
+              products={products}
+              setFilteredProducts={setFilteredProducts}
+            />
           </div>
         </div>
       </div>
 
-      <Button className="open-cart-button" startIcon={<ShoppingCartIcon />} onClick={toggleCart}>
+      <Button
+        className="open-cart-button"
+        startIcon={<ShoppingCartIcon />}
+        onClick={toggleCart}
+      >
         Open Cart
       </Button>
 
-      <Cart isOpen={isCartOpen} cart={cart} onClose={toggleCart} onDeleteItem={handleDeleteItem}/>
+      {/* Dialog (giỏ hàng) */}
+      <Dialog open={isCartOpen} onClose={toggleCart}>
+        <DialogTitle className="dialog-title">Shopping Cart</DialogTitle>
+        <IconButton
+          aria-label="close"
+          className="close-button"
+          onClick={toggleCart}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent className="shopping-cart">
+          <List>
+            {cart.map((item, index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={item.name}
+                  secondary={`Price: ${item.price}`}
+                />
+              </ListItem>
+            ))}
+          </List>
+          <div className="total-price">Total: ${totalCartPrice.toFixed(2)}</div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={toggleCart}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
