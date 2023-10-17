@@ -110,7 +110,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
 
     public List<Orders> getAllOrdersByUserId(Long orderId) {
-        return ordersRepository.findAllByOrderId(orderId);
+        return ordersRepository.findAllById(orderId);
     }
 
 }

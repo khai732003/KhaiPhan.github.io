@@ -13,7 +13,6 @@ public interface IOrderDetailService {
 
     List<OrderDetailDTO> getAllOrderDetailDTOs();
 
-    OrderDetailDTO getOneOrderDetailDTO(long id);
 
     public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
 }

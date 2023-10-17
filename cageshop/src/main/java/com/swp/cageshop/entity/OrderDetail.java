@@ -44,6 +44,13 @@ public class OrderDetail extends EntityBase {
   @JoinColumn(name = "product_id", nullable = false)
   private Products product;
 
+  @Column
+  private String status;
 
+
+  @PrePersist
+  public void Status(){
+    this.status = "Processing";
+  }
 }
 

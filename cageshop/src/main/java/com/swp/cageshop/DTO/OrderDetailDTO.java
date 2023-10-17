@@ -24,5 +24,6 @@ public class OrderDetailDTO extends DTOBase {
 
     private Long productId;
 
+    private String status;
 
 }

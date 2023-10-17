@@ -4,6 +4,7 @@ import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.DTO.BirdCageDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.Categories;
+import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Products;
 import java.util.List;
 
@@ -58,6 +59,8 @@ public interface IProductsService {
   public List<ProductDTO> getProductsByTotalPriceDesc();
 
   public List<AccessoryDTO> getProductAccessories(Long productId);
+
+  public void updateProductStock(Orders order);
 //  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
 

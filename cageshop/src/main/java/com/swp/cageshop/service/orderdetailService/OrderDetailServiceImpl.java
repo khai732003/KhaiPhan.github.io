@@ -95,11 +95,6 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return orderDetailDTOList;
     }
 
-    @Override
-    public OrderDetailDTO getOneOrderDetailDTO(long id) {
-        return null;
-    }
-
 
 
 }

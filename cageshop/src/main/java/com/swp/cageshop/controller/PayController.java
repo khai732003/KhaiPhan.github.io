@@ -1,13 +1,16 @@
 package com.swp.cageshop.controller;
 
 import com.swp.cageshop.DTO.*;
+import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Pays;
 import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.PaysRepository;
+import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.payService.PaysService;
+import com.swp.cageshop.service.productsService.IProductsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +41,10 @@ public class PayController {
     private PaysRepository paysRepository;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private IProductsService productsService;
+
 
     @PostMapping("/pay")
     public ResponseEntity<String> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
@@ -94,10 +101,16 @@ public class PayController {
                     Orders order = pays.getOrder();
                     order.setStatus("Success");
                     ordersRepository.save(order);
+                    if(order.getOrderDetails() !=null){
+                        for(OrderDetail orderDetail : order.getOrderDetails()){
+                            orderDetail.setStatus("Success");
+                        }
+                    }
+                    productsService.updateProductStock(order);
+                    transactionDTO.setStatus("OK");
+                    transactionDTO.setMessage("Success");
+                    transactionDTO.setData("");
                 }
-                transactionDTO.setStatus("OK");
-                transactionDTO.setMessage("Success");
-                transactionDTO.setData("");
             }
         } else {
             transactionDTO.setStatus("No");

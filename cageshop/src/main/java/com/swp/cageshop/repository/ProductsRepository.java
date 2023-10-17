@@ -12,10 +12,13 @@ import org.springframework.stereotype.Repository;
 import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductsRepository extends JpaRepository<Products,Long> {
     List<Products> findByCategory(Categories category);
+
+    Optional<Products> findById(Long id);
 
     //Status
     @Query("SELECT p FROM Products p WHERE p.status = 'New'")

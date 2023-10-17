@@ -425,6 +425,32 @@ public class ProductsServiceImpl implements IProductsService {
             return Collections.emptyList();
         }
     }
+
+
+
+    // Cai nay cua Huu Bao xin thu loi nhe, tat ca vi loi ich chung
+    // Boi vi sau khi thuc hien thanh toan toi muon cap nhat lai stock
+    private Set<Long> processedProductIds = new HashSet<>();
+    public void updateProductStock(Orders order) {
+
+        for (OrderDetail orderDetail : order.getOrderDetails()) {
+            if (orderDetail.getStatus().equals("Success")) {
+                Long productId = orderDetail.getProduct().getId();
+                if (!processedProductIds.contains(productId)) {
+                    Optional<Products> optionalProduct = productsRepository.findById(productId);
+                    if (optionalProduct.isPresent()) {
+                        Products product = optionalProduct.get();
+                        int newStock = product.getStock() - orderDetail.getQuantity();
+                        product.setStock(newStock);
+                        productsRepository.save(product);
+                        processedProductIds.add(productId);
+                    } else {
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
