@@ -74,4 +74,9 @@ public class OrderDetailController {
     public List<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable Long orderId) {
         return iOrderDetailService.getAllOrderDetailsByOrderId(orderId);
     }
+
+    @GetMapping("/order_detail/listall")
+    public List<OrderDetail> getAll() {
+        return iOrderDetailService.listAll();
+    }
 }

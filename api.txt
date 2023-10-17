@@ -78,8 +78,6 @@ Comment API
 POST METHOD
 -(Add comment to Product)
 .../cageshop/api/comment/add-to-product
--(Add comment to Marketing)
-.../cageshop/api/comment/add-to-marketing
 
 GET METHOD
 

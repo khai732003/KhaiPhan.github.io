@@ -63,8 +63,10 @@ public class Products extends EntityBase {
   private List<Feedbacks> feedbacks;
 
 
+
   @OneToOne(mappedBy = "product", cascade = CascadeType.MERGE)
   private OrderDetail orderDetail;
+
 
 
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)

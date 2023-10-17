@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Accessories {
 
     @Column(nullable = false)
     private double price;
+
 
 
 

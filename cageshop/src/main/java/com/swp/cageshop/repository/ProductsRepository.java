@@ -14,6 +14,9 @@ import java.util.List;
 
 @Repository
 public interface ProductsRepository extends JpaRepository<Products,Long> {
+
+    void deleteAll();
+
     List<Products> findByCategory(Categories category);
 
     @Query("SELECT p FROM Products p WHERE p.status = 'New'")

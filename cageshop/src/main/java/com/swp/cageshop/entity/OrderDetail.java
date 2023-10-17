@@ -32,12 +32,14 @@ public class OrderDetail extends EntityBase {
   @Column(nullable = false)
   private String note;
 
+
   // Mối quan hệ ManyToOne với Order
   @ManyToOne
   @JoinColumn(name = "order_id", nullable = false)
   private Orders order;
 
   // One-to-One với Product
+
   @OneToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name="product_id", referencedColumnName = "id")
   private Products product;

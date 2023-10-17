@@ -11,8 +11,5 @@ import java.util.List;
 public class MarketingDTO extends DTOBase{
     private String title;
     private String content;
-    private Long userId;
-
-    private List<CommentDTO> comments;
 
 }

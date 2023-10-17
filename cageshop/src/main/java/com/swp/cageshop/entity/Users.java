@@ -59,9 +59,9 @@ public class Users extends EntityBase{
   private List<Vouchers> vouchers;
 
 
-  //1:N voi Marketing
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-  private List<Marketings> marketings;
+//  //1:N voi Marketing
+//  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+//  private List<Marketings> marketings;
 
 
   // 1:N voi Feedback
