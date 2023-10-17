@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Orders extends EntityBase{
+  @Column
+  private String name;
 
   @Column
   private String status;

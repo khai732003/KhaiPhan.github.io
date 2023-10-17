@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO extends DTOBase{
+    private String name;
     private String status;
     private String paymentMethod;
     private String shipAddress;
@@ -18,6 +19,7 @@ public class OrderDTO extends DTOBase{
     private String content;
     private String shipDate;
     private double total_price;
+    private List<OrderDetail> orderDetailList;
     private Long userId;
 
     public void setShipPriceBasedOnAddress() {

@@ -31,7 +31,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     @Override
     public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
-        double totalCost,hireCost, totalProduct;
+        double totalCost,hireCost,totalProduct;
         int quantity;
         Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
         totalProduct = product.getTotalPrice();
