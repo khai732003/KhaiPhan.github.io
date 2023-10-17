@@ -61,16 +61,37 @@ Product API
 -(Get product where status = new)
 .../cageshop/api/products/new
 
-Need update!
-########################
+-(Get product sort by price ASC)
+.../cageshop/api/products/list-price-asc
+
+-(Get product sort by price DESC)
+.../cageshop/api/products/list-price-desc
+
+
 -(Search product name by keyword= ?)
-.../cageshop/api/product/search
+.../cageshop/api/products/search/{keyword}
 
-.../cageshop/api/products/price-range
+-(Search product price by price = ?)
+.../cageshop/ap/products/price-range/{minPrice}/{maxPrice}
 
+-(Search product size by size = ?)
 .../cageshop/api/products/size/{size}
 
+-(Search product material by material = ?)
 .../cageshop/api/products/material/{material}
+
+-(Search product accessories type by type = ?)
+.../cageshop/api/products/accessories-type
+
+
+
+
+
+
+
+
+
+
 
 ########################
 

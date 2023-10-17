@@ -72,16 +72,24 @@ public class OrdersServiceImpl implements IOrdersService {
         List<Orders> ordersList = ordersRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (Orders orders : ordersList) {
-            OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
-            double totalPrice = 0.0;
-            for (OrderDetail orderDetail : orders.getOrderDetails()) {
-                totalPrice += orderDetail.getTotalOfProd();
+            List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(orders.getId());
+            double totalCost = 0.0;
+            for (OrderDetail detail : orderDetailList) {
+                totalCost += detail.getTotalCost();
             }
-            orderDTO.setTotal_price(totalPrice);
+            totalCost += orders.getShipPrice(); // Cộng thêm shipPrice vào tổng totalCost
+            orders.setTotal_Price(totalCost);
+            ordersRepository.save(orders);
+            OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
             orderDTOList.add(orderDTO);
         }
         return orderDTOList;
     }
+
+
+
+
+
 
 
 

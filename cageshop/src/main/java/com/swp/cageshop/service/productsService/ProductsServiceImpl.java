@@ -17,6 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -248,6 +250,7 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
+
     @Override
     public ProductDTO listProducts(long id) {
         Products product = productsRepository.getReferenceById(id);
@@ -268,6 +271,13 @@ public class ProductsServiceImpl implements IProductsService {
     public List<ProductDTO> findProductsWithAccessories() {
         List<Products> productsWithAccessories = productsRepository.findProductsWithAccessories();
         return productsWithAccessories.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> productsWithCageWithAccessories() {
+        List<Products> productsWithCageWithAccessories = productsRepository.findProductsWithCageAndAccessories();
+        return productsWithCageWithAccessories.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
     }
@@ -337,6 +347,30 @@ public class ProductsServiceImpl implements IProductsService {
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+    public List<ProductDTO> getProductsByAccessoriesType(String accessoryType) {
+        List<Products> products = productsRepository.findProductsByAccessoriesType(accessoryType);
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsByTotalPriceAsc() {
+        List<Products> products = productsRepository.findProductsByTotalPriceAsc();
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsByTotalPriceDesc() {
+        List<Products> products = productsRepository.findProductsByTotalPriceDesc();
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 //    public List<ProductDTO> getProductsByType(String type) {
 //        List<Products> products = productsRepository.findByType(type);
 //
