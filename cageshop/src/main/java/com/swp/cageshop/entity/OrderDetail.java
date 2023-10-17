@@ -40,8 +40,8 @@ public class OrderDetail extends EntityBase {
   private Orders order;
 
   // One-to-One với Product
-  @OneToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name="product_id", referencedColumnName = "id")
+  @ManyToOne
+  @JoinColumn(name = "product_id", nullable = false)
   private Products product;
 
 

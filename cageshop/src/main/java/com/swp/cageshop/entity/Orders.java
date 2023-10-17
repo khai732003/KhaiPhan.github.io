@@ -3,6 +3,7 @@ package com.swp.cageshop.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +40,7 @@ public class Orders extends EntityBase{
   @Column(name="total_Price")
   private double total_Price;
 
-
+  @JsonIgnore
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<Vouchers> vouchers;
 
@@ -49,6 +50,7 @@ public class Orders extends EntityBase{
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
   private Pays pays;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetails;
 

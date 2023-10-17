@@ -77,20 +77,20 @@ public class OrdersServiceImpl implements IOrdersService {
             for (OrderDetail detail : orderDetailList) {
                 totalCost += detail.getTotalCost();
             }
-            totalCost += orders.getShipPrice(); // Cộng thêm shipPrice vào tổng totalCost
+            totalCost += orders.getShipPrice();
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+            List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+            for (OrderDetail detail : orderDetailList) {
+                OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+                orderDetailDTOList.add(orderDetailDTO);
+            }
+            orderDTO.setOrderDetails(orderDetailDTOList);
             orderDTOList.add(orderDTO);
         }
         return orderDTOList;
     }
-
-
-
-
-
-
 
 
     @Override
@@ -98,17 +98,19 @@ public class OrdersServiceImpl implements IOrdersService {
         return null;
     }
 
-
+    @Override
     public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
-        List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(orderId);
-        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+        return null;
+    }
 
-        for (OrderDetail orderDetail : orderDetailList) {
-            OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
-            orderDetailDTOList.add(orderDetailDTO);
-        }
+    @Override
+    public List<Orders> getAllOrdersById(Long userId) {
+        return null;
+    }
 
-        return orderDetailDTOList;
+
+    public List<Orders> getAllOrdersByUserId(Long orderId) {
+        return ordersRepository.findAllByOrderId(orderId);
     }
 
 }

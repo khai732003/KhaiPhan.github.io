@@ -19,7 +19,7 @@ public class OrderDTO extends DTOBase{
     private String content;
     private String shipDate;
     private double total_price;
-    private List<OrderDetail> orderDetailList;
+    private List<OrderDetailDTO> orderDetails;
     private Long userId;
 
     public void setShipPriceBasedOnAddress() {

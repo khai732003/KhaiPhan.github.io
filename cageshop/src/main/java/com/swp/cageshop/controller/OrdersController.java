@@ -50,5 +50,9 @@ public class OrdersController {
         return iOrdersService.getAllOrderDTO();
     }
 
+    @GetMapping("/order/list/{id}")
+    public List<Orders> orders(@PathVariable Long id){
+        return ordersService.getAllOrdersByUserId(id)
+    }
 
 }
