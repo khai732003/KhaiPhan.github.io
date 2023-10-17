@@ -1,47 +1,41 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";  
 
-function OrderDetail() {
+const OrderDetail = () => {
+
+  const { orderId } = useParams();
   const [orderDetails, setOrderDetails] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/cageshop/api/order_detail/list');
+        const response = await axios.get(`http://localhost:8080/cageshop/api/order_detail/${orderId}`);
         setOrderDetails(response.data);
-        console.log(response.data)
+        // console.log(response)
       } catch (error) {
-        console.log(error);
+        console.error("Lỗi khi lấy order details:", error);
       }
-    }
+    };
 
-    fetchData();
+    fetchOrderDetails();
   }, []);
 
   return (
-    <div>
-      <h1>Order Details</h1>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orderDetails.map(item => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.note}</td>  
-              <td>{item.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="order-details">
+      <h2>Order Details</h2>
+      <ul>
+        {orderDetails.map((item) => (
+          <li key={item.id}>
+            {/* Hiển thị thông tin của OrderDetail */}
+            <div>ID: {item.id}</div>
+            <div>Product: {item.note}</div>
+            <div>Quantity: {item.quantity}</div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default OrderDetail;

@@ -1,16 +1,12 @@
-
 import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton, List, ListItem, ListItemText, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 
-const Cart = ({ isOpen, cart, onClose , onDeleteItem}) => {
-
-  const [cartItems, setCartItems] = useState(cart); // Khai báo và khởi tạo giá trị ban đầu cho giỏ hàng
-
-  const navigate = useNavigate(); // Sử dụng useNavigate hook để nhận hàm navigate
-
+const Cart = ({ isOpen, cart, onClose, onDeleteItem }) => {
+  const [cartItems, setCartItems] = useState(cart);
+  const navigate = useNavigate();
   const calculateTotalPrice = () => {
     let total = 0;
     for (const product of cart) {
@@ -21,58 +17,48 @@ const Cart = ({ isOpen, cart, onClose , onDeleteItem}) => {
 
   const totalCartPrice = calculateTotalPrice();
 
-  // const handleOrderClick = () => {
-  //   onClose(); // Đóng dialog trước khi chuyển hướng
-  //   navigate("/order", { state: { cart } }); // Truyền đối tượng state chứa thông tin Cart đến trang Order
-  // };
-
   const handleOrderClick = async () => {
-    // Tạo order trước đó sử dụng API
     try {
+      const shipAddress = "hcm"; // Thay đổi giá trị này dựa trên logic của bạn
+      const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0; // Sửa đổi dòng này
+
       const orderResponse = await axios.post('http://localhost:8080/cageshop/api/order/add', {
-        // Thông tin order (thay thế các giá trị sau đây bằng dữ liệu thực của bạn)
         status: "pending",
-        paymentMethod: "CC",
-        shipAddress: "CC",
-        shipPrice: 9.0,
+        paymentMethod: "VNP",
+        shipAddress: shipAddress,
+        shipPrice: shipPrice, // Sử dụng shipPrice dựa trên logic shipAddress
         content: "Đóng gói cẩn thận nhé",
         shipDate: "CC",
-        total_price: totalCartPrice,  // Giá trị tổng của giỏ hàng
-        userId: 1
+        total_price: totalCartPrice,
+        userId: 1 
       });
 
-      // Lấy ID của order mới tạo từ response
       const orderId = orderResponse.data.id;
 
-      // Thêm các OrderDetail cho order sử dụng API
       for (const item of cart) {
         await axios.post('http://localhost:8080/cageshop/api/order_detail/add', {
           quantity: item.quantity,
-          hirePrice: item.totalPrice,  // Giá của mỗi sản phẩm
+          hirePrice: item.totalPrice,
           note: "CC",
-          orderId: orderId,  // ID của order mới tạo
-          productId: item.id,  // ID của sản phẩm trong giỏ hàng
-          totalCost: item.totalPrice  // Giá của mỗi sản phẩm
+          orderId: orderId,
+          productId: item.id,
+          totalCost: item.totalPrice
         });
       }
 
       onClose();
-      navigate("/order");
+      navigate(`/order/${orderId}`);
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
     }
   };
-  
 
   const handleDelete = (index) => {
     const updatedCart = [...cart];
-
-    updatedCart.splice(index, 1); // xóa phần tử
-
+    updatedCart.splice(index, 1);
     onDeleteItem(updatedCart);
-  }
-  
-  
+  };
+
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle className="dialog-title">Shopping Cart</DialogTitle>
@@ -92,7 +78,7 @@ const Cart = ({ isOpen, cart, onClose , onDeleteItem}) => {
         <div className="total-price">Total: ${totalCartPrice.toFixed(2)}</div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleOrderClick}>Order</Button> {/* Sử dụng hàm handleOrderClick khi nút Order được nhấn */}
+        <Button onClick={handleOrderClick}>Order</Button>
         <Button onClick={onClose}>Close</Button>
       </DialogActions>
     </Dialog>

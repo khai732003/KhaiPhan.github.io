@@ -87,12 +87,6 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 
-
-
-
-
-
-
     @Override
     public OrderDTO getOneOrderDTO(long id) {
         return null;
@@ -110,5 +104,15 @@ public class OrdersServiceImpl implements IOrdersService {
 
         return orderDetailDTOList;
     }
+
+    @Override
+    public OrderDTO findById(Long id){
+        Orders orders = ordersRepository.getReferenceById(id);
+
+        OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+
+        return orderDTO;
+    }
+
 
 }

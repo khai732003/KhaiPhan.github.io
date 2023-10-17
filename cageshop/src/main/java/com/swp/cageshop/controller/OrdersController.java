@@ -51,4 +51,8 @@ public class OrdersController {
     }
 
 
+    @GetMapping("/order/list/{id}")
+    public OrderDTO findOrderById(@PathVariable Long id) {
+        return iOrdersService.findById(id);
+    }
 }

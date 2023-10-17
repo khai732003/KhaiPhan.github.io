@@ -40,31 +40,27 @@ public class PayController {
     private ModelMapper modelMapper;
 
     @PostMapping("/pay")
-    public ResponseEntity<String> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
+    public ResponseEntity<PayResponseDTO> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
         try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            Principal principal = (Principal) authentication.getPrincipal();
-//            Long userId = Long.parseLong(principal.getName());
-//            Optional<Users> userOptional = usersRepository.findById(userId);
-//            if (!userOptional.isPresent() || !orderOptional.isPresent()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserId hoặc OrderId không tồn tại!");
-//            }
-
             Long orderId = payDTO.getOrderId();
             Optional<Orders> orderOptional = ordersRepository.findById(orderId);
             if (!orderOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("OrderId không tồn tại!");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
             String paymentResult = payService.payWithVNPAY(payDTO, request);
-            PayResponseDTO payResponseDTO = new PayResponseDTO();
-            payResponseDTO.setStatus("OK");
-            payResponseDTO.setMessage("Success");
-            payResponseDTO.setUrl(paymentResult);
-            return ResponseEntity.ok(paymentResult);
+
+            // Tạo đối tượng PaymentResponseDTO và thiết lập giá trị URL
+            PayResponseDTO paymentResponseDTO = new PayResponseDTO();
+            paymentResponseDTO.setUrl(paymentResult);
+
+            // Trả về ResponseEntity với đối tượng PaymentResponseDTO và HTTP status OK
+            return ResponseEntity.ok(paymentResponseDTO);
         } catch (UnsupportedEncodingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi trong quá trình xử lý thanh toán.");
+            // Xử lý ngoại lệ và trả về lỗi 500 Internal Server Error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
 //    @GetMapping("/payments")
 //    public ResponseEntity<List<PayDTO>> getAllPayments() {
