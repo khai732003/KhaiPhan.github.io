@@ -1,0 +1,226 @@
+/* Styles.css */
+/* body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 40px;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #e0e0e0;
+}
+
+th, td {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+} */
+
+/* List of products */
+/* .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.product-item {
+    flex: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0)
+}
+
+
+.compare-header{
+    display: flex;
+    margin-left: 45%;
+}
+
+.header-button{
+    margin-left: 40%;
+} */
+
+
+/* General Table Styling */
+/* .table-compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+} */
+
+/* Header Styling */
+/* .table-compare .table-compare-header {
+    background-color: #30444E;
+}
+
+.table-compare .table-compare-header th {
+    padding: 12px 15px;
+    color: black;
+    text-align: left;
+    font-weight: bold;
+} */
+
+/* .table-compare .table-compare-header th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border: 2px solid #2B3A42;  */
+    /* Thicker and darker border for headers */
+/* } */
+
+/* .table-compare .table-compare-header .compare-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+/* Body Styling */
+/* .table-compare .table-compare-body tr:nth-child(odd) {
+    background-color: #F5F5F5;
+}
+
+.table-compare .table-compare-body tr:nth-child(even) {
+    background-color: #D8DEE2;
+}
+
+.table-compare .table-compare-body td {
+    padding: 10px 15px;
+    border: 1px solid #2B3A42;
+}
+
+.table-compare .table-compare-body td img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+} */
+
+
+
+$primary-color: #007bff;
+$border-color: #a9a3a3;
+$table-background-hover: #f5f5f5;
+$thead-background: #f7f7f7;
+$thead-background-th: #e0e0e0;
+$even-row-background: #f0f0f0;
+$odd-row-background: #ffffff;
+$row-hover-background: #e0e0e0;
+
+.container-compare-page {
+  padding: 2rem;
+  max-width: 1500px;
+  margin: 0 auto;
+
+  .display-compare {
+    margin-bottom: 2rem;
+    color: #333;
+  }
+}
+
+.table-compare-page {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(220, 46, 46, 0.1);
+
+  th, td {
+    padding: 1.2rem;
+    text-align: center;
+    border: 5px solid $border-color;
+    transition: background-color 0.3s;
+
+    th {
+      width: 150px;
+    }
+
+    tbody {
+      tr:hover {
+        background-color: $table-background-hover;
+      }
+    }
+
+    thead {
+      tr {
+        background-color: $thead-background;
+
+        th {
+          background-color: $thead-background-th;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .select-btn-compare-page {
+      background-color: #f9f9f9;
+    }
+
+    .col-table-compare.mx-auto {
+      padding: 0;
+    }
+
+    .img-compare-table img {
+      width: 250px;
+      height: 250px;
+      border-radius: 10px;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .select-btn-compare {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    appearance: none;
+    background-color: #fff;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &:focus {
+      border-color: $primary-color;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+      outline: none;
+    }
+  }
+
+  tbody {
+    tr:nth-child(even) {
+      background-color: $even-row-background;
+    }
+
+    tr:nth-child(odd) {
+      background-color: $odd-row-background;
+    }
+
+    tr:not(:first-child):hover {
+      background-color: $row-hover-background;
+    }
+  }
+}
+
+
