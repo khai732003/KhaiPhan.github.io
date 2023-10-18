@@ -111,6 +111,8 @@ import React, { useState } from 'react';
 import ProductSelect from './ProductSelect';
 import products from './data';
 import '../compare/Compare.scss'
+import Header from '../../../header/Header';
+import Footer from '../../../footer/Footer';
 // import axios from 'axios';
 
 
@@ -130,53 +132,57 @@ const Compare = () => {
   // }, []);
 
   return (
-    <div className="container-compare-page">
-      <h1 className="display-compare my-compare text-center">Compare Page </h1>
-      <div className="col-table-compare mx-auto">
-        <table className="table-compare-page">
-          <thead>
-            <tr className="select-btn-compare-page">
-              <th>Select Product</th>
-              <th width="300px">
-                <ProductSelect products={products} value={selected1} onChange={setSelected1} />
-              </th>
-              <th width="300px">
-                <ProductSelect products={products} value={selected2} onChange={setSelected2} />
-              </th>
-              <th width="300px">
-                <ProductSelect products={products} value={selected3} onChange={setSelected3} />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>Product Image</th>
-              <td className='img-compare-table'><img src={products[selected1].image} alt={products[selected1].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
-              <td className='img-compare-table'><img src={products[selected2].image} alt={products[selected2].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
-              <td className='img-compare-table'><img src={products[selected3].image} alt={products[selected3].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
-            </tr>
-            <tr>
-              <th>Product Price</th>
-              <td>{products[selected1].price}</td>
-              <td>{products[selected2].price}</td>
-              <td>{products[selected3].price}</td>
-            </tr>
-            <tr>
-              <th>Product Description</th>
-              <td>{products[selected1].name}</td>
-              <td>{products[selected2].name}</td>
-              <td>{products[selected3].name}</td>
-            </tr>
-            <tr>
-              <th>Product Brand</th>
-              <td>{products[selected1].brand}</td>
-              <td>{products[selected2].brand}</td>
-              <td>{products[selected3].brand}</td>
-            </tr>
-          </tbody>
-        </table>
+    <>
+      <Header />
+      <div className="container-compare-page">
+        <h1 className="display-compare my-compare text-center">Compare Page </h1>
+        <div className="col-table-compare mx-auto">
+          <table className="table-compare-page">
+            <thead>
+              <tr className="select-btn-compare-page">
+                <th>Select Product</th>
+                <th width="300px">
+                  <ProductSelect products={products} value={selected1} onChange={setSelected1} />
+                </th>
+                <th width="300px">
+                  <ProductSelect products={products} value={selected2} onChange={setSelected2} />
+                </th>
+                <th width="300px">
+                  <ProductSelect products={products} value={selected3} onChange={setSelected3} />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Product Image</th>
+                <td className='img-compare-table'><img src={products[selected1].image} alt={products[selected1].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
+                <td className='img-compare-table'><img src={products[selected2].image} alt={products[selected2].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
+                <td className='img-compare-table'><img src={products[selected3].image} alt={products[selected3].title} style={{ width: '100%', height: '250px', objectFit: 'contain' }} /></td>
+              </tr>
+              <tr>
+                <th>Product Price</th>
+                <td>{products[selected1].price}</td>
+                <td>{products[selected2].price}</td>
+                <td>{products[selected3].price}</td>
+              </tr>
+              <tr>
+                <th>Product Description</th>
+                <td>{products[selected1].name}</td>
+                <td>{products[selected2].name}</td>
+                <td>{products[selected3].name}</td>
+              </tr>
+              <tr>
+                <th>Product Brand</th>
+                <td>{products[selected1].brand}</td>
+                <td>{products[selected2].brand}</td>
+                <td>{products[selected3].brand}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

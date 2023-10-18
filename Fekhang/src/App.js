@@ -10,9 +10,9 @@ import Profile from './content/userprofile/profile';
 import NewsPage from './content/tintuc/tintuc';
 import DetailNewsPage from './content/tintuc/newsdetail';
 import { listofnews } from './share/listOfnews';
-import Api from './services/getApitest';
 import ProductPage from './content/SanPham/ProductPage';
 import Compare from './content/dichvu/compare/Compare';
+import DetailProductPage from './content/SanPham/Detail';
 
 function App() {
   return (
@@ -28,8 +28,8 @@ function App() {
           <Route path="/tintuc" element={<NewsPage />} />
           <Route path="/dichvu" element={<Compare />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/apitest" element={<Api/>} />
           <Route exact path="tintuc/newsdetail/:id" element={<DetailNewsPage />} />
+          <Route exact path="sanpham/productdetail/:id" element={<DetailProductPage/>} />
         </Routes>
       </Router>
 

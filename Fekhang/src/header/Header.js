@@ -28,8 +28,8 @@ function Header(props) {
                             <NavLink to="/" activeClassName="active" className="nav-link">TRANG CHỦ</NavLink>
                             <NavLink to="/Gioithieu" className="nav-link">GIỚI THIỆU</NavLink>
 
-                            <div className="custom-dropdown nav-link" >
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }}>SẢN PHẨM <span class="bi bi-caret-down-fill"/></NavLink>
+                            <div className="custom-dropdown" >
+                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">SẢN PHẨM <span class="bi bi-caret-down-fill"/></NavLink>
                                 <div className="dropdown-menu">
                                     <NavLink to="/profile" className="dropdown-item nav-link">
                                         Đăng Nhập
@@ -40,8 +40,8 @@ function Header(props) {
                                 </div>
                             </div>
 
-                            <div className="custom-dropdown nav-link" >
-                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} >DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
+                            <div className="custom-dropdown" >
+                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
                                 
                                 <div className="dropdown-menu">
                                     <NavLink to="/login" className="dropdown-item nav-link">

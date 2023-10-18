@@ -18,6 +18,8 @@ import {
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
 // import { makeStyles } from "@mui/styles";
 
 const ProductPage = () => {
@@ -92,7 +94,8 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container" style={{margin:'100px 0'}}>
+        <Header/>
         <div className="row">
           <div className="col-lg-9">
             <div className="row">
@@ -166,6 +169,7 @@ const ProductPage = () => {
           <Button onClick={toggleCart}>Close</Button>
         </DialogActions>
       </Dialog>
+      <Footer/>
     </>
   );
 };
