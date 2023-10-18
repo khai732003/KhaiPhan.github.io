@@ -2,10 +2,13 @@ package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
+import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
+import com.swp.cageshop.repository.ProductsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,10 @@ import java.util.Optional;
 public class OrdersServiceImpl implements IOrdersService {
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private ProductsRepository productsRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 

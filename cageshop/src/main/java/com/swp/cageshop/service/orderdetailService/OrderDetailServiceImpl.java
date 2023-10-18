@@ -50,8 +50,6 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
 
-
-
     @Override
     public OrderDetailDTO updateOrderDetailDTO(long orderDetailId, int newQuantity, double newPrice, OrderDetailDTO updatedOrderDetailDTO) {
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);

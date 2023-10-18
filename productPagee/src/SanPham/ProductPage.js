@@ -1,56 +1,20 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Product from "./Product";
 import ProductFilters from "./ProductFilters";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Box } from "@mui/material";
 import Cart from "./Cart";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(6);
-  const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
-  };
-
-  // const addToCart = (product) => {
-  //   setCart([...cart, product]);
-  //   window.alert(`Added ${product.name} to the cart!`); // Hiển thị thông báo khi sản phẩm được thêm vào giỏ hàng
-  // };
-
-  const addToCart = (productId) => {
-
-    const productToAdd = products.find(p => p.id === productId);
-  
-    setCart([...cart, productToAdd]);
-  
-    window.alert(`Added ${productToAdd.name} to the cart!`); 
-  
-  }
-  
-
-  
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
   };
 
   useEffect(() => {
@@ -69,7 +33,7 @@ const ProductPage = () => {
         console.error("Lỗi khi lấy dữ liệu:", error);
         setIsLoading(false);
       });
-  }, []);
+  }, []); // Chú ý: [] đảm bảo useEffect chỉ chạy một lần sau khi render đầu tiên
 
   if (isLoading) {
     return (
@@ -77,10 +41,6 @@ const ProductPage = () => {
         <CircularProgress />
       </Box>
     );
-  }
-
-  const handleDeleteItem = (updatedCart) => {
-    setCart(updatedCart);
   }
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -98,14 +58,16 @@ const ProductPage = () => {
                   <Product
                     id={product.id}
                     name={product.name}
+                    stock={product.stock}
                     totalPrice={product.totalPrice}
                     productImage={product.productImage}
                     code={product.code}
-                    onAddToCart={() => addToCart(product.id)}
                   />
                 </div>
               ))}
             </div>
+
+            <Cart /> 
 
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination
@@ -125,12 +87,6 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-
-      <Button className="open-cart-button" startIcon={<ShoppingCartIcon />} onClick={toggleCart}>
-        Open Cart
-      </Button>
-
-      <Cart isOpen={isCartOpen} cart={cart} onClose={toggleCart} onDeleteItem={handleDeleteItem}/>
     </>
   );
 };

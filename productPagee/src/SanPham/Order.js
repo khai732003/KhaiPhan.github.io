@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import OrderDetail from "./OrderDetail";
-import { useNavigate } from "react-router-dom"; // Import useNavigate từ react-router-dom
-import VNPayPayment from "./VNPayPayment";
-import { useParams } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Order = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
-  const navigate = useNavigate(); // Sử dụng useNavigate hook để chuyển hướng
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/cageshop/api/order/list/${orderId}`);
-        console.log(orderId)
+
         if (response.data) {
           setOrder(response.data);
+          //     console.log("Order Details:");
+          //     order.orderDetails.forEach((detail, index) => {
+          //       console.log(`Detail ${index + 1}:`);
+          //       console.log(`ID: ${detail.id}`);
+          //       console.log(`Quantity: ${detail.quantity}`);
+          //       console.log(`Total Price: ${detail.totalOfProd}`);
+
+          // });
         } else {
           console.error("Dữ liệu không hợp lý từ API:", response.data);
         }
@@ -26,10 +33,9 @@ const Order = () => {
     };
 
     fetchOrder();
-  }, []);
+  }, [orderId]); // Đặt [orderId] là dependency để useEffect chạy lại khi orderId thay đổi.
 
   const handlePaymentClick = () => {
-    // Chuyển hướng đến trang thanh toán VNPayPayment khi nút được nhấn
     navigate(`/payment/${orderId}`);
   };
 
@@ -39,6 +45,9 @@ const Order = () => {
       {order && (
         <div key={order.id}>
           <div>ID: {order.id}</div>
+          <div>Status: {order.status}</div>
+          <div>Payment Method: {order.paymentMethod}</div>
+          <div>Ship Address: {order.shipAddress}</div>
           <div>Total Price: {order.total_price}</div>
           <OrderDetail orderId={order.id} />
           <button onClick={handlePaymentClick}>Thanh toán ngay</button>
