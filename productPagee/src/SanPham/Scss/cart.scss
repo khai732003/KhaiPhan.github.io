@@ -1,28 +1,42 @@
-.custom-avatar {
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin-right: 20px;
+.cart-dialog {
 
-    img {
-        width: 30px;
-        height: 30px;
-        object-fit: cover;
+    .dialog-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 800;
+        background-color: cornsilk;
+    }
+
+    .shopping-cart {
+        width: 100%;
     }
 }
 
-.list-item {
+.center-element {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
+    height: 100vh; /* 100% chiều cao của viewport */
+  }
 
-.list-item-text {
-    flex: 1;
-}
+.MuiDialog-paper {
+    width: 800px;
+    height: 300px;
 
-.close-button {
-    margin-left: auto;
+    .option-cart {
+        display: flex;
+        justify-content: space-between;
+
+        .total-price {
+            display: grid;
+            font-weight: 800;
+            padding-left: 1rem;
+
+            .price {
+                font-size: larger;
+                color: #48947e;
+            }
+        }
+    }
+
 }

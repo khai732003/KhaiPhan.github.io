@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Product from "./Product";
-import ProductFilters from "./ProductFilters";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/material";
-import Cart from "./Cart";
+
+import Cart from "./Cart"
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -67,8 +67,9 @@ const ProductPage = () => {
               ))}
             </div>
 
-            <Cart /> 
-
+            {/* Hiển thị giỏ hàng ở đây */}
+            <Cart />
+            
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination
                 count={Math.ceil(products.length / productsPerPage)}
@@ -81,9 +82,6 @@ const ProductPage = () => {
                 showLastButton
               />
             </Box>
-          </div>
-          <div className="col-lg-3">
-            <ProductFilters products={products} setFilteredProducts={setProducts} />
           </div>
         </div>
       </div>

@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";  
-
+import { useParams } from "react-router-dom";
 
 const VNPayPayment = () => {
   const { orderId } = useParams();
 
   const [orderInfo, setOrderInfo] = useState({
-    vnp_OrderInfo: "Anh yeu em nhieu lam 1", 
-    orderId: orderId, 
+    vnp_OrderInfo: "Anh yeu em nhieu lam 1", // Thông tin đơn hàng
+    orderId: orderId, // ID của đơn hàng
     vnp_BankCode: "NCB" 
   });
 
   const handlePayment = async () => {
-
-
-
     try {
       const response = await axios.post("http://localhost:8080/cageshop/api/pay", orderInfo);
 
-      console.log(response.data);
+      console.log(response.data.url);
   
 
       window.location.href = response.data.url;
@@ -28,6 +24,9 @@ const VNPayPayment = () => {
 
     }
   };
+  
+
+  
 
   return (
     <div className="vnpay-payment-container">

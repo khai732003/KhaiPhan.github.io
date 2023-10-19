@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const Order = () => {
-  const { orderId } = useParams();
+  // const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
 
+  const orderId = localStorage.getItem('orderId');
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -16,14 +17,7 @@ const Order = () => {
 
         if (response.data) {
           setOrder(response.data);
-          //     console.log("Order Details:");
-          //     order.orderDetails.forEach((detail, index) => {
-          //       console.log(`Detail ${index + 1}:`);
-          //       console.log(`ID: ${detail.id}`);
-          //       console.log(`Quantity: ${detail.quantity}`);
-          //       console.log(`Total Price: ${detail.totalOfProd}`);
 
-          // });
         } else {
           console.error("Dữ liệu không hợp lý từ API:", response.data);
         }
@@ -33,8 +27,9 @@ const Order = () => {
     };
 
     fetchOrder();
-  }, [orderId]); // Đặt [orderId] là dependency để useEffect chạy lại khi orderId thay đổi.
+  }, [orderId]); 
 
+ 
   const handlePaymentClick = () => {
     navigate(`/payment/${orderId}`);
   };

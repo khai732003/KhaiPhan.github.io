@@ -120,14 +120,34 @@ public class OrdersServiceImpl implements IOrdersService {
         return ordersRepository.findAllById(orderId);
     }
 
-    @Override
-    public OrderDTO findById(Long id){
-        Orders orders = ordersRepository.getReferenceById(id);
+  @Override
+  public OrderDTO findById(Long id) {
+    Orders order = ordersRepository.getReferenceById(id);
 
-        OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+    List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
+    double totalCost = 0.0;
 
-        return orderDTO;
+    // Khai báo và khởi tạo orderDetailDTOList
+    List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+
+    for (OrderDetail detail : orderDetailList) {
+      totalCost += detail.getTotalCost();
+      // Lấy productImage từ Product liên quan đến mỗi OrderDetail
+      String productImg = detail.getProduct().getProductImage();
+      // Thiết lập giá trị productImg vào OrderDetailDTO
+      OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+      orderDetailDTO.setProductImg(productImg);
+      orderDetailDTOList.add(orderDetailDTO);
     }
 
+    totalCost += order.getShipPrice();
+    order.setTotal_Price(totalCost);
+    ordersRepository.save(order);
 
+    OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+    orderDTO.setOrderDetails(orderDetailDTOList);
+
+    return orderDTO;
+  }
+  
 }

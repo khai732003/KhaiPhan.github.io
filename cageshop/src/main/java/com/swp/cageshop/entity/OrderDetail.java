@@ -48,6 +48,8 @@ public class OrderDetail extends EntityBase {
   @Column
   private String status;
 
+  @Column
+  private String productImage;
 
 
   @PrePersist

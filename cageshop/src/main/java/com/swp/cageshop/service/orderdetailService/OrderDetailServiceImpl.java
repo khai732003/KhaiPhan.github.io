@@ -29,25 +29,36 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Autowired
     private ProductsRepository productsRepository;
 
-    @Override
     public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
-        double totalCost,hireCost,totalProduct;
+
+        double totalCost, hireCost, totalProduct;
         int quantity;
         Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
+
+        // Lấy thông tin hình ảnh của sản phẩm
+        String productImg = product.getProductImage();
+
         totalProduct = product.getTotalPrice();
         hireCost = orderDetailDTO.getHirePrice();
         quantity = orderDetailDTO.getQuantity();
-            if(quantity > 1){
-                totalProduct = totalProduct * quantity;
+
+        if (quantity > 1) {
+            totalProduct = totalProduct * quantity;
         }
         orderDetailDTO.setTotalOfProd(totalProduct);
-            totalCost = totalProduct + hireCost;
+        totalCost = totalProduct + hireCost;
+        orderDetailDTO.setProductImg(productImg); // Thiết lập hình ảnh sản phẩm vào orderDetailDTO
         orderDetailDTO.setTotalCost(totalCost);
+
         OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
+        orderDetail.setProductImage(productImg);
         orderDetail = orderDetailRepository.save(orderDetail);
+
         OrderDetailDTO result = modelMapper.map(orderDetail, OrderDetailDTO.class);
+        result.setProductImg(productImg);
         return result;
     }
+
 
 
     @Override
@@ -70,15 +81,30 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return false;
     }
 
+//    @Override
+//    public List<OrderDetailDTO> getAllOrderDetailDTOs() {
+//        List<OrderDetail> orderDetails = orderDetailRepository.findAll();
+//        // Sử dụng Java Stream để chuyển đổi danh sách OrderDetail thành danh sách OrderDetailDTO
+//        List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream()
+//                .map(orderDetail -> modelMapper.map(orderDetail, OrderDetailDTO.class))
+//                .collect(Collectors.toList());
+//        return orderDetailDTOs;
+//    }
+
     @Override
     public List<OrderDetailDTO> getAllOrderDetailDTOs() {
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
-        // Sử dụng Java Stream để chuyển đổi danh sách OrderDetail thành danh sách OrderDetailDTO
         List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream()
-                .map(orderDetail -> modelMapper.map(orderDetail, OrderDetailDTO.class))
-                .collect(Collectors.toList());
+            .map(orderDetail -> {
+                OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+                String productImage = orderDetail.getProduct().getProductImage();
+                orderDetailDTO.setProductImg(productImage);
+                return orderDetailDTO;
+            })
+            .collect(Collectors.toList());
         return orderDetailDTOs;
     }
+
 
     @Override
     public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {

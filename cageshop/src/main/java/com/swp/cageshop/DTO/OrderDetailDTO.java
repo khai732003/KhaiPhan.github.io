@@ -27,4 +27,6 @@ public class OrderDetailDTO extends DTOBase {
 
     private String status;
 
+    private String productImg;
+
 }

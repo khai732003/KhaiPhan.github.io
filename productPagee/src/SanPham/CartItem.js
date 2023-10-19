@@ -2,6 +2,8 @@ import React from 'react';
 import { ListItem, ListItemText, Avatar, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCart } from './Context/CartContext';
+import "../SanPham/Scss/cart.scss"
+
 const CartItem = ({ item }) => {
 
   const { removeFromCart } = useCart();
@@ -11,9 +13,7 @@ const CartItem = ({ item }) => {
 
   return (
     <ListItem>
-      <div className="custom-avatar">
-        <img src={item.productImage} alt={item.name} />
-      </div>
+      <Avatar src={item.productImage} alt={item.name} />
       <ListItemText
         primary={`${item.name} (CODE: ${item.code})`}
         secondary={`Price: ${item.totalPrice}`}
