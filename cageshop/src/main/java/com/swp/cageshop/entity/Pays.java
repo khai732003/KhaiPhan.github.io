@@ -11,38 +11,44 @@
     import lombok.Data;
     import lombok.NoArgsConstructor;
 
+    import java.util.Date;
 
+    @Table(name = "Pays")
     @Entity
     @Data
-    @Table(name = "Pays")
-    @AllArgsConstructor
     @NoArgsConstructor
-    public class Pays extends EntityBase{
-        @Column(nullable = false)
-        public double vnp_Ammount;
+    @AllArgsConstructor
+    @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+    @DiscriminatorColumn(name = "PAY_TYPE")
+    public abstract class Pays{
 
-        @Column(nullable = false)
-        public String vnp_OrderInfo;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-        @Column(nullable = false)
-        public String vnp_OrderType = "200000";
+        @Temporal(TemporalType.TIMESTAMP)
+        private Date createDate;
 
-        @Column(unique = true, name = "vnp_TxnRef")
-        private String vnp_TxnRef;
+        @Column
+        private double price;
+
+        @Column(unique = true)
+        private String paymentCode;
 
         @Column
         private String status;
-
-        @Column
-        private String vnp_bankCode;
 
         @OneToOne
         @JoinColumn(name = "order_id")
         private Orders order;
 
+
         @PrePersist
         public void Status(){
-            this.status = "Processing";
+            this.status = "CREATED";
+        }
+        public void prePersist() {
+            this.createDate = new Date();
         }
 
 
