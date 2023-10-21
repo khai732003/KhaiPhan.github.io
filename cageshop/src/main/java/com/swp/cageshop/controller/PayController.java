@@ -95,21 +95,10 @@ public class PayController {
             if (pays != null) {
                 pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
-                if (pays.getOrder() != null) {
-                    Orders order = pays.getOrder();
-                    order.setStatus("COMPLETED");
-                    ordersRepository.save(order);
-                    if(order.getOrderDetails() !=null){
-                        for(OrderDetail orderDetail : order.getOrderDetails()){
-                            orderDetail.setStatus("COMPLETED");
-                        }
-                    }
-                    productsService.updateProductStock(order);
                     transactionDTO.setStatus("OK");
                     transactionDTO.setMessage("Success");
                     transactionDTO.setData("");
                 }
-            }
         } else {
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");

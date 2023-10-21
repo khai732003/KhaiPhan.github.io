@@ -28,4 +28,6 @@ public interface IOrdersService {
     public List<Orders> getAllOrdersById(Long userId);
 
     public OrderDTO findById(Long id);
+
+    public void updateOrderAndOrderDetails(Orders order);
 }

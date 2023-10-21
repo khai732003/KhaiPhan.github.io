@@ -58,6 +58,8 @@ public class Orders extends EntityBase{
   @JoinColumn(name = "user_id")
   private Users user;
 
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Shipping shipping;
 
 }
 
