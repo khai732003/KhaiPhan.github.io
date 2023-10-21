@@ -39,24 +39,56 @@ public class ProductsController {
         productsService.deleteAll();
     }
 
-    @PostMapping("/product/add/{categoryId}")
-    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO, @PathVariable Long categoryId) {
-        CategoryDTO category = categoriesService.getOneCategory(categoryId);
-        if (category != null) {
-            // Set the category for the product
-            productDTO.setCategoryId(categoryId);
 
-            // Create or update the product
-            ProductDTO savedProductDTO = productsService.addProduct(productDTO);
-
-            if (savedProductDTO != null) {
-                return ResponseEntity.ok(savedProductDTO);
+    @PostMapping("/product/test")
+    public ResponseEntity<?> addsProduct(@RequestBody ProductDTO productDTO) {
+        if (productDTO != null) {
+            // Fetch all available categories
+            List<CategoryDTO> availableCategories = categoriesService.getAllCategories();
+            if (!availableCategories.isEmpty()) {
+                // Return available categories and let the front-end handle the selection
+                return ResponseEntity.ok(availableCategories);
             } else {
-                return ResponseEntity.badRequest().body("Failed to add product.");
+                return ResponseEntity.badRequest().body("No categories available.");
             }
-        } else {
-            return ResponseEntity.badRequest().body("Category not found.");
         }
+        return ResponseEntity.badRequest().body("ProductDTO is null.");
+    }
+
+    @PostMapping("/product/add")
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO) {
+        if (productDTO != null){
+            Long categoryId = productDTO.getCategoryId();
+            CategoryDTO category = categoriesService.getOneCategory(categoryId);
+            if (category != null) {
+                productDTO.setCategoryId(categoryId);
+
+                ProductDTO savedProductDTO = productsService.addProduct(productDTO);
+
+                if (savedProductDTO != null) {
+                    return ResponseEntity.ok(savedProductDTO);
+                } else {
+                    return ResponseEntity.badRequest().body("Failed to add product.");
+                }
+            } else {
+                return ResponseEntity.badRequest().body("Category not found.");
+            }
+        }
+        return ResponseEntity.badRequest().body("ProductDTO is null.");
+    }
+    @PostMapping("/product/add-accessories")
+    public ResponseEntity<?> addAccessoriesToProduct(@RequestBody ProductDTO productDTO) {
+        if (productDTO != null) {
+            Long productId = productDTO.getId();
+            List<AccessoryDTO> accessories = productDTO.getAccessories();
+            ProductDTO updatedProduct = productsService.addAccessoriesToProduct(productId, accessories);
+            if (updatedProduct != null) {
+                return ResponseEntity.ok(updatedProduct);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+        return ResponseEntity.badRequest().body("ProductDTO is null.");
     }
     @PostMapping("/product/add-accessories/{productId}")
     public ResponseEntity<ProductDTO> addAccessoriesToProduct(
@@ -69,6 +101,7 @@ public class ProductsController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @GetMapping("/product/get-list")
     public List<ProductDTO> listProducts() {
