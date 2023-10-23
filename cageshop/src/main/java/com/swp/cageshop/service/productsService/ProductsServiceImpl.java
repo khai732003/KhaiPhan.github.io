@@ -403,6 +403,22 @@ public class ProductsServiceImpl implements IProductsService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductDTO> getProductsSortedByCreateDateASC (){
+        List<Products> products = productsRepository.findAllProductsSortedByCreateDateAsc();
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsSortedByCreateDateDESC() {
+        List<Products> products = productsRepository.findAllProductsSortedByCreateDateDesc();
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     public List<ProductDTO> getProductsWithLimitedStock(int maxStock) {
         List<Products> products = productsRepository.findProductsWithLimitedStock(maxStock);

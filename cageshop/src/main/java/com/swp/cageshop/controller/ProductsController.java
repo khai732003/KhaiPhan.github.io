@@ -177,6 +177,17 @@ public class ProductsController {
 
 
 
+    @GetMapping("/products/list-date-asc")
+    public List<ProductDTO> getProductsByCreateDateAsc() {
+        return productsService.getProductsSortedByCreateDateASC();
+    }
+
+    @GetMapping("/products/list-date-desc")
+    public List<ProductDTO> getProductsByCreateDateDesc() {
+        return productsService.getProductsSortedByCreateDateDESC();
+    }
+
+
     @GetMapping("/products/category/{categoryId}")
     public List<ProductDTO> getProductsByCategory(@PathVariable Long categoryId) {
         return productsService.getProductsByCategory(categoryId);
