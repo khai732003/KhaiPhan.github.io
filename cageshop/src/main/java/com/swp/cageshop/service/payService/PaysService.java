@@ -1,16 +1,14 @@
 package com.swp.cageshop.service.payService;
 
 import com.swp.cageshop.DTO.VnPayDTO;
-import com.swp.cageshop.entity.Products;
-import com.swp.cageshop.entity.VNPayPayment;
+import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.OrdersRepository;
+import com.swp.cageshop.service.productsService.IProductsService;
 import org.modelmapper.ModelMapper;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.DTO.VnPayConstant;
 import com.swp.cageshop.config.Config;
-import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.Pays;
 import com.swp.cageshop.repository.PaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +30,11 @@ public class PaysService implements PaysServiceImpl {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+
+    @Autowired
+    private IProductsService productsService;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -117,5 +120,7 @@ public class PaysService implements PaysServiceImpl {
 
         return payDTOList;
     }
+
+
 
 }

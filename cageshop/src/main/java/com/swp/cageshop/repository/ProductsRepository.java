@@ -21,7 +21,9 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     List<Products> findByCategory(Categories category);
 
-    Optional<Products> findById(Long id);
+    Products findProductIdByOrderDetail_Id(Long orderDetailId);
+
+
 
     //Status
     @Query("SELECT p FROM Products p WHERE p.status = 'New'")

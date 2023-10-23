@@ -44,7 +44,8 @@ public class ProductsServiceImpl implements IProductsService {
     @Autowired
     private OrdersRepository ordersRepository;
 
-
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
 
     @Override
     public void deleteAll() {
@@ -79,7 +80,6 @@ public class ProductsServiceImpl implements IProductsService {
         }
         return null;
     }
-
 
 
     @Override
@@ -129,7 +129,6 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
-
     @Override
     public boolean deleteProduct(long id) {
         if (id >= 1) {
@@ -160,9 +159,7 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
-
 ////////////////////////////////////////////////////
-
 
 
 //    public boolean moveProductToOrderDetail(Long orderId, Long productId) {
@@ -248,7 +245,6 @@ public class ProductsServiceImpl implements IProductsService {
                 .map(product -> modelMapper.map(product, ProductDTO.class))
                 .collect(Collectors.toList());
     }
-
 
 
     @Override
@@ -447,39 +443,22 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
-
     // Cai nay cua Huu Bao xin thu loi nhe, tat ca vi loi ich chung
     // Boi vi sau khi thuc hien thanh toan toi muon cap nhat lai stock
     public void updateProductStock(Orders order) {
-
-        for (OrderDetail orderDetail : order.getOrderDetails()) {
-            if (orderDetail.getStatus().equals("Success")) {
-                Long productId = orderDetail.getProduct().getId();
-
-                    Optional<Products> optionalProduct = productsRepository.findById(productId);
-                    if (optionalProduct.isPresent()) {
-                        Products product = optionalProduct.get();
-                        int newStock = product.getStock() - orderDetail.getQuantity();
-                        product.setStock(newStock);
-                        productsRepository.save(product);
-                    } else {
-                    }
-
-            }
+        OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
+        Products products = productsRepository.findProductIdByOrderDetail_Id(orderDetail.getId());
+        if (products != null) {
+            Products productFound =  productsRepository.getReferenceById(products.getId());
+            int newStock = productFound.getStock() - orderDetail.getQuantity();
+            productFound.setStock(newStock);
+            productsRepository.save(productFound);
         }
+
     }
 
-}
 
-
-
-
-
-
-
-
-
-        //////////////////////////////////////////
+    //////////////////////////////////////////
 //        public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO) {
 //            if (productDTO != null && birdCageDTO != null) {
 //                // Map the ProductDTO to a Products entity
@@ -565,7 +544,6 @@ public class ProductsServiceImpl implements IProductsService {
 //    }
 
 
-
 //    public ProductDTO addBirdCageProduct(BirdCageDTO birdCageDTO, Categories category) {
 //        // Create a new ProductDTO
 //        ProductDTO productDTO = new ProductDTO();
@@ -648,9 +626,6 @@ public class ProductsServiceImpl implements IProductsService {
 //  }
 
 
-
-
-
 //    public ProductDTO addProductBirdcagewithAccessories(ProductDTO mainProductDTO, List<AccessoryDTO> accessoryDTOs) {
 //        if (mainProductDTO != null) {
 //            // Create the main product entity
@@ -685,22 +660,6 @@ public class ProductsServiceImpl implements IProductsService {
 //        }
 //        return null;
 //    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    @Override
@@ -745,6 +704,4 @@ public class ProductsServiceImpl implements IProductsService {
 //    }
 
 
-
-
-
+}
