@@ -7,32 +7,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "Vouchers")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vouchers {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Vouchers extends EntityBase{
 
   @Column(nullable = false, unique = true)
   private String code;
 
+  @Column
+  private String description;
+
   @Column(nullable = false)
-  private double discountAmount;
+  private double voucherAmount;
+
+  @Column(name="voucherType")
+  private String voucherType;
 
   @Column(nullable = false)
   private boolean isActive;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id")
-  private Users user;
+  @Column(nullable = false)
+  private int quantity;
 
-  @ManyToOne
-  @JoinColumn(name = "order_id")
-  private Orders order;
+  @Column
+  private LocalDateTime expiration_date;
 
+  @OneToMany(mappedBy="voucher", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<VoucherUsage> usages;
 }

@@ -3,13 +3,11 @@ package com.swp.cageshop.service.ordersService;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.DTO.ProductDTO;
-import com.swp.cageshop.entity.OrderDetail;
-import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.Products;
-import com.swp.cageshop.repository.OrderDetailsRepository;
-import com.swp.cageshop.repository.OrdersRepository;
-import com.swp.cageshop.repository.ProductsRepository;
+import com.swp.cageshop.DTO.VoucherType;
+import com.swp.cageshop.entity.*;
+import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
+import com.swp.cageshop.service.voucherUsageService.IVoucherUsageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +33,15 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Autowired
     private IProductsService productsService;
+
+    @Autowired
+    private IVoucherUsageService voucherUsageService;
+
+    @Autowired
+    private VouchersRepository voucherRepository;
+
+    @Autowired
+    private VoucherUsageRepository voucherUsageRepository;
 
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
@@ -83,13 +90,35 @@ public class OrdersServiceImpl implements IOrdersService {
     public List<OrderDTO> getAllOrderDTO() {
         List<Orders> ordersList = ordersRepository.findAll();
         List<OrderDTO> orderDTOList = new ArrayList<>();
+
         for (Orders orders : ordersList) {
             List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(orders.getId());
             double totalCost = 0.0;
             for (OrderDetail detail : orderDetailList) {
                 totalCost += detail.getTotalCost();
             }
-            totalCost += orders.getShipPrice();
+            List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orders.getId());
+            double totalVoucherAmount = 0;
+            boolean isFreeShipVoucher = false;
+            boolean isCashVoucher = false;
+            for (VoucherUsage voucherUsage : voucherUsages) {
+                if (voucherUsage.getVoucher().getVoucherType().equals("FREESHIP")) {
+                    isFreeShipVoucher = true;
+                    totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+                } else if (voucherUsage.getVoucher().getVoucherType().equals("CASH")) {
+                    isCashVoucher = true;
+                    totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+                }
+            }
+            double shipPrice = orders.getShipPrice();
+            if (isFreeShipVoucher && isCashVoucher) {
+                totalCost -= totalVoucherAmount;
+            } else if (isFreeShipVoucher) {
+                totalCost -= totalVoucherAmount;
+            } else {
+                totalCost += shipPrice - totalVoucherAmount;
+            }
+
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
@@ -104,21 +133,6 @@ public class OrdersServiceImpl implements IOrdersService {
         return orderDTOList;
     }
 
-
-    @Override
-    public OrderDTO getOneOrderDTO(long id) {
-        return null;
-    }
-
-    @Override
-    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
-        return null;
-    }
-
-    @Override
-    public List<Orders> getAllOrdersById(Long userId) {
-        return null;
-    }
 
 
     public List<Orders> getAllOrdersByUserId(Long orderId) {

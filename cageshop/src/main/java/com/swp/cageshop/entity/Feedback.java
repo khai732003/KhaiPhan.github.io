@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Check;
 
-import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -16,10 +16,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Feedbacks {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Feedback extends EntityBase{
 
     @Column(nullable = false)
     private int rating;
@@ -27,22 +24,17 @@ public class Feedbacks {
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "feedback_date", nullable = false)
-    private Date date;
-
     // N:1 voi user
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Orders order;
+    @OneToMany(mappedBy = "feedback")
+    private List<Reply> reply;
+
 }
 
