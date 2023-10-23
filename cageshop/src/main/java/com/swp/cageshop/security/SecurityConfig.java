@@ -82,8 +82,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
               .anyRequest().permitAll()
 //          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/get-list","/cageshop/api/user/authenticate").permitAll()
 //          .anyRequest().authenticated()
-      )
-      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
+      );
+//      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
   http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
   return http.build();

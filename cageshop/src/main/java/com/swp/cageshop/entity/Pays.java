@@ -1,49 +1,55 @@
-    package com.swp.cageshop.entity;
+package com.swp.cageshop.entity;
 
 
-    import jakarta.persistence.*;
-    import jakarta.persistence.Entity;
-    import jakarta.persistence.JoinColumn;
-    import jakarta.persistence.ManyToOne;
-    import jakarta.transaction.Status;
-    import jdk.jshell.Snippet;
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.transaction.Status;
+import jdk.jshell.Snippet;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
+@Table(name = "Pays")
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "PAY_TYPE")
+public abstract class Pays{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @Column
+    private double price;
+
+    @Column(unique = true)
+    private String paymentCode;
+
+    @Column
+    private String status;
+
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private Orders order;
 
 
-    @Entity
-    @Data
-    @Table(name = "Pays")
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class Pays extends EntityBase{
-        @Column(nullable = false)
-        public double vnp_Ammount;
-
-        @Column(nullable = false)
-        public String vnp_OrderInfo;
-
-        @Column(nullable = false)
-        public String vnp_OrderType = "200000";
-
-        @Column(unique = true, name = "vnp_TxnRef")
-        private String vnp_TxnRef;
-
-        @Column
-        private String status;
-
-        @Column
-        private String vnp_bankCode;
-
-        @OneToOne
-        @JoinColumn(name = "order_id")
-        private Orders order;
-
-        @PrePersist
-        public void Status(){
-            this.status = "Processing";
-        }
-
-
+    @PrePersist
+    public void Status(){
+        this.status = "CREATED";
     }
+    public void prePersist() {
+        this.createDate = new Date();
+    }
+
+
+}

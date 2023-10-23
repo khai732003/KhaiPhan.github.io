@@ -47,17 +47,19 @@ public class PayController {
 
 
     @PostMapping("/pay")
-    public ResponseEntity<PayResponseDTO> pay(@RequestBody PayDTO payDTO, HttpServletRequest request) {
+    public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
         try {
-            Long orderId = payDTO.getOrderId();
+            Long orderId = vnPayDTO.getOrderId();
             Optional<Orders> orderOptional = ordersRepository.findById(orderId);
             if (!orderOptional.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            String paymentResult = payService.payWithVNPAY(payDTO, request);
+            String paymentResult = payService.payWithVNPAY(vnPayDTO, request);
 
             // Tạo đối tượng PaymentResponseDTO và thiết lập giá trị URL
             PayResponseDTO paymentResponseDTO = new PayResponseDTO();
+            paymentResponseDTO.setStatus("Sucess");
+            paymentResponseDTO.setMessage("Ok");
             paymentResponseDTO.setUrl(paymentResult);
 
             // Trả về ResponseEntity với đối tượng PaymentResponseDTO và HTTP status OK
@@ -89,25 +91,14 @@ public class PayController {
         TransactionDTO transactionDTO = new TransactionDTO();
 
         if ("00".equals(responseCode)) {
-            Pays pays = paysRepository.findByVnp_TxnRef(txnRef);
+            Pays pays = paysRepository.findByPaymentCode(txnRef);
             if (pays != null) {
-                pays.setStatus("Success");
+                pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
-                if (pays.getOrder() != null) {
-                    Orders order = pays.getOrder();
-                    order.setStatus("Success");
-                    ordersRepository.save(order);
-                    if(order.getOrderDetails() !=null){
-                        for(OrderDetail orderDetail : order.getOrderDetails()){
-                            orderDetail.setStatus("Success");
-                        }
-                    }
-                    productsService.updateProductStock(order);
                     transactionDTO.setStatus("OK");
                     transactionDTO.setMessage("Success");
                     transactionDTO.setData("");
                 }
-            }
         } else {
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
@@ -117,4 +108,11 @@ public class PayController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(transactionDTO);
     }
+
+
+
+
+
+
+
 }

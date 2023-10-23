@@ -22,10 +22,7 @@ public interface IOrdersService {
 
     public List<OrderDTO> getAllOrderDTO();
 
-    public OrderDTO getOneOrderDTO(long id);
-
-    public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
-    public List<Orders> getAllOrdersById(Long userId);
-
     public OrderDTO findById(Long id);
+
+    public void updateOrderAndOrderDetails(Orders order);
 }

@@ -15,4 +15,5 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetail, Long>
 
     List<OrderDetail> findByStatus(String status);
 
+    OrderDetail findByOrder_Id(Long orderId);
 }

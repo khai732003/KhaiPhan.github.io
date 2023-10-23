@@ -9,6 +9,7 @@ import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ProductsRepository;
+import com.swp.cageshop.service.productsService.IProductsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
+
+
+    @Autowired
+    private IProductsService productsService;
 
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
@@ -94,22 +99,6 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 
-    @Override
-    public OrderDTO getOneOrderDTO(long id) {
-        return null;
-    }
-
-    @Override
-    public List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId) {
-        return null;
-    }
-
-    @Override
-    public List<Orders> getAllOrdersById(Long userId) {
-        return null;
-    }
-
-
     public List<Orders> getAllOrdersByUserId(Long orderId) {
         return ordersRepository.findAllById(orderId);
     }
@@ -143,5 +132,17 @@ public class OrdersServiceImpl implements IOrdersService {
 
     return orderDTO;
   }
+
+
+    public void updateOrderAndOrderDetails(Orders order) {
+        if (order != null) {
+            order.setStatus("COMPLETED");
+            ordersRepository.save(order);
+            OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
+            orderDetail.setStatus("COMPLETED");
+            orderDetailsRepository.save(orderDetail);
+            productsService.updateProductStock(order);
+        }
+    }
 
 }
