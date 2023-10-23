@@ -1,18 +1,24 @@
 package com.swp.cageshop.service.vouchersService;
 
 
+import com.swp.cageshop.DTO.VoucherDTO;
 import com.swp.cageshop.entity.Vouchers;
 import java.util.List;
 
 public interface IVouchersService {
-        public Vouchers addVouchers(Vouchers vouchers);
 
-        public Vouchers updateVouchers(long id,Vouchers vouchers);
 
-        public boolean deleteVouchers(long id);
-        public List<Vouchers> getAllVouchers();
+    public VoucherDTO createVoucher(VoucherDTO voucherDTO);
 
-        public Vouchers getOneVouchers(long id);
+    public List<VoucherDTO> getAllVoucherDTO();
+
+    public VoucherDTO getVoucherById(Long id);
+
+    public VoucherDTO updateVoucher(VoucherDTO voucherDTO);
+
+    public void deleteVoucher(Long id);
+    public List<Vouchers> getAllVouchers();
+
     }
 
 

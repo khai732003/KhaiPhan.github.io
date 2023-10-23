@@ -55,8 +55,8 @@ public class Users extends EntityBase{
   private Users manager;
 
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-  private List<Vouchers> vouchers;
+  @OneToMany(mappedBy="user")
+  private List<VoucherUsage> voucherUsages;
 
 
 //  //1:N voi Marketing
@@ -70,7 +70,7 @@ public class Users extends EntityBase{
 
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Feedbacks> feedbacks;
+  private List<Feedback> feedback;
 
   @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

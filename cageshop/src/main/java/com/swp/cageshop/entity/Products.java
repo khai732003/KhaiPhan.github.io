@@ -1,9 +1,7 @@
 package com.swp.cageshop.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,7 +58,7 @@ public class Products extends EntityBase {
   private List<Comments> comments;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<Feedbacks> feedbacks;
+  private List<Feedback> feedback;
 
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -80,13 +78,9 @@ public class Products extends EntityBase {
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Accessories> accessories;
+
+
 }
-
-
-
-//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//  private List<Ratings> ratings;
-
 //
 //  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //  private List<Ratings> ratings;
