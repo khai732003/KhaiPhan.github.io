@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import customAxios from "./CustomAxios/customAxios";
 const VNPayPayment = () => {
   const { orderId } = useParams();
 
@@ -13,7 +13,7 @@ const VNPayPayment = () => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/cageshop/api/pay", orderInfo);
+      const response = await customAxios.post("/pay", orderInfo);
 
       console.log(response.data.url);
   

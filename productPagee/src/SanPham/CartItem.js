@@ -2,6 +2,8 @@ import React from 'react';
 import { ListItem, ListItemText, Avatar, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useCart } from './Context/CartContext';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import "../SanPham/Scss/cart.scss"
 
 const CartItem = ({ item }) => {
@@ -19,7 +21,7 @@ const CartItem = ({ item }) => {
         secondary={`Price: ${item.totalPrice}`}
       />
       <IconButton aria-label="delete" onClick={handleDelete}>
-        <CloseIcon />
+        <DeleteIcon/>
       </IconButton>
     </ListItem>
   );

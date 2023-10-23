@@ -36,4 +36,8 @@ public interface IUsersService {
 public List<Users> listAllExpectAdmin();
 
   public List<Users> listAllStaff();
+
+  public ResponseEntity<String> updateStatus(Long id);
+
+
 }

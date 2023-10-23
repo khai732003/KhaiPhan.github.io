@@ -51,12 +51,6 @@ public class OrdersServiceImpl implements IOrdersService {
             // Lấy đơn hàng từ cơ sở dữ liệu
             Orders existingOrder = optionalOrder.get();
 
-            // Cập nhật thông tin của đơn hàng từ OrderDTO
-//            existingOrder.set(orderDTO.get);
-//            existingOrder.setOrderProperty2(orderDTO.getOrderProperty2());
-            // Cập nhật các trường khác tương ứng
-
-            // Lưu đơn hàng đã cập nhật vào cơ sở dữ liệu
             Orders updatedOrder = ordersRepository.save(existingOrder);
 
             // Chuyển đổi đơn hàng đã cập nhật thành DTO và trả về
@@ -149,5 +143,5 @@ public class OrdersServiceImpl implements IOrdersService {
 
     return orderDTO;
   }
-  
+
 }

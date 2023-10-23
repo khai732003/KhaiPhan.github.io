@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin
 @RequestMapping("/cageshop/api")
 public class UsersController {
 
@@ -58,6 +58,21 @@ public List<Users> findByName(@PathVariable String name, @RequestBody Users user
   @DeleteMapping("/user/deleteAll")
   public void deleteAll(){
      iUsersService.deleteAllUsers();
+  }
+
+  @DeleteMapping("/user/delete/{id}")
+  public void deleteById(@PathVariable Long id){
+    iUsersService.deleteById(id);
+  }
+
+  @PutMapping("/user/ban/{id}")
+  public void banUserById(@PathVariable Long id){
+    iUsersService.updateStatus(id);
+  }
+
+  @PutMapping("/user/resetpassword/{id}")
+  public UserDTO resetById(@PathVariable Long id, @RequestBody UserDTO dto){
+    return iUsersService.resetPassword(id, dto);
   }
 
   @GetMapping("/user/listformadmin")

@@ -68,7 +68,8 @@ public class UsersServiceImpl implements IUsersService {
     Users users = usersRepository.findByName(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     String rolesNames = users.getRole().getName();
     Long id = users.getId();
-    String token = jwtUtilities.generateToken(users.getName(),rolesNames, id);
+    String fullname = users.getFullname();
+    String token = jwtUtilities.generateToken(users.getName(),fullname,rolesNames, id);
     return token;
   }
 
@@ -88,7 +89,8 @@ public class UsersServiceImpl implements IUsersService {
       Roles roles = rolesRepository.getReferenceById(userDTO.getRoleId());
       String rolesNames = roles.getName();
       Long id = users.getId();
-      String token = jwtUtilities.generateToken(userDTO.getName(),rolesNames, id);
+      String fullname = userDTO.getFullname();
+      String token = jwtUtilities.generateToken(userDTO.getName(),fullname,rolesNames, id);
       return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
 
     }
@@ -103,13 +105,12 @@ public class UsersServiceImpl implements IUsersService {
       Users users1 = usersRepository.getReferenceById(id);
       if (users1 != null) {
         // Lưu trữ giá trị createDate hiện tại
-        Date currentCreateDate = users1.getCreateDate();
-
-        users1.setName(users.getName());
+//        Date currentCreateDate = users1.getCreateDate();
         users1.setFullname(users.getFullname());
+        users1.setImage(users.getImage());
         users1.setAddress(users.getAddress());
         users1.setPhone(users.getPhone());
-        users1.setCreateDate(currentCreateDate);
+//        users1.setCreateDate(currentCreateDate);
         //chuyển lại dto -> enitity
         UserDTO saveUserDTO = modelMapper.map(users1, UserDTO.class);
         return saveUserDTO;
@@ -194,6 +195,18 @@ public class UsersServiceImpl implements IUsersService {
   @Override
   public List<Users> listAllStaff() {
     return usersRepository.findAllStaff();
+  }
+
+  @Override
+  public ResponseEntity<String> updateStatus(Long id) {
+    try {
+      Users user = usersRepository.getReferenceById(id);
+      user.setStatus(false);
+      usersRepository.save(user);
+      return ResponseEntity.status(HttpStatus.OK).body("Đã update");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update không thành công.");
+    }
   }
 
 

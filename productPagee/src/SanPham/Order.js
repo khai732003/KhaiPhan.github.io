@@ -3,9 +3,12 @@ import axios from "axios";
 import OrderDetail from "./OrderDetail";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
+import customAxios from "./CustomAxios/customAxios";
 
 const Order = () => {
-  // const { orderId } = useParams();
+
+
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
 
@@ -13,7 +16,7 @@ const Order = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/cageshop/api/order/list/${orderId}`);
+        const response = await customAxios.get(`/order/list/${orderId}`);
 
         if (response.data) {
           setOrder(response.data);

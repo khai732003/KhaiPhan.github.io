@@ -19,10 +19,10 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   void deleteAll();
 
-  @Query("SELECT u FROM Users u WHERE u.role.name != 'ADMIN'")
+  @Query("SELECT u FROM Users u WHERE UPPER(u.role.name) != 'admin'")
   List<Users> findAllExceptAdmin();
 
-  @Query("SELECT u FROM Users u WHERE u.role.name = 'Staff'")
+  @Query("SELECT u FROM Users u WHERE UPPER(u.role.name) = 'STAFF'")
   List<Users> findAllStaff();
 
 }

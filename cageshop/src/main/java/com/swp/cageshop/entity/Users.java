@@ -54,6 +54,8 @@ public class Users extends EntityBase{
   @JoinColumn(name = "manager_id")
   private Users manager;
 
+  private boolean status;
+
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
   private List<Vouchers> vouchers;
