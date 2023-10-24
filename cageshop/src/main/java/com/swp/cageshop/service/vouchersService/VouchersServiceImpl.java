@@ -1,56 +1,83 @@
 package com.swp.cageshop.service.vouchersService;
 
+import com.swp.cageshop.DTO.VoucherDTO;
+import com.swp.cageshop.DTO.VoucherType;
+import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.entity.Vouchers;
+import com.swp.cageshop.repository.OrdersRepository;
+import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.repository.VouchersRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+@Service
 public class VouchersServiceImpl implements IVouchersService{
 
-    private VouchersRepository vouchersRepository;
-    @Override
-    public Vouchers addVouchers(Vouchers vouchers) {
-        if (vouchers != null) {
-            return vouchersRepository.save(vouchers);
+    @Autowired
+    private VouchersRepository voucherRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
+    private OrdersRepository ordersRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    public VoucherDTO createVoucher(VoucherDTO voucherDTO) {
+        Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
+        voucher.setVoucherType(voucher.getVoucherType().toUpperCase());
+        voucher.setCode(voucher.getCode().toUpperCase());
+        String voucherType = voucher.getVoucherType();
+        if (voucherType.equals(VoucherType.CASH.toString())) {
+            Vouchers savedVoucher = voucherRepository.save(voucher);
+            return modelMapper.map(savedVoucher, VoucherDTO.class);
+        } else if(voucherType.equals(VoucherType.FREESHIP.toString())){
+            voucher.setVoucherAmount(0);
+            Vouchers savedVoucher = voucherRepository.save(voucher);
+            return modelMapper.map(savedVoucher, VoucherDTO.class);
+        } else{
+            throw new IllegalArgumentException("Invalid voucher type.");
         }
-        return null;
     }
 
 
-    @Override
-    public Vouchers updateVouchers(long id, Vouchers vouchers) {
-        if (vouchers != null) {
-            Vouchers existingVoucher = vouchersRepository.getReferenceById(id);
-            if (existingVoucher != null) {
-                // Update voucher fields here
-                existingVoucher.setCode(vouchers.getCode());
-                existingVoucher.setDiscountAmount(vouchers.getDiscountAmount());
-                existingVoucher.setActive(vouchers.isActive());
-                return vouchersRepository.save(existingVoucher);
-            }
-        }
-        return null;
+
+    public List<VoucherDTO> getAllVoucherDTO() {
+        List<Vouchers> vouchers = voucherRepository.findAll();
+        return vouchers.stream()
+                .map(voucher -> modelMapper.map(voucher, VoucherDTO.class))
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean deleteVouchers(long id) {
-        if (id >= 1) {
-            Vouchers voucher = vouchersRepository.getReferenceById(id);
-            if (voucher != null) {
-                vouchersRepository.delete(voucher);
-                return true;
-            }
-        }
-        return false;
+    public VoucherDTO getVoucherById(Long id) {
+        Vouchers voucher = voucherRepository.findById(id).orElse(null);
+        return modelMapper.map(voucher, VoucherDTO.class);
+    }
+
+    public VoucherDTO updateVoucher(VoucherDTO voucherDTO) {
+           Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
+           voucher.setActive(true);
+           voucher.setCode(voucherDTO.getCode());
+           Vouchers updatedVoucher = voucherRepository.save(voucher);
+           return modelMapper.map(updatedVoucher, VoucherDTO.class);
+    }
+
+
+    public void deleteVoucher(Long id) {
+        voucherRepository.deleteById(id);
     }
 
     @Override
     public List<Vouchers> getAllVouchers() {
-        return vouchersRepository.findAll();
+        return voucherRepository.findAll();
     }
 
-    @Override
-    public Vouchers getOneVouchers(long id) {
-        return vouchersRepository.getReferenceById(id);
-    }
+
+
 }

@@ -61,8 +61,8 @@ public List<Users> findByName(@PathVariable String name, @RequestBody Users user
   }
 
   @DeleteMapping("/user/delete/{id}")
-  public void deleteById(@PathVariable Long id){
-    iUsersService.deleteById(id);
+  public ResponseEntity<?> deleteById(@PathVariable Long id){
+    return iUsersService.deleteById(id);
   }
 
   @PutMapping("/user/ban/{id}")

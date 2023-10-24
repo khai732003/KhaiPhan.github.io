@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 import customAxios from "./CustomAxios/customAxios";
 const VNPayPayment = () => {
-  const { orderId } = useParams();
+  const  orderId  = localStorage.getItem('orderId');
 
   const [orderInfo, setOrderInfo] = useState({
     vnp_OrderInfo: "Anh yeu em nhieu lam 1", // Thông tin đơn hàng
@@ -24,10 +22,7 @@ const VNPayPayment = () => {
 
     }
   };
-  
-
-  
-
+   
   return (
     <div className="vnpay-payment-container">
       <h2>Thanh toán bằng VNPay</h2>

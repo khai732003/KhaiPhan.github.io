@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import customAxios from "./CustomAxios/customAxios";
+import VNPayPayment from "./VNPayPayment";
 
 const Order = () => {
 
@@ -33,9 +34,9 @@ const Order = () => {
   }, [orderId]); 
 
  
-  const handlePaymentClick = () => {
-    navigate(`/payment/${orderId}`);
-  };
+  // const handlePaymentClick = () => {
+  //   navigate(`/payment/${orderId}`);
+  // };
 
   return (
     <div className="order-container">
@@ -48,7 +49,8 @@ const Order = () => {
           <div>Ship Address: {order.shipAddress}</div>
           <div>Total Price: {order.total_price}</div>
           <OrderDetail orderId={order.id} />
-          <button onClick={handlePaymentClick}>Thanh toán ngay</button>
+          {/* <button onClick={handlePaymentClick}>Thanh toán ngay</button> */}
+          <VNPayPayment />
         </div>
       )}
     </div>

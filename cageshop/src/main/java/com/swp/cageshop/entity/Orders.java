@@ -1,6 +1,5 @@
 package com.swp.cageshop.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,12 +39,8 @@ public class Orders extends EntityBase{
   @Column(name="total_Price")
   private double total_Price;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-  private List<Vouchers> vouchers;
-
-  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-  private Feedbacks feedbacks;
+  @OneToMany(mappedBy="order")
+  private List<VoucherUsage> voucherUsages;
 
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
   private Pays pays;

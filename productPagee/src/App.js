@@ -15,6 +15,7 @@ import VNPayPayment from './SanPham/VNPayPayment';
 import Login from './SanPham/Login';
 import Register from './SanPham/Register';
 import { AuthProvider } from "./SanPham/Context/AuthContext";
+import Success from './SanPham/Success';
 
 function App() {
   return (
@@ -23,11 +24,12 @@ function App() {
 <CartProvider>
           <Navigation />
           <Routes>
+            <Route path="/paysuccess" element={<Success />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<ProductPage />} />
             <Route path="/order/:orderId" element={<Order />} />
-            <Route path="/payment/:orderId" element={<VNPayPayment />} />
+            {/* <Route path="/payment/:orderId" element={<VNPayPayment />} /> */}
           </Routes>
         </CartProvider>
 </AuthProvider>

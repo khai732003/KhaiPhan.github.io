@@ -41,7 +41,6 @@ const Cart = () => {
     }
     try {
 
-      console.log(user.id)
       if (!orderId) {
         const shipAddress = "hcm";
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
