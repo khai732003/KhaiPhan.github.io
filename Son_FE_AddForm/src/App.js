@@ -14,9 +14,10 @@ function App() {
   return (
     <div className="App">
     {/* <CartProvider>
+
     <ProductPage/>
-    </CartProvider> */}
-        {/* <AddProductForm />  */}
+   </CartProvider>
+        <AddProductForm />  */}
         <AddProductFormV3 /> 
        
 
