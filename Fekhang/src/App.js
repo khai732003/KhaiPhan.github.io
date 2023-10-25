@@ -19,6 +19,7 @@ import Order from './content/SanPham/Order'
 import { AuthProvider } from './content/SanPham/Context/AuthContext';
 import { CartProvider } from './content/SanPham/Context/CartContext';
 import Header from './header/Header';
+import TintucStaff from './contentStaff/tintucStaff';
 
 
 function App() {
@@ -40,13 +41,11 @@ function App() {
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
-              {/* <Route exact path="tintuc/newsdetail/:id" element={<DetailNewsPage />} /> */}
-              {/* <Route exact path="sanpham/productdetail/:id" element={<DetailProductPage/>} /> */}
+              <Route path="/staffnew" element={<TintucStaff/>} />
             </Routes>
           </CartProvider>
         </AuthProvider>
       </Router>
-
     </>
   );
 }
