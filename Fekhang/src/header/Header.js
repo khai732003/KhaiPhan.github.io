@@ -22,7 +22,7 @@ function Header(props) {
     const isLoginPage = location.pathname === '/login';
     const isRegisterPage = location.pathname === '/register';
     const isSuccess = location.pathname === '/paysuccess';
-    const isDashboard = location.pathname === '/dashboard';
+    const isDashboard = location.pathname === '/dashboard/*';
     const isUserManager = location.pathname === '/usermanagement';
     const isAdmin = location.pathname === '/admin';
     const isAddUser = location.pathname === '/add';
@@ -35,7 +35,7 @@ function Header(props) {
     }
     //|| isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager
     // Nếu người dùng đang ở trang đăng nhập hoặc đăng ký, ẩn Navigation
-    if (isLoginPage || isRegisterPage || isSuccess || isDashboard || isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager) {
+    if (isLoginPage || isRegisterPage || isSuccess || isDashboard ) {
         return null;
     }
 
@@ -70,7 +70,7 @@ function Header(props) {
                                 <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill" /></NavLink>
 
                                 <div className="dropdown-menu">
-                                    <NavLink to="/login" className="dropdown-item nav-link">
+                                    <NavLink to="/staffnew" className="dropdown-item nav-link">
                                         Đăng Nhập
                                     </NavLink>
                                     <NavLink to="/signup" className="dropdown-item nav-link">
@@ -97,6 +97,7 @@ function Header(props) {
                                 <i className="bi bi-cart-check"></i>
                             </Button>
                             {isLoggedIn ? (
+                                
                                 // Hiển thị nút "Logout" khi có người dùng đăng nhập
                                 <div className="custom-dropdown">
                                     <Button className="btn btn-outline-secondary btnhead">
