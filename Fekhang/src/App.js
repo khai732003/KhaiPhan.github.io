@@ -20,11 +20,16 @@ import { AuthProvider } from './content/SanPham/Context/AuthContext';
 import { CartProvider } from './content/SanPham/Context/CartContext';
 import Header from './header/Header';
 import TintucStaff from './contentStaff/tintucStaff';
+
 import FormAddEdit from './content/dashboard/components/FormAddEdit';
 import UserManagement from './content/dashboard/pages/UserManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
 import Footer from './footer/Footer';
+
+import DetailNewsPage from './content/tintuc/newsdetail';
+
+
 function App() {
   return (
     <>
@@ -55,7 +60,10 @@ function App() {
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/staffnew" element={<TintucStaff />} />
+
+              <Route path="/staffnew" element={<TintucStaff/>} />
+              <Route exact path="tintuc/newsdetail/:id" element={<DetailNewsPage/>} />
+
             </Routes>
             <Footer/>
           </CartProvider>
