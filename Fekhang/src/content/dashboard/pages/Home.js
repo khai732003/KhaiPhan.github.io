@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/home.css"
+import "../styles/home.scss"
 
 const URL = 'https://652aea854791d884f1fd8029.mockapi.io/api/product/v1/staffManagement';
 
@@ -34,9 +34,9 @@ const Home = () => {
     } 
 
     return (
-        <div className="container">
+        <div className="Home-Dashboard-container">
             {staffs && staffs.map(staff => (
-                <div className="card" key={staff.id}>
+                <div className="card-Home-Dashboard-container" key={staff.id}>
                     <img src={staff.avatar} alt={staff.id} />
                     <h3>{staff.name}</h3>
                     <button onClick={() => handleViewPopup(staff)}>Details</button>
@@ -44,7 +44,7 @@ const Home = () => {
             ))}
 
             {detailPopup && (
-                <div className="popup">
+                <div className="popup-Home-Dashboard-container">
                     <div className="popup-content">
                         <div>
                             <span className="close" onClick={handleClosePopup}>

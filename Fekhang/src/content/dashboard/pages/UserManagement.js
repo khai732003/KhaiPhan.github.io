@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import "../styles/usermanagement.css";
+import "../styles/usermanagement.scss";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -96,7 +96,7 @@ const UserManagement = () => {
         </div>
       </div>
 
-      <div>
+      <div className="table-staff-container">
         <table>
           <thead>
             <tr>

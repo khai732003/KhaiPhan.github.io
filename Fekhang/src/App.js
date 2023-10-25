@@ -31,6 +31,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import FormAddEdit from "./content/dashboard/components/FormAddEdit";
 
 import TintucStaff from './contentStaff/tintucStaff';
+import DetailNewsPage from './content/tintuc/newsdetail';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/staffnew" element={<TintucStaff/>} />
+              <Route exact path="tintuc/newsdetail/:id" element={<DetailNewsPage/>} />
             </Routes>
           </CartProvider>
         </AuthProvider>
