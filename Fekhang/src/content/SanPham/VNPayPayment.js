@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import customAxios from "./CustomAxios/customAxios";
+import customAxios from '../../CustomAxios/customAxios';
 const VNPayPayment = () => {
   const  orderId  = localStorage.getItem('orderId');
 

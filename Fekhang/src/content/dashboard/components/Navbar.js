@@ -104,7 +104,7 @@ const Navbar = () => {
               <StyledToggleButton
                 button
                 component={Link}
-                to="/admin"
+                to="/"
                 className="navbar-btn navbar-item"
               >
                 <ListItemIcon>

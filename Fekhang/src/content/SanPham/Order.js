@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import OrderDetail from "./OrderDetail";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
-import customAxios from "./CustomAxios/customAxios";
+import customAxios from '../../CustomAxios/customAxios';
 import VNPayPayment from "./VNPayPayment";
 
 const Order = () => {

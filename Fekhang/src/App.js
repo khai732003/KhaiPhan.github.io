@@ -19,19 +19,12 @@ import Order from './content/SanPham/Order'
 import { AuthProvider } from './content/SanPham/Context/AuthContext';
 import { CartProvider } from './content/SanPham/Context/CartContext';
 import Header from './header/Header';
-
-import Dashboard from './content/dashboard/Dashboard';
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-// import Navbar from "./content/components/Navbar";
-// import Footer from "./components/Footer";
-// import Home from "./content/dashboard/pages/Home";
-// import UserManagement from "./content/dashboard/pages/UserManagement";
-// import Revenue from "./content/dashboard/pages/Revenue";
-// import FormAddEdit from "./content/dashboard/components/FormAddEdit";
-
 import TintucStaff from './contentStaff/tintucStaff';
-
+import FormAddEdit from './content/dashboard/components/FormAddEdit';
+import UserManagement from './content/dashboard/pages/UserManagement';
+import Home from './content/dashboard/pages/Home';
+import Revenue from './content/dashboard/pages/Revenue';
+import Footer from './footer/Footer';
 function App() {
   return (
     <>
@@ -42,12 +35,17 @@ function App() {
             <Routes useScroll={scrollToTop}>
 
               <Route exact path="/" element={<Trangchu />}> </Route>
-              <Route path='/dashboard' element={<Dashboard />}> </Route>
-              {/* <Route path="/adnim" element={<Home />} />
+              
+
+              {/* <Route path='/dashboard' element={<Dashboard />}/>  */}
+              <Route path="/admin" element={<Home />} />
               <Route path="/usermanagement" element={<UserManagement />} />
               <Route path="/add" element={<FormAddEdit />} />
               <Route path="/update/:id" element={<FormAddEdit />} />
-              <Route path="/revenue" element={<Revenue />} /> */}
+              <Route path="/revenue" element={<Revenue />} />
+
+
+
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/register" element={<Register />} />
@@ -57,8 +55,9 @@ function App() {
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/staffnew" element={<TintucStaff/>} />
+              <Route path="/staffnew" element={<TintucStaff />} />
             </Routes>
+            <Footer/>
           </CartProvider>
         </AuthProvider>
       </Router>

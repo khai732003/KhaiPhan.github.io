@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import customAxios from './CustomAxios/customAxios';
+import customAxios from '../../CustomAxios/customAxios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './Context/AuthContext';
 import { Alert, Button ,} from '@mui/material';

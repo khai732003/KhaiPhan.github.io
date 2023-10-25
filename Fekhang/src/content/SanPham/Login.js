@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import customAxios from './CustomAxios/customAxios'; // Import phiên bản đã được cấu hình
+import customAxios from '../../CustomAxios/customAxios';
 import { useAuth } from './Context/AuthContext';
 import './Scss/Login-Register.scss'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

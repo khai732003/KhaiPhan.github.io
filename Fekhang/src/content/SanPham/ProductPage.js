@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/material";
 
 import Cart from "./Cart"
-import customAxios from "./CustomAxios/customAxios";
+import customAxios from '../../CustomAxios/customAxios';
 
 
 const ProductPage = () => {

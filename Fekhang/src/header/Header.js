@@ -9,7 +9,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
-import Dashboard from '../content/dashboard/Dashboard';
+import NavBar from '../content/dashboard/components/NavBar';
 function Header(props) {
 
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function Header(props) {
     const isLoginPage = location.pathname === '/login';
     const isRegisterPage = location.pathname === '/register';
     const isSuccess = location.pathname === '/paysuccess';
-    const isDashboard = location.pathname === '/dashboard/*';
+    // const isDashBoard = location.pathname === '/dashboard';
     const isUserManager = location.pathname === '/usermanagement';
     const isAdmin = location.pathname === '/admin';
     const isAddUser = location.pathname === '/add';
@@ -33,10 +33,13 @@ function Header(props) {
     const handleOnLogout = () => {
         logout();
     }
-    //|| isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager
-    // Nếu người dùng đang ở trang đăng nhập hoặc đăng ký, ẩn Navigation
-    if (isLoginPage || isRegisterPage || isSuccess || isDashboard ) {
+    
+    if (isLoginPage || isRegisterPage || isSuccess ) {
         return null;
+    }
+
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager){
+        return <NavBar/>
     }
 
     return (
@@ -107,9 +110,9 @@ function Header(props) {
                                         <NavLink to="/profile" className="dropdown-item nav-link">
                                             Profile
                                         </NavLink>
-                                        <NavLink to="/dashboard" className="dropdown-item nav-link" >
+                                        <NavLink to="/admin" className="dropdown-item nav-link" >
                                             cc
-                                            navigate("/dashboard")
+                                            navigate("/admin");
                                         </NavLink>
                                         {user.role === "STAFF" && (
                                             <NavLink

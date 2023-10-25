@@ -10,7 +10,7 @@ import { useNavigate} from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import "../SanPham/Scss/cart.scss"
 import { useAuth } from './Context/AuthContext';
-import customAxios from './CustomAxios/customAxios';
+import customAxios from '../../CustomAxios/customAxios';
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 const Cart = () => {

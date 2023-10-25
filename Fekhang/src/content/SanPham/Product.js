@@ -3,7 +3,7 @@ import "./Scss/Product.scss"; // Import CSS file
 import { useCart } from "./Context/CartContext";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useAuth } from "./Context/AuthContext";
-import customAxios from "./CustomAxios/customAxios";
+import customAxios from '../../CustomAxios/customAxios';
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";

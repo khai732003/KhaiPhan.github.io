@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import customAxios from "./CustomAxios/customAxios";
+import customAxios from '../../CustomAxios/customAxios';
 
 const OrderDetail = () => {
   // const { orderId } = useParams();
