@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination';
 import UpdateNews from './updatetintuc';
 import ModalAddNews from './insertnews';
 import ModalDelete from './deletenews';
-
+import { Button } from '@mui/material';
+import './tintucStaff.scss'
 const TintucStaff = () => {
     const [News, setNews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const itemsPerPage = 8;
     const [showAdd, setShowAdd] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -40,7 +40,7 @@ const TintucStaff = () => {
         handleCloseAdd();
         handleCloseEdit();
     };
-   
+
 
     const handleDelete = () => {
         getAllNews();
@@ -74,8 +74,8 @@ const TintucStaff = () => {
     };
 
     return (
-        <div style={{ marginTop: '100px' }}>
-            <Button variant="primary" onClick={handleShowAdd}>
+        <div style={{ marginTop: '100px' }} className='tintucStaff-container'>
+            <Button variant="outlined" color='success' onClick={handleShowAdd} size='large' id='btn-add-staff-dashboard'>
                 Add News
             </Button>
             <Table striped bordered hover>
@@ -96,8 +96,8 @@ const TintucStaff = () => {
                             <td>{data.shortinfo}</td>
                             <td>{data.date}</td>
                             <td>
-                                <Button onClick={() => handleShowEdit(data)}>Edit</Button>
-                                <Button onClick={() => handleShowDelete(data)}>Delete</Button>
+                                <Button variant="outlined" onClick={() => handleShowEdit(data)} className='edit-button'>Edit  <span style={{ paddingLeft: '5px' }} class="bi bi-pencil-square"></span></Button>
+                                <Button variant="outlined"  color='error' onClick={() => handleShowDelete(data)} style={{marginLeft:'20px'}} className='delete-button '>Delete<span  style={{ paddingLeft: '5px' }}  class="bi bi-trash3-fill"></span></Button>
                             </td>
                         </tr>
                     ))}
