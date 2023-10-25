@@ -13,8 +13,8 @@ const WhyChooseUs = () => {
           <div className="d-flex align-items-center">
             <i className="bi bi-truck"></i>
             <div className='content'>
-              <h7>Giao hàng tận nơi</h7>
-              <h7>Đảm bảo 100%</h7>
+              <h6>Giao hàng tận nơi</h6>
+              <h6>Đảm bảo 100%</h6>
             </div>
           </div>
         </div>
@@ -24,8 +24,8 @@ const WhyChooseUs = () => {
           <div className="d-flex align-items-center">
             <i class="bi bi-box2-heart"></i>
             <div className='content'>
-              <h7>Thẻ quà tặng đặc biệt</h7>
-              <h7>Quà tặng hấp dẫn đi kèm</h7>
+              <h6>Thẻ quà tặng đặc biệt</h6>
+              <h6>Quà tặng hấp dẫn đi kèm</h6>
             </div>
           </div>
         </div>
@@ -35,8 +35,8 @@ const WhyChooseUs = () => {
           <div className="d-flex align-items-center">
             <i class="bi bi-telephone"></i>
             <div className='content'>
-              <h7>Dịch vụ khách hàng 24/7</h7>
-              <h7>Gọi cho chúng tôi 24/7</h7>
+              <h6>Dịch vụ khách hàng 24/7</h6>
+              <h6>Gọi cho chúng tôi 24/7</h6>
             </div>
           </div>
         </div>

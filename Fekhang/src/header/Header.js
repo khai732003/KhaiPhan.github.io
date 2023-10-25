@@ -6,12 +6,30 @@ import Navbar from 'react-bootstrap/Navbar';
 import '../header/Header.scss'
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useCart } from '../content/SanPham/Context/CartContext';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../content/SanPham/Context/AuthContext';
 function Header(props) {
-    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    
+    
+    const { user, logout } = useAuth();
+    const { isCartOpen, toggleCart } = useCart();
+    const isLoggedIn = user;
+    const location = useLocation();
 
-    const toggleMenu = () => {
-        setIsMenuVisible(!isMenuVisible);
-    };
+    // Kiểm tra xem người dùng có đang ở trang đăng nhập hoặc đăng ký không
+    const isLoginPage = location.pathname === '/login';
+    const isRegisterPage = location.pathname === '/register';
+    const isSuccess = location.pathname === '/paysuccess';
+
+    const handleOnLogout = () => {
+        logout();
+    }
+
+    // Nếu người dùng đang ở trang đăng nhập hoặc đăng ký, ẩn Navigation
+    if (isLoginPage || isRegisterPage || isSuccess) {
+        return null;
+    }
 
     return (
         <div className='fixed-header'>
@@ -29,10 +47,10 @@ function Header(props) {
                             <NavLink to="/Gioithieu" className="nav-link">GIỚI THIỆU</NavLink>
 
                             <div className="custom-dropdown" >
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">SẢN PHẨM <span class="bi bi-caret-down-fill"/></NavLink>
+                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">SẢN PHẨM <span class="bi bi-caret-down-fill" /></NavLink>
                                 <div className="dropdown-menu">
-                                    <NavLink to="/profile" className="dropdown-item nav-link">
-                                        Đăng Nhập
+                                    <NavLink to="/sanpham" className="dropdown-item nav-link">
+                                        Sản Phẩm
                                     </NavLink>
                                     <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
@@ -41,8 +59,8 @@ function Header(props) {
                             </div>
 
                             <div className="custom-dropdown" >
-                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill"/></NavLink>
-                                
+                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill" /></NavLink>
+
                                 <div className="dropdown-menu">
                                     <NavLink to="/login" className="dropdown-item nav-link">
                                         Đăng Nhập
@@ -66,23 +84,44 @@ function Header(props) {
                             <Button variant="outline-success">Search</Button>
                         </Form>
                         <Nav>
-                            <div className="custom-dropdown">
-                                <Button className="btn btn-outline-secondary btnhead" >
-                                    <i class="bi bi-person-circle"></i>
-                                </Button>
-                                <div className="dropdown-menu">
-                                    <NavLink to="/login" className="dropdown-item nav-link">
-                                        Đăng Nhập
-                                    </NavLink>
-                                    <NavLink to="/signup" className="dropdown-item nav-link">
-                                        Đăng Ký
-                                    </NavLink>
-                                </div>
-                            </div>
-                            <Button variant="outline-secondary" to="/profile" className='btn' title='Giỏ Hàng'>
-                                <i className=" bi-cart-check"></i>
+                            {/* Nút giỏ hàng */}
+                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
+                                <i className="bi bi-cart-check"></i>
                             </Button>
+                            {isLoggedIn ? (
+                                // Hiển thị nút "Logout" khi có người dùng đăng nhập
+                                <div className="custom-dropdown">
+                                    <Button className="btn btn-outline-secondary btnhead">
+                                        <i className="bi bi-person-circle"></i>
+                                    </Button>
+                                    <div className="dropdown-menu">
+                                        <NavLink to="/profile" className="dropdown-item nav-link">
+                                            Profile
+                                        </NavLink>
+                                        <NavLink className="dropdown-item nav-link" onClick={handleOnLogout}>
+                                            Logout
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            ) : (
+                                // Hiển thị các tùy chọn đăng nhập/đăng ký khi không có người dùng đăng nhập
+                                <div className="custom-dropdown">
+                                    <Button className="btn btn-outline-secondary btnhead">
+                                        <i className="bi bi-person-circle"></i>
+                                    </Button>
+                                    <div className="dropdown-menu">
+                                        <NavLink to="/login" className="dropdown-item nav-link">
+                                            Đăng Nhập
+                                        </NavLink>
+                                        <NavLink to="/register" className="dropdown-item nav-link">
+                                            Đăng Ký
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            )}
+                            
                         </Nav>
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
