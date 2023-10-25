@@ -1,73 +1,61 @@
-/* Sign-up Page Styles */
+// signup.scss
 
-.container {
-    padding-top: 70px;
-
-    .signup {
-        margin: 50px;
-        font-family: 'Roboto Slab';
-        border-radius: 5px;
-
-        h2 {
-            color: #cc6119;
-            border-bottom: 4px solid #cc6119;
-            display: inline-block;
-            padding: 20px 0;
-            margin-bottom: 20px;
-        }
-
-        background-color: #ebe8e8;
-        padding: 20px 25px;
-
-        .row {
-            .col-md-6 {
-                h2 {
-                    font-size: 24px;
-                    margin-bottom: 20px;
-                }
-
-                form {
-                    .form-group {
-                        margin-bottom: 20px;
-
-                        input {
-                            width: 100%;
-                            padding: 10px;
-                            border: 1px solid #ccc;
-                            border-radius: 5px;
-                            font-size: 16px;
-
-                            &::placeholder {
-                                color: #999;
-                            }
-                        }
-
-                      
-
-                        button {
-                            width: 40%;
-                            padding: 10px;
-                            background-color: #007bff;
-                            color: #fff;
-                            border: none;
-                            border-radius: 5px;
-                            font-size: 16px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: #0056b3;
-                            }
-                        }
-                    }
-                    .gender-select {
-                        width: 20%;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        border-radius: 5px;
-                        font-size: 16px;
-                    }
-                }
-            }
-        }
+div {
+    margin-top: 100px;
+    text-align: center;
+  
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
-}
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      div {
+        margin: 10px 0;
+  
+        label {
+          display: block;
+          font-weight: bold;
+        }
+  
+        input[type="email"],
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+  
+        select {
+          appearance: none;
+        }
+  
+        div {
+          color: red;
+          font-size: 14px;
+        }
+      }
+  
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+  

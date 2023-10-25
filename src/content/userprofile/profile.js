@@ -19,7 +19,6 @@ const Profile = () => {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const handleImageUpload = (e) => {
-    // Handle image upload logic here
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -31,17 +30,13 @@ const Profile = () => {
   };
 
   const handleProfileUpdate = () => {
-    // Handle profile update logic here
-
-    // For demo purposes, let's just toggle the edit mode
     setIsEditMode(!isEditMode);
   };
 
   return (
     <Container className="mt-5">
       <Row>
-        {/* Left Side */}
-        <Col md={4} className='left-content'>
+        <Col md={4} className='left-content-profile'>
           <div className="text-center">
             <img
               src={user.profileImage}
@@ -54,7 +49,7 @@ const Profile = () => {
             </div>
             <Button
               variant="primary"
-              className="button-mt2 custom-btn"
+              className="button-mt2 custom-btn-profile"
               onClick={handleProfileUpdate}
             >
               {isEditMode ? (

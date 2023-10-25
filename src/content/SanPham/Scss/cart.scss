@@ -1,0 +1,44 @@
+.cart-dialog {
+
+    .dialog-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 800;
+        background-color: cornsilk;
+        display: flex;
+        justify-content:  space-between;;
+    }
+
+    .shopping-cart {
+        width: 100%;
+    }
+}
+
+.center-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 100% chiều cao của viewport */
+  }
+
+.MuiDialog-paper {
+    width: 800px;
+    height: 300px;
+
+    .option-cart {
+        display: flex;
+        justify-content: space-between;
+
+        .total-price {
+            display: grid;
+            font-weight: 800;
+            padding-left: 1rem;
+
+            .price {
+                font-size: larger;
+                color: #48947e;
+            }
+        }
+    }
+
+}
