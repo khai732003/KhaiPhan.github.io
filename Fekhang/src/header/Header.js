@@ -5,13 +5,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../header/Header.scss'
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
+import Dashboard from '../content/dashboard/Dashboard';
 function Header(props) {
-    
-    
+
+    const navigate = useNavigate();
     const { user, logout } = useAuth();
     const { isCartOpen, toggleCart } = useCart();
     const isLoggedIn = user;
@@ -21,13 +22,20 @@ function Header(props) {
     const isLoginPage = location.pathname === '/login';
     const isRegisterPage = location.pathname === '/register';
     const isSuccess = location.pathname === '/paysuccess';
+    const isDashboard = location.pathname === '/dashboard';
+    const isUserManager = location.pathname === '/usermanagement';
+    const isAdmin = location.pathname === '/admin';
+    const isAddUser = location.pathname === '/add';
+    const isUpdateUser = location.pathname === "/update/:id";
+    const isRevenue = location.pathname === "/revenue";
+    const isProductManager = location.pathname === "/productmanagement";
 
     const handleOnLogout = () => {
         logout();
     }
-
+    //|| isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager
     // Nếu người dùng đang ở trang đăng nhập hoặc đăng ký, ẩn Navigation
-    if (isLoginPage || isRegisterPage || isSuccess) {
+    if (isLoginPage || isRegisterPage || isSuccess || isDashboard || isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager) {
         return null;
     }
 
@@ -98,6 +106,19 @@ function Header(props) {
                                         <NavLink to="/profile" className="dropdown-item nav-link">
                                             Profile
                                         </NavLink>
+                                        <NavLink to="/dashboard" className="dropdown-item nav-link" >
+                                            cc
+                                            navigate("/dashboard")
+                                        </NavLink>
+                                        {user.role === "STAFF" && (
+                                            <NavLink
+                                                to="/staffnew"
+                                                className="dropdown-item nav-link"
+                                                onClick={() => navigate("/staffnew")}
+                                            >
+                                                NEW MARKETING
+                                            </NavLink>
+                                        )}
                                         <NavLink className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
                                         </NavLink>
@@ -119,7 +140,7 @@ function Header(props) {
                                     </div>
                                 </div>
                             )}
-                            
+
                         </Nav>
 
                     </Navbar.Collapse>

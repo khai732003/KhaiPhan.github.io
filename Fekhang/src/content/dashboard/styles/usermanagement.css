@@ -1,0 +1,119 @@
+.staff-table{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.search-add-btn {
+    display: flex; 
+  }
+  
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, 
+td{
+    padding: 800px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th{
+    background-color: #f2f2f2;
+}
+
+img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+button{
+    padding: 6px 10px;
+    margin-right: 5px;
+    background-color:  black;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-add{
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.add-staff-btn{
+    color: orangered;
+    background-color: transparent;
+    border: 2px solid orangered;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .3s all linear;
+}
+
+.add-staff-btn:hover{
+    background-color: orangered;
+    color: #fff;
+}
+
+.search-name{
+    margin-bottom: 40px;
+    padding-right: 35rem;
+}
+
+.search-button,
+.reset-button {
+  margin-left: 10px;
+}
+
+/* usermanagement.css */
+.staff-table {
+    margin: 0 auto;
+    width: 90%; /* Điều chỉnh chiều rộng theo mong muốn */
+  }
+  
+  .staff-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    border: 2px solid #333 !important; /* Border cho bảng */
+  }
+  
+  .staff-table table th, .staff-table table td {
+    background-color: #f0f0f0; /* Màu nền cho tất cả các ô */
+    color: #333; /* Màu chữ cho tất cả các ô */
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #151219 !important; /* Border cho tất cả các ô */
+    width: auto;
+}
+  
+  .staff-table table th {
+    background-color: #333 !important; /* Màu nền cho thanh header */
+    color: #fff !important; /* Màu chữ trắng cho header */
+    font-weight: bold;
+    width: auto;
+  }
+
+  .staff-table table tbody tr:nth-child(even) {
+    background-color: #c12b2b !important; /* Màu nền cho dòng chẵn */
+  }
+  
+  .staff-table table tbody tr:nth-child(odd) {
+    background-color: #170606; /* Màu nền cho dòng lẻ */
+  }
+  
+  .staff-table table tbody tr:hover {
+    background-color: #4a167d; /* Màu nền khi di chuột qua */
+  }
+
