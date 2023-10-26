@@ -134,9 +134,10 @@ public class PayPalController {
         Orders price = ordersRepository.getReferenceById(paypalDTO.getOrderId());
 
         String currencyCode = "USD";
-        double amountValue = price.getTotal_Price();
+        double amountValue = price.getTotal_Price() / 24000;
+        int intValue = Double.valueOf(amountValue).intValue();
 
-        String requestJson = "{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"" + currencyCode + "\",\"value\":\"" + amountValue + "\"}}]}";
+        String requestJson = "{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"" + currencyCode + "\",\"value\":\"" + intValue + "\"}}]}";
         HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
         ResponseEntity<Object> response = restTemplate.exchange(
                 BASE + "/v2/checkout/orders",

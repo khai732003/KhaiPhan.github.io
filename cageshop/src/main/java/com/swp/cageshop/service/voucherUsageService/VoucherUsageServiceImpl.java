@@ -96,4 +96,7 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public boolean isUserUsedVoucher(Long userId, Long voucherId) {
         return voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);
     }
+
+
+
 }

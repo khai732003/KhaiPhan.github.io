@@ -2,11 +2,10 @@ package com.swp.cageshop.service.vouchersService;
 
 import com.swp.cageshop.DTO.VoucherDTO;
 import com.swp.cageshop.DTO.VoucherType;
-import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.Users;
-import com.swp.cageshop.entity.Vouchers;
+import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.UsersRepository;
+import com.swp.cageshop.repository.VoucherUsageRepository;
 import com.swp.cageshop.repository.VouchersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ public class VouchersServiceImpl implements IVouchersService{
     private VouchersRepository voucherRepository;
 
     @Autowired
+    private VoucherUsageRepository voucherUsageRepository;
+    @Autowired
     private UsersRepository usersRepository;
 
     @Autowired
@@ -33,6 +34,7 @@ public class VouchersServiceImpl implements IVouchersService{
         Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
         voucher.setVoucherType(voucher.getVoucherType().toUpperCase());
         voucher.setCode(voucher.getCode().toUpperCase());
+        voucher.setActive(true);
         String voucherType = voucher.getVoucherType();
         if (voucherType.equals(VoucherType.CASH.toString())) {
             Vouchers savedVoucher = voucherRepository.save(voucher);
@@ -77,7 +79,6 @@ public class VouchersServiceImpl implements IVouchersService{
     public List<Vouchers> getAllVouchers() {
         return voucherRepository.findAll();
     }
-
 
 
 }

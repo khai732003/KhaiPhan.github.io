@@ -8,6 +8,7 @@ import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
 import com.swp.cageshop.service.voucherUsageService.IVoucherUsageService;
+import com.swp.cageshop.service.vouchersService.IVouchersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Autowired
     private VoucherUsageRepository voucherUsageRepository;
+
+    @Autowired
+    private IVouchersService iVouchersService;
 
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
@@ -119,6 +123,9 @@ public class OrdersServiceImpl implements IOrdersService {
                 totalCost += shipPrice - totalVoucherAmount;
             }
 
+            if(totalCost <= 0 ){
+                throw new IllegalArgumentException("Total cost should be greater than 0.");
+            }
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);

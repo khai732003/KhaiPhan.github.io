@@ -17,7 +17,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vouchers extends EntityBase{
+public class Vouchers{
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "create_date")
+  private LocalDateTime createDate;
 
   @Column(nullable = false, unique = true)
   private String code;
@@ -34,12 +42,13 @@ public class Vouchers extends EntityBase{
   @Column(nullable = false)
   private boolean isActive;
 
-  @Column(nullable = false)
-  private int quantity;
-
   @Column
   private LocalDateTime expiration_date;
 
   @OneToMany(mappedBy="voucher", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<VoucherUsage> usages;
+  @PrePersist
+  public void onPersist() {
+    this.createDate = LocalDateTime.now();
+  }
 }
