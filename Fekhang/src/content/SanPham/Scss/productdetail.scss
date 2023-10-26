@@ -1,0 +1,119 @@
+.product-container-productdetail {
+    font-family: Helvetica;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -50px;
+    background-image: linear-gradient(to bottom,
+
+            rgb(212, 227, 234), rgb(218, 231, 237));
+    position: relative;
+
+    .container-productdetail {
+        #image-container-productdetail {
+            max-width: 100%;
+            height: 85vh;
+            border-radius: 3px 0 0 0;
+        }
+
+        .container-sub-image {
+            margin:10px 20px ;
+            .image-sub-container-productdetail {
+
+                img {
+                    width: 80px;
+                    height: 80px;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .price-content-productdetail {
+            display: inline-block;
+
+            .product-configuration {
+                .addtocart-product-configuration {
+                    position: absolute;
+                    top: 6%;
+                    right: 5%;
+                }
+            }
+        }
+
+        .content-productdetail {
+            margin: 20% 50px 20% 30px;
+
+            .infomation-content-productdetail {
+                p {
+                    line-height: 0.9;
+                    color: #849093;
+                }
+            }
+        }
+
+    }
+
+}
+
+.product-color {
+    margin-bottom: 30px;
+}
+
+.product-color>span,
+.cable-config>span {
+    font-size: 16px;
+    font-weight: 300;
+    color: #86939E;
+    line-height: 24px;
+}
+
+.color-choose,
+.cable-choose {
+    margin-top: 15px;
+}
+
+.color-choose {
+    margin: 30px 0;
+
+}
+
+.color-choose div {
+    display: inline-block;
+}
+
+.color-choose input[type="radio"] {
+    display: none;
+}
+
+.color-choose input[type="radio"]+label span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.color-choose input[type="radio"]+label span {
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+}
+
+.color-choose input[type="radio"]#red+label span {
+    background-color: #e6b580;
+}
+
+.color-choose input[type="radio"]#yellow+label span {
+    background-color: #4a4a4c;
+}
+
+.color-choose input[type="radio"]#green+label span {
+    background-color: #849093;
+}
+
+.color-choose input[type="radio"]:checked+label span {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMThweCIgaGVpZ2h0PSIxM3B4IiB2aWV3Qm94PSIwIDAgMTggMTMiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQxLjIgKDM1Mzk3KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5JY29uPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IkVjb21tZXJjZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTg0NC4wMDAwMDAsIC0zMzg5LjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiPgogICAgICAgICAgICA8ZyBpZD0iUHJvZHVjdC1DYXJkLSMxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAuMDAwMDAwLCAyOTQyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9IkNvbG9yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2ODMuMDAwMDAwLCAzOTkuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTI4Ljg0NDM2ODgsNDguOTIyNDk4NyBMMjguMDk1MjY5LDQ4LjE1ODU0ODEgQzI3Ljg4Nzk4MDksNDcuOTQ3MTUwNiAyNy41NTIzOTY5LDQ3Ljk0NzE1MDYgMjcuMzQ1MTA4OCw0OC4xNTg1NDgxIEwxNy42NzUyLDU4LjAyMDcwMDkgQzE3LjQ2NzM4MTgsNTguMjMyMDk4NCAxNy4xMzE3OTc4LDU4LjIzMjA5ODQgMTYuOTI1NTcwMSw1OC4wMjA3MDA5IEwxMi42NTQ2OTM3LDUzLjY2NTY5NjIgQzEyLjQ0NzQwNTYsNTMuNDU0Mjk4NyAxMi4xMTE4MjE2LDUzLjQ1NDI5ODcgMTEuOTA1NTkzOCw1My42NjU2OTYyIEwxMS4xNTU0MzM3LDU0LjQzMDE4NzQgQzEwLjk0ODE0NTYsNTQuNjQxNTg0OSAxMC45NDgxNDU2LDU0Ljk4MzgyMTggMTEuMTU1NDMzNyw1NS4xOTQ2Nzg2IEwxNi41MzY5NzEyLDYwLjY4MzQ0NDMgQzE2Ljk1MDQ4Nyw2MS4xMDUxNTggMTcuNjIxMTI0OSw2MS4xMDU2OTg2IDE4LjAzNTE3MDksNjAuNjgzOTg0OSBMMjguODQzODM4Nyw0OS42ODc1MzA1IEMyOS4wNTE2NTY5LDQ5LjQ3NjY3MzcgMjkuMDUyMTg3LDQ5LjEzMzg5NjIgMjguODQ0MzY4OCw0OC45MjI0OTg3IiBpZD0iSWNvbiI+PC9wYXRoPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=');
+    background-position: center;
+    background-repeat: no-repeat;
+}
