@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import AddProductForm from './SanPham/AddProductForm';
 // import AddProductFormV2 from './SanPham/AddProductFormV2';
-import AddProductFormV3 from './SanPham/AddProductFormV3';
+import AddProductFormV4 from './SanPham/AddProductFormV4';
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
     <ProductPage/>
    </CartProvider>
         <AddProductForm />  */}
-        <AddProductFormV3 /> 
+        <AddProductFormV4 /> 
        
 
     </div>

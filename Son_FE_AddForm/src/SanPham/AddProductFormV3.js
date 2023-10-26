@@ -48,7 +48,7 @@ const AddProductForm = () => {
 
   const handleRemoveAllAccessories = () => {
     setAccessoryCount(0);
-    setProductDetailImages([]);
+    // setProductDetailImages([]);
   };
 
   // ...
