@@ -10,6 +10,7 @@ import com.swp.cageshop.repository.ProductsRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -122,6 +123,16 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Override
     public List<OrderDetail> listAll() {
         return orderDetailRepository.findAll();
+    }
+
+    @Override
+    public ResponseEntity<String> deleteById(Long id) {
+        try {
+            orderDetailRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Đã xóa.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Xóa không thành công.");
+        }
     }
 
 }

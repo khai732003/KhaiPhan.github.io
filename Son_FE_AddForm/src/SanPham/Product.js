@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Product.css"; // Import CSS file
 import { useCart } from "./Context/CartContext";
-const Product = ({ id, name, stock, totalPrice, productImage, code }) => {
 
+const Product = ({ id, name, stock, totalPrice, productImage, code, material, size }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -20,12 +20,13 @@ const Product = ({ id, name, stock, totalPrice, productImage, code }) => {
           <p className="card-text">Stock: {stock}</p>
           <p className="card-text">Price: ${totalPrice}</p>
           <p className="card-text">Code: {code}</p>
+          <p className="card-text">Material: {material}</p>
+          <p className="card-text">Size: {size}</p>
 
           <div className="buttons">
             <button className="column-button">Detail</button>
             <button onClick={handleAddToCart}>Add to Cart</button>
-            
-          </div>          
+          </div>
         </div>
       </div>
     </div>

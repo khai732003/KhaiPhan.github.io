@@ -82,6 +82,8 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
 
+
+
     @Override
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
         if (productDTO != null) {
@@ -393,6 +395,22 @@ public class ProductsServiceImpl implements IProductsService {
 
     public List<ProductDTO> getProductsSortedBy(String sortBy) {
         List<Products> products = productsRepository.findAll(Sort.by(sortBy));
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsSortedByCreateDateASC (){
+        List<Products> products = productsRepository.findAllProductsSortedByCreateDateAsc();
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductDTO> getProductsSortedByCreateDateDESC() {
+        List<Products> products = productsRepository.findAllProductsSortedByCreateDateDesc();
 
         return products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))

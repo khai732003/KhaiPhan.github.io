@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-
+import customAxios from "./CustomAxios/customAxios";
 const VNPayPayment = () => {
-  const { orderId } = useParams();
+  const  orderId  = localStorage.getItem('orderId');
 
   const [orderInfo, setOrderInfo] = useState({
     vnp_OrderInfo: "Anh yeu em nhieu lam 1", // Thông tin đơn hàng
@@ -13,7 +11,7 @@ const VNPayPayment = () => {
 
   const handlePayment = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/cageshop/api/pay", orderInfo);
+      const response = await customAxios.post("/pay", orderInfo);
 
       console.log(response.data.url);
   
@@ -24,10 +22,7 @@ const VNPayPayment = () => {
 
     }
   };
-  
-
-  
-
+   
   return (
     <div className="vnpay-payment-container">
       <h2>Thanh toán bằng VNPay</h2>

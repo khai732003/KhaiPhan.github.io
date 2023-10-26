@@ -15,7 +15,6 @@ export default function Trangchu() {
             <ProductSearch />
             <NewProduct />
             <WhyChooseUs />
-            <Footer/>
         </>
     )
 }

@@ -181,7 +181,7 @@ const Compare = () => {
           </table>
         </div>
       </div>
-      <Footer />
+  
     </>
   );
 };

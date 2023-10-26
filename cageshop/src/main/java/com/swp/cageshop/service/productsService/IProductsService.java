@@ -38,6 +38,10 @@ public interface IProductsService {
   public List<ProductDTO> getProductsByStatusNew();
 
   public List<ProductDTO> getProductsByReleaseDateRange(String startDate, String endDate);
+
+  public List<ProductDTO> getProductsSortedByCreateDateASC ();
+
+  public List<ProductDTO> getProductsSortedByCreateDateDESC ();
   public List<ProductDTO> getProductsByPriceRange(double minPrice, double maxPrice);
 
   public List<ProductDTO> searchProductsByKeyword(String keyword);

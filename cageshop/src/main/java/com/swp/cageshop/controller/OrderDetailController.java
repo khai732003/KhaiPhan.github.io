@@ -70,9 +70,14 @@ public class OrderDetailController {
         return orderDetailService.getAllOrderDetailDTOs();
     }
 
-    @GetMapping("/order_detail/{orderId}")
+    @DeleteMapping("/order_detail/{orderId}")
     public List<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable Long orderId) {
         return iOrderDetailService.getAllOrderDetailsByOrderId(orderId);
+    }
+
+    @DeleteMapping("/order_detail/delete/{orderId}")
+    public ResponseEntity<?> deleteOrderDetailById(@PathVariable Long orderId){
+        return iOrderDetailService.deleteById(orderId);
     }
 
     @GetMapping("/order_detail/listall")

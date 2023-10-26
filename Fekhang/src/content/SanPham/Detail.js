@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Header from '../../header/Header';
-import Footer from '../../footer/Footer';
+// import Header from '../../header/Header';
+// import Footer from '../../footer/Footer';
 import CircularProgress from '@mui/material/CircularProgress'; // Import the CircularProgress component
 import { Box, Grid } from '@mui/material';
-import '../SanPham/productdetail.scss';
+import './Scss/productdetail.scss';
 import { Card } from 'react-bootstrap';
 import { CardMedia, CardContent, Typography, Button } from '@mui/material';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -79,7 +79,6 @@ export default function DetailProductPage() {
 
     return (
         <div className="full-container-details">
-            <Header />
             <Box className="product-container-productdetail">
                 <Grid container spacing={2} className="container-productdetail" display="flex" alignItems="center" justifyContent="center">
                     <Grid item xs={12} md={11} margin="15vh 0">
@@ -160,7 +159,6 @@ export default function DetailProductPage() {
                     </Grid>
                 </Grid>
             </Box>
-            <Footer></Footer>
         </div>
     );
 }

@@ -20,6 +20,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 @Service
@@ -68,6 +69,7 @@ public class PaysService implements PaysServiceImpl {
         vnp_Params.put("vnp_OrderInfo", vnPayDTO.vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", vnPayDTO.vnp_OrderType);
         vnp_Params.put("vnp_ReturnUrl", VnPayConstant.vnp_ReturnUrl);
+
         vnp_Params.put("vnp_TxnRef", randomTxnRef);
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
@@ -119,6 +121,12 @@ public class PaysService implements PaysServiceImpl {
         }
 
         return payDTOList;
+    }
+
+    public RedirectView handleTransaction() {
+        // Redirect to the specified URL when the condition is met
+        return new RedirectView("http://localhost:8086/paid-success");
+
     }
 
 

@@ -36,7 +36,7 @@ export default function AboutPage() {
                                 regional store to browse even more and also purchase.
                                 What do you think of the Furniture Store Template?
                             </h2>
-                            <Link id='shopnowB-header-about'>Shop Now</Link>
+                            <Link to="/sanpham" id='shopnowB-header-about'>Shop Now</Link>
                             <div className='shop-header-about'>
                                 <h2>London, UK</h2>
                                 <h3>Chestnut Street 22, 163</h3>

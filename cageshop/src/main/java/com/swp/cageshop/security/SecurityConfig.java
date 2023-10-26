@@ -1,8 +1,9 @@
 package com.swp.cageshop.security;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.filters.CorsFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
@@ -47,16 +49,20 @@ public class SecurityConfig {
     return authenticationProvider;
   }
 
-//  @Bean
-//  public CorsFilter corsFilter() {
-//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//    CorsConfiguration config = new CorsConfiguration();
-//    config.addAllowedOrigin("*"); // Cho phép tất cả các origin
-//    config.addAllowedMethod("*"); // Cho phép tất cả các phương thức (GET, POST, PUT, DELETE, v.v.)
-//    config.addAllowedHeader("*"); // Cho phép tất cả các header
-//    source.registerCorsConfiguration("/**", config);
-//    return new CorsFilter(source);
-//  }
+  @Bean
+  public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowCredentials(true);
+//    configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+    configuration.setAllowedOrigins(List.of("*"));
+    configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
+    configuration.setAllowedHeaders(List.of("*"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
 
   @Bean
   public AuthenticationManager authenticationManager(
@@ -70,32 +76,19 @@ public class SecurityConfig {
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+
   http.csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(authorize -> authorize
               .anyRequest().permitAll()
-//          .requestMatchers("/cageshop/user/register","/cageshop/role/add","/cageshop/register").permitAll()
+//          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/get-list","/cageshop/api/user/authenticate").permitAll()
 //          .anyRequest().authenticated()
-      )
-      .formLogin(withDefaults());
+      );
+//      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
   http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-
 
   return http.build();
 }
 }
-//http
-//      .authorizeHttpRequests((authz) -> {
-//        authz
-//            .requestMatchers("/cageshop/api/user/register",
-//                "/cageshop/api/product/get-list",
-//                "/cageshop/api/product/select/**")
-//            .permitAll()
-//            .anyRequest().authenticated();
-//      })
-//      .formLogin(AbstractAuthenticationFilterConfigurer::permitAll);
-//
-//  http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
 
 

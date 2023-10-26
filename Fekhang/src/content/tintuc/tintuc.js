@@ -11,7 +11,6 @@ export default function tintuc() {
   return (
     <>
       <div>
-        <Header />
         <div className='tintuc-container'>
           <Box minHeight="calc(100vh - 120px)">
             <Grid container display="flex" justifyContent="center" alignItems="center">
@@ -24,7 +23,6 @@ export default function tintuc() {
             </Grid>
           </Box>
         </div>
-        <Footer />
       </div>
     </>
   );

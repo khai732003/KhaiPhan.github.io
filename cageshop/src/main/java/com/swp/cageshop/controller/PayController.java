@@ -11,6 +11,7 @@ import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.payService.PaysService;
 import com.swp.cageshop.service.productsService.IProductsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.client.RestTemplate;
 
 @RequestMapping("/cageshop/api")
 @RestController
@@ -82,11 +84,13 @@ public class PayController {
 
     // String responseCode, = 00
     @GetMapping("/payment_infor")
-    public ResponseEntity<?> transaction(
+    public void transaction(
             @RequestParam(value = "vnp_Amount") Long amount,
             @RequestParam(value = "vnp_BankCode") String bankCode,
             @RequestParam(value = "vnp_ResponseCode") String responseCode,
-            @RequestParam(value = "vnp_TxnRef") String txnRef
+            @RequestParam(value = "vnp_TxnRef") String txnRef,
+        HttpServletResponse response
+
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
 
@@ -98,15 +102,20 @@ public class PayController {
                     transactionDTO.setStatus("OK");
                     transactionDTO.setMessage("Success");
                     transactionDTO.setData("");
+
+                // Chuyển hướng request nếu responseCode là "00"
+                String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
+                response.setStatus(HttpStatus.FOUND.value());
+                response.setHeader("Location", redirectUrl);
                 }
         } else {
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
+//         response.sendError(HttpStatus.BAD_REQUEST.value(), "Payment failed");
 
 
         }
-        return ResponseEntity.status(HttpStatus.OK).body(transactionDTO);
     }
 
 

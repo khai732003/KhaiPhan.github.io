@@ -34,10 +34,10 @@ public class ProductsController {
     @Autowired
     private IOrdersService iOrdersService;
 
-    @DeleteMapping("/product/deleteall")
-    public void deleteAll(){
-        productsService.deleteAll();
-    }
+//    @DeleteMapping("/product/deleteall")
+//    public void deleteAll(){
+//        productsService.deleteAll();
+//    }
 
 
     @PostMapping("/product/test")
@@ -140,64 +140,75 @@ public class ProductsController {
 
 
 
-    @GetMapping("/products/list-without-cage")
+    @GetMapping("/product/list-without-cage")
     public ResponseEntity<List<ProductDTO>> getProductsWithoutCage() {
         List<ProductDTO> productsWithoutCage = productsService.findProductsWithoutCage();
         return ResponseEntity.ok(productsWithoutCage);
     }
 
-    @GetMapping("/products/list-with-accessories")
+    @GetMapping("/product/list-with-accessories")
     public ResponseEntity<List<ProductDTO>> getProductsWithAccessories() {
         List<ProductDTO> productsWithAccessories = productsService.findProductsWithAccessories();
         return ResponseEntity.ok(productsWithAccessories);
     }
 
-    @GetMapping("/products/list-without-accessories")
+    @GetMapping("/product/list-without-accessories")
     public ResponseEntity<List<ProductDTO>> getProductsWithoutAccessories() {
         List<ProductDTO> productsWithoutAccessories = productsService.findProductsWithoutAccessories();
         return ResponseEntity.ok(productsWithoutAccessories);
     }
 
-    @GetMapping("/products/list-with-cage-and-accessories")
+    @GetMapping("/product/list-with-cage-and-accessories")
     public ResponseEntity<List<ProductDTO>> getProductsWithCageWithAccessories() {
         List<ProductDTO> productsWithoutAccessories = productsService.productsWithCageWithAccessories();
         return ResponseEntity.ok(productsWithoutAccessories);
     }
 
 
-    @GetMapping("/products/list-price-asc")
+    @GetMapping("/product/list-price-asc")
     public List<ProductDTO> getProductsByTotalPriceAsc() {
         return productsService.getProductsByTotalPriceAsc();
     }
 
-    @GetMapping("/products/list-price-desc")
+    @GetMapping("/product/list-price-desc")
     public List<ProductDTO> getProductsByTotalPriceDesc() {
         return productsService.getProductsByTotalPriceDesc();
     }
 
 
 
-    @GetMapping("/products/category/{categoryId}")
+    @GetMapping("/product/list-date-asc")
+    public List<ProductDTO> getProductsByCreateDateAsc() {
+        return productsService.getProductsSortedByCreateDateASC();
+    }
+
+    @GetMapping("/product/list-date-desc")
+    public List<ProductDTO> getProductsByCreateDateDesc() {
+        return productsService.getProductsSortedByCreateDateDESC();
+    }
+
+
+    @GetMapping("/product/category/{categoryId}")
     public List<ProductDTO> getProductsByCategory(@PathVariable Long categoryId) {
         return productsService.getProductsByCategory(categoryId);
     }
 
-    @GetMapping("/products/outofstock")
+    @GetMapping("/product/outofstock")
     public List<ProductDTO> getProductsOutOfStock() {
         return productsService.getProductsOutOfStock();
     }
 
-    @GetMapping("/products/available")
+    @GetMapping("/product/available")
     public List<ProductDTO> getProductsByStatusAvailable() {
         return productsService.getProductsByStatusAvailable();
     }
 
-    @GetMapping("/products/nomoremade")
+    @GetMapping("/product/nomoremade")
     public List<ProductDTO> getProductsStatusNoMoreMade() {
         return productsService.getProductsStatusNoMoreMade();
     }
 
-    @GetMapping("/products/new")
+    @GetMapping("/product/new")
     public List<ProductDTO> getProductsByStatusNew() {
         return productsService.getProductsByStatusNew();
     }
@@ -214,7 +225,7 @@ public class ProductsController {
 //        }
 //    }
 
-    @GetMapping("/products/search/{keyword}")
+    @GetMapping("/product/search/{keyword}")
     public ResponseEntity<List<ProductDTO>> searchProductsByKeyword(@PathVariable String keyword) {
         List<ProductDTO> products = productsService.searchProductsByKeyword(keyword);
 
@@ -224,7 +235,7 @@ public class ProductsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-    @GetMapping("/products/price-range/{minPrice}/{maxPrice}")
+    @GetMapping("/product/price-range/{minPrice}/{maxPrice}")
     public ResponseEntity<List<ProductDTO>> getProductsByPriceRange(
             @PathVariable double minPrice,
             @PathVariable double maxPrice) {
@@ -249,7 +260,7 @@ public class ProductsController {
 //        }
 //    }
 
-    @GetMapping("/products/size/{size}")
+    @GetMapping("/product/size/{size}")
     public ResponseEntity<List<ProductDTO>> getProductsBySize(@PathVariable String size) {
         List<ProductDTO> products = productsService.getProductsBySize(size);
 
@@ -260,7 +271,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/products/material/{material}")
+    @GetMapping("/product/material/{material}")
     public ResponseEntity<List<ProductDTO>> getProductsByMaterial(@PathVariable String material) {
         List<ProductDTO> products = productsService.getProductsByMaterial(material);
 
@@ -270,7 +281,7 @@ public class ProductsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-    @GetMapping("/products/accessories-type/{accessoryType}")
+    @GetMapping("/product/accessories-type/{accessoryType}")
     public ResponseEntity<List<ProductDTO>> getProductsByAccessoriesType(@PathVariable String accessoryType) {
         List<ProductDTO> products = productsService.getProductsByAccessoriesType(accessoryType);
         if (!products.isEmpty()) {
@@ -294,7 +305,7 @@ public class ProductsController {
 
 //
 
-    @GetMapping("/sorted-by/{sortBy}/products")
+    @GetMapping("/product/sorted-by/{sortBy}")
     public ResponseEntity<List<ProductDTO>> getProductsSortedBy(@PathVariable String sortBy) {
         List<ProductDTO> products = productsService.getProductsSortedBy(sortBy);
 
@@ -306,7 +317,7 @@ public class ProductsController {
     }
 
 
-    @GetMapping("/limited-stock/{maxStock}/products")
+    @GetMapping("/product/limited-stock/{maxStock}")
     public ResponseEntity<List<ProductDTO>> getProductsWithLimitedStock(@PathVariable int maxStock) {
         List<ProductDTO> products = productsService.getProductsWithLimitedStock(maxStock);
 
@@ -318,7 +329,7 @@ public class ProductsController {
 
     }
 
-    @GetMapping("/release-date/{startDate}-{endDate}/products")
+    @GetMapping("/product/release-date/{startDate}-{endDate}")
     public ResponseEntity<List<ProductDTO>> getProductsByReleaseDateRange(
             @PathVariable String startDate,
             @PathVariable String endDate) {

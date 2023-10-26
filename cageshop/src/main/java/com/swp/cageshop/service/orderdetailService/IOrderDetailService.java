@@ -4,6 +4,7 @@ import com.swp.cageshop.DTO.OrderDetailDTO;
 
 import com.swp.cageshop.entity.OrderDetail;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface IOrderDetailService {
     OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO);
@@ -14,8 +15,9 @@ public interface IOrderDetailService {
 
     List<OrderDetailDTO> getAllOrderDetailDTOs();
 
-
     public  List<OrderDetailDTO> getAllOrderDetailsByOrderId(Long orderId);
 
     public List<OrderDetail> listAll();
+
+    public ResponseEntity<String> deleteById(Long id);
 }
