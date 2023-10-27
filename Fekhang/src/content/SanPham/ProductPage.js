@@ -21,7 +21,7 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    const apiUrl = "/product/get-list";
+    const apiUrl = "/product/list-date-desc";
     const headers = {
       "ngrok-skip-browser-warning": "123",
     };
