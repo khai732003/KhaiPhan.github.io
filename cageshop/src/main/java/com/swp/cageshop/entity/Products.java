@@ -1,4 +1,5 @@
 package com.swp.cageshop.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -61,13 +62,15 @@ public class Products extends EntityBase {
   private List<Feedback> feedback;
 
 
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  private List<OrderDetail> orderDetails;
+//  @JsonIgnore
+//  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//  private List<OrderDetail> orderDetails;
 
 
 //  @OneToOne(mappedBy = "product", cascade = CascadeType.MERGE)
 //  private OrderDetail orderDetail;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetail;
 

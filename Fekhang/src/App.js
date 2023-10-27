@@ -10,8 +10,8 @@ import NewsPage from './content/tintuc/tintuc';
 import { listofnews } from './share/listOfnews';
 // import ProductPage from './content/SanPham/ProductPage';
 import Compare from './content/dichvu/compare/Compare';
-// import DetailProductPage from './content/SanPham/Detail';
 import ProductPage from './content/SanPham/ProductPage'
+import Detail from './content/SanPham/Detail'
 import Success from './content/SanPham/Success'
 import Login from './content/SanPham/Login'
 import Register from './content/SanPham/Register'
@@ -28,6 +28,7 @@ import Revenue from './content/dashboard/pages/Revenue';
 import Footer from './footer/Footer';
 
 import DetailNewsPage from './content/tintuc/newsdetail';
+import Product from './content/SanPham/Product';
 
 
 function App() {
@@ -42,7 +43,6 @@ function App() {
               <Route exact path="/" element={<Trangchu />}> </Route>
               
 
-              {/* <Route path='/dashboard' element={<Dashboard />}/>  */}
               <Route path="/admin" element={<Home />} />
               <Route path="/usermanagement" element={<UserManagement />} />
               <Route path="/add" element={<FormAddEdit />} />
@@ -50,12 +50,13 @@ function App() {
               <Route path="/revenue" element={<Revenue />} />
 
 
-
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/detail/:productId" element={<Detail />} />
               <Route path="/sanpham" element={<ProductPage />} />
+              <Route path="/product" element={<Product />} />
               <Route path="/order/:orderId" element={<Order />} />
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
