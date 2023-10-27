@@ -23,6 +23,7 @@ import TintucStaff from './contentStaff/tintucStaff';
 
 import FormAddEdit from './content/dashboard/components/FormAddEdit';
 import UserManagement from './content/dashboard/pages/UserManagement';
+import ProductManagement from './content/dashboard/pages/ProductManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
 import Footer from './footer/Footer';
@@ -45,6 +46,7 @@ function App() {
               {/* <Route path='/dashboard' element={<Dashboard />}/>  */}
               <Route path="/admin" element={<Home />} />
               <Route path="/usermanagement" element={<UserManagement />} />
+              <Route path="/productmanagement" element={<ProductManagement />} />
               <Route path="/add" element={<FormAddEdit />} />
               <Route path="/update/:id" element={<FormAddEdit />} />
               <Route path="/revenue" element={<Revenue />} />

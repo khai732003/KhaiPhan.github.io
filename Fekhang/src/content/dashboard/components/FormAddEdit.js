@@ -110,8 +110,8 @@ const FormAddEdit = () => {
   };
 
   return (
-    <div className="container">
-      <div className="form">
+    <div className="add-update-user-form">
+      <div className="add-update-form">
         <h2>{id ? "Update Form" : "Add New Staff"}</h2>
         <Link to="/usermanagement">
           <button className="form-button">Back to UserManagement</button>
@@ -126,7 +126,7 @@ const FormAddEdit = () => {
               onChange={handleInputChange}
             />
             {errors.fullname && (
-              <span className="error">{errors.fullname}</span>
+              <span className="error-add-update-form">{errors.fullname}</span>
             )}
           </div>
 
@@ -138,7 +138,7 @@ const FormAddEdit = () => {
               value={staff.avatar || ""}
               onChange={handleInputChange}
             />
-            {errors.avatar && <span className="error">{errors.avatar}</span>}
+            {errors.avatar && <span className="error-add-update-form">{errors.avatar}</span>}
           </div>
 
           <div>
@@ -149,7 +149,7 @@ const FormAddEdit = () => {
               value={staff.email || ""}
               onChange={handleInputChange}
             />
-            {errors.email && <span className="error">{errors.email}</span>}
+            {errors.email && <span className="error-add-update-form">{errors.email}</span>}
           </div>
 
           <div>
@@ -160,7 +160,7 @@ const FormAddEdit = () => {
               value={staff.address || ""}
               onChange={handleInputChange}
             />
-            {errors.address && <span className="error">{errors.address}</span>}
+            {errors.address && <span className="error-add-update-form">{errors.address}</span>}
           </div>
 
           <div>
@@ -172,7 +172,7 @@ const FormAddEdit = () => {
               onChange={handleInputChange}
             />
             {errors.phonenumber && (
-              <span className="error">{errors.phonenumber}</span>
+              <span className="error-add-update-form">{errors.phonenumber}</span>
             )}
           </div>
 

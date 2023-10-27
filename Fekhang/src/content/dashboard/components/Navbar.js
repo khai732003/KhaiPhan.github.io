@@ -49,10 +49,10 @@ const Navbar = () => {
   };
 
   return (
-    <div>
-      <StyledAppBar position="fixed" style={{ zIndex: 1300 }}>
+    <div className="navbar-admin-dashboard">
+      <StyledAppBar position="fixed" style={{ zIndex: 1400 }}>
         <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 10 }}>
             ADMIN DASHBOARD
           </Typography>
 
@@ -61,7 +61,10 @@ const Navbar = () => {
             aria-label="open drawer"
             edge="start"
             onClick={toggleDrawer}
-            sx={{ mr: "60em" }} // Sử dụng giá trị nhỏ hơn để giảm khoảng cách hoặc xóa dòng này
+            sx={{
+              marginRight: "1000px",
+              marginLeft: "30px",
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -72,11 +75,7 @@ const Navbar = () => {
             </Badge>
           </IconButton>
 
-          <Avatar
-            src="đường_dẫn_đến_ảnh_avatar"
-            sx={{ marginLeft: "40px" }} // Sử dụng giá trị nhỏ hơn để giảm khoảng cách hoặc xóa dòng này
-          />
-
+          <Avatar src="đường_dẫn_đến_ảnh_avatar" sx={{ marginLeft: "40px" }} />
         </Toolbar>
       </StyledAppBar>
       <div className="slide-toggle">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import "../styles/usermanagement.css";
+import "../styles/productmanagement.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,7 +13,7 @@ import Stack from "@mui/material/Stack";
 const URL =
   "https://652aea854791d884f1fd8029.mockapi.io/api/product/v1/staffManagement";
 
-const UserManagement = () => {
+const ProductManagement = () => {
   const [staffs, setStaffs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredStaffs, setFilteredStaffs] = useState([]);
@@ -178,4 +178,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default ProductManagement;

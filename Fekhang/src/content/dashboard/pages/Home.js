@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/home.scss"
+import "../styles/home.css"
 
 const URL = 'https://652aea854791d884f1fd8029.mockapi.io/api/product/v1/staffManagement';
 
