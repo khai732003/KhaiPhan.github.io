@@ -34,30 +34,53 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
         double totalCost, hireCost, totalProduct;
         int quantity;
+
+        // Lấy thông tin sản phẩm
         Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
 
-        // Lấy thông tin hình ảnh của sản phẩm
-        String productImg = product.getProductImage();
+        // Kiểm tra xem sản phẩm đã tồn tại trong đơn hàng chưa
+        OrderDetail existing = orderDetailRepository
+                .findByOrderIdAndProductId(orderDetailDTO.getOrderId(), orderDetailDTO.getProductId());
 
-        totalProduct = product.getTotalPrice();
-        hireCost = orderDetailDTO.getHirePrice();
-        quantity = orderDetailDTO.getQuantity();
+        if (existing != null) {
+            // Nếu đã tồn tại thì tăng số lượng lên 1
+            existing.setQuantity(existing.getQuantity() + 1);
 
-        if (quantity > 1) {
-            totalProduct = totalProduct * quantity;
+            // Cập nhật lại tổng giá
+            totalProduct = product.getTotalPrice() * existing.getQuantity();
+            existing.setTotalOfProd(totalProduct);
+
+            totalCost = totalProduct + existing.getHirePrice();
+            existing.setTotalCost(totalCost);
+
+            orderDetailRepository.save(existing);
+
+            return modelMapper.map(existing, OrderDetailDTO.class);
+
+        } else {
+            // Lấy thông tin hình ảnh sản phẩm
+            String productImg = product.getProductImage();
+
+            quantity = orderDetailDTO.getQuantity();
+            hireCost = orderDetailDTO.getHirePrice();
+            totalProduct = product.getTotalPrice();
+
+            if (quantity > 1) {
+                totalProduct = totalProduct * quantity;
+            }
+
+            orderDetailDTO.setTotalOfProd(totalProduct);
+            totalCost = totalProduct + hireCost;
+            orderDetailDTO.setTotalCost(totalCost);
+            orderDetailDTO.setProductImg(productImg);
+
+            OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
+            orderDetail.setProductImage(productImg);
+            orderDetail = orderDetailRepository.save(orderDetail);
+
+            return modelMapper.map(orderDetail, OrderDetailDTO.class);
         }
-        orderDetailDTO.setTotalOfProd(totalProduct);
-        totalCost = totalProduct + hireCost;
-        orderDetailDTO.setProductImg(productImg); // Thiết lập hình ảnh sản phẩm vào orderDetailDTO
-        orderDetailDTO.setTotalCost(totalCost);
 
-        OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-        orderDetail.setProductImage(productImg);
-        orderDetail = orderDetailRepository.save(orderDetail);
-
-        OrderDetailDTO result = modelMapper.map(orderDetail, OrderDetailDTO.class);
-        result.setProductImg(productImg);
-        return result;
     }
 
 
@@ -134,5 +157,6 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Xóa không thành công.");
         }
     }
+
 
 }
