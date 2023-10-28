@@ -16,8 +16,9 @@ const Footer = (props) => {
     const isUpdateUser = location.pathname === "/update/:id";
     const isRevenue = location.pathname === "/revenue";
     const isProductManager = location.pathname === "/productmanagement";
+    const isPaypal= location.pathname === '/paypal';
 
-    if (isLoginPage || isRegisterPage || isSuccess ) {
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
         return null;
     }
 

@@ -18,10 +18,6 @@ export const CartProvider = ({ children }) => {
     setCart(prevCart => [...prevCart, product]);
   }, []);
 
-  // const removeFromCart = useCallback((productId) => {
-  //   setCart(prevCart => prevCart.filter(item => item.id !== productId));
-  // }, []);
-
   const removeFromCart = useCallback((index) => {
     setCart(prevCart => {
       const updatedCart = [...prevCart];
@@ -40,7 +36,7 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, isCartOpen, toggleCart, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, isCartOpen, toggleCart, clearCart, setCart }}>
       {children}
     </CartContext.Provider>
   );

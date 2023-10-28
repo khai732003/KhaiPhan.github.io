@@ -5,6 +5,7 @@ import { useAuth } from './Context/AuthContext';
 import './Scss/Login-Register.scss'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from '@mui/material';
+import './Scss/Product.scss'
 const Login = () => {
   const { user, loadUser, setUserFromToken } = useAuth();
   const navigate = useNavigate();

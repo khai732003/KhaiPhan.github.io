@@ -52,7 +52,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container product-page">
         <div className="row">
           <div className="">
             <div className="row">
@@ -65,13 +65,14 @@ const ProductPage = () => {
                     totalPrice={product.totalPrice}
                     productImage={product.productImage}
                     code={product.code}
+                    cage={product.cage}
+                    accessories={product.accessories}
                   />
                 </div>
               ))}
             </div>
 
-            {/* Hiển thị giỏ hàng ở đây */}
-            <Cart />
+
             
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination

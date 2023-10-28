@@ -9,14 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-const Product = ({ id, name, stock, totalPrice, productImage, code , categoryId}) => {
+const Product = ({ id, name, stock, totalPrice, productImage, code, cage, accessories }) => {
+
+  const accessoriesList = accessories.map((accessory) => accessory.description).join(', ');
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
   let orderId = localStorage.getItem('orderId');
 
   const handleAddToCart = () => {
-    addToCart({ id, name, totalPrice, productImage, code });
+    addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories});
     window.alert(`Added ${name} to the cart!`);
   };
 
@@ -49,7 +51,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code , categoryId}
         localStorage.setItem('orderId', orderId);
       }
 
-      const product = { id, name, stock, totalPrice, productImage, code, categoryId };
+      const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
 
       await customAxios.post('/order_detail/add', {
         quantity: 1,
@@ -75,11 +77,16 @@ const Product = ({ id, name, stock, totalPrice, productImage, code , categoryId}
           <img src={productImage} alt={name} className="card-img-top" />
           <div className="card-body" >
             <div className="card-info">
-            <div className="card-text">Id: {id}</div>
-              <h5 className="card-title">{name}</h5>
+            {/* <div className="card-text">Id: {id}</div> */}
+              <h5 className="card-title">{cage.description}</h5>
               <div className="card-text">Stock: {stock}</div>
               <div className="card-text">Code: {code}</div>
-              <div className="card-text">Price: ${totalPrice}</div>
+              <div className="accessories-list">
+                Accessories: {accessoriesList}
+              </div>
+              
+              
+              <div className="card-text">Price: {totalPrice} VND</div>
             </div>
 
 

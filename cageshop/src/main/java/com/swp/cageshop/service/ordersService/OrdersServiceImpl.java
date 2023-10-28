@@ -132,35 +132,67 @@ public class OrdersServiceImpl implements IOrdersService {
         return ordersRepository.findAllById(orderId);
     }
 
-  @Override
-  public OrderDTO findById(Long id) {
-    Orders order = ordersRepository.getReferenceById(id);
+    @Override
+    public OrderDTO findById(Long id) {
+        Orders order = ordersRepository.getReferenceById(id);
+        List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
+        double totalCost = 0.0;
+        boolean isFreeShipVoucher = false;
+        boolean isCashVoucher = false;
 
-    List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
-    double totalCost = 0.0;
+        // Tính tổng chi phí từ OrderDetail
+        for (OrderDetail detail : orderDetailList) {
+            totalCost += detail.getTotalCost();
+        }
 
-    // Khai báo và khởi tạo orderDetailDTOList
-    List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+        // Lấy danh sách voucherUsages của order
+        List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(order.getId());
+        double totalVoucherAmount = 0;
 
-    for (OrderDetail detail : orderDetailList) {
-      totalCost += detail.getTotalCost();
-      // Lấy productImage từ Product liên quan đến mỗi OrderDetail
-      String productImg = detail.getProduct().getProductImage();
-      // Thiết lập giá trị productImg vào OrderDetailDTO
-      OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
-      orderDetailDTO.setProductImg(productImg);
-      orderDetailDTOList.add(orderDetailDTO);
+        // Kiểm tra và tính toán giá trị của các voucher
+        for (VoucherUsage voucherUsage : voucherUsages) {
+            if (voucherUsage.getVoucher().getVoucherType().equals("FREESHIP")) {
+                isFreeShipVoucher = true;
+                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+            } else if (voucherUsage.getVoucher().getVoucherType().equals("CASH")) {
+                isCashVoucher = true;
+                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+            }
+        }
+
+        // Xác định giá vận chuyển
+        double shipPrice = order.getShipPrice();
+
+        // Áp dụng các voucher
+        if (isFreeShipVoucher && isCashVoucher) {
+            totalCost -= totalVoucherAmount;
+        } else if (isFreeShipVoucher) {
+            totalCost -= totalVoucherAmount;
+        } else {
+            totalCost += shipPrice - totalVoucherAmount;
+        }
+
+        // Lưu totalCost vào order và lưu lại vào database
+        order.setTotal_Price(totalCost);
+        ordersRepository.save(order);
+
+        // Khai báo và khởi tạo orderDetailDTOList
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+
+        // Lấy productImage từ Product liên quan đến mỗi OrderDetail và thiết lập vào OrderDetailDTO
+        for (OrderDetail detail : orderDetailList) {
+            String productImg = detail.getProduct().getProductImage();
+            OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+            orderDetailDTO.setProductImg(productImg);
+            orderDetailDTOList.add(orderDetailDTO);
+        }
+
+        // Tạo và trả về OrderDTO
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        orderDTO.setOrderDetails(orderDetailDTOList);
+        return orderDTO;
     }
 
-    totalCost += order.getShipPrice();
-    order.setTotal_Price(totalCost);
-    ordersRepository.save(order);
-
-    OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-    orderDTO.setOrderDetails(orderDetailDTOList);
-
-    return orderDTO;
-  }
 
 
     public void updateOrderAndOrderDetails(Orders order) {

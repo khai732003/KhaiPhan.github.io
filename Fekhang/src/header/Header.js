@@ -10,6 +10,7 @@ import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
 import NavBar from '../content/dashboard/components/NavBar';
+import Cart from '../content/SanPham/Cart';
 function Header(props) {
 
     const navigate = useNavigate();
@@ -30,16 +31,17 @@ function Header(props) {
     const isRevenue = location.pathname === "/revenue";
     const isProductManager = location.pathname === "/productmanagement";
 
+    const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
         logout();
     }
-    
-    if (isLoginPage || isRegisterPage || isSuccess ) {
+
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager){
-        return <NavBar/>
+    if (isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager) {
+        return <NavBar />
     }
 
     return (
@@ -98,9 +100,11 @@ function Header(props) {
                             {/* Nút giỏ hàng */}
                             <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
                                 <i className="bi bi-cart-check"></i>
+                                <Cart />
                             </Button>
+
                             {isLoggedIn ? (
-                                
+
                                 // Hiển thị nút "Logout" khi có người dùng đăng nhập
                                 <div className="custom-dropdown">
                                     <Button className="btn btn-outline-secondary btnhead">

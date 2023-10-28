@@ -46,6 +46,11 @@ public class UsersController {
     return iUsersService.listAll();
   }
 
+  @GetMapping("/user/list/{id}")
+  public Optional<Users> listAllUsers(@PathVariable Long id){
+    return iUsersService.getUserById(id);
+  }
+
 
   @GetMapping("/user/listdto")
   public List<UserDTO> listAll(){

@@ -6,7 +6,7 @@ export default function logo() {
       <a href='#trangchu'><img src='image/aot.jpeg' alt='' /></a>
         <div className='search'>
           <input type='text' placeholder='  Nhập từ khóa ......'></input>
-          <button class="bi bi-search"></button>
+          <button className="bi bi-search"></button>
 
         </div>
     </div>

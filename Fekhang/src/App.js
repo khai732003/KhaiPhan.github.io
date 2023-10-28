@@ -29,6 +29,9 @@ import Footer from './footer/Footer';
 
 import DetailNewsPage from './content/tintuc/newsdetail';
 import Product from './content/SanPham/Product';
+import PaypalButton from './content/SanPham/PaypalButton';
+import Voucher from './content/SanPham/Voucher';
+import VoucherUsage from './content/SanPham/VoucherUsage';
 
 
 function App() {
@@ -52,11 +55,14 @@ function App() {
 
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/paysuccess" element={<Success />} />
+              <Route path="/paypal" element={<PaypalButton />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/detail/:productId" element={<Detail />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
+              <Route path="/voucher" element={<Voucher />} />
+              <Route path="/usevoucher" element={<VoucherUsage />} />
               <Route path="/order/:orderId" element={<Order />} />
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
