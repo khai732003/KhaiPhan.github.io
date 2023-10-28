@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,15 +35,9 @@ public class CategoriesServiceImpl implements ICategoriesService{
         return null;
     }
 
-
-
-
     @Override
     public List<CategoryDTO> getAllCategories() {
-        List<Categories> categories = categoriesRepository.findAll();
-        return categories.stream()
-                .map(category -> modelMapper.map(category, CategoryDTO.class))
-                .collect(Collectors.toList());
+        return null;
     }
 
 

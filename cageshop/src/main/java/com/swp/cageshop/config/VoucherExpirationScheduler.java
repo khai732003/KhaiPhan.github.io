@@ -29,8 +29,7 @@ public class VoucherExpirationScheduler {
         System.out.println("Thời gian hiện tại ở Hà Nội là: " + currentDate);
         for (Vouchers voucher : vouchers) {
             if (voucher.getExpiration_date() != null && voucher.getExpiration_date().isBefore(currentDate)) {
-                voucher.setActive(false);
-                voucherRepository.save(voucher);
+                voucherRepository.delete(voucher);
             }
         }
     }

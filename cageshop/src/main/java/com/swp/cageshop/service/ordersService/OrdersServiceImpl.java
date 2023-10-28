@@ -2,8 +2,7 @@ package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
-import com.swp.cageshop.DTO.ProductDTO;
-import com.swp.cageshop.DTO.VoucherType;
+import com.swp.cageshop.config.City;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
@@ -47,9 +46,16 @@ public class OrdersServiceImpl implements IOrdersService {
     @Autowired
     private IVouchersService iVouchersService;
 
+
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
+            String city = orderDTO.getCity();
+            if(city.equalsIgnoreCase("Hồ Chí Minh")){
+                orderDTO.setShipPrice(100000);
+            }else{
+                orderDTO.setShipPrice(200000);
+            }
             Orders orders = modelMapper.map(orderDTO, Orders.class);
             Orders orders1 = ordersRepository.save(orders);
             OrderDTO orderDTO1 = modelMapper.map(orders1, OrderDTO.class);
@@ -139,35 +145,58 @@ public class OrdersServiceImpl implements IOrdersService {
         return ordersRepository.findAllById(orderId);
     }
 
-  @Override
-  public OrderDTO findById(Long id) {
-    Orders order = ordersRepository.getReferenceById(id);
+    @Override
+    public OrderDTO findById(Long id) {
+        Orders order = ordersRepository.getReferenceById(id);
 
-    List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
-    double totalCost = 0.0;
+        List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
+        double totalCost = 0.0;
 
-    // Khai báo và khởi tạo orderDetailDTOList
-    List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+        List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
 
-    for (OrderDetail detail : orderDetailList) {
-      totalCost += detail.getTotalCost();
-      // Lấy productImage từ Product liên quan đến mỗi OrderDetail
-      String productImg = detail.getProduct().getProductImage();
-      // Thiết lập giá trị productImg vào OrderDetailDTO
-      OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
-      orderDetailDTO.setProductImg(productImg);
-      orderDetailDTOList.add(orderDetailDTO);
+        for (OrderDetail detail : orderDetailList) {
+            totalCost += detail.getTotalCost();
+            String productImg = detail.getProduct().getProductImage();
+            OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+            orderDetailDTO.setProductImg(productImg);
+            orderDetailDTOList.add(orderDetailDTO);
+        }
+
+        List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(order.getId());
+        double totalVoucherAmount = 0;
+        boolean isFreeShipVoucher = false;
+        boolean isCashVoucher = false;
+        for (VoucherUsage voucherUsage : voucherUsages) {
+            if (voucherUsage.getVoucher().getVoucherType().equals("FREESHIP")) {
+                isFreeShipVoucher = true;
+                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+            } else if (voucherUsage.getVoucher().getVoucherType().equals("CASH")) {
+                isCashVoucher = true;
+                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+            }
+        }
+        double shipPrice = order.getShipPrice();
+        if (isFreeShipVoucher && isCashVoucher) {
+            totalCost -= totalVoucherAmount;
+        } else if (isFreeShipVoucher) {
+            totalCost -= totalVoucherAmount;
+        } else {
+            totalCost += shipPrice - totalVoucherAmount;
+        }
+
+        if (totalCost <= 0) {
+            order.setTotal_Price(0);
+        }
+
+        order.setTotal_Price(totalCost);
+        ordersRepository.save(order);
+
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        orderDTO.setOrderDetails(orderDetailDTOList);
+
+        return orderDTO;
     }
 
-    totalCost += order.getShipPrice();
-    order.setTotal_Price(totalCost);
-    ordersRepository.save(order);
-
-    OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-    orderDTO.setOrderDetails(orderDetailDTOList);
-
-    return orderDTO;
-  }
 
 
     public void updateOrderAndOrderDetails(Orders order) {

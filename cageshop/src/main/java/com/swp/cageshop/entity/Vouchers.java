@@ -39,9 +39,6 @@ public class Vouchers{
   @Column(name="voucherType")
   private String voucherType;
 
-  @Column(nullable = false)
-  private boolean isActive;
-
   @Column
   private LocalDateTime expiration_date;
 

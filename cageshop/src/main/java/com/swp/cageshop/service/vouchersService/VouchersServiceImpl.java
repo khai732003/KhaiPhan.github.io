@@ -1,7 +1,7 @@
 package com.swp.cageshop.service.vouchersService;
 
 import com.swp.cageshop.DTO.VoucherDTO;
-import com.swp.cageshop.DTO.VoucherType;
+import com.swp.cageshop.config.VoucherType;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.UsersRepository;
@@ -34,7 +34,6 @@ public class VouchersServiceImpl implements IVouchersService{
         Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
         voucher.setVoucherType(voucher.getVoucherType().toUpperCase());
         voucher.setCode(voucher.getCode().toUpperCase());
-        voucher.setActive(true);
         String voucherType = voucher.getVoucherType();
         if (voucherType.equals(VoucherType.CASH.toString())) {
             Vouchers savedVoucher = voucherRepository.save(voucher);
@@ -64,7 +63,6 @@ public class VouchersServiceImpl implements IVouchersService{
 
     public VoucherDTO updateVoucher(VoucherDTO voucherDTO) {
            Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
-           voucher.setActive(true);
            voucher.setCode(voucherDTO.getCode());
            Vouchers updatedVoucher = voucherRepository.save(voucher);
            return modelMapper.map(updatedVoucher, VoucherDTO.class);

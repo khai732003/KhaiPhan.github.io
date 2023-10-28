@@ -18,7 +18,6 @@ public class VoucherDTO{
     private String description;
     private double voucherAmount;
     private String voucherType;
-    private boolean isActive;
     private LocalDateTime expiration_date;
 
 }
