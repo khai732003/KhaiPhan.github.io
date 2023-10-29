@@ -20,4 +20,5 @@ public interface IOrderDetailService {
     public List<OrderDetail> listAll();
 
     public ResponseEntity<String> deleteById(Long id);
+
 }

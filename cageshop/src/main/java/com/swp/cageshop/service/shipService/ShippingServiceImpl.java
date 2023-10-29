@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
         public ShippingDTO createShipping(ShippingDTO shippingDTO) {
             Orders orders = ordersRepository.getReferenceById(shippingDTO.getOrderId());
             if(orders != null) {
+                shippingDTO.setAddress(orders.getAddress());
+                shippingDTO.setCity(orders.getCity());
                 Shipping shipping = modelMapper.map(shippingDTO, Shipping.class);
                 Shipping savedShipping = shippingRepository.save(shipping);
                 return modelMapper.map(savedShipping, ShippingDTO.class);

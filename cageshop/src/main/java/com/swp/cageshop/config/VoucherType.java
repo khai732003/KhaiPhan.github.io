@@ -1,4 +1,4 @@
-package com.swp.cageshop.DTO;
+package com.swp.cageshop.config;
 
 public enum VoucherType {
     FREESHIP,

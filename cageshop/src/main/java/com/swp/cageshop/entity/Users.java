@@ -58,7 +58,10 @@ public class Users extends EntityBase{
 
   private boolean status;
 
-@JsonIgnore
+
+
+  @JsonIgnore
+
   @OneToMany(mappedBy="user")
   private List<VoucherUsage> voucherUsages;
 

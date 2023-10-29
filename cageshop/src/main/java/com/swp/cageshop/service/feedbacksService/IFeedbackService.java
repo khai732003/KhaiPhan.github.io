@@ -14,4 +14,6 @@ public interface IFeedbackService {
 
     public void deleteFeedback(Long id);
 
+    public double getAverageRatingByProduct(Long productId);
+
     }

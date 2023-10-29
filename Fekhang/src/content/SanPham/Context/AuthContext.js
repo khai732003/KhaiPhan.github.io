@@ -53,8 +53,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("orderId");
     setToken(null); // Đặt token thành null khi đăng xuất
-    navigate("/")
+    navigate("/");
   };
 
   if (loading) {

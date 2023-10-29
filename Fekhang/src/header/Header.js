@@ -10,6 +10,7 @@ import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
 import NavBar from '../content/dashboard/components/NavBar';
+import Cart from '../content/SanPham/Cart';
 function Header(props) {
 
     const navigate = useNavigate();
@@ -34,16 +35,19 @@ function Header(props) {
     // const isUpdateProduct = location.pathname === "/update/*";
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
 
+    const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
+
         logout();
     }
-    
-    if (isLoginPage || isRegisterPage || isSuccess ) {
+
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
         return null;
     }
 
     if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct){
         return <NavBar/>
+
     }
 
     return (
@@ -69,6 +73,7 @@ function Header(props) {
                                     </NavLink>
                                     <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
+                                        
                                     </NavLink>
                                 </div>
                             </div>
@@ -102,9 +107,11 @@ function Header(props) {
                             {/* Nút giỏ hàng */}
                             <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
                                 <i className="bi bi-cart-check"></i>
+                                <Cart />
                             </Button>
+
                             {isLoggedIn ? (
-                                
+
                                 // Hiển thị nút "Logout" khi có người dùng đăng nhập
                                 <div className="custom-dropdown">
                                     <Button className="btn btn-outline-secondary btnhead">
@@ -116,7 +123,7 @@ function Header(props) {
                                         </NavLink>
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
                                             cc
-                                            navigate("/admin");
+                       
                                         </NavLink>
                                         {user.role === "STAFF" && (
                                             <NavLink
@@ -127,9 +134,9 @@ function Header(props) {
                                                 NEW MARKETING
                                             </NavLink>
                                         )}
-                                        <NavLink className="dropdown-item nav-link" onClick={handleOnLogout}>
+                                        <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
-                                        </NavLink>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (

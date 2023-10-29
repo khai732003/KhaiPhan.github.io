@@ -24,7 +24,10 @@ public class Orders extends EntityBase{
   private String paymentMethod;
 
   @Column
-  private String shipAddress;
+  private String address;
+
+  @Column
+  private String city;
 
   @Column(nullable = false,name="shipPrice")
   private double shipPrice;
@@ -39,6 +42,7 @@ public class Orders extends EntityBase{
   @Column(name="total_Price")
   private double total_Price;
 
+  @JsonIgnore
   @OneToMany(mappedBy="order")
   private List<VoucherUsage> voucherUsages;
 

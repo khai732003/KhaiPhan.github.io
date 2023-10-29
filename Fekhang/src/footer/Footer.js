@@ -16,11 +16,15 @@ const Footer = (props) => {
     const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
     const isRevenue = location.pathname === "/revenue";
     const isProductManager = location.pathname === "/productmanagement";
+
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
     const isAddProduct = location.pathname === '/add-product';
     
 
-    if (isLoginPage || isRegisterPage || isSuccess ) {
+    const isPaypal= location.pathname === '/paypal';
+
+
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
         return null;
     }
 
