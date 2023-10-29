@@ -3,24 +3,24 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 30px 0 50px;
-} */
+} 
 
-/* .card {
+.card {
     width: 200px;
     margin: 27px;
     padding: 15px;
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-} */
+}
 
-/* .card img {
+ .card img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
-} */
+}
 
 .card button {
     background-color: black;
@@ -35,7 +35,7 @@
     margin-bottom: 5px;
 }
 
-/* Details */
+
 .popup {
     position: fixed;
     top: 0;
@@ -85,4 +85,4 @@
 
 .popup .close:hover {
     color: #777;
-}
+} */

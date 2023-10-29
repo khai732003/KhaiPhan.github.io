@@ -1,36 +1,37 @@
-/* .container{
+.add-update-user-form{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.form{
-    width: 300px;
+.add-update-form{
+    width: 500px;
     padding: 50px;
+    margin-top: 100px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.form h2 {
+.add-update-form h2 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.form label {
+.add-update-form label {
     display: block;
     margin-bottom: 10px;
 }
 
-.form input{
+.add-update-form input{
     width: 100%;
     padding: 12px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 40px;
+    border-radius: 30px;
 }
 
-.form button {
+.add-update-form button {
     width: 100%;
     padding: 10px;
     margin: 15px;
@@ -41,10 +42,10 @@
     cursor: pointer;
 }
 
-.error{
+.error-add-update-form{
     color: red;
     font-size: 14px;
     margin-top: 5px;
     font-style: italic;
     font-weight: bold;
-} */
+}

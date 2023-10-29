@@ -22,17 +22,23 @@ import { CartProvider } from './content/SanPham/Context/CartContext';
 import Header from './header/Header';
 import TintucStaff from './contentStaff/tintucStaff';
 
-import FormAddEdit from './content/dashboard/components/FormAddEdit';
 import UserManagement from './content/dashboard/pages/UserManagement';
+import ProductManagement from './content/dashboard/pages/ProductManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
 import Footer from './footer/Footer';
 
 import DetailNewsPage from './content/tintuc/newsdetail';
 import Product from './content/SanPham/Product';
+import AdminProfile from './content/dashboard/pages/AdminProfile';
+import AddEditProduct from './content/dashboard/components/AddEditProduct';
+
+import AddEditUser from './content/dashboard/components/AddEditUser';
+
 import PaypalButton from './content/SanPham/PaypalButton';
 import Voucher from './content/SanPham/Voucher';
 import VoucherUsage from './content/SanPham/VoucherUsage';
+
 
 
 function App() {
@@ -49,9 +55,15 @@ function App() {
 
               <Route path="/admin" element={<Home />} />
               <Route path="/usermanagement" element={<UserManagement />} />
-              <Route path="/add" element={<FormAddEdit />} />
-              <Route path="/update/:id" element={<FormAddEdit />} />
+              <Route path="/productmanagement" element={<ProductManagement />} />
+              <Route path="/add-edit-user" element={<AddEditUser />} />
+              <Route path="/update/:id" element={<AddEditUser />} />
+              {/* <Route path="/add-category" element={<AddEditCategory />} /> */}
+              {/* <Route path="/update-user/:id" element={<UpdateUser />} /> */}
+              <Route path="/add-edit-product" element={<AddEditProduct />} />
+              <Route path="/update/:id" element={<AddEditProduct />} />
               <Route path="/revenue" element={<Revenue />} />
+              <Route path="/adminprofile" element={<AdminProfile />} />
 
               <Route path="/addproduct" element={<AddProductFormV4 />} />
               <Route path="/Gioithieu" element={<Gioithieu />} />

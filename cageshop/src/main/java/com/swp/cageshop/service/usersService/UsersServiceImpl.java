@@ -116,6 +116,7 @@ public class UsersServiceImpl implements IUsersService {
         users1.setPhone(users.getPhone());
 //        users1.setCreateDate(currentCreateDate);
         //chuyển lại dto -> enitity
+        usersRepository.save(users1);
         UserDTO saveUserDTO = modelMapper.map(users1, UserDTO.class);
         return saveUserDTO;
       }

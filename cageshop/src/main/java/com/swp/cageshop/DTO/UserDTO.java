@@ -37,4 +37,5 @@ public class UserDTO extends DTOBase implements Serializable {
 
   private boolean status;
 
+
 }
