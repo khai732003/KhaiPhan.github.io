@@ -1,0 +1,16 @@
+.order-container{
+    padding-top: 7rem;
+    .container-orderdetail{
+        .list-orderdetail{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin: 1rem 0;
+            img{
+                height: 14rem;
+                width: 14rem;
+            }
+        }
+    }
+    
+}

@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("orderId");
     setToken(null); // Đặt token thành null khi đăng xuất
-    navigate("/")
+    navigate("/");
   };
 
   if (loading) {

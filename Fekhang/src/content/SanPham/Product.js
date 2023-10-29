@@ -25,7 +25,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
   const handleOnDetail = (id) => {
     navigate(`/detail/${id}`)// điền vô product detail
   }
-  const handleBuy = async () => {
+  const handleBuy = async (id) => {
     if (!user) {
       navigate("/login")
       return;
@@ -37,13 +37,13 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
         const orderResponse = await customAxios.post('/order/add', {
-          status: "pending",
-          paymentMethod: "VNP",
-          shipAddress: shipAddress,
-          shipPrice: shipPrice,
-          content: "Đóng gói cẩn thận nhé",
-          shipDate: "today",
-          // total_price: totalCartPrice,
+          "name": "Tổng hóa đơn",
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": "137 Đặng Văn Bi",
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          "shipDate": "2023-10-15",
           userId: user.userId
         });
 

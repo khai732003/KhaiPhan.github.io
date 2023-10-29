@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import customAxios from '../../CustomAxios/customAxios';
 import VNPayPayment from "./VNPayPayment";
 import { useAuth } from "./Context/AuthContext";
-
+import './Scss/Order.scss';
 const Order = () => {
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
@@ -30,6 +30,16 @@ const Order = () => {
     fetchOrder();
   }, [orderId]);
 
+  const deleteOrderDetail = async (orderDetailId) => {
+    try {
+      await customAxios.delete(`/order_detail/delete/${orderDetailId}`);
+      // Sau khi xóa thành công, cập nhật state để trigger lại render
+      setOrder(prevOrder => ({ ...prevOrder, orderDetails: prevOrder.orderDetails.filter(item => item.id !== orderDetailId) }));
+      fetchOrder();
+    } catch (error) {
+      console.error("Lỗi khi xóa order detail:", error);
+    }
+  };
   const applyVoucher = async () => {
     try {
       const response = await axios.post(
@@ -44,7 +54,6 @@ const Order = () => {
 
       console.log('Mã giảm giá áp dụng thành công:', response.data);
       // Gọi lại fetchOrder() sau khi áp dụng mã giảm giá
-      const response1 = await customAxios.get(`/order/list/${orderId}`);
       fetchOrder();
 
     } catch (error) {
@@ -54,40 +63,40 @@ const Order = () => {
 
   return (
     <div className="order-container">
-      <div>
-        c
-      </div>
-      <div>
-        c
-      </div>
-      <div>
-        c
-      </div>
-      <div>
-        c
-      </div>
 
       <h1>Order Page</h1>
-      <div className="voucher-input">
-        <input
-          type="text"
-          placeholder="Nhập mã voucher"
-          value={voucherCode}
-          onChange={(e) => setVoucherCode(e.target.value)}
-        />
-        <button onClick={applyVoucher}>Áp dụng mã voucher</button>
-      </div>
+
       {order && (
+
         <div key={order.id}>
-          <div>ID: {order.id}</div>
-          <div>Status: {order.status}</div>
-          <div>Payment Method: {order.paymentMethod}</div>
-          <div>Ship Address: {order.shipAddress}</div>
-          <div>Total Price: {order.total_price}</div>
-          <OrderDetail orderId={order.id} />
+          {order.orderDetails.length > 0 && (
+            <>
+              <div className="voucher-input">
+                <input
+                  type="text"
+                  placeholder="Nhập mã voucher"
+                  value={voucherCode}
+                  onChange={(e) => setVoucherCode(e.target.value)}
+                />
+                <button onClick={applyVoucher}>Áp dụng mã voucher</button>
+              </div>
+              <div>ID: {order.id}</div>
+              <div>Status: {order.status}</div>
+              <div>Payment Method: {order.paymentMethod}</div>
+              <div>Ship Address: {order.shipAddress}</div>
+              <div>Total Price: {order.total_price}</div>
+            </>
+          )}
+          {order.orderDetails.length > 0 ? (
+            <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
+          ) : (
+            <div>Giỏ hàng trống.</div>
+          )}
           <VNPayPayment />
         </div>
       )}
+
+
     </div>
   );
 };

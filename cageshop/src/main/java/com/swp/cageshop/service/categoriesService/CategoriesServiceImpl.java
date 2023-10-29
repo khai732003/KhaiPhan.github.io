@@ -37,7 +37,10 @@ public class CategoriesServiceImpl implements ICategoriesService{
 
     @Override
     public List<CategoryDTO> getAllCategories() {
-        return null;
+        List<Categories> categories = categoriesRepository.findAll();
+        return categories.stream()
+            .map(category -> modelMapper.map(category, CategoryDTO.class))
+            .collect(Collectors.toList());
     }
 
 

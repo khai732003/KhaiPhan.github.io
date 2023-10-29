@@ -33,6 +33,7 @@ function Header(props) {
 
     const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
+
         logout();
     }
 
@@ -67,6 +68,7 @@ function Header(props) {
                                     </NavLink>
                                     <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
+                                        
                                     </NavLink>
                                 </div>
                             </div>
@@ -116,7 +118,7 @@ function Header(props) {
                                         </NavLink>
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
                                             cc
-                                            navigate("/admin");
+                       
                                         </NavLink>
                                         {user.role === "STAFF" && (
                                             <NavLink
@@ -127,9 +129,9 @@ function Header(props) {
                                                 NEW MARKETING
                                             </NavLink>
                                         )}
-                                        <NavLink className="dropdown-item nav-link" onClick={handleOnLogout}>
+                                        <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
-                                        </NavLink>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (

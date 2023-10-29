@@ -48,6 +48,7 @@ public class OrderDetail extends EntityBase {
   @Column
   private String status;
 
+  @Lob
   @Column
   private String productImage;
 
