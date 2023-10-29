@@ -15,6 +15,7 @@ import Detail from './content/SanPham/Detail'
 import Success from './content/SanPham/Success'
 import Login from './content/SanPham/Login'
 import Register from './content/SanPham/Register'
+import AddProductFormV4 from './content/SanPham/AddProductFormV4'
 import Order from './content/SanPham/Order'
 import { AuthProvider } from './content/SanPham/Context/AuthContext';
 import { CartProvider } from './content/SanPham/Context/CartContext';
@@ -52,7 +53,7 @@ function App() {
               <Route path="/update/:id" element={<FormAddEdit />} />
               <Route path="/revenue" element={<Revenue />} />
 
-
+              <Route path="/addproduct" element={<AddProductFormV4 />} />
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />

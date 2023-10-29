@@ -23,7 +23,7 @@ import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const Navbar = () => {
+const NavBar = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme(); // Correct placement of the useTheme hook
 
@@ -195,4 +195,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;
