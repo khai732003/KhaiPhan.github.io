@@ -123,6 +123,18 @@ public class PaysService implements PaysServiceImpl {
         return payDTOList;
     }
 
+    public List<VnPayDTO> getAllPayDTOByUserId(Long userId) {
+        List<Pays> payEntities = paysRepository.findByOrder_User_Id(userId);
+        List<VnPayDTO> payDTOList = new ArrayList<>();
+
+        for (Pays pays : payEntities) {
+            VnPayDTO payDTO = modelMapper.map(pays, VnPayDTO.class);
+            payDTOList.add(payDTO);
+        }
+
+        return payDTOList;
+    }
+
     public RedirectView handleTransaction() {
         // Redirect to the specified URL when the condition is met
         return new RedirectView("http://localhost:8086/paid-success");

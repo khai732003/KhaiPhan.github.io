@@ -16,6 +16,8 @@ public interface PaysServiceImpl {
 
     public List<VnPayDTO> getAllPayDTO();
 
+    public List<VnPayDTO> getAllPayDTOByUserId(Long userId);
+
 //    String createAccessToken();
 //
 //    ResponseEntity<Object> createOrder(PayDTO payDTO);
