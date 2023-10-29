@@ -6,6 +6,9 @@ import customAxios from '../../CustomAxios/customAxios';
 import VNPayPayment from "./VNPayPayment";
 import { useAuth } from "./Context/AuthContext";
 import './Scss/Order.scss';
+import { Grid } from '@mui/material';
+import { Button } from "@mui/material";
+import TextField from '@mui/material/TextField';
 const Order = () => {
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
@@ -63,40 +66,48 @@ const Order = () => {
 
   return (
     <div className="order-container">
-
-      <h1>Order Page</h1>
-
       {order && (
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={7}>
+            {order.orderDetails.length > 0 && (
+              <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
 
-        <div key={order.id}>
-          {order.orderDetails.length > 0 && (
-            <>
-              <div className="voucher-input">
-                <input
-                  type="text"
-                  placeholder="Nhập mã voucher"
-                  value={voucherCode}
-                  onChange={(e) => setVoucherCode(e.target.value)}
-                />
-                <button onClick={applyVoucher}>Áp dụng mã voucher</button>
+            )}
+          </Grid>
+          <Grid className="voucher-pay" item xs={12} md={4}>
+            {order.orderDetails.length > 0 && (
+              <div className="pay-area">
+                <div className="voucher-input">
+
+                  <TextField
+                    id="outlined-uncontrolled"
+                    label="Nhập mã voucher"
+                    defaultValue="foo"
+                    value={voucherCode}
+                    onChange={(e) => setVoucherCode(e.target.value)}
+                  />
+
+                  <Button onClick={applyVoucher} variant="outlined" >
+                    Áp dụng
+                  </Button>
+
+                </div>
+                {/* <div>ID: {order.id}</div>
+            <div>Status: {order.status}</div>
+            <div>Payment Method: {order.paymentMethod}</div>
+            <div>Ship Address: {order.shipAddress}</div> */}
+                <div className="total-price">
+                  <div style={{fontSize: '1rem', marginRight:'1rem'}}> Total Price: </div>
+                  <div>
+                  {order.total_price} VND</div>
+                  </div>
+                  
+                <VNPayPayment />
               </div>
-              <div>ID: {order.id}</div>
-              <div>Status: {order.status}</div>
-              <div>Payment Method: {order.paymentMethod}</div>
-              <div>Ship Address: {order.shipAddress}</div>
-              <div>Total Price: {order.total_price}</div>
-            </>
-          )}
-          {order.orderDetails.length > 0 ? (
-            <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
-          ) : (
-            <div>Giỏ hàng trống.</div>
-          )}
-          <VNPayPayment />
-        </div>
+            )}
+          </Grid>
+        </Grid>
       )}
-
-
     </div>
   );
 };

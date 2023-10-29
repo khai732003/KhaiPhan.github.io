@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import customAxios from '../../CustomAxios/customAxios';
 import './Scss/Order.scss';
-
-const OrderDetail = (props ) => {
-  const {deleteOrderDetail } = props;
+import { Button } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+const OrderDetail = (props) => {
+  const { deleteOrderDetail } = props;
   const [order, setOrder] = useState(null);
   const orderId = localStorage.getItem('orderId');
 
@@ -29,27 +30,29 @@ const OrderDetail = (props ) => {
       console.error("Error deleting order detail:", error);
     }
   };
-  
+
 
   return (
     <div className="order-details">
       {order && (
         <div>
-          <h3>Products in the Order:</h3>
           <div className="container-orderdetail">
             {order.orderDetails.map((item) => (
               <div className="list-orderdetail" key={item.id}>
                 <div><img src={item.productImg} alt="fix" /></div>
-                <div>
-                  <div>Product ID: {item.productId}</div>
-                  <div>Name: {item.name}</div>
+                <div className="orderdetail-name">
+                  {/* <div>Product ID: {item.productId}</div> */}
+                  {item.name}
+                  <div className="quantity"> X{item.quantity}</div>
                 </div>
-                <div>
-                  <div>Quantity: {item.quantity}</div>
+                <div className="price">
+                  
                   <div>Total Cost: {item.totalCost}</div>
                 </div>
                 {/* Thêm nút "Xóa" và gắn hàm xóa vào sự kiện click */}
-                <button onClick={() => handleDeleteOrderDetail(item.id)}>Xóa</button>
+                <Button onClick={() => handleDeleteOrderDetail(item.id)} variant="outlined" startIcon={<DeleteIcon />}>
+                  Delete
+                </Button>
               </div>
             ))}
           </div>

@@ -51,7 +51,10 @@ public class UsersController {
     return iUsersService.getUserById(id);
   }
 
-
+  @GetMapping("/user/listbymanager/{id}")
+public List<UserDTO> listStaffByManagerId(@PathVariable Long id){
+    return iUsersService.getStaffByManagerId(id);
+}
   @GetMapping("/user/listdto")
   public List<UserDTO> listAll(){
     return iUsersService.list();

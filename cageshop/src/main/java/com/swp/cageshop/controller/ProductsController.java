@@ -39,7 +39,10 @@ public class ProductsController {
 //        productsService.deleteAll();
 //    }
 
-
+    @GetMapping("/product/top3")
+    public List<ProductDTO> getTop3(){
+        return productsService.getTop3NewestProductDTOs();
+    }
     @PostMapping("/product/test")
     public ResponseEntity<?> addsProduct(@RequestBody ProductDTO productDTO) {
         if (productDTO != null) {

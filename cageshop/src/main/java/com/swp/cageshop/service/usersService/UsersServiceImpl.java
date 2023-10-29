@@ -54,6 +54,12 @@ public class UsersServiceImpl implements IUsersService {
   @Autowired
   private RolesRepository rolesRepository;
 
+  public List<UserDTO> getStaffByManagerId(Long managerId) {
+    List<Users> users = usersRepository.findByManagerId(managerId);
+    return users.stream()
+        .map(user -> modelMapper.map(user, UserDTO.class))
+        .collect(Collectors.toList());
+  }
 
   @Override
   public Optional<Users> getUserById(Long userId) {

@@ -21,6 +21,7 @@ const Cart = () => {
   const { user } = useAuth();
   const { cart, isCartOpen, toggleCart, clearCart } = useCart();
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [isSnackbarOpen2, setIsSnackbarOpen2] = useState(false);
 
   const totalCartPrice = cart.reduce((total, item) => total + item.totalPrice, 0);
   const isCartEmpty = cart.length === 0;
@@ -28,6 +29,10 @@ const Cart = () => {
   let orderId = localStorage.getItem('orderId');
 
   const handleOrderListClick = () => {
+    if(!orderId){
+      setIsSnackbarOpen2(true);
+      return;
+    }
     navigate(`/order/${orderId}`)
   }
 
@@ -149,6 +154,18 @@ const Cart = () => {
       >
         <MuiAlert onClose={handleCloseSnackbar} severity="error">
           CART IS EMPTY NOW !!!
+        </MuiAlert>
+      </Snackbar>
+
+      {/* Snackbar cho trường hợp giỏ hàng trống */}
+      <Snackbar
+        open={isSnackbarOpen2}
+        autoHideDuration={6000}
+        onClose={() => setIsSnackbarOpen2(false)} // Đóng Snackbar khi người dùng nhấn nút đóng
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <MuiAlert onClose={() => setIsSnackbarOpen2(false)} severity="error">
+          YOU SHOULD ORDER A PRODUCT !!!
         </MuiAlert>
       </Snackbar>
     </>

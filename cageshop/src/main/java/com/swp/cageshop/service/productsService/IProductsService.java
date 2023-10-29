@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface IProductsService {
 
+  public List<ProductDTO> getTop3NewestProductDTOs();
   public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);
 

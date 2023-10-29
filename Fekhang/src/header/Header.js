@@ -122,7 +122,7 @@ function Header(props) {
                                             Profile
                                         </NavLink>
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
-                                            cc
+                                            Manager
                        
                                         </NavLink>
                                         {user.role === "STAFF" && (

@@ -23,8 +23,9 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     Products findProductIdByOrderDetail_Id(Long orderDetailId);
 
-
-
+  @Query(value = "SELECT * FROM products p ORDER BY p.create_date DESC LIMIT 3",
+      nativeQuery = true)
+  List<Products> findTop3NewestProducts();
     //Status
     @Query("SELECT p FROM Products p WHERE p.status = 'New'")
     List<Products> findProductsByStatusNew();

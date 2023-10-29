@@ -52,11 +52,12 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
       }
 
       const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
-
+      
       await customAxios.post('/order_detail/add', {
         quantity: 1,
         hirePrice: product.hirePrice,
         totalOfProd: product.totalOfProd,
+        name : product.cage.description,
         note: `Sản phẩm là ${product.id}`,
         orderId,
         productId: product.id,
@@ -79,14 +80,14 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
             <div className="card-info">
             {/* <div className="card-text">Id: {id}</div> */}
               <h5 className="card-title">{cage.description}</h5>
-              <div className="card-text">Stock: {stock}</div>
+              <div className="card-text" >Stock: {stock}</div>
               <div className="card-text">Code: {code}</div>
               <div className="accessories-list">
                 Accessories: {accessoriesList}
               </div>
               
               
-              <div className="card-text">Price: {totalPrice} VND</div>
+              <div className="card-text" style={{fontWeight: '700', fontSize:'1.3rem'}} >Price: {totalPrice} VND</div>
             </div>
 
 
