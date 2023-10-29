@@ -1,0 +1,83 @@
+.chat-widget {
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  transition: all 0.3s;
+  z-index: 999;
+  font-family: Arial, sans-serif;
+
+  &.expanded {
+    width: 400px;
+    height: 550px;
+  }
+
+  
+  .chat-container {
+    max-height: 300px;
+    overflow-y: auto;
+    
+
+    .message {
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .bot {
+      background-color: #f0f0f0;
+    }
+
+    .user {
+      background-color: #d3e0ff;
+      align-self: flex-end;
+    }
+  }
+
+  .input-container {
+    display: flex;
+    margin-top: 15px;
+
+    .input-box {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .send-button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+  }
+
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+
+  .predefined-questions {
+    max-height: 150px; /* Thay đổi giá trị tùy thuộc vào chiều cao mong muốn */
+    overflow-y: auto;
+  
+    .predefined-question {
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
+}

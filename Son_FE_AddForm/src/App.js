@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import AddProductForm from './SanPham/AddProductForm';
 // import AddProductFormV2 from './SanPham/AddProductFormV2';
-import AddProductFormV4 from './SanPham/AddProductFormV4';
+import ChatWidget from './SanPham/Chatgpt';
 
 
 function App() {
@@ -18,8 +18,11 @@ function App() {
     <ProductPage/>
    </CartProvider>
         <AddProductForm />  */}
-        <AddProductFormV4 /> 
-       
+
+       <h1>Your Product Page</h1>
+      <p>Em nung lon qua.</p>
+      <ChatWidget />
+      
 
     </div>
   );
