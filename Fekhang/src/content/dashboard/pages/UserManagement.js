@@ -9,9 +9,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import customAxios from "../../../CustomAxios/customAxios";
 
 const URL =
-  "https://652aea854791d884f1fd8029.mockapi.io/api/product/v1/staffManagement";
+  "/user/list";
 
 const UserManagement = () => {
   const [staffs, setStaffs] = useState([]);
@@ -21,7 +22,7 @@ const UserManagement = () => {
   const itemsPerPage = 5;
 
   const getListStaff = async () => {
-    const res = await axios.get(`${URL}`);
+    const res = await customAxios.get(`${URL}`);
     if (res.status === 200) {
       const newStaffs = res.data.sort((a, b) => a.id - b.id);
       setStaffs(newStaffs);
@@ -39,7 +40,7 @@ const UserManagement = () => {
         `Are you sure that you want to delete a staff with ID: ${id}`
       )
     ) {
-      const res = await axios.delete(`${URL}/${id}`);
+      const res = await customAxios.delete(`/user/delete/${id}`);
       if (res.status === 200) {
         getListStaff();
         toast.success("Deleted Successfully");
@@ -110,7 +111,7 @@ const UserManagement = () => {
         </div>
 
         <div className="btn-add action-bar">
-          <Link to={"/add"}>
+          <Link to={"/add-edit-user"}>
             <button className="add-staff-btn">Add new staff</button>
           </Link>
         </div>
@@ -124,6 +125,7 @@ const UserManagement = () => {
               <th className="user-management-header">ID</th>
               <th className="user-management-header">Avatar</th>
               <th className="user-management-header">Full Name</th>
+              <th className="user-management-header">Name</th>
               <th className="user-management-header">Email</th>
               <th className="user-management-header">Address</th>
               <th className="user-management-header">Phone Number</th>
@@ -145,11 +147,12 @@ const UserManagement = () => {
                   />
                 </td>
                 <td className="user-management-td smaller-text">{staff.fullname}</td>
+                <td className="user-management-td smaller-text">{staff.name}</td>
                 <td className="user-management-td smaller-text">{staff.email}</td>
                 <td className="user-management-td smaller-text">{staff.address}</td>
                 <td className="user-management-td smaller-text">{staff.phonenumber}</td>
                 <td className="user-management-td smaller-text">
-                  {new Date(staff.createdAt * 1000).toLocaleDateString()}
+                  {staff.createDate}
                 </td>
                 <td className="user-management-td">
                   <Link to={`/update/${staff.id}`}>

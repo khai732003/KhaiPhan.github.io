@@ -40,6 +40,8 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String address;
 
+
+
 //  @Column(nullable = false)
 //  private String verfiCode;
 
@@ -56,7 +58,7 @@ public class Users extends EntityBase{
 
   private boolean status;
 
-
+@JsonIgnore
   @OneToMany(mappedBy="user")
   private List<VoucherUsage> voucherUsages;
 
@@ -77,5 +79,6 @@ public class Users extends EntityBase{
   @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
+
 
 }

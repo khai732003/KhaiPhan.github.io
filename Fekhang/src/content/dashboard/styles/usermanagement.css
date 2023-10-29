@@ -180,6 +180,11 @@
   width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
 }
 
+.user-management-header:nth-child(5),
+.user-management-td:nth-child(5) {
+  width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
+}
+
 .user-management-header:nth-child(6),
 .user-management-td:nth-child(6) {
   width: 12%; 
@@ -192,7 +197,7 @@
 
 .user-management-header:nth-child(8),
 .user-management-td:nth-child(8) {
-  width: 8%; /* Đặt chiều rộng cố định cho cột thứ hai */
+  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
 }
 
 .user-management-header:nth-child(9),

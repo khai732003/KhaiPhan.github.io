@@ -25,10 +25,14 @@ function Header(props) {
     // const isDashBoard = location.pathname === '/dashboard';
     const isUserManager = location.pathname === '/usermanagement';
     const isAdmin = location.pathname === '/admin';
-    const isAddUser = location.pathname === '/add';
-    const isUpdateUser = location.pathname === "/update/:id";
+    const isAddUser = location.pathname === '/add-user';
+    // const isUpdateUser = location.pathname === "/update/*";
+    const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
     const isRevenue = location.pathname === "/revenue";
     const isProductManager = location.pathname === "/productmanagement";
+    const isAddProduct = location.pathname === '/add-product';
+    // const isUpdateProduct = location.pathname === "/update/*";
+    const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
 
     const handleOnLogout = () => {
         logout();
@@ -38,7 +42,7 @@ function Header(props) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager){
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct){
         return <NavBar/>
     }
 
