@@ -31,42 +31,30 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     private ProductsRepository productsRepository;
 
     public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
-
         double totalCost, hireCost, totalProduct;
         int quantity;
-
-        // Lấy thông tin sản phẩm
         Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
-
-        // Kiểm tra xem sản phẩm đã tồn tại trong đơn hàng chưa
         OrderDetail existing = orderDetailRepository.findByOrderIdAndProductId(orderDetailDTO.getOrderId(), orderDetailDTO.getProductId());
-
         if (existing != null) {
-            // Nếu đã tồn tại thì tăng số lượng lên 1
-            existing.setQuantity(existing.getQuantity() + 1);
-
-            // Cập nhật lại tổng giá
+            quantity = existing.getQuantity();
+            existing.setQuantity(quantity + 1);
             totalProduct = product.getTotalPrice() * existing.getQuantity();
             existing.setTotalOfProd(totalProduct);
-
             totalCost = totalProduct + existing.getHirePrice();
             existing.setTotalCost(totalCost);
-
             orderDetailRepository.save(existing);
-
             return modelMapper.map(existing, OrderDetailDTO.class);
 
         } else {
-            // Lấy thông tin hình ảnh sản phẩm
             String productImg = product.getProductImage();
 
             quantity = orderDetailDTO.getQuantity();
-            hireCost = orderDetailDTO.getHirePrice();
-            totalProduct = product.getTotalPrice();
-
-            if (quantity > 1) {
-                totalProduct = totalProduct * quantity;
+            if(quantity == 0){
+                quantity = 1;
             }
+            orderDetailDTO.setQuantity(quantity);
+            hireCost = orderDetailDTO.getHirePrice();
+            totalProduct = product.getTotalPrice() * quantity; // Nhân với quantity
 
             orderDetailDTO.setTotalOfProd(totalProduct);
             totalCost = totalProduct + hireCost;
@@ -81,6 +69,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         }
 
     }
+
 
 
 

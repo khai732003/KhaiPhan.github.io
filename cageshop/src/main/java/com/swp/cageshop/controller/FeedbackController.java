@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/cageshop/api/feedback")
 public class FeedbackController {
 
+
     @Autowired
     private IFeedbackService feedbackService;
 
@@ -53,5 +54,11 @@ public class FeedbackController {
     public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
         feedbackService.deleteFeedback(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/average-rating/{productId}")
+    public ResponseEntity<Double> getAverageRatingByProduct(@PathVariable Long productId) {
+        double averageRating = feedbackService.getAverageRatingByProduct(productId);
+        return ResponseEntity.ok(averageRating);
     }
 }

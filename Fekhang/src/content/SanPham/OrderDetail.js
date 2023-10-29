@@ -40,6 +40,7 @@ const OrderDetail = () => {
             {order.orderDetails.map((item) => (
               <li key={item.id}>
                 <div>Product ID: {item.productId}</div>
+                <div>Name: {item.name}</div>
                 <div><img src={item.productImg} alt="fix"/> </div>
                 <div>Quantity: {item.quantity}</div>
                 <div>Total Cost: {item.totalCost}</div>

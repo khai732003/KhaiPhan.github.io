@@ -33,16 +33,27 @@ public class FeedbackServiceImpl implements IFeedbackService {
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO) {
         Users users = userRepository.getReferenceById(feedbackDTO.getUserId());
         Products products = productRepository.getReferenceById(feedbackDTO.getProductId());
-        if(users !=null && products !=null){
-            Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
-            Feedback savedFeedback = feedbackRepository.save(feedback);
-            return modelMapper.map(savedFeedback, FeedbackDTO.class);
-        }
+            if (users != null && products != null) {
+                Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
+                Feedback savedFeedback = feedbackRepository.save(feedback);
+                return modelMapper.map(savedFeedback, FeedbackDTO.class);
+            }
+
         return null;
     }
 
+
     public List<FeedbackDTO> getAllFeedbacks() {
         List<Feedback> feedbacks = feedbackRepository.findAll();
+
+        double sum = 0.0;
+        for (Feedback feedback : feedbacks) {
+            sum += feedback.getRating();
+        }
+        double averageRating = sum / feedbacks.size();
+
+        System.out.println("Trung bình rating là: " + averageRating);
+
         return feedbacks.stream()
                 .map(feedback -> modelMapper.map(feedback, FeedbackDTO.class))
                 .collect(Collectors.toList());
@@ -64,4 +75,14 @@ public class FeedbackServiceImpl implements IFeedbackService {
     public void deleteFeedback(Long id) {
         feedbackRepository.deleteById(id);
     }
+
+    public double getAverageRatingByProduct(Long productId) {
+        List<Feedback> ratings = feedbackRepository.findAllRatingByProductId(productId);
+        double sum = 0;
+        for (Feedback feedback : ratings) {
+            sum += feedback.getRating();
+        }
+        return ratings.isEmpty() ? 0 : sum / ratings.size();
+    }
+
 }

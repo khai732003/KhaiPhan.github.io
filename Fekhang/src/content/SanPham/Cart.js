@@ -46,16 +46,17 @@ const Cart = () => {
     try {
 
       if (!orderId) {
-        const shipAddress = "hcm";
-        const shipPrice = shipAddress === "hcm" ? 10000.0 : 20000.0;
+        // const shipAddress = "hcm";
+        // const shipPrice = shipAddress === "hcm" ? 10000.0 : 20000.0;
 
         const orderResponse = await customAxios.post('/order/add', {
-          status: "pending",
-          paymentMethod: "VNP",
-          shipAddress: shipAddress,
-          shipPrice: shipPrice,
-          content: "Đóng gói cẩn thận nhé",
-          shipDate: "today",
+          "name": "Tổng hóa đơn",
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": "137 Đặng Văn Bi",
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          "shipDate": "2023-10-15",
           userId: user.userId
         });
 
@@ -68,6 +69,7 @@ const Cart = () => {
         await customAxios.post('/order_detail/add', {
           quantity: 1,
           hirePrice: item.hirePrice,
+          name : item.cage.description,
           // totalOfProd: item.totalOfProd,
           note: `Sản phẩm là ${item.id} `,
           orderId: orderId,
@@ -104,7 +106,7 @@ const Cart = () => {
         <div className="cart-content">
           <div className="dialog-title">
             <Button variant="outlined" className='button-close' onClick={() => isCartOpen}>
-              <ArrowBackIosIcon/>
+              <ArrowBackIosIcon />
             </Button>
             <div className='name-cart'>YOUR CART</div>
 
@@ -120,21 +122,21 @@ const Cart = () => {
           ) : (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           )}
-          
+
         </div>
         <div className="option-cart">
-            <div className="total-price">
-              Total: <span className="price">{totalCartPrice.toFixed(0)} VND</span>
-            </div>
-            <div className="dialog-actions">
-              <Button  variant="contained" color="primary" startIcon={<InventoryIcon />}  onClick={handleOrderListClick}>
-                Order List
-              </Button>
-              <Button variant="contained" color="primary" startIcon={<AttachMoneyIcon />} onClick={handleOrderClick}>
-                Order Now
-              </Button>
-            </div>
+          <div className="total-price">
+            Total: <span className="price">{totalCartPrice.toFixed(0)} VND</span>
           </div>
+          <div className="dialog-actions">
+            <Button variant="contained" color="primary" startIcon={<InventoryIcon />} onClick={handleOrderListClick}>
+              Order List
+            </Button>
+            <Button variant="contained" color="primary" startIcon={<AttachMoneyIcon />} onClick={handleOrderClick}>
+              Order Now
+            </Button>
+          </div>
+        </div>
       </Drawer>
 
 
