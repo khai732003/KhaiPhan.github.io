@@ -34,15 +34,6 @@ public class Marketings extends EntityBase{
   @Column(nullable = false)
   private String shortinfo;
 
-//  @Column(nullable = false)
-//  @Temporal(TemporalType.TIMESTAMP)
-//  private Date date;
-
-//  //N:1 với user
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "user_id", nullable = false)
-//  private Users user;
-
 
 }
 
