@@ -16,12 +16,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.client.RestTemplate;
@@ -46,6 +49,7 @@ public class PayController {
 
     @Autowired
     private IProductsService productsService;
+
 
 
     @PostMapping("/pay")
@@ -119,9 +123,22 @@ public class PayController {
     }
 
 
+    @GetMapping("/get-all")
+    public List<VnPayDTO> getAllPayDTO() {
+        List<Pays> payEntities = paysRepository.findAll();
+        List<VnPayDTO> payDTOList = new ArrayList<>();
 
+        for (Pays pays : payEntities) {
+            VnPayDTO payDTO = modelMapper.map(pays, VnPayDTO.class);
+            payDTOList.add(payDTO);
+        }
 
+        return payDTOList;
+    }
 
-
+    @GetMapping("/get-by/{userId}")
+    public List<VnPayDTO> getAllPaysByUserId(@PathVariable Long userId) {
+        return payService.getAllPayDTOByUserId(userId);
+    }
 
 }
