@@ -91,21 +91,7 @@ export default function AboutPage() {
                                 </div>
                             </Grid>
 
-                            {products.map((product) => (
-                                <Grid key={product.id} item md={2.25}>
-                                    <div className='container-content-about-container'>
-                                        <div className='product-content-about-container'>
-                                            <img src={product.image} alt={product.name} />
-                                            <CardContent style={{ padding: 'none' }}>
-                                                <Link id='link-product-content-about-container'>Read More</Link>
-                                                <h5> <strong>{product.name}</strong></h5>
-                                                <p style={{ fontSize: '18px' }}>{product.type}</p>
-                                                <p style={{ fontSize: '18px' }}><strong>{product.price}</strong></p>
-                                            </CardContent>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            ))}
+
                         </Grid>
                     </div>
                 </Box>

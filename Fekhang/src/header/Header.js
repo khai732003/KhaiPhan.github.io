@@ -71,10 +71,10 @@ function Header(props) {
                                     <NavLink to="/sanpham" className="dropdown-item nav-link">
                                         Sản Phẩm
                                     </NavLink>
-                                    <NavLink to="/apitest" className="dropdown-item nav-link">
+                                    {/* <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
                                         
-                                    </NavLink>
+                                    </NavLink> */}
                                 </div>
                             </div>
 
