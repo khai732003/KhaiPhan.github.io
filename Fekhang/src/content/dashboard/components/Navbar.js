@@ -132,6 +132,18 @@ const NavBar = () => {
               <StyledToggleButton
                 button
                 component={Link}
+                to="/staffmanagement"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <ManageAccountsIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Staff Management" />
+              </StyledToggleButton>
+
+              <StyledToggleButton
+                button
+                component={Link}
                 to="/productmanagement"
                 className="navbar-btn navbar-item"
               >

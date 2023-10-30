@@ -5,13 +5,13 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import customAxios from '../../../CustomAxios/customAxios';
 import { useAuth } from '../../SanPham/Context/AuthContext';
 
-const AddEditUser = () => {
+const AddEditStaff = () => {
   const { id } = useParams();
-  const { user, loadUser, setUserFromToken } = useAuth();
+  const { staff, loadStaff, setStaffFromToken } = useAuth();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const isEditing = !!id; // Check if 'id' is present in the URL
+  const isEditing = !!id; // 
 
   const [formData, setFormData] = useState({
     email: '',
@@ -28,7 +28,7 @@ const AddEditUser = () => {
 
   useEffect(() => {
     if (isEditing) {
-      getUser(id);
+      getStaff(id);
     }
   }, [id, isEditing]);
 
@@ -58,7 +58,7 @@ const AddEditUser = () => {
 
       if (response.status === 200) {
         localStorage.setItem('token', response.data.accessToken);
-        setUserFromToken(response.data.accessToken);
+        setStaffFromToken(response.data.accessToken);
         navigate(-1);
       }
     } catch (error) {
@@ -74,7 +74,7 @@ const AddEditUser = () => {
     }
   };
 
-  const getUser = async (id) => {
+  const getStaff = async (id) => {
     try {
       const response = await customAxios.get(`/user/list/${id}`);
       if (response.status === 200) {
@@ -85,11 +85,11 @@ const AddEditUser = () => {
     }
   };
 
-  const updateUser = async () => {
+  const updateStaff = async () => {
     try {
-      const response = await customAxios.put(`/user/update-user/${id}`, formData);
+      const response = await customAxios.put(`/user/update/${id}`, formData);
       if (response.status === 200) {
-        navigate("/usermanagement");
+        navigate("/staffmanagement");
       }
     } catch (error) {
       console.error(error);
@@ -100,7 +100,7 @@ const AddEditUser = () => {
     event.preventDefault();
     
     if (isEditing) {
-      updateUser();
+      updateStaff();
     } else {
       handleRegister(event);
     }
@@ -119,7 +119,7 @@ const AddEditUser = () => {
                 <div className="row g-0">
                   <div className="col-md-6 col-lg-6 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-1.5 text-black">
-                      <h2>{id ? "Update User" : "Add New User"}</h2>
+                      <h2>{id ? "Update Staff" : "Add New Staff"}</h2>
                       <form onSubmit={handleSubmit}>
                         <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
                           <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
@@ -131,7 +131,7 @@ const AddEditUser = () => {
                             </Button>
                           </div>
                           <span className="h1 fw-bold mb-0">
-                            {id ? "Update User" : "Add New User"}
+                            {id ? "Update Staff" : "Add New Staff"}
                           </span>
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
@@ -258,4 +258,4 @@ const AddEditUser = () => {
   );
 };
 
-export default AddEditUser;
+export default AddEditStaff;

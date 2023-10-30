@@ -38,6 +38,8 @@ import AddEditUser from './content/dashboard/components/AddEditUser';
 import PaypalButton from './content/SanPham/PaypalButton';
 import Voucher from './content/SanPham/Voucher';
 import VoucherUsage from './content/SanPham/VoucherUsage';
+import StaffManagement from './content/dashboard/pages/StaffManagement';
+import AddEditStaff from './content/dashboard/components/AddEditStaff';
 
 
 
@@ -52,16 +54,19 @@ function App() {
 
               <Route exact path="/" element={<Trangchu />}> </Route>
               
-
+              {/* <Route path="/manager" element={<Manager />} /> */}
               <Route path="/admin" element={<Home />} />
               <Route path="/usermanagement" element={<UserManagement />} />
               <Route path="/productmanagement" element={<ProductManagement />} />
+              
+              <Route path="/staffmanagement" element={<StaffManagement />} />
+              <Route path="/add-edit-staff" element={<AddEditStaff />} />
               <Route path="/add-edit-user" element={<AddEditUser />} />
-              <Route path="/update/:id" element={<AddEditUser />} />
+              <Route path="/update-user/:id" element={<AddEditUser />} />
               {/* <Route path="/add-category" element={<AddEditCategory />} /> */}
               {/* <Route path="/update-user/:id" element={<UpdateUser />} /> */}
               <Route path="/add-edit-product" element={<AddEditProduct />} />
-              <Route path="/update/:id" element={<AddEditProduct />} />
+              <Route path="/update-product/:id" element={<AddEditProduct />} />
               <Route path="/revenue" element={<Revenue />} />
               <Route path="/adminprofile" element={<AdminProfile />} />
 
