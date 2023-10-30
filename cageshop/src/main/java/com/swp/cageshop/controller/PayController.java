@@ -14,10 +14,9 @@ import com.swp.cageshop.service.productsService.IProductsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,7 +49,8 @@ public class PayController {
     @Autowired
     private IProductsService productsService;
 
-
+    @Autowired
+    private PaysService paysService;
 
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
@@ -106,7 +106,9 @@ public class PayController {
                     transactionDTO.setStatus("OK");
                     transactionDTO.setMessage("Success");
                     transactionDTO.setData("");
-
+                Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
+                orders.setPayStatus("PAID");
+                ordersRepository.save(orders);
                 // Chuyển hướng request nếu responseCode là "00"
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
@@ -139,6 +141,11 @@ public class PayController {
     @GetMapping("/get-by/{userId}")
     public List<VnPayDTO> getAllPaysByUserId(@PathVariable Long userId) {
         return payService.getAllPayDTOByUserId(userId);
+    }
+
+    @GetMapping("/doanh-thu")
+    public double getAllPaysWithCompletedStatus() {
+        return paysService.getTotalRevenueFromCompletedPays();
     }
 
 }

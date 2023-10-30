@@ -16,6 +16,7 @@ public class CageshopApplication {
 		return new ModelMapper();
 	}
 
+
 	private final static Logger LOGGER =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static void main(String[] args) {
 		SpringApplication.run(CageshopApplication.class, args);

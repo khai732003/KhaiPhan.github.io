@@ -1,12 +1,11 @@
 package com.swp.cageshop.service.payService;
 
+import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.DTO.VnPayDTO;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.service.productsService.IProductsService;
 import org.modelmapper.ModelMapper;
-import com.swp.cageshop.DTO.OrderDTO;
-import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.DTO.VnPayConstant;
 import com.swp.cageshop.config.Config;
 import com.swp.cageshop.repository.PaysRepository;
@@ -141,6 +140,15 @@ public class PaysService implements PaysServiceImpl {
 
     }
 
+    @Override
+    public double getTotalRevenueFromCompletedPays() {
+        double totalRevenue = 0;
+        List<PaymentDTO> paymentDTOs = paysRepository.findByStatus("COMPLETED");
+        for (PaymentDTO paymentDTO : paymentDTOs) {
+            totalRevenue += paymentDTO.getPrice();
+        }
+        return totalRevenue;
+    }
 
 
 }

@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop/api")
+@RequestMapping("/cageshop/api/order")
 public class OrdersController {
     @Autowired
     private IOrdersService iOrdersService;
@@ -29,7 +29,7 @@ public class OrdersController {
     private OrdersServiceImpl ordersService;
     @Autowired
     private UsersRepository usersRepository;
-    @PostMapping("/order/add")
+    @PostMapping("/add")
     public ResponseEntity<?> addOrders(@RequestBody OrderDTO orderDTO) {
         Long userId = orderDTO.getUserId();
         Optional<Users> users = usersRepository.findById(userId);
@@ -45,15 +45,44 @@ public class OrdersController {
     }
 
     //API get list
-    @GetMapping("/order/list")
+    @GetMapping("/list")
     public List<OrderDTO> getAllOrders(){
         return iOrdersService.getAllOrderDTO();
     }
 
-    @GetMapping("/order/list/{id}")
+    @GetMapping("/list/{id}")
     public OrderDTO findOrderById(@PathVariable Long id) {
         return iOrdersService.findById(id);
     }
 
+    @GetMapping("/list-all/paid")
+    public List<OrderDTO> getPaidOrders() {
+        return ordersService.getPaidOrders();
+    }
 
+    @GetMapping("/list-by-status/{shipStatus}")
+    public List<OrderDTO> getOrdersByShipStatus(@PathVariable String shipStatus) {
+        return ordersService.getOrdersByShipStatus(shipStatus);
+    }
+
+    @GetMapping("/payStatus/{status}")
+    public List<String> getAllPayStatusByStatus(@PathVariable String status) {
+        return ordersService.getAllPayStatusByStatus(status);
+    }
+
+    @GetMapping("/shipStatus/{status}")
+    public List<String> getAllShipStatusByStatus(@PathVariable String status) {
+        return ordersService.getAllShipStatusByStatus(status);
+    }
+
+    @GetMapping("/list-by-user/{userId}")
+    public List<OrderDTO> getOrdersByUserId(@PathVariable Long userId) {
+        return iOrdersService.getOrdersByUserId(userId);
+    }
+
+
+    @GetMapping("/list-by-user-and-pay-status/{userId}/{payStatus}")
+    public List<OrderDTO> getOrdersByUserIdAndPayStatus(@PathVariable Long userId, @PathVariable String payStatus) {
+        return iOrdersService.getOrdersByUserIdAndPayStatus(userId, payStatus);
+    }
 }

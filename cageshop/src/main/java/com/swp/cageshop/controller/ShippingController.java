@@ -3,6 +3,7 @@ package com.swp.cageshop.controller;
 import com.easypost.model.Shipment;
 import com.easypost.service.EasyPostClient;
 import com.swp.cageshop.DTO.ShippingDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.Shipping;
 import com.swp.cageshop.service.shipService.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class ShippingController {
 
 
     @PutMapping("/update/status/{orderId}")
-    public ResponseEntity<?> updateShippingStatusByOrderId(@PathVariable("orderId") Long orderId, @RequestParam String newStatus) {
+    public ResponseEntity<?> updateShippingStatusByOrderId(@PathVariable("orderId") Long orderId, @RequestParam ShippingStatus newStatus) {
         ShippingDTO updatedShippingDTO = shippingService.updateShippingStatusByOrderId(orderId, newStatus);
         if (updatedShippingDTO != null) {
             return ResponseEntity.ok(updatedShippingDTO);
@@ -80,27 +81,25 @@ public class ShippingController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public boolean confirmOrderWithBuyer(Shipping shipping) {
-        // Xác nhận đơn hàng với người mua
-        // Gửi thông báo xác nhận đến người mua
-        sendConfirmationToBuyer(shipping);
-        return true; // Ở đây mình đang giả định là xác nhận thành công
+
+    @GetMapping("get-all-by-status/not-confirmed")
+    public List<ShippingDTO> getShippingsByNotConfirmedStatus() {
+        return shippingService.getShippingsByNotConfirmedStatus();
     }
 
-    public void shipOrderToBuyer(Shipping shipping) {
-        // Xử lý logic ship tự động đến người mua ở đây
-        // Gửi thông báo đến người mua về quá trình vận chuyển
-        sendNotificationToBuyer(shipping);
+    @GetMapping("get-all-by-status/confirmed")
+    public List<ShippingDTO> getShippingsByConfirmedStatus() {
+        return shippingService.getShippingsByConfirmedStatus();
     }
 
-    private void sendConfirmationToBuyer(Shipping shipping) {
-        // Gửi thông báo xác nhận đến người mua
-        // Code gửi thông báo đến người mua
+    @GetMapping("get-all-by-status/delivering")
+    public List<ShippingDTO> getShippingsByDeliveringStatus() {
+        return shippingService.getShippingsByDeliveringStatus();
     }
 
-    private void sendNotificationToBuyer(Shipping shipping) {
-        // Gửi thông báo đến người mua về quá trình vận chuyển
-        // Code gửi thông báo đến người mua
+    @GetMapping("get-all-by-status/delivered")
+    public List<ShippingDTO> getShippingsByDeliveredStatus() {
+        return shippingService.getShippingsByDeliveredStatus();
     }
 
 }

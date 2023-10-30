@@ -13,4 +13,11 @@ import java.util.List;
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findAllById(Long orderId);
+
+    @Query("SELECT o FROM Orders o WHERE o.payStatus = 'PAID'")
+    List<Orders> findPaidOrders();
+
+    List<Orders> findByShipStatus(String shipStatus);
+
+    List<Orders> findByUserId(Long userId);
 }

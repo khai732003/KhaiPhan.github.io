@@ -25,4 +25,17 @@ public interface IOrdersService {
     public OrderDTO findById(Long id);
 
     public void updateOrderAndOrderDetails(Orders order);
+
+    public List<OrderDTO> getPaidOrders();
+
+    public List<OrderDTO> getOrdersByShipStatus(String shipStatus);
+
+    public List<String> getAllPayStatusByStatus(String payStatus);
+
+    public List<String> getAllShipStatusByStatus(String shipStatus);
+
+    public List<OrderDTO> getOrdersByUserId(Long userId);
+
+    public List<OrderDTO> getOrdersByUserIdAndPayStatus(Long userId, String payStatus);
+
 }

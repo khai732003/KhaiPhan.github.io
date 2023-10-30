@@ -13,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO extends DTOBase{
     private String name;
-    private String status;
+    private String shipStatus;
+    private String payStatus;
     private String paymentMethod;
     private String address;
     private String city;
@@ -23,15 +24,5 @@ public class OrderDTO extends DTOBase{
     private double total_price;
     private List<OrderDetailDTO> orderDetails;
     private Long userId;
-
-
-//    public void setShipPriceBasedOnAddress() {
-//        String address = this.shipAddress.toLowerCase();
-//        if (address.contains("Hồ Chí Minh") || address.contains("hcm")) {
-//            this.shipPrice = 30000;
-//        } else {
-//            this.shipPrice = 50000;
-//        }
-//    }
 
 }
