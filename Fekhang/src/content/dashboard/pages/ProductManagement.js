@@ -130,7 +130,7 @@ const ProductManagement = () => {
         </div>
 
         <div className="btn-add action-bar">
-          <Link to={"/add-edit-product"}>
+          <Link to={"/addproduct"}>
             <button className="add-staff-btn">Add new product</button>
           </Link>
         </div>
@@ -189,7 +189,7 @@ const ProductManagement = () => {
                   {product.createDate}
                 </td>
                 <td className="user-management-td">
-                  <Link to={`/update/${product.id}`}>
+                  <Link to={`/update-product/${product.id}`}>
                     <Button startIcon={<CreateIcon />} />
                   </Link>
                   <Button

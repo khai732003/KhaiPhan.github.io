@@ -14,35 +14,35 @@ import customAxios from "../../../CustomAxios/customAxios";
 const URL =
   "/user/list";
 
-const UserManagement = () => {
-  const [users, setUsers] = useState([]);
+const StaffManagement = () => {
+  const [staffs, setStaffs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filteredStaffs, setFilteredStaffs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Thêm trạng thái cho trang hiện tại
   const itemsPerPage = 5;
 
-  const getListUser = async () => {
+  const getListStaff = async () => {
     const res = await customAxios.get(`${URL}`);
     if (res.status === 200) {
-      const newUsers = res.data.sort((a, b) => a.id - b.id);
-      setUsers(newUsers);
-      setFilteredUsers(newUsers);
+      const newStaffs = res.data.sort((a, b) => a.id - b.id);
+      setStaffs(newStaffs);
+      setFilteredStaffs(newStaffs);
     }
   };
 
   useEffect(() => {
-    getListUser();
+    getListStaff();
   }, []);
 
   const handleDelete = async (id) => {
     if (
       window.confirm(
-        `Are you sure that you want to delete a User with ID: ${id}`
+        `Are you sure that you want to delete a staff with ID: ${id}`
       )
     ) {
       const res = await customAxios.delete(`/user/delete/${id}`);
       if (res.status === 200) {
-        getListUser();
+        getListStaff();
         toast.success("Deleted Successfully");
       } else {
         toast.error("Deleted Error!");
@@ -51,29 +51,29 @@ const UserManagement = () => {
   };
 
   const handleSearch = () => {
-    const filtered = users.filter((user) => {
+    const filtered = staffs.filter((staff) => {
       return (
-        user.fullname &&
-        user.fullname.toLowerCase().includes(searchTerm.toLowerCase())
+        staff.fullname &&
+        staff.fullname.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
-    setFilteredUsers(filtered);
-    setCurrentPage(1); // Đặt lại trang hiện tại về trang đầu khi tìm kiếm
+    setFilteredStaffs(filtered);
+    setCurrentPage(1); 
   };
 
   const handleResetSearch = () => {
     setSearchTerm("");
-    setFilteredUsers(users);
-    setCurrentPage(1); // Đặt lại trang hiện tại về trang đầu khi đặt lại tìm kiếm
+    setFilteredStaffs(staffs);
+    setCurrentPage(1); 
   };
 
-  const getVisibleUsers = () => {
+  const getVisibleStaffs = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredUsers.slice(startIndex, endIndex);
+    return filteredStaffs.slice(startIndex, endIndex);
   };
 
-  const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
+  const pageCount = Math.ceil(filteredStaffs.length / itemsPerPage);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -111,8 +111,8 @@ const UserManagement = () => {
         </div>
 
         <div className="btn-add action-bar">
-          <Link to={"/add-edit-user"}>
-            <button className="add-staff-btn">Add new User</button>
+          <Link to={"/add-edit-staff"}>
+            <button className="add-staff-btn">Add new Staff</button>
           </Link>
         </div>
       </div>
@@ -135,33 +135,33 @@ const UserManagement = () => {
           </thead>
 
           <tbody>
-            {getVisibleUsers().map((user, index) => (
-              <tr key={user.id}>
+            {getVisibleStaffs().map((staff, index) => (
+              <tr key={staff.id}>
                 <td className="user-management-td smaller-text">{index + 1}</td>
-                <td className="user-management-td smaller-text">{user.id}</td>
+                <td className="user-management-td smaller-text">{staff.id}</td>
                 <td className="user-management-td smaller-text">
                   <img
-                    src={user.image}
-                    alt={user.id}
+                    src={staff.image}
+                    alt={staff.id}
                     className="img-user-management"
                   />
                 </td>
-                <td className="user-management-td smaller-text">{user.fullname}</td>
-                <td className="user-management-td smaller-text">{user.name}</td>
-                <td className="user-management-td smaller-text">{user.email}</td>
-                <td className="user-management-td smaller-text">{user.address}</td>
-                <td className="user-management-td smaller-text">{user.phonenumber}</td>
+                <td className="user-management-td smaller-text">{staff.fullname}</td>
+                <td className="user-management-td smaller-text">{staff.name}</td>
+                <td className="user-management-td smaller-text">{staff.email}</td>
+                <td className="user-management-td smaller-text">{staff.address}</td>
+                <td className="user-management-td smaller-text">{staff.phonenumber}</td>
                 <td className="user-management-td smaller-text">
-                  {user.createDate}
+                  {staff.createDate}
                 </td>
                 <td className="user-management-td">
-                  <Link to={`/update-user/${user.id}`}>
+                  <Link to={`/update/${staff.id}`}>
                     <Button startIcon={<CreateIcon />} />
                   </Link>
                   <Button
                     className="delete-btn"
                     startIcon={<DeleteIcon />}
-                    onClick={() => handleDelete(user.id)}
+                    onClick={() => handleDelete(staff.id)}
                   />
                 </td>
               </tr>
@@ -181,4 +181,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default StaffManagement;

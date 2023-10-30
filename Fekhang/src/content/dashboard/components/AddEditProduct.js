@@ -40,7 +40,7 @@ const AddEditProduct = () => {
 
   const getProductById = async (id) => {
     try {
-      const response = await customAxios.get(`/product/select/3/${id}`);
+      const response = await customAxios.get(`/product/select/${id}`);
       if (response.status === 200) {
         setProduct(response.data);
       }
@@ -51,7 +51,7 @@ const AddEditProduct = () => {
 
   const updateProduct = async () => {
     try {
-      const response = await customAxios.put(`/product/update/${id}`, product);
+      const response = await customAxios.put(`/product/update-product/${id}`, product);
       if (response.status === 200) {
         navigate("/productmanagement");
       }

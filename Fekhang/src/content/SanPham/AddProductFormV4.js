@@ -6,9 +6,6 @@ import axios from 'axios';
 
 const { Option } = Select;
 
-
-
-
 const AddProductForm = () => {
   const [accessoryCount, setAccessoryCount] = useState(0);
   const [productImage, setProductImage] = useState("");
