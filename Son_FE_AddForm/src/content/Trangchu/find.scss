@@ -1,0 +1,63 @@
+/* ProductSearch.scss */
+.find {
+    background-color: #343a40;
+    color: white;
+    font-family: 'Roboto Slab';
+    
+    .container {
+        padding: 40px;
+       
+        .Row {
+            align-items: center;
+            justify-content: center;
+            
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #343a40;
+            padding: 20px;
+            border: 1px solid #343a40;
+            border-radius: 2px;
+
+            .Form-Group {
+                margin-bottom: 100px;
+                .form-control {
+                    width: 100%;
+                    padding: 15px;
+                    font-size: 32px;
+                    border: 1px solid #ccc;
+                    border-radius: 2px;
+                }
+
+                /* Style the select input */
+                select.form-control {
+                    cursor: pointer;
+
+                    /* Adjust the padding and margin to align the dropdown icon */
+                    padding-right: 30px;
+                    margin-right: -30px;
+                }
+            }
+
+            .btn-primary {
+                background-color: #343a40;
+                border: 2px solid #cc6119;
+                border-radius: 3px;
+                font-size: 16px;
+                padding: 10px 40px;
+                color: white;
+                width: 90%;
+
+                &:hover {
+                    background-color: #cc6119;
+                    transition: 0.7s;
+                }
+            }
+        }
+    }
+}

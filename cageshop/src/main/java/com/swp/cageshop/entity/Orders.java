@@ -8,17 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 @Entity
 @Table(name = "Orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orders extends EntityBase{
+public class Orders extends EntityBase {
   @Column
   private String name;
 
-  @Column
-  private String status;
+  @Column(nullable = false)
+  private String shipStatus;
+
+  @Column(nullable = false)
+  private String payStatus;
 
   @Column
   private String paymentMethod;
@@ -29,7 +34,7 @@ public class Orders extends EntityBase{
   @Column
   private String city;
 
-  @Column(nullable = false,name="shipPrice")
+  @Column(nullable = false, name = "shipPrice")
   private double shipPrice;
 
   @Column
@@ -39,11 +44,12 @@ public class Orders extends EntityBase{
   @Temporal(TemporalType.TIMESTAMP)
   private String shipDate;
 
-  @Column(name="total_Price")
+  @Column(name = "total_Price")
+  @Min(value = 0, message = "Price must be non-negative")
   private double total_Price;
 
   @JsonIgnore
-  @OneToMany(mappedBy="order")
+  @OneToMany(mappedBy = "order")
   private List<VoucherUsage> voucherUsages;
 
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
@@ -60,6 +66,17 @@ public class Orders extends EntityBase{
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
   private Shipping shipping;
 
+
+  @PrePersist
+  public void prePersistActions() {
+    // Thực hiện hành động trước khi lưu vào cơ sở dữ liệu ở đây
+    if (this.shipStatus == null) {
+      this.shipStatus = "NOT_CONFIRM";
+    }
+    if (this.payStatus == null) {
+      this.payStatus = "NOT_PAY";
+    }
+  }
 }
 
 

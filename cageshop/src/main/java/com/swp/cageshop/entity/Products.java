@@ -21,10 +21,11 @@ public class Products extends EntityBase {
   @Column(nullable = true, length=6)
   private String code;
 
+  @Lob
   @Column(nullable = false)
   private String productImage;
 
-
+  @Lob
   @ElementCollection
   @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
   @Column(name = "image_url")

@@ -9,7 +9,7 @@ const { Option } = Select;
 
 
 
-const AddProductForm = () => {
+const AddProductForm = (props) => {
   const [accessoryCount, setAccessoryCount] = useState(0);
   const [productImage, setProductImage] = useState("");
   const [productDetailImages, setProductDetailImages] = useState([]);
@@ -61,6 +61,8 @@ const AddProductForm = () => {
     setAccessoryCount(0);
   };
 
+<<<<<<< HEAD
+=======
 
 
 
@@ -68,6 +70,10 @@ const AddProductForm = () => {
 
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> f6e26026860b06f53007bb74b6ee90c9cb351f6e
+>>>>>>> 5a2a1a70c8719b24839a8a516831f59873642eb1
   const handleProductImageUpload = async (options) => {
     console.log('Options:', options);
     const { file } = options;
@@ -115,6 +121,9 @@ const AddProductForm = () => {
 
   const handleSubmit = async (formData) => {
     let data = {};
+    let accessoryDescription = formData.accessory?.description || '';
+    let accessoryPrice = formData.accessory?.price || 0;
+    let accessoryType = formData.accessory?.type || 'defaultType';
     if (productType === 'birdcage') {
       data = {
         name: formData.name,
@@ -130,8 +139,24 @@ const AddProductForm = () => {
           size: formData.cage?.size,
           price: formData.cage?.price,
         },
+<<<<<<< HEAD
         accessories: [], // Set accessories to an empty array for birdcage
       };
+=======
+        accessories: [
+          {
+            description: accessoryDescription,
+            price: accessoryPrice,
+            type: accessoryType,
+          },
+        ], // Set accessories to an empty array for birdcage
+      };
+      // if (productType === 'birdcage') {
+      //   // ... các trường khác ...
+      //   data.accessories.push({
+      //     // Thêm các trường vào đối tượng accessories
+      //   });
+>>>>>>> 5a2a1a70c8719b24839a8a516831f59873642eb1
     } else if (productType === 'accessory') {
       data = {
         name: formData.name,
@@ -145,7 +170,11 @@ const AddProductForm = () => {
           {
             description: formData.accessory?.description,
             price: formData.accessory?.price,
+<<<<<<< HEAD
             type: formData.accessory?.type ,
+=======
+            type: formData.accessory?.type || 'defaultType',
+>>>>>>> 5a2a1a70c8719b24839a8a516831f59873642eb1
           },
         ],
       };
@@ -195,7 +224,7 @@ const AddProductForm = () => {
             >
               <Select>
                 {accessoryTypeOptions.map((type, index) => (
-                  <Option key={index} value={type}>
+                  <Option key={type} value={type}>
                     {type}
                   </Option>
                 ))}
@@ -333,7 +362,6 @@ const AddProductForm = () => {
 
       )}
 
-cho t
       {productType === 'accessory' && (
         <>
           <h2>Accessory Details</h2>
@@ -357,10 +385,10 @@ cho t
             rules={[{ required: true, message: 'Please select the accessory type!' }]}
           >
             <Select placeholder="Select a type">
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
+              <Option value="Type A">Type A</Option>
+              <Option value="Type B">Type B</Option>
+              <Option value="Type C">Type C</Option>
+              {/* <Option value="4">Default Type</Option> */}
             </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit">

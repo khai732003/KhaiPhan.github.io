@@ -1,5 +1,6 @@
 package com.swp.cageshop.repository;
 
+import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.PaypalPayment;
 import com.swp.cageshop.entity.Pays;
@@ -23,10 +24,9 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
     @Query("SELECT p.paymentCode FROM Pays p WHERE p.order.id = :orderId ORDER BY p.id DESC")
     String findPaymentCodeByOrderId(Long orderId);
 
-//    @Query("SELECT p FROM Pays p ORDER BY p.id DESC LIMIT 1")
-//    Pays findTopByOrderByIdDesc();
+    List<Pays> findByOrder_User_Id(Long userId);
 
-//    @Query("SELECT p FROM Pays p WHERE p.status = 'Success' AND p.orderId = :orderId")
-//    Pays findByOrderIdAndStatus(@Param("orderId") String orderId)
-//    ;
+    @Query("SELECT new com.swp.cageshop.DTO.PaymentDTO(p.id, p.createDate, p.price, p.paymentCode, p.status, p.order.id) FROM Pays p WHERE p.status = ?1")
+    List<PaymentDTO> findByStatus(String status);
+
 }

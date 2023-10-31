@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface IProductsService {
 
+  public List<ProductDTO> getTop3NewestProductDTOs();
   public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);
 
@@ -67,6 +68,8 @@ public interface IProductsService {
   public List<AccessoryDTO> getProductAccessories(Long productId);
 
   public void updateProductStock(Orders order);
+
+  ProductDTO cloneAndAddAccessories(Long productId, List<AccessoryDTO> accessories);
 //  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
 

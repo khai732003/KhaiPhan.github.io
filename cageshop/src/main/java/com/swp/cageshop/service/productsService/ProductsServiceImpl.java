@@ -16,6 +16,7 @@ import com.swp.cageshop.service.categoriesService.ICategoriesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,6 +47,19 @@ public class ProductsServiceImpl implements IProductsService {
 
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
+
+    @Override
+    public List<ProductDTO> getTop3NewestProductDTOs() {
+        // Lấy top 3 sản phẩm mới nhất từ repository
+        List<Products> top3Products = productsRepository.findTop3NewestProducts();
+
+        // Chuyển đổi từ Products sang ProductDTO sử dụng ModelMapper
+        List<ProductDTO> productDTOs = top3Products.stream()
+            .map(product -> modelMapper.map(product, ProductDTO.class))
+            .collect(Collectors.toList());
+
+        return productDTOs;
+    }
 
     @Override
     public void deleteAll() {
@@ -141,6 +155,39 @@ public class ProductsServiceImpl implements IProductsService {
             }
         }
         return false;
+    }
+
+
+    public ProductDTO cloneAndAddAccessories(Long productId, List<AccessoryDTO> accessories) {
+        Optional<Products> optionalProduct = productsRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Products product = optionalProduct.get();
+            if (product.getStock() > 0) {
+                product.setStock(product.getStock() - 1);
+                productsRepository.save(product);
+                Products clonedProduct = new Products();
+                clonedProduct.setName(product.getName());
+                clonedProduct.setStock(1);
+                clonedProduct.setTotalPrice(product.getTotalPrice());
+                clonedProduct.setProductImage(product.getProductImage());
+                clonedProduct.setCode(product.getCode());
+                clonedProduct.setCage(product.getCage());
+                clonedProduct.setStatus("Custom Product");
+                List<Accessories> productAccessories = new ArrayList<>();
+                for (AccessoryDTO accessoryDTO : accessories) {
+                    Accessories accessory = new Accessories();
+                    accessory.setDescription(accessoryDTO.getDescription());
+                    accessory.setPrice(accessoryDTO.getPrice());
+                    accessory.setType(accessoryDTO.getType());
+                    accessory.setProduct(clonedProduct);
+                    productAccessories.add(accessory);
+                }
+                clonedProduct.setAccessories(productAccessories);
+                Products updatedProduct = productsRepository.save(clonedProduct);
+                return modelMapper.map(updatedProduct, ProductDTO.class);
+            }
+        }
+        return null;
     }
 
     public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories) {

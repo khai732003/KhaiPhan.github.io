@@ -21,6 +21,7 @@ public class Feedback extends EntityBase{
     @Column(nullable = false)
     private double rating;
 
+    @Lob
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;
 

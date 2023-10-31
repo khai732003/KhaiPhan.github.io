@@ -1,0 +1,32 @@
+.tintucStaff-container {
+    #btn-add-staff-dashboard {
+        color: rgb(22, 204, 185);
+        border: 1px solid rgb(22, 204, 185);
+        display: flex;
+        margin: 5rem 3rem 1rem 2rem;
+
+        &:hover {
+            background-color: rgb(14, 128, 116);
+            color: white;
+        }
+    }
+
+    .edit-button {
+        color: #00B2BF;
+        border: 1px solid #00B2BF;
+
+        &:hover {
+            color: white;
+            background-color: #00A6AD;
+        }
+    }
+    .delete-button {
+        
+
+        &:hover {
+            color: white;
+            background-color: 	
+            #EE7C6B;
+        }
+    }
+}

@@ -1,0 +1,76 @@
+/* slideshow.scss */
+$textnewscolor: rgb(236, 240, 246);
+$marginbot-text: 15px;
+
+.container-news {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: translate(0, 8%);
+    background-color: rgb(253, 250, 250);
+
+    .slideshow-news {
+        padding: 10px 10px;
+        width: 100%;
+
+        .carousel-item {
+            width: 100%;
+
+            img {
+                height: 34rem;
+                width: 57rem;
+                border-radius: 5px;
+            }
+
+            .S-content {
+                position: absolute;
+                top: 67%;
+                left: 35%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.3);
+                color: rgb(247, 245, 245);
+                padding: 10px;
+                border-radius: 5px;
+                padding: 15px;
+
+                
+
+                #news-l {
+                    display: block;
+                    text-decoration: none;
+                    color: $textnewscolor;
+                    margin-bottom: $marginbot-text;
+
+                    font: {
+                        size: 36px;
+                        weight: 400px;
+
+                    }
+
+                    line-height: 3rem;
+                    letter-spacing: 0.07rem;
+                }
+
+
+                #news-d {
+                    color: $textnewscolor;
+                    padding: 5px 10px;
+                    background-color: rgb(71, 85, 105);
+                    border-radius: 6px;
+                    width: fit-content;
+                    display: block;
+                    margin-bottom: $marginbot-text;
+
+                    font: {
+                        weight: 550;
+                        size: 12px;
+                    }
+                }
+
+                #news-short {
+                    color: rgb(239, 229, 229);
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

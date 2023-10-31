@@ -1,0 +1,21 @@
+/* navbar.css */
+.navbar-btn {
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+
+  .navbar-drawer {
+    font-size: 30px; 
+  }
+  
+  .navbar-item {
+    margin : 5px;
+  }
+
+  .navbar-drawer .MuiDrawer-paper {
+    overflow-x: hidden; 
+}
+
+
+  

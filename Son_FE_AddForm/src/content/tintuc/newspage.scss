@@ -1,0 +1,17 @@
+
+.tintuc-container {
+    background-color: rgb(235, 239, 242);
+    font-family: roboto,sans-serif;
+    margin-top: 70px;
+    padding-bottom: 50px;
+    .slide-s {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+
+        img {
+            width: 70%;
+        }
+
+    }
+}

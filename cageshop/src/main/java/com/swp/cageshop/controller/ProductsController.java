@@ -39,7 +39,10 @@ public class ProductsController {
 //        productsService.deleteAll();
 //    }
 
-
+    @GetMapping("/product/top3")
+    public List<ProductDTO> getTop3(){
+        return productsService.getTop3NewestProductDTOs();
+    }
     @PostMapping("/product/test")
     public ResponseEntity<?> addsProduct(@RequestBody ProductDTO productDTO) {
         if (productDTO != null) {
@@ -95,6 +98,17 @@ public class ProductsController {
             @PathVariable Long productId,
             @RequestBody List<AccessoryDTO> accessories) {
         ProductDTO updatedProduct = productsService.addAccessoriesToProduct(productId, accessories);
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("/product/clone-and-add-accessories/{productId}")
+    public ResponseEntity<ProductDTO> cloneAndAddAccessoriesToProduct(
+            @PathVariable Long productId,
+            @RequestBody List<AccessoryDTO> accessories) {
+        ProductDTO updatedProduct = productsService.cloneAndAddAccessories(productId, accessories);
         if (updatedProduct != null) {
             return ResponseEntity.ok(updatedProduct);
         } else {
