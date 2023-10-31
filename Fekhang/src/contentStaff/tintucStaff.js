@@ -55,7 +55,7 @@ const TintucStaff = () => {
     };
 
     const getAllNews = async () => {
-        const res = await axios.get('https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news');
+        const res = await axios.get('https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/list');
         if (res && res.data) {
             setNews(res.data);
         }
@@ -84,7 +84,6 @@ const TintucStaff = () => {
                         <th>Id</th>
                         <th>Title</th>
                         <th>Short Info</th>
-                        <th>Date</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -94,7 +93,6 @@ const TintucStaff = () => {
                             <td>{data.id}</td>
                             <td>{data.name}</td>
                             <td>{data.shortinfo}</td>
-                            <td>{data.date}</td>
                             <td>
                                 <Button variant="outlined" onClick={() => handleShowEdit(data)} className='edit-button'>Edit  <span style={{ paddingLeft: '5px' }} class="bi bi-pencil-square"></span></Button>
                                 <Button variant="outlined"  color='error' onClick={() => handleShowDelete(data)} style={{marginLeft:'20px'}} className='delete-button '>Delete<span  style={{ paddingLeft: '5px' }}  class="bi bi-trash3-fill"></span></Button>

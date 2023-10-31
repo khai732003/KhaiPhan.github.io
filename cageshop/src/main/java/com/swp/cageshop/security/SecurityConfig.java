@@ -1,6 +1,7 @@
 package com.swp.cageshop.security;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -55,7 +56,7 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowCredentials(true);
 //    configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-    configuration.setAllowedOrigins(List.of("*"));
+    configuration.setAllowedOrigins(Collections.singletonList("*"));
     configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
     configuration.setAllowedHeaders(List.of("*"));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -79,11 +80,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
   http.csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(authorize -> authorize
-              .anyRequest().permitAll()
-//          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/get-list","/cageshop/api/user/authenticate").permitAll()
-//          .anyRequest().authenticated()
-      );
-//      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
+//              .anyRequest().permitAll()
+          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/list-date-desc",
+              "/cageshop/api/user/authenticate","/cageshop/api/product/top3",
+              "/cageshop/api/marketing/list").permitAll()
+          .anyRequest().authenticated()
+      )
+      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
   http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
   return http.build();

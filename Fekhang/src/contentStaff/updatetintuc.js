@@ -87,18 +87,9 @@ const UpdateNews = (props) => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
+                       
                         <Form.Group className="mb-3">
-                            <Form.Label>Date</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Date"
-                                name="date"
-                                value={formData.date}
-                                onChange={handleInputChange}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Date</Form.Label>
+                            <Form.Label>image</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Image"

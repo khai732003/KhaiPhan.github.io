@@ -122,10 +122,12 @@ function Header(props) {
                                         <NavLink to="/profile" className="dropdown-item nav-link">
                                             Profile
                                         </NavLink>
+                                        {user.role === "ADMIN" && (
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
                                             Admin Dashboard
                        
                                         </NavLink>
+                                        )}
 
                                         {user.role === "MANAGER" && (
                                             <NavLink

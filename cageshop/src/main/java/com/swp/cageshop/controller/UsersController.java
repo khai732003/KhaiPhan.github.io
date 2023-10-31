@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 
 @RequestMapping("/cageshop/api")
 public class UsersController {

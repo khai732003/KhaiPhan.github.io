@@ -49,8 +49,8 @@ export default function AboutPage() {
                                 <div className='scrip-content-about'>
                                     <h3 id='intro-script-content-about'>OUR SHOP FEATURES</h3>
                                     <h1 id='title-script-content-about'>
-                                        <strog>Core advantages & reasons
-                                            to shop with us.</strog>
+                                        <strong>Core advantages & reasons
+                                            to shop with us.</strong>
                                     </h1>
                                     <p id='content-script-content-about'>In our store, you would find all the necessary styles and pieces of furniture,
                                         which would perfectly suit your needs.

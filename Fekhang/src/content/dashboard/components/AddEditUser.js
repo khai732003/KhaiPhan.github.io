@@ -22,8 +22,8 @@ const AddEditUser = () => {
     phone: '',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlJGeDFoDO2mUm5q3S8O_oc-8O4BYFWjNemRIdQ_6LQ&s',
     address: '',
-    roleId: 1,
-    managerId: null
+    roleId: 2,
+    managerId: user.userId
   });
 
   useEffect(() => {
@@ -57,8 +57,6 @@ const AddEditUser = () => {
       );
 
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.accessToken);
-        setUserFromToken(response.data.accessToken);
         navigate(-1);
       }
     } catch (error) {

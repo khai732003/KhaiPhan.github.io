@@ -55,7 +55,7 @@ function App() {
               <Route exact path="/" element={<Trangchu />}> </Route>
               
               {/* <Route path="/manager" element={<Manager />} /> */}
-              <Route path="/admin" element={<Home />} />
+              <Route path="/admin" element={<UserManagement />} />
               <Route path="/usermanagement" element={<UserManagement />} />
               <Route path="/productmanagement" element={<ProductManagement />} />
               
