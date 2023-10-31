@@ -23,11 +23,11 @@ const Revenue = () => {
         <table className="user-table" style={{ marginBlock: '100px' }}>
           <thead>
             <tr>
-              <th className="user-management-header">Data</th>
+              <th className="user-management-header">{products}</th>
             </tr>
           </thead>
 
-          <tbody>
+          {/* <tbody>
             {products && products.map((product, index) => (
               <tr key={product.id}>
                 <td className="user-management-td smaller-text">
@@ -35,7 +35,7 @@ const Revenue = () => {
                 </td>
               </tr>
             ))}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </div>

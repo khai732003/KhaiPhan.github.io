@@ -72,10 +72,10 @@ function Header(props) {
                                     <NavLink to="/sanpham" className="dropdown-item nav-link">
                                         Sản Phẩm
                                     </NavLink>
-                                    <NavLink to="/apitest" className="dropdown-item nav-link">
+                                    {/* <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
                                         
-                                    </NavLink>
+                                    </NavLink> */}
                                 </div>
                             </div>
 
@@ -122,10 +122,12 @@ function Header(props) {
                                         <NavLink to="/profile" className="dropdown-item nav-link">
                                             Profile
                                         </NavLink>
+                                        {user.role === "ADMIN" && (
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
                                             Admin Dashboard
                        
                                         </NavLink>
+                                        )}
 
                                         {user.role === "MANAGER" && (
                                             <NavLink

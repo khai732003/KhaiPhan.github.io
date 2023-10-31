@@ -15,6 +15,9 @@ customAxios.interceptors.request.use(
     return config;
   },
   (error) => {
+    if (error.response && error.response.status === 403) {
+      window.location.href = "/login"; 
+    }
     return Promise.reject(error);
   }
 );

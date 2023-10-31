@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -31,30 +32,38 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Hàm này sẽ được gọi mỗi khi giá trị trong localStorage thay đổi
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem("token"); // Lấy giá trị mới của token từ localStorage
-      setToken(newToken); // Cập nhật state token
-      setUserFromToken(newToken); // Cập nhật user từ token mới
+    const handleResponseError = (error) => {
+      if (error.response && error.response.status === 403) {
+        // Xử lý lỗi 403 ở đây
+        // Chuyển hướng người dùng đến trang đăng nhập
+        navigate("/login");
+      }
     };
 
-    // Thêm event listener để theo dõi sự thay đổi của localStorage
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem("token");
+      setToken(newToken);
+      setUserFromToken(newToken);
+    };
+
     window.addEventListener("storage", handleStorageChange);
 
-    // Gọi hàm setUserFromToken để cập nhật user từ token ban đầu
     setUserFromToken(token);
 
-    // Cleanup: loại bỏ event listener khi component bị unmount
+    // Xử lý lỗi khi có response error
+    axios.interceptors.response.use(null, handleResponseError);
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
+      axios.interceptors.response.eject(handleResponseError);
     };
-  }, [token]); // Effect này chạy mỗi khi giá trị của token thay đổi
+  }, [token]);
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("orderId");
-    setToken(null); // Đặt token thành null khi đăng xuất
+    setToken(null);
     navigate("/");
   };
 

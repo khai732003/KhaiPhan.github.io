@@ -49,8 +49,8 @@ export default function AboutPage() {
                                 <div className='scrip-content-about'>
                                     <h3 id='intro-script-content-about'>OUR SHOP FEATURES</h3>
                                     <h1 id='title-script-content-about'>
-                                        <strog>Core advantages & reasons
-                                            to shop with us.</strog>
+                                        <strong>Core advantages & reasons
+                                            to shop with us.</strong>
                                     </h1>
                                     <p id='content-script-content-about'>In our store, you would find all the necessary styles and pieces of furniture,
                                         which would perfectly suit your needs.
@@ -91,21 +91,7 @@ export default function AboutPage() {
                                 </div>
                             </Grid>
 
-                            {products.map((product) => (
-                                <Grid key={product.id} item md={2.25}>
-                                    <div className='container-content-about-container'>
-                                        <div className='product-content-about-container'>
-                                            <img src={product.image} alt={product.name} />
-                                            <CardContent style={{ padding: 'none' }}>
-                                                <Link id='link-product-content-about-container'>Read More</Link>
-                                                <h5> <strong>{product.name}</strong></h5>
-                                                <p style={{ fontSize: '18px' }}>{product.type}</p>
-                                                <p style={{ fontSize: '18px' }}><strong>{product.price}</strong></p>
-                                            </CardContent>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            ))}
+
                         </Grid>
                     </div>
                 </Box>

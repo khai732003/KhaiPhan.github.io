@@ -52,6 +52,7 @@ public class Users extends EntityBase{
 
   // N:1 with itself (Users ManyToOne Users)
 
+//  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "manager_id")
   private Users manager;

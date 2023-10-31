@@ -12,7 +12,7 @@ import Stack from "@mui/material/Stack";
 import customAxios from "../../../CustomAxios/customAxios";
 
 const URL =
-  "/user/list";
+  "/user/listformadmin";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
