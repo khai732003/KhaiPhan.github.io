@@ -9,9 +9,10 @@ const ModalDelete = (props) => {
 
     const handleDeleteNews = async () => {
         try {
-            const res = await axios.delete(`https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news/${idToDelete}`);
+            const res = await axios.delete(`https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/delete/${idToDelete}`);
             if (res)
                 handleDelete();
+            toast.success('Delete sucessful !');
             handleClose();
         } catch (error) {
             console.error("Error:", error);

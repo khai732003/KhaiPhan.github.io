@@ -24,7 +24,6 @@ const ModalAddNews = (props) => {
         title: '',
         info: '',
         shortinfo: '',
-        date: '',
         img: ''
     });
 
@@ -37,7 +36,7 @@ const ModalAddNews = (props) => {
     };
 
     const handleSubmit = async () => {
-        let res = await axios.post('https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news', formData);
+        let res = await axios.post('https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/add', formData);
 
         if (res) {
             toast.success("Create succesful !");
@@ -97,16 +96,7 @@ const ModalAddNews = (props) => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Date</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Date"
-                                name="date"
-                                value={formData.date}
-                                onChange={handleInputChange}
-                            />
-                        </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Image URL</Form.Label>
                             <Form.Control

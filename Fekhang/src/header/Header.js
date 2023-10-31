@@ -9,7 +9,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
-import NavBar from '../content/dashboard/components/NavBar';
+import NavBar from '../content/dashboard/components/NavBar  ';
 import Cart from '../content/SanPham/Cart';
 function Header(props) {
 

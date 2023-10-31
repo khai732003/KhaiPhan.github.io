@@ -9,7 +9,7 @@ const { Option } = Select;
 
 
 
-const AddProductForm = () => {
+const AddProductForm = (props) => {
   const [accessoryCount, setAccessoryCount] = useState(0);
   const [productImage, setProductImage] = useState("");
   const [productDetailImages, setProductDetailImages] = useState([]);
@@ -61,28 +61,6 @@ const AddProductForm = () => {
     setAccessoryCount(0);
   };
 
-
-
-
-
-
-
-  ///////////////////////////
-  // const handleProductImageUpload = async (options) => {
-  //   const { file } = options;
-  //   if (file) {
-  //     try {
-  //       const formData = new FormData();
-  //           formData.append('file', file.originFileObj);
-  //           formData.append('upload_preset', 'klbxvzvn'); // Replace 'klbxvzvn' with your Cloudinary preset name
-  //           const response = await axios.post('https://api.cloudinary.com/v1_1/dcr9jaohf/image/upload', formData);
-  //           return response.data.secure_url;
-
-  //     } catch (error) {
-  //       console.error('Error uploading product image:', error);
-  //     }
-  //   }
-  // };
   const handleProductImageUpload = async (options) => {
     console.log('Options:', options);
     const { file } = options;
@@ -358,7 +336,6 @@ const AddProductForm = () => {
 
       )}
 
-cho t
       {productType === 'accessory' && (
         <>
           <h2>Accessory Details</h2>
