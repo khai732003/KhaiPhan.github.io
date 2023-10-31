@@ -2,7 +2,7 @@ package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
-import com.swp.cageshop.config.City;
+import com.swp.cageshop.DTO.ShippingDTO;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdersServiceImpl implements IOrdersService {
@@ -123,9 +124,6 @@ public class OrdersServiceImpl implements IOrdersService {
                 totalCost += shipPrice - totalVoucherAmount;
             }
 
-            if(totalCost <= 0 ){
-                throw new IllegalArgumentException("Total cost should be greater than 0.");
-            }
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
@@ -201,7 +199,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
     public void updateOrderAndOrderDetails(Orders order) {
         if (order != null) {
-            order.setStatus("COMPLETED");
+            order.setShipStatus("COMPLETED");
             ordersRepository.save(order);
             OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
             orderDetail.setStatus("COMPLETED");
@@ -209,5 +207,65 @@ public class OrdersServiceImpl implements IOrdersService {
             productsService.updateProductStock(order);
         }
     }
+    @Override
+    public List<OrderDTO> getPaidOrders() {
+        List<Orders> orders = ordersRepository.findPaidOrders();
+        return orders.stream()
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<OrderDTO> getOrdersByShipStatus(String shipStatus) {
+        List<Orders> orders = ordersRepository.findByShipStatus(shipStatus);
+        return orders.stream()
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getAllPayStatusByStatus(String payStatus) {
+        return ordersRepository.findAll().stream()
+                .filter(order -> order.getPayStatus().equals(payStatus))
+                .map(Orders::getPayStatus)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<String> getAllShipStatusByStatus(String shipStatus) {
+        return ordersRepository.findAll().stream()
+                .filter(order -> order.getShipStatus().equals(shipStatus))
+                .map(Orders::getShipStatus)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDTO> getOrdersByUserId(Long userId) {
+        List<Orders> orders = ordersRepository.findByUserId(userId);
+        List<OrderDTO> orderDTOs = new ArrayList<>();
+        for (Orders order : orders) {
+            OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+            orderDTOs.add(orderDTO);
+        }
+        return orderDTOs;
+    }
+
+
+    @Override
+    public List<OrderDTO> getOrdersByUserIdAndPayStatus(Long userId, String payStatus) {
+        List<Orders> orders = ordersRepository.findByUserId(userId);
+        List<OrderDTO> orderDTOs = new ArrayList<>();
+        for (Orders order : orders) {
+            if (payStatus != null && !payStatus.isEmpty()) {
+                if (order.getPayStatus() != null && order.getPayStatus().equals(payStatus)) {
+                    OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+                    orderDTOs.add(orderDTO);
+                }
+            } else {
+                OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+                orderDTOs.add(orderDTO);
+            }
+        }
+        return orderDTOs;
+    }
+
 
 }

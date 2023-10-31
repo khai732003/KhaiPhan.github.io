@@ -4,6 +4,7 @@ import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.DTO.VnPayDTO;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Pays;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -16,10 +17,10 @@ public interface PaysServiceImpl {
 
     public List<VnPayDTO> getAllPayDTO();
 
-//    String createAccessToken();
-//
-//    ResponseEntity<Object> createOrder(PayDTO payDTO);
-//
-//    void processResponse(String response);
+    public List<VnPayDTO> getAllPayDTOByUserId(Long userId);
+
+
+    public double getTotalRevenueFromCompletedPays();
+
 
 }

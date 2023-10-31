@@ -16,6 +16,7 @@ import com.swp.cageshop.service.categoriesService.ICategoriesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,6 +47,19 @@ public class ProductsServiceImpl implements IProductsService {
 
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
+
+    @Override
+    public List<ProductDTO> getTop3NewestProductDTOs() {
+        // Lấy top 3 sản phẩm mới nhất từ repository
+        List<Products> top3Products = productsRepository.findTop3NewestProducts();
+
+        // Chuyển đổi từ Products sang ProductDTO sử dụng ModelMapper
+        List<ProductDTO> productDTOs = top3Products.stream()
+            .map(product -> modelMapper.map(product, ProductDTO.class))
+            .collect(Collectors.toList());
+
+        return productDTOs;
+    }
 
     @Override
     public void deleteAll() {

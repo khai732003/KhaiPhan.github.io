@@ -14,20 +14,25 @@ public class Marketings extends EntityBase{
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
 //  private Long id;
 
+  @Lob
   @Column(nullable = false)
   private String title;
 
+  @Lob
   @Column(nullable = false)
-  private String content;
+  private String name;
 
-//  @Column(nullable = false)
-//  @Temporal(TemporalType.TIMESTAMP)
-//  private Date date;
+  @Lob
+  @Column(nullable = true)
+  private String img;
 
-//  //N:1 với user
-//  @ManyToOne(fetch = FetchType.LAZY)
-//  @JoinColumn(name = "user_id", nullable = false)
-//  private Users user;
+  @Lob
+  @Column(nullable = false)
+  private String info;
+
+  @Lob
+  @Column(nullable = false)
+  private String shortinfo;
 
 
 }

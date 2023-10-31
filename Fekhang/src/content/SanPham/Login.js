@@ -31,7 +31,7 @@ const Login = () => {
       localStorage.setItem('token', token);
 
       setUserFromToken(token)
-      navigate('/');
+      navigate(-1);
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
     }

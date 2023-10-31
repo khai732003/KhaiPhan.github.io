@@ -61,6 +61,16 @@ const AddProductForm = (props) => {
     setAccessoryCount(0);
   };
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+>>>>>>> f6e26026860b06f53007bb74b6ee90c9cb351f6e
   const handleProductImageUpload = async (options) => {
     console.log('Options:', options);
     const { file } = options;
@@ -108,39 +118,43 @@ const AddProductForm = (props) => {
 
   const handleSubmit = async (formData) => {
     let data = {};
+    let accessoryDescription = formData.accessory?.description || '';
+    let accessoryPrice = formData.accessory?.price || 0;
+    let accessoryType = formData.accessory?.type || 'defaultType';
     if (productType === 'birdcage') {
-      const accessoryData = [];
-      for (let i = 0; i < formData.accessories.length; i++) {
-        accessoryData.push({
-          description: formData.accessories[i].description,
-          price: formData.accessories[i].price,
-          type: formData.accessories[i].type,
-        });
-      }
       data = {
         name: formData.name,
         code: formData.code,
-        productImage: productImage,
-        productDetailImage: productDetailImages,
+        productImage: formData.productImage || productImage,
+        productDetailImage: formData.productDetailImage || productDetailImages,
         stock: formData.stock,
-        totalPrice: formData.totalPrice,
         status: formData.status,
         categoryId: formData.categoryId,
         cage: {
-          description: formData.cage.description,
-          material: formData.cage.material,
-          size: formData.cage.size,
-          price: formData.cage.price,
+          description: formData.cage?.description,
+          material: formData.cage?.material,
+          size: formData.cage?.size,
+          price: formData.cage?.price,
         },
-        accessories: accessoryData,
+        accessories: [
+          {
+            description: accessoryDescription,
+            price: accessoryPrice,
+            type: accessoryType,
+          },
+        ], // Set accessories to an empty array for birdcage
       };
-    }
-     else if (productType === 'accessory') {
+      // if (productType === 'birdcage') {
+      //   // ... các trường khác ...
+      //   data.accessories.push({
+      //     // Thêm các trường vào đối tượng accessories
+      //   });
+    } else if (productType === 'accessory') {
       data = {
         name: formData.name,
         code: formData.code,
-        productImage: productImage,
-        productDetailImage: productDetailImages,
+        productImage: formData.productImage || productImage,
+        productDetailImage: formData.productDetailImage || productDetailImages,
         stock: formData.stock,
         status: formData.status,
         categoryId: formData.categoryId,
@@ -148,19 +162,19 @@ const AddProductForm = (props) => {
           {
             description: formData.accessory?.description,
             price: formData.accessory?.price,
-            type: formData.accessory?.type,
+            type: formData.accessory?.type || 'defaultType',
           },
         ],
       };
     }
-
+  
     try {
       const response = await axios.post('http://localhost:8080/cageshop/api/product/add', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       console.log(response.data); // Log the response data
     } catch (error) {
       console.error('Error adding product:', error);
@@ -198,7 +212,7 @@ const AddProductForm = (props) => {
             >
               <Select>
                 {accessoryTypeOptions.map((type, index) => (
-                  <Option key={index} value={type}>
+                  <Option key={type} value={type}>
                     {type}
                   </Option>
                 ))}
@@ -359,10 +373,10 @@ const AddProductForm = (props) => {
             rules={[{ required: true, message: 'Please select the accessory type!' }]}
           >
             <Select placeholder="Select a type">
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
-              <Option value="defaultType">Default Type</Option>
+              <Option value="Type A">Type A</Option>
+              <Option value="Type B">Type B</Option>
+              <Option value="Type C">Type C</Option>
+              {/* <Option value="4">Default Type</Option> */}
             </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit">

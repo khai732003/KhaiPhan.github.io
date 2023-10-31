@@ -3,6 +3,8 @@ package com.swp.cageshop.controller;
 import com.easypost.model.Shipment;
 import com.easypost.service.EasyPostClient;
 import com.swp.cageshop.DTO.ShippingDTO;
+import com.swp.cageshop.config.ShippingStatus;
+import com.swp.cageshop.entity.Shipping;
 import com.swp.cageshop.service.shipService.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +66,7 @@ public class ShippingController {
 
 
     @PutMapping("/update/status/{orderId}")
-    public ResponseEntity<?> updateShippingStatusByOrderId(@PathVariable("orderId") Long orderId, @RequestParam String newStatus) {
+    public ResponseEntity<?> updateShippingStatusByOrderId(@PathVariable("orderId") Long orderId, @RequestParam ShippingStatus newStatus) {
         ShippingDTO updatedShippingDTO = shippingService.updateShippingStatusByOrderId(orderId, newStatus);
         if (updatedShippingDTO != null) {
             return ResponseEntity.ok(updatedShippingDTO);
@@ -80,44 +82,25 @@ public class ShippingController {
     }
 
 
-//    @GetMapping("/create-address")
-//    public void createAddress() throws EasyPostException{
-//        EasyPostClient client = new EasyPostClient(System.getenv("EZAKba6d37fe386947248ffc969110303bc1pcBx4jZZaLE0TX82KyXPhQ"));
-//        Map<String, Object> fromAddressMap = new HashMap<String, Object>();
-//        fromAddressMap.put("company", "EasyPost");
-//        fromAddressMap.put("street1", "417 MONTGOMERY ST");
-//        fromAddressMap.put("street2", "FLOOR 5");
-//        fromAddressMap.put("city", "SAN FRANCISCO");
-//        fromAddressMap.put("state", "CA");
-//        fromAddressMap.put("country", "US");
-//        fromAddressMap.put("zip", "94104");
-//        fromAddressMap.put("phone", "415-123-4567");
-//
-//        Map<String, Object> toAddressMap = new HashMap<String, Object>();
-//        toAddressMap.put("name", "Dr. Steve Brule");
-//        toAddressMap.put("street1", "179 N Harbor Dr");
-//        toAddressMap.put("city", "Redondo Beach");
-//        toAddressMap.put("state", "CA");
-//        toAddressMap.put("country", "US");
-//        toAddressMap.put("zip", "90277");
-//        toAddressMap.put("phone", "310-808-5243");
-//
-//        Map<String, Object> parcelMap = new HashMap<String, Object>();
-//        parcelMap.put("weight", 22.9);
-//        parcelMap.put("height", 12.1);
-//        parcelMap.put("width", 8);
-//        parcelMap.put("length", 19.8);
-//
-//        Map<String, Object> shipmentMap = new HashMap<String, Object>();
-//        shipmentMap.put("from_address", fromAddressMap);
-//        shipmentMap.put("to_address", toAddressMap);
-//        shipmentMap.put("parcel", parcelMap);
-//
-//        Shipment shipment = client.shipment.create(shipmentMap);
-//
-////        Shipment boughtShipment = client.shipment.buy(shipment.lowestRate(), shipment.getId());
-//        System.out.println(shipment.prettyPrint());
-//    }
+    @GetMapping("get-all-by-status/not-confirmed")
+    public List<ShippingDTO> getShippingsByNotConfirmedStatus() {
+        return shippingService.getShippingsByNotConfirmedStatus();
+    }
+
+    @GetMapping("get-all-by-status/confirmed")
+    public List<ShippingDTO> getShippingsByConfirmedStatus() {
+        return shippingService.getShippingsByConfirmedStatus();
+    }
+
+    @GetMapping("get-all-by-status/delivering")
+    public List<ShippingDTO> getShippingsByDeliveringStatus() {
+        return shippingService.getShippingsByDeliveringStatus();
+    }
+
+    @GetMapping("get-all-by-status/delivered")
+    public List<ShippingDTO> getShippingsByDeliveredStatus() {
+        return shippingService.getShippingsByDeliveredStatus();
+    }
 
 }
 

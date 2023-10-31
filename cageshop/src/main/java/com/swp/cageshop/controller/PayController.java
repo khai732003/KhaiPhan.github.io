@@ -14,6 +14,7 @@ import com.swp.cageshop.service.productsService.IProductsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +49,8 @@ public class PayController {
     @Autowired
     private IProductsService productsService;
 
+    @Autowired
+    private PaysService paysService;
 
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
@@ -102,7 +106,9 @@ public class PayController {
                     transactionDTO.setStatus("OK");
                     transactionDTO.setMessage("Success");
                     transactionDTO.setData("");
-
+                Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
+                orders.setPayStatus("PAID");
+                ordersRepository.save(orders);
                 // Chuyển hướng request nếu responseCode là "00"
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
@@ -119,9 +125,27 @@ public class PayController {
     }
 
 
+    @GetMapping("/get-all")
+    public List<VnPayDTO> getAllPayDTO() {
+        List<Pays> payEntities = paysRepository.findAll();
+        List<VnPayDTO> payDTOList = new ArrayList<>();
 
+        for (Pays pays : payEntities) {
+            VnPayDTO payDTO = modelMapper.map(pays, VnPayDTO.class);
+            payDTOList.add(payDTO);
+        }
 
+        return payDTOList;
+    }
 
+    @GetMapping("/get-by/{userId}")
+    public List<VnPayDTO> getAllPaysByUserId(@PathVariable Long userId) {
+        return payService.getAllPayDTOByUserId(userId);
+    }
 
+    @GetMapping("/doanh-thu")
+    public double getAllPaysWithCompletedStatus() {
+        return paysService.getTotalRevenueFromCompletedPays();
+    }
 
 }

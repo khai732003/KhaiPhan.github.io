@@ -26,9 +26,14 @@ padding-top: 1rem;
         flex-direction: column;
         align-items: center;
 
-        .card-title {}
+        .card-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
 
-        .cart-text {}
+        .cart-text {
+          
+        }
       }
 
     }

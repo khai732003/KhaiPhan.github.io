@@ -25,14 +25,20 @@ function Header(props) {
     const isSuccess = location.pathname === '/paysuccess';
     // const isDashBoard = location.pathname === '/dashboard';
     const isUserManager = location.pathname === '/usermanagement';
+    const isStaffManager = location.pathname === '/staffmanagement';
     const isAdmin = location.pathname === '/admin';
-    const isAddUser = location.pathname === '/add';
-    const isUpdateUser = location.pathname === "/update/:id";
+    const isAddUser = location.pathname === '/add-user';
+    // const isUpdateUser = location.pathname === "/update/*";
+    const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
     const isRevenue = location.pathname === "/revenue";
     const isProductManager = location.pathname === "/productmanagement";
+    const isAddProduct = location.pathname === '/addproduct';
+    // const isUpdateProduct = location.pathname === "/update/*";
+    const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
 
     const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
+
         logout();
     }
 
@@ -40,8 +46,9 @@ function Header(props) {
         return null;
     }
 
-    if (isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager) {
-        return <NavBar />
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager){
+        return <NavBar/>
+
     }
 
     return (
@@ -67,6 +74,7 @@ function Header(props) {
                                     </NavLink>
                                     <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
+                                        
                                     </NavLink>
                                 </div>
                             </div>
@@ -74,17 +82,17 @@ function Header(props) {
                             <div className="custom-dropdown" >
                                 <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill" /></NavLink>
 
-                                <div className="dropdown-menu">
+                                {/* <div className="dropdown-menu">
                                     <NavLink to="/staffnew" className="dropdown-item nav-link">
                                         Đăng Nhập
                                     </NavLink>
                                     <NavLink to="/signup" className="dropdown-item nav-link">
                                         Đăng Ký
                                     </NavLink>
-                                </div>
+                                </div> */}
                             </div>
                             <NavLink to="/tintuc" activeClassName="active" className="nav-link">TIN TỨC</NavLink>
-                            <NavLink to="/dichvu" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
+                            <NavLink to="/lienhe" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
                         </Nav>
 
                         <Form className="d-flex">
@@ -115,9 +123,20 @@ function Header(props) {
                                             Profile
                                         </NavLink>
                                         <NavLink to="/admin" className="dropdown-item nav-link" >
-                                            cc
-                                            navigate("/admin");
+                                            Admin Dashboard
+                       
                                         </NavLink>
+
+                                        {user.role === "MANAGER" && (
+                                            <NavLink
+                                                to="/staffmanagement"
+                                                className="dropdown-item nav-link"
+                                                onClick={() => navigate("/staffmanagement")}
+                                            >
+                                                Management Dashboard
+                                            </NavLink>
+                                        )}
+
                                         {user.role === "STAFF" && (
                                             <NavLink
                                                 to="/staffnew"
@@ -127,9 +146,9 @@ function Header(props) {
                                                 NEW MARKETING
                                             </NavLink>
                                         )}
-                                        <NavLink className="dropdown-item nav-link" onClick={handleOnLogout}>
+                                        <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
-                                        </NavLink>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (

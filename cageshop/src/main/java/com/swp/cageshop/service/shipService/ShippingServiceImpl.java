@@ -1,16 +1,17 @@
 package com.swp.cageshop.service.shipService;
 
 import com.swp.cageshop.DTO.ShippingDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Shipping;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ShippingRepository;
 import com.swp.cageshop.service.ordersService.IOrdersService;
-import com.swp.cageshop.service.productsService.IProductsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ import java.util.stream.Collectors;
                     .collect(Collectors.toList());
         }
 
+
         public ShippingDTO getShippingById(Long id) {
             Shipping shipping = shippingRepository.findById(id).orElse(null);
             return modelMapper.map(shipping, ShippingDTO.class);
@@ -59,21 +61,54 @@ import java.util.stream.Collectors;
             return modelMapper.map(updatedShipping, ShippingDTO.class);
         }
 
+
         public void deleteShipping(Long id) {
             shippingRepository.deleteById(id);
         }
 
-        public ShippingDTO updateShippingStatusByOrderId(Long orderId, String newStatus) {
+        public ShippingDTO updateShippingStatusByOrderId(Long orderId, ShippingStatus newStatus) {
             Shipping shipping = shippingRepository.findByOrderId(orderId);
             if (shipping != null) {
-                shipping.setStatus(newStatus);
+                shipping.setStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái cho Shipping
                 Shipping updatedShipping = shippingRepository.save(shipping);
-                Orders orders = ordersRepository.getReferenceById(orderId);
-                iOrdersService.updateOrderAndOrderDetails(orders);
+                if (shipping.getOrder() != null) {
+                    Orders order = shipping.getOrder();
+                    order.setShipStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái vận chuyển cho đơn hàng
+                    ordersRepository.save(order);
+                }
                 return modelMapper.map(updatedShipping, ShippingDTO.class);
             }
             return null; // hoặc có thể ném ra một Exception phù hợp ở đây nếu không tìm thấy shipping với orderId tương ứng
         }
+
+//////////////////////////////// STATUS
+        public List<ShippingDTO> getShippingsByStatus(ShippingStatus status) {
+            List<Shipping> shippings = shippingRepository.findByStatus(status.name());
+            List<ShippingDTO> shippingDTOs = new ArrayList<>();
+
+            for (Shipping shipping : shippings) {
+                shippingDTOs.add(modelMapper.map(shipping, ShippingDTO.class));
+            }
+
+            return shippingDTOs;
+        }
+
+        public List<ShippingDTO> getShippingsByNotConfirmedStatus() {
+            return getShippingsByStatus(ShippingStatus.NOT_CONFIRM);
+        }
+
+        public List<ShippingDTO> getShippingsByConfirmedStatus() {
+            return getShippingsByStatus(ShippingStatus.CONFIRMED);
+        }
+
+        public List<ShippingDTO> getShippingsByDeliveringStatus() {
+            return getShippingsByStatus(ShippingStatus.DELIVERING);
+        }
+
+        public List<ShippingDTO> getShippingsByDeliveredStatus() {
+            return getShippingsByStatus(ShippingStatus.DELIVERED);
+        }
+
     }
 
 

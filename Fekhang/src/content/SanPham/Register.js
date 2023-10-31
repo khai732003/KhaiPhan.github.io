@@ -76,7 +76,7 @@ const Register = () => {
       <div className="alert-container"> {/* Thêm class "alert-container" để áp dụng CSS */}
         {error && <Alert severity="info">{error}</Alert>}
       </div>
-      <section className="vh-100" style={{ backgroundColor: "#808080" }}>
+      <section className="vh-110" style={{ backgroundColor: "#808080" }}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col col-xl-10">
@@ -118,7 +118,7 @@ const Register = () => {
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
-                          UserName
+                          User Name
                         </label>
                         <div className="form-outline mb-4">
                           <input
@@ -133,6 +133,24 @@ const Register = () => {
                           />
 
                         </div>
+
+                        <label className="form-label" htmlFor="form2Example17">
+                          Full Name
+                        </label>
+                        <div className="form-outline mb-4">
+                          <input
+                            type="text"
+                            id="form2Example17"
+                            className="form-control form-control-lg"
+                            name="fullname"
+                            value={formData.fullname}
+                            onChange={handleInputChange}
+                            required
+                            placeholder='Enter Your FullName'
+                          />
+
+                        </div>
+
                         <label className="form-label" htmlFor="form2Example17">
                           Password
                         </label>

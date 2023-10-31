@@ -9,12 +9,12 @@ import Header from '../../header/Header'
 
 export default function Trangchu() {
     return (
-        <>
+        <div style={{paddingTop: '7rem'}}>
             <Header/>
             <ImageSlider />
-            <ProductSearch />
+            {/* <ProductSearch /> */}
             <NewProduct />
             <WhyChooseUs />
-        </>
+        </div>
     )
 }

@@ -54,6 +54,12 @@ public class UsersServiceImpl implements IUsersService {
   @Autowired
   private RolesRepository rolesRepository;
 
+  public List<UserDTO> getStaffByManagerId(Long managerId) {
+    List<Users> users = usersRepository.findByManagerId(managerId);
+    return users.stream()
+        .map(user -> modelMapper.map(user, UserDTO.class))
+        .collect(Collectors.toList());
+  }
 
   @Override
   public Optional<Users> getUserById(Long userId) {
@@ -116,6 +122,7 @@ public class UsersServiceImpl implements IUsersService {
         users1.setPhone(users.getPhone());
 //        users1.setCreateDate(currentCreateDate);
         //chuyển lại dto -> enitity
+        usersRepository.save(users1);
         UserDTO saveUserDTO = modelMapper.map(users1, UserDTO.class);
         return saveUserDTO;
       }

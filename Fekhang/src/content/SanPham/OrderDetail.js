@@ -1,54 +1,61 @@
 import React, { useState, useEffect } from "react";
 import customAxios from '../../CustomAxios/customAxios';
-
-const OrderDetail = () => {
-  // const { orderId } = useParams();
+import './Scss/Order.scss';
+import { Button } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+const OrderDetail = (props) => {
+  const { deleteOrderDetail } = props;
   const [order, setOrder] = useState(null);
-
   const orderId = localStorage.getItem('orderId');
-  useEffect(() => {
-    const fetchOrderDetails = async () => {
-      try {
-        const orderResponse = await customAxios.get(`http://localhost:8080/cageshop/api/order/list/${orderId}`);
-        setOrder(orderResponse.data);
-        console.log(orderResponse.data.total_price)
-      } catch (error) {
-        console.error("Lỗi khi lấy thông tin đơn hàng:", error);
-      }
-    };
 
-    fetchOrderDetails();
-  }, [orderId]);
-
-  const deleteOrderDetail = async (orderDetailId) => {
+  const fetchOrderDetails = async () => {
     try {
-      await customAxios.delete(`/order_detail/delete/${orderDetailId}`);
-      // Sau khi xóa thành công, cập nhật lại danh sách order details hoặc thực hiện các công việc cần thiết.
-      order()
+      const orderResponse = await customAxios.get(`/order/list/${orderId}`);
+      setOrder(orderResponse.data);
+      console.log(orderResponse.data.total_price);
     } catch (error) {
-      console.error("Lỗi khi xóa order detail:", error);
+      console.error("Lỗi khi lấy thông tin đơn hàng:", error);
     }
   };
+
+  useEffect(() => {
+    fetchOrderDetails();
+  }, [orderId]); // Gọi lại hàm khi orderId thay đổi
+
+  const handleDeleteOrderDetail = async (orderDetailId) => {
+    try {
+      await deleteOrderDetail(orderDetailId); // Wait for the delete operation to complete
+      await fetchOrderDetails(); // Fetch updated order details after successful deletion
+    } catch (error) {
+      console.error("Error deleting order detail:", error);
+    }
+  };
+
 
   return (
     <div className="order-details">
       {order && (
         <div>
-
-          <h3>Products in the Order:</h3>
-          <ul>
+          <div className="container-orderdetail">
             {order.orderDetails.map((item) => (
-              <li key={item.id}>
-                <div>Product ID: {item.productId}</div>
-                <div>Name: {item.name}</div>
-                <div><img src={item.productImg} alt="fix"/> </div>
-                <div>Quantity: {item.quantity}</div>
-                <div>Total Cost: {item.totalCost}</div>
+              <div className="list-orderdetail" key={item.id}>
+                <div><img src={item.productImg} alt="fix" /></div>
+                <div className="orderdetail-name">
+                  {/* <div>Product ID: {item.productId}</div> */}
+                  {item.name}
+                  <div className="quantity"> X{item.quantity}</div>
+                </div>
+                <div className="price">
+                  
+                  <div>Total Cost: {item.totalCost}</div>
+                </div>
                 {/* Thêm nút "Xóa" và gắn hàm xóa vào sự kiện click */}
-                <button onClick={() => deleteOrderDetail(item.id)}>Xóa</button>
-              </li>
+                <Button onClick={() => handleDeleteOrderDetail(item.id)} variant="outlined" startIcon={<DeleteIcon />}>
+                  Delete
+                </Button>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>

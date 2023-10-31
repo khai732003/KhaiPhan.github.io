@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../CustomAxios/customAxios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Grid, Container, Card, CardMedia, List, Button } from '@mui/material';
 import './Scss/Detail.scss';
@@ -9,14 +9,15 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useAuth } from './Context/AuthContext';
 import { useCart } from './Context/CartContext';
 
-function Detail() {
+function Detail({ id, name, stock, totalPrice, productImage, code, cage, accessories }) {
     const { user } = useAuth();
     const { addToCart } = useCart();
     const [productDetail, setProductDetail] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const { productId } = useParams();
-
+    const navigate = useNavigate();
+    let orderId = localStorage.getItem('orderId');
     useEffect(() => {
         customAxios
             .get(`/product/select/${productId}`)
@@ -34,11 +35,56 @@ function Detail() {
         setSelectedImage(image);
     };
 
-    const handleAddToCart = () => {
-        const { id, name, stock, totalPrice, productImage, code } = productDetail; // Lấy giá trị từ productDetail
-        addToCart({ id, name, stock, totalPrice, productImage, code }); // Truyền giá trị vào hàm addToCart
-        window.alert(`Added ${name} to the cart!`);
-    };
+const handleAddToCart = () => {
+    const { id, name, stock, totalPrice, productImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
+    addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories }); // Truyền giá trị vào hàm addToCart
+    window.alert(`Added ${name} to the cart!`);
+};
+
+const handleBuy = async (id) => {
+    if (!user) {
+      navigate("/login")
+      return;
+    }
+    try {
+
+      if (!orderId) {
+        const shipAddress = "hcm";
+        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+
+        const orderResponse = await customAxios.post('/order/add', {
+          "name": "Tổng hóa đơn",
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": "137 Đặng Văn Bi",
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          "shipDate": "2023-10-15",
+          userId: user.userId
+        });
+
+        orderId = orderResponse.data.id;
+        localStorage.setItem('orderId', orderId);
+      }
+
+      const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+
+      await customAxios.post('/order_detail/add', {
+        quantity: 1,
+        hirePrice: product.hirePrice,
+        name : productDetail.cage.description,
+        totalOfProd: product.totalOfProd,
+        note: `Sản phẩm là ${id}`,
+        orderId,
+        productId: id,
+        totalCost: product.totalPrice
+      });
+
+      navigate(`/order/${orderId}`);
+    } catch (error) {
+      console.error("Lỗi khi tạo order và order detail:", error);
+    }
+  };
     
 
     if (loading) {
@@ -89,7 +135,7 @@ function Detail() {
                                     <Grid item xs={12} md={7} style={{ position: 'relative' }}>
                                         <div style={{ padding: '20px' }}>
                                             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
-                                                {productDetail.name}
+                                                {productDetail.cage.description}
                                             </h3>
                                             <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}
@@ -116,7 +162,7 @@ function Detail() {
                                             <Button className='custom-button-cart' variant="contained" startIcon={<AddShoppingCartIcon />} onClick={handleAddToCart}>
                                                 Add to Cart
                                             </Button>
-                                            <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => alert('Added to cart')}>
+                                            <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(productDetail.id)}>
                                                 Buy Now
                                             </Button>
                                         </div>
