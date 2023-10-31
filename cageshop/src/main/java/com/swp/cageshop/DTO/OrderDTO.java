@@ -1,6 +1,7 @@
 package com.swp.cageshop.DTO;
 
 import com.swp.cageshop.entity.OrderDetail;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +15,15 @@ public class OrderDTO extends DTOBase{
     private String name;
     private String status;
     private String paymentMethod;
-    private String shipAddress;
+    private String address;
+    private String city;
     private double shipPrice;
     private String content;
     private String shipDate;
     private double total_price;
     private List<OrderDetailDTO> orderDetails;
     private Long userId;
-    
+
 
 //    public void setShipPriceBasedOnAddress() {
 //        String address = this.shipAddress.toLowerCase();

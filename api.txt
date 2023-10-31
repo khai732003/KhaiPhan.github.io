@@ -110,5 +110,122 @@ GET METHOD
 .../cageshop/api
 
 
+########################
+VOUCHER-USAGE(KIỂM SOAT VOUHCHER)
 
+GET METHOD
+
+Lấy tất cả bình luận:
+.../cageshop/api/comment/list
+
+
+Lấy tất cả bình luận của một người dùng cụ thể thông qua ID người dùng:
+.../cageshop/api/users/{userId}/comments
+
+Lấy tất cả thông tin về việc sử dụng voucher:
+.../cageshop/api/voucher-usage/get-all
+
+Lấy tất cả thông tin về việc sử dụng voucher dựa trên Order ID:
+.../cageshop/api/voucher-usage/get-all-by/{orderId}
+
+Lấy thông tin chi tiết về việc sử dụng voucher dựa trên ID:
+.../cageshop/api/voucher-usage/get-by/{id}
+POST METHOD
+
+Tạo việc sử dụng voucher mới:
+
+
+.../cageshop/api/voucher-usage/add
+Tạo việc sử dụng voucher mới dựa trên mã voucher:
+
+
+.../cageshop/api/voucher-usage/add-by-voucher
+PUT METHOD
+
+Cập nhật thông tin việc sử dụng voucher:
+.../cageshop/api/voucher-usage/update
+
+DELETE METHOD
+Xóa việc sử dụng voucher dựa trên ID:
+.../cageshop/api/voucher-usage/delete-by/{id}
+
+########################
+VOUCHER()
+
+POST METHOD
+POST: .../cageshop/api/voucher/add
+
+
+GET METHOD
+GET: .../cageshop/api/voucher/get-all
+GET: .../cageshop/api/voucher/get-by/{id}
+
+
+PUT METHOD
+PUT: .../cageshop/api/voucher/update-by/{id}
+
+DELETE METHOD
+DELETE: .../cageshop/api/voucher/delete-by/{id}
+
+
+########################
+SHIPPING()
+
+Tạo thông tin vận chuyển mới:
+POST: .../cageshop/api/shipping/add
+
+Lấy tất cả thông tin vận chuyển:
+GET: .../cageshop/api/shipping/get-all
+
+Lấy thông tin chi tiết về vận chuyển dựa trên ID:
+GET: .../cageshop/api/shipping/get/{id}
+
+Cập nhật thông tin vận chuyển:
+PUT: .../cageshop/api/shipping/update
+
+Cập nhật trạng thái vận chuyển dựa trên ID đơn hàng:
+PUT: .../cageshop/api/shipping/update/status/{orderId}
+
+Xóa thông tin vận chuyển dựa trên ID:
+DELETE: .../cageshop/api/shipping/delete/{id}
+
+
+########################
+REPLY()
+
+Tạo phản hồi mới:
+POST: cageshop/api/reply/add
+
+Lấy thông tin phản hồi dựa trên ID:
+GET: cageshop/api/reply/get-by/{id}
+
+Lấy tất cả phản hồi:
+GET: cageshop/api/reply/get-all
+
+
+Cập nhật thông tin phản hồi dựa trên ID:
+PUT: cageshop/api/reply/update-by/{id}
+
+Xóa phản hồi dựa trên ID:
+DELETE: cageshop/api/reply/delete-by/{id}
+
+
+########################
+FEEDBACK()
+
+
+Tạo phản hồi mới:
+POST: cageshop/api/feedback/add
+
+Lấy tất cả phản hồi:
+GET: cageshop/api/feedback/get-all
+
+Lấy thông tin phản hồi dựa trên ID:
+GET: cageshop/api/feedback/get-by/{id}
+
+Cập nhật thông tin phản hồi dựa trên ID:
+PUT: cageshop/api/feedback/update-by/{id}
+
+Xóa phản hồi dựa trên ID:
+DELETE: cageshop/api/feedback/delete-by/{id}
 

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface IUsersService {
 
+  public Optional<Users> getUserById(Long userId);
   String authenticate(LoginDTO loginDTO);
 
   ResponseEntity<?> register (UserDTO userDTO);

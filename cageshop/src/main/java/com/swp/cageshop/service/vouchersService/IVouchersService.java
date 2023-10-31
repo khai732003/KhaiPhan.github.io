@@ -2,6 +2,7 @@ package com.swp.cageshop.service.vouchersService;
 
 
 import com.swp.cageshop.DTO.VoucherDTO;
+import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Vouchers;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface IVouchersService {
 
     public void deleteVoucher(Long id);
     public List<Vouchers> getAllVouchers();
+
 
     }
 

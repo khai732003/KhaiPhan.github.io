@@ -55,6 +55,10 @@ public class UsersServiceImpl implements IUsersService {
   private RolesRepository rolesRepository;
 
 
+  @Override
+  public Optional<Users> getUserById(Long userId) {
+    return usersRepository.findById(userId);
+  }
 
   @Override
   public String authenticate(LoginDTO loginDto) {

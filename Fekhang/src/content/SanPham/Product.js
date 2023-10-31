@@ -8,18 +8,22 @@ import customAxios from '../../CustomAxios/customAxios';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-const Product = ({ id, name, stock, totalPrice, productImage, code }) => {
+
+const Product = ({ id, name, stock, totalPrice, productImage, code, cage, accessories }) => {
+
+  const accessoriesList = accessories.map((accessory) => accessory.description).join(', ');
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
   let orderId = localStorage.getItem('orderId');
+
   const handleAddToCart = () => {
-    addToCart({ id, name, stock, totalPrice, productImage, code });
+    addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories});
     window.alert(`Added ${name} to the cart!`);
   };
 
   const handleOnDetail = (id) => {
-    navigate("/")// điền vô product detail
+    navigate(`/detail/${id}`)// điền vô product detail
   }
   const handleBuy = async () => {
     if (!user) {
@@ -47,7 +51,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code }) => {
         localStorage.setItem('orderId', orderId);
       }
 
-      const product = { id, name, stock, totalPrice, productImage, code };
+      const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
 
       await customAxios.post('/order_detail/add', {
         quantity: 1,
@@ -67,43 +71,41 @@ const Product = ({ id, name, stock, totalPrice, productImage, code }) => {
 
 
   return (
-    <div className="col-md-12 container-product" onClick={() => handleOnDetail(id)}>
+    <div className="col-md-12 container-product" >
       <div className="product-card card md-4 custom-height">
-        <img src={productImage} alt={name} className="card-img-top" />
-        <div className="card-body">
-          <div className="card-info">
-            <h5 className="card-title">{name}</h5>
-            <div className="card-text">Stock: {stock}</div>
-            <div className="card-text">Code: {code}</div>
-            <div className="card-text">Price: ${totalPrice}</div>
-          </div>
-
-
-          <div className="buttons">
-            {/* <div className="product-detail">
-              <Button variant="contained" color="primary" className="deltail-button">
-                Detail
-              </Button>
-            </div> */}
-
-            <div className="click-buy-addcart">
-
-              {/* <Button variant="contained" color="primary" >
-                <AddShoppingCartIcon
-                  sx={{ color: 'dark', fontSize: '2rem' }}
-                />
-              </Button> */}
-              <Button variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={handleAddToCart}>
-                Add To Cart
-              </Button>
-              <Button variant="contained"   style={{ backgroundColor: '#ff1744', color: 'white' }}  startIcon={<AttachMoneyIcon/>} onClick={() => handleBuy(id)}>
-                Buy now
-              </Button>
+        <div className="card-product" onClick={() => handleOnDetail(id)}>
+          <img src={productImage} alt={name} className="card-img-top" />
+          <div className="card-body" >
+            <div className="card-info">
+            {/* <div className="card-text">Id: {id}</div> */}
+              <h5 className="card-title">{cage.description}</h5>
+              <div className="card-text">Stock: {stock}</div>
+              <div className="card-text">Code: {code}</div>
+              <div className="accessories-list">
+                Accessories: {accessoriesList}
+              </div>
+              
+              
+              <div className="card-text">Price: {totalPrice} VND</div>
             </div>
 
 
           </div>
         </div>
+
+
+
+        <div className="click-buy-addcart">
+          <Button className="custom-button" variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={handleAddToCart}>
+            Add To Cart
+          </Button>
+          <Button className="custom-button" variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(id)}>
+            Buy now
+          </Button>
+        </div>
+
+
+
       </div>
     </div>
   );

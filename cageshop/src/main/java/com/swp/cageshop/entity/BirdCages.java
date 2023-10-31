@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BirdCages {
+public class BirdCages{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

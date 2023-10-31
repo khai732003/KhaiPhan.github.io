@@ -19,7 +19,7 @@ import java.util.List;
 public class Feedback extends EntityBase{
 
     @Column(nullable = false)
-    private int rating;
+    private double rating;
 
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;

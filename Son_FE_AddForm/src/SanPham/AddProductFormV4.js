@@ -116,38 +116,28 @@ const AddProductForm = () => {
   const handleSubmit = async (formData) => {
     let data = {};
     if (productType === 'birdcage') {
-      const accessoryData = [];
-      for (let i = 0; i < formData.accessories.length; i++) {
-        accessoryData.push({
-          description: formData.accessories[i].description,
-          price: formData.accessories[i].price,
-          type: formData.accessories[i].type,
-        });
-      }
       data = {
         name: formData.name,
         code: formData.code,
-        productImage: productImage,
-        productDetailImage: productDetailImages,
+        productImage: formData.productImage || productImage,
+        productDetailImage: formData.productDetailImage || productDetailImages,
         stock: formData.stock,
-        totalPrice: formData.totalPrice,
         status: formData.status,
         categoryId: formData.categoryId,
         cage: {
-          description: formData.cage.description,
-          material: formData.cage.material,
-          size: formData.cage.size,
-          price: formData.cage.price,
+          description: formData.cage?.description,
+          material: formData.cage?.material,
+          size: formData.cage?.size,
+          price: formData.cage?.price,
         },
-        accessories: accessoryData,
+        accessories: [], // Set accessories to an empty array for birdcage
       };
-    }
-     else if (productType === 'accessory') {
+    } else if (productType === 'accessory') {
       data = {
         name: formData.name,
         code: formData.code,
-        productImage: productImage,
-        productDetailImage: productDetailImages,
+        productImage: formData.productImage || productImage,
+        productDetailImage: formData.productDetailImage || productDetailImages,
         stock: formData.stock,
         status: formData.status,
         categoryId: formData.categoryId,
@@ -155,19 +145,19 @@ const AddProductForm = () => {
           {
             description: formData.accessory?.description,
             price: formData.accessory?.price,
-            type: formData.accessory?.type,
+            type: formData.accessory?.type ,
           },
         ],
       };
     }
-
+  
     try {
       const response = await axios.post('http://localhost:8080/cageshop/api/product/add', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       console.log(response.data); // Log the response data
     } catch (error) {
       console.error('Error adding product:', error);

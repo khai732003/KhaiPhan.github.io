@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import { CartProvider } from "./SanPham/Context/CartContext";
 
 // import AddProductForm from './SanPham/AddProductForm';
-// import AddProductFormV2 from './SanPham/AddProductFormV2';
+import AddProductForm from './SanPham/AddProductFormV4';
 import ChatWidget from './SanPham/Chatgpt';
 
 
@@ -16,12 +16,12 @@ function App() {
     {/* <CartProvider>
 
     <ProductPage/>
-   </CartProvider>
-        <AddProductForm />  */}
+  </CartProvider> */}
+        <AddProductForm />  
 
-       <h1>Your Product Page</h1>
+       {/* <h1>Your Product Page</h1>
       <p>Em nung lon qua.</p>
-      <ChatWidget />
+      <ChatWidget /> */}
       
 
     </div>

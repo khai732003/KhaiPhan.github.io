@@ -1,12 +1,9 @@
 package com.swp.cageshop.repository;
 
-import com.swp.cageshop.DTO.VoucherType;
 import com.swp.cageshop.entity.Vouchers;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-import com.swp.cageshop.entity.Vouchers;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
