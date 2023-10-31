@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 @Entity
 @Table(name = "Orders")
 @Data
@@ -43,6 +45,7 @@ public class Orders extends EntityBase {
   private String shipDate;
 
   @Column(name = "total_Price")
+  @Min(value = 0, message = "Price must be non-negative")
   private double total_Price;
 
   @JsonIgnore

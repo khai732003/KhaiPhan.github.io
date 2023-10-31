@@ -118,9 +118,6 @@ public class PayController {
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
-//         response.sendError(HttpStatus.BAD_REQUEST.value(), "Payment failed");
-
-
         }
     }
 
