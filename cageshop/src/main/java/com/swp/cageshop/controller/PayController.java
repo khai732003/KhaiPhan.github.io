@@ -9,6 +9,7 @@ import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.PaysRepository;
 import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.repository.UsersRepository;
+import com.swp.cageshop.service.ordersService.IOrdersService;
 import com.swp.cageshop.service.payService.PaysService;
 import com.swp.cageshop.service.productsService.IProductsService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,6 +52,9 @@ public class PayController {
 
     @Autowired
     private PaysService paysService;
+
+    @Autowired
+    private IOrdersService iOrdersService;
 
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
@@ -109,7 +113,7 @@ public class PayController {
                 Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
                 orders.setPayStatus("PAID");
                 ordersRepository.save(orders);
-                // Chuyển hướng request nếu responseCode là "00"
+                iOrdersService.updateOrderAndOrderDetails(orders);
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);

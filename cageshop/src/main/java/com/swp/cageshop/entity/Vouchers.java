@@ -42,6 +42,9 @@ public class Vouchers{
   @Column
   private LocalDateTime expiration_date;
 
+  @Column
+  private int quantity;
+
   @OneToMany(mappedBy="voucher", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<VoucherUsage> usages;
   @PrePersist
