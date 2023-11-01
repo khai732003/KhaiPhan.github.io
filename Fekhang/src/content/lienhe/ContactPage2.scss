@@ -1,0 +1,163 @@
+.fullscreen-login-container {
+
+    background-image: url('https://images.unsplash.com/photo-1560278078-d31b4ed980c6?auto=format&fit=crop&q=80&w=2053&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    height: 110vh;
+
+    /* Chiều rộng full màn hình */
+    width: 100vw;
+
+    /* Không lặp lại ảnh */
+    background-repeat: no-repeat;
+
+    /* Ảnh không scroll cùng trang */
+    background-attachment: fixed;
+
+    /* Ảnh chiếm toàn bộ container */
+    background-size: cover;
+    // font-family: montserrat;
+
+
+    $withinout: "80%";
+
+    .container-form-contact {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 100px;
+
+        h2 {
+
+            width: 100%;
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+
+        }
+
+        .contact-content-form {
+            padding: 25px 40px;
+            width: 35%;
+            background-color: rgba(66, 223, 140, 0.7);
+            height: 80vh;
+            border-radius: 5px 0 0 5px;
+
+
+            .icon-contact-content {
+                padding: 15px 0;
+                color: #fff;
+
+                #content-icon-contact {
+                    display: flex;
+                    align-items: center;
+                }
+
+                a{
+                    text-decoration: none;
+                        &:hover{
+                            color: rgb(226, 98, 6);
+                        
+                        }
+                }
+            }
+        }
+
+        .input-container-contact {
+            top: 15%;
+            left: 30%;
+            padding: 50px 40px;
+            background-color: rgba(243, 238, 238, 0.14);
+            border-radius: 5px;
+            width: 40%;
+            font-family: inherit;
+            height: 80vh;
+
+            form {
+
+
+                input {
+                    color: #fff;
+                    border: 0.5px solid rgba(255, 255, 255, 0.0);
+                    background-color: rgba(255, 255, 255, 0.1);
+                    display: block;
+                    width: 100%;
+                    border-radius: 3px;
+                    padding: 15px 20px 15px 25px;
+                    margin: 30px 0;
+                    border-radius: 30px;
+                    transition: 0.3s;
+
+                    &::placeholder {
+                        color: rgb(250, 245, 236);
+                    }
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.0);
+                        border: 0.5px solid white;
+                        transition: 0.3s;
+                    }
+
+                    &:focus {
+                        background-color: rgba(255, 255, 255, 0.0);
+                        border: 0.5px solid white;
+                        outline: none;
+                        transition: 0.3s;
+                    }
+                }
+
+                textarea {
+                    color: #fff;
+                    border: 0.5px solid rgba(255, 255, 255, 0.0);
+                    background-color: rgba(255, 255, 255, 0.1);
+                    display: block;
+                    width: 100%;
+                    border-radius: 3px;
+                    padding: 25px 20px 15px 25px;
+                    margin: 30px 0;
+                    border-radius: 9px;
+                    transition: 0.3s;
+
+                    &::placeholder {
+                        color: rgb(250, 245, 236);
+                    }
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.0);
+                        border: 0.5px solid white;
+                        transition: 0.3s;
+                    }
+
+                    &:focus {
+                        background-color: rgba(255, 255, 255, 0.0);
+                        border: 0.5px solid white;
+                        outline: none;
+                        transition: 0.3s;
+                    }
+                }
+
+                .submitform-btn {
+                    padding: 10px;
+                    font-size: 15px;
+                    margin-bottom: 10px;
+                    border: none;
+                    color: #fff;
+                    background-color: rgba(113, 191, 160, 0.6);
+                    text-align: center;
+                    display: block;
+                    width: fit-content;
+                    margin: 20px 0;
+                    border-radius: 22px;
+                    width: 10vw;
+                    transition: 0.35s;
+
+                    &:hover {
+                        background-color: rgb(75, 219, 224);
+                        transition: 0.35s;
+                    }
+                }
+            }
+        }
+    }
+}

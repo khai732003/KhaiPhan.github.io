@@ -40,6 +40,7 @@ import Voucher from './content/SanPham/Voucher';
 import VoucherUsage from './content/SanPham/VoucherUsage';
 import StaffManagement from './content/dashboard/pages/StaffManagement';
 import AddEditStaff from './content/dashboard/components/AddEditStaff';
+import ContactPage2 from './content/lienhe/ContactPage2';
 
 
 
@@ -58,7 +59,7 @@ function App() {
               <Route path="/admin" element={<UserManagement />} />
               <Route path="/usermanagement" element={<UserManagement />} />
               <Route path="/productmanagement" element={<ProductManagement />} />
-              
+              <Route path='/contact' element={<ContactPage2/>} />
               <Route path="/staffmanagement" element={<StaffManagement />} />
               <Route path="/add-edit-staff" element={<AddEditStaff />} />
               <Route path="/add-edit-user" element={<AddEditUser />} />

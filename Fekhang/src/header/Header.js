@@ -9,7 +9,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
-import NavBar from '../content/dashboard/components/NavBar  ';
+// import NavBar from '../content/dashboard/components/NavBar  ';
 import Cart from '../content/SanPham/Cart';
 function Header(props) {
 
@@ -46,10 +46,10 @@ function Header(props) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager){
-        return <NavBar/>
+    // if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager){
+    //     return <NavBar/>
 
-    }
+    // }
 
     return (
         <div className='fixed-header'>
@@ -92,7 +92,7 @@ function Header(props) {
                                 </div> */}
                             </div>
                             <NavLink to="/tintuc" activeClassName="active" className="nav-link">TIN TỨC</NavLink>
-                            <NavLink to="/lienhe" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
+                            <NavLink to="/contact" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
                         </Nav>
 
                         <Form className="d-flex">
