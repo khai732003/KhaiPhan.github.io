@@ -84,7 +84,7 @@ export default function AboutPage() {
                                     <h1 id='title-Unique-content-about'>Create Your Unique Style</h1>
                                     <p id='content-Unique-content-about'>Our designers would help you to create an awesome style, properly combining different elements of your decor.</p>
                                     <button id='btn-Unique-content-about'>
-                                        <Link to="/shop">Shop Now
+                                        <Link to="/sanpham">Shop Now
                                             <span class="bi bi-chevron-right"></span>
                                         </Link>
                                     </button>
