@@ -4,12 +4,13 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import customAxios from '../CustomAxios/customAxios';
 const ModalDelete = (props) => {
     const { show, handleClose, idToDelete, handleDelete } = props;
 
     const handleDeleteNews = async () => {
         try {
-            const res = await axios.delete(`https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/delete/${idToDelete}`);
+            const res = await customAxios.delete(`/marketing/delete/${idToDelete}`);
             if (res)
                 handleDelete();
             toast.success('Delete sucessful !');
