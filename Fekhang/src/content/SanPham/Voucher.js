@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { Container, TextField, Button } from '@mui/material';
+import './Voucher.scss';
 function Voucher() {
   const [voucherData, setVoucherData] = useState({
     code: '',
@@ -8,7 +9,14 @@ function Voucher() {
     voucherAmount: '',
     voucherType: '',
     isActive: true,
-    expiration_date: "2023-10-26T15:37:00.000"
+    expiration_date: "2023-10-26T15:37:00.000",
+  });
+
+  const [errors, setErrors] = useState({
+    code: '',
+    description: '',
+    voucherAmount: '',
+    voucherType: '',
   });
 
   const handleInputChange = (event) => {
@@ -16,82 +24,101 @@ function Voucher() {
     setVoucherData({ ...voucherData, [name]: value });
   };
 
+  const validateForm = () => {
+    const newErrors = {
+      code: '',
+      description: '',
+      voucherAmount: '',
+      voucherType: '',
+    };
+
+    if (voucherData.code.trim() === '') {
+      newErrors.code = 'Mã Voucher không được bỏ trống';
+    }
+
+    if (voucherData.description.trim() === '') {
+      newErrors.description = 'Description không được bỏ trống';
+    }
+
+    if (isNaN(voucherData.voucherAmount) || voucherData.voucherAmount <= 0) {
+      newErrors.voucherAmount = 'Số Tiền Voucher không hợp lệ';
+    }
+
+    if (voucherData.voucherType.trim() === '') {
+      newErrors.voucherType = 'Loại Voucher không được bỏ trống';
+    }
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some((error) => error);
+  };
+
   const addVoucher = (event) => {
-    event.preventDefault(); // Ngăn chặn form từ việc tự động gửi yêu cầu
-    axios.post('http://localhost:8080/cageshop/api/voucher/add', voucherData)
-      .then(response => {
-        console.log('Voucher added successfully:', response.data);
-        // Thực hiện các hành động khác sau khi thêm voucher thành công
-      })
-      .catch(error => {
-        console.error('Error adding voucher:', error);
-      });
+    event.preventDefault();
+
+    if (validateForm()) {
+      axios.post('http://localhost:8080/cageshop/api/voucher/add', voucherData)
+        .then(response => {
+          console.log('Voucher added successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error adding voucher:', error);
+        });
+    }
   };
 
   return (
-    <div className="voucher-form-container">
-        <div>
-c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
-        <div>
-            c
-        </div>
+    <Container maxWidth="md" className='voucher-form-container '>
       <div>
-        <label>Mã Voucher:</label>
-        <input
-          type="text"
+        <TextField
+          label="Mã Voucher"
           name="code"
           value={voucherData.code}
           onChange={handleInputChange}
+          fullWidth
         />
+        <div className="error">{errors.code}</div>
       </div>
       <div>
-        <label>Description:</label>
-        <input
-          type="text"
+        <TextField
+          label="Description"
           name="description"
           value={voucherData.description}
           onChange={handleInputChange}
+          fullWidth
         />
+        <div className="error">{errors.description}</div>
       </div>
       <div>
-        <label>Số Tiền Voucher:</label>
-        <input
-          type="number"
+        <TextField
+          label="Số Tiền Voucher"
           name="voucherAmount"
+          type="number"
           value={voucherData.voucherAmount}
           onChange={handleInputChange}
+          fullWidth
         />
+        <div className="error">{errors.voucherAmount}</div>
       </div>
       <div>
-        <label>Loại Voucher:</label>
-        <input
-          type="text"
+        <TextField
+          label="Loại Voucher"
           name="voucherType"
           value={voucherData.voucherType}
           onChange={handleInputChange}
+          fullWidth
         />
+        <div className="error">{errors.voucherType}</div>
       </div>
-      <button onClick={addVoucher}>Thêm Voucher</button>
-    </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={addVoucher}
+        style={{ marginTop: '10px' }}
+      >
+        Thêm Voucher
+      </Button>
+    </Container>
   );
 }
 
