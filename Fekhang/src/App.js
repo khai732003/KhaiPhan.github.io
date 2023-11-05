@@ -73,58 +73,41 @@ function App() {
               <Route element={<Error />} />
 
               {/* Vùng Admin */}
-              {/* <Route path="/voucher" element={<Voucher />} />
-              <Route path="/adminprofile" element={<AdminProfile />} />
-              <Route path="/usermanagement" element={<UserManagement />} />
-              <Route path="/productmanagement" element={<ProductManagement />} /> */}
-
-              <Route
-                path="/voucher"
-                element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />}
-              />
-              <Route
-                path="/adminprofile"
-                element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} />}
-              />
-              <Route
-                path="/usermanagement"
-                element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} />}
-              />
-              <Route
-                path="/productmanagement"
-                element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} />}
-              />
+              <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
+              <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
+              <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
+              <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
+              <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
 
 
-              {/* Vùng Manager */}
-              <Route path="/staffmanagement" element={<PrivateRoute allowedRoles={['MANAGER']} component={StaffManagement} />} />
-              <Route path="/add-edit-staff" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditStaff} />} />
-              <Route path="/add-edit-user" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditUser} />} />
-              <Route path="/update-user/:id" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditUser} />} />
+              {/* Vùng manager */}
+              <Route path="/staffmanagement" element={<PrivateRoute allowedRoles={['MANAGER']} component={StaffManagement} path="/staffmanagement" />} />
+              <Route path="/add-edit-staff" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditStaff} path="/add-edit-staff" />} />
+              <Route path="/add-edit-user" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditUser} path="/add-edit-user" />} />
+              <Route path="/update-user/:id" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditUser} path="/update-user/:id" />} />
+
 
 
 
               {/* Vùng Admin, Manager */}
-              <Route path="/admin" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={UserManagement} />} />
-              <Route path="/add-edit-product" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} />} />
-              <Route path="/update-product/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} />} />
-              <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} />} />
-              <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} />} />
+              <Route path="/admin" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={UserManagement} path="/admin" />} />
+              <Route path="/add-edit-product" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/add-edit-product" />} />
+              <Route path="/update-product/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/update-product/:id" />} />
+              <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
+              <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />
+
 
 
 
               {/*Vùng Staff*/}
 
               {/* Vùng all trừ Customer */}
-              <Route path="/staffnew" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={TintucStaff} />} />
-              <Route exact path="tintuc/newsdetail/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={DetailNewsPage} />} />
+              <Route path="/staffnew" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={TintucStaff} path="/staffnew" />} />
+              <Route exact path="tintuc/newsdetail/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={DetailNewsPage} path="tintuc/newsdetail/:id" />} />
+
 
               {/* Vùng Customer */}
-              <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} />} />
-
-
-
-              
+              <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
 
               <Route path='/error' element={<Error />} />
 
