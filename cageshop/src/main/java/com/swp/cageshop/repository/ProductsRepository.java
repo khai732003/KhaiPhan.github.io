@@ -30,6 +30,9 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
     @Query("SELECT p FROM Products p WHERE p.status = 'New'")
     List<Products> findProductsByStatusNew();
 
+  @Query("SELECT p FROM Products p WHERE p.status = 'CustomProduct'")
+  List<Products> findProductsByStatusCustomProduct();
+
     @Query("SELECT p FROM Products p WHERE p.status = 'Available'")
     List<Products> findProductsByStatusAvailable();
 

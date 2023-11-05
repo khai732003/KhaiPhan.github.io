@@ -211,6 +211,11 @@ public class ProductsController {
     public List<ProductDTO> getProductsOutOfStock() {
         return productsService.getProductsOutOfStock();
     }
+    @GetMapping("/product/customproduct")
+    public List<ProductDTO> getProductsCustomProduct() {
+        return productsService.getProductsOutOfStock();
+    }
+
 
     @GetMapping("/product/available")
     public List<ProductDTO> getProductsByStatusAvailable() {

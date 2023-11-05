@@ -165,14 +165,23 @@ public class ProductsServiceImpl implements IProductsService {
             if (product.getStock() > 0) {
                 product.setStock(product.getStock() - 1);
                 productsRepository.save(product);
+
                 Products clonedProduct = new Products();
                 clonedProduct.setName(product.getName());
                 clonedProduct.setStock(1);
                 clonedProduct.setTotalPrice(product.getTotalPrice());
                 clonedProduct.setProductImage(product.getProductImage());
                 clonedProduct.setCode(product.getCode());
-                clonedProduct.setCage(product.getCage());
-                clonedProduct.setStatus("Custom Product");
+
+                if (product.getCage() != null) {
+                    BirdCages birdCages = modelMapper.map(product.getCage(), BirdCages.class);
+                    birdCages.setProduct(clonedProduct); // Set the product for the bird cage
+                    clonedProduct.setCage(birdCages);
+                    
+                }
+
+                clonedProduct.setStatus("CustomProduct");
+
                 List<Accessories> productAccessories = new ArrayList<>();
                 for (AccessoryDTO accessoryDTO : accessories) {
                     Accessories accessory = new Accessories();
@@ -183,12 +192,14 @@ public class ProductsServiceImpl implements IProductsService {
                     productAccessories.add(accessory);
                 }
                 clonedProduct.setAccessories(productAccessories);
+
                 Products updatedProduct = productsRepository.save(clonedProduct);
                 return modelMapper.map(updatedProduct, ProductDTO.class);
             }
         }
         return null;
     }
+
 
     public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories) {
         Optional<Products> optionalProduct = productsRepository.findById(productId);
@@ -265,6 +276,16 @@ public class ProductsServiceImpl implements IProductsService {
 
 
     }
+    public List<ProductDTO> getProductsStatusCustomProduct() {
+        List<Products> products = productsRepository.findProductsByStatusCustomProduct();
+        // Map the entity objects to DTOs if needed
+        return products.stream()
+            .map(product -> modelMapper.map(product, ProductDTO.class))
+            .collect(Collectors.toList());
+
+
+    }
+
 
     public List<ProductDTO> getProductsByStatusAvailable() {
         List<Products> products = productsRepository.findProductsByStatusAvailable();

@@ -32,11 +32,20 @@
 }
 
 .compare-product-image {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 5px;
+}
+.compare-product-image img{
   max-width: 100px;
   height: auto;
   border-radius: 5px;
 }
 
+// .table-compare-property img{
+//   width: 4rem;
+//   height: 4rem;
+// }
 .compare-product-image:hover {
   transform: scale(1.1);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);

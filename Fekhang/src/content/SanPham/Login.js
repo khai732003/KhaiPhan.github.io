@@ -6,7 +6,9 @@ import './Scss/Login-Register.scss'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from '@mui/material';
 import './Scss/Product.scss'
-const Login = () => {
+
+const Login = ({currentPath}) => {
+  console.log(currentPath)
   const { user, loadUser, setUserFromToken } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -31,7 +33,11 @@ const Login = () => {
       localStorage.setItem('token', token);
 
       setUserFromToken(token)
-      navigate(-1);
+      if(currentPath == undefined){
+        navigate(-1);
+      }
+      navigate(`${currentPath}`);
+
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
     }

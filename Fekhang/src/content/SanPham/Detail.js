@@ -17,6 +17,8 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
     const [loading, setLoading] = useState(true);
     const { productId } = useParams();
     const navigate = useNavigate();
+  
+
     let orderId = localStorage.getItem('orderId');
     useEffect(() => {
         customAxios
@@ -35,57 +37,60 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
         setSelectedImage(image);
     };
 
-const handleAddToCart = () => {
-    const { id, name, stock, totalPrice, productImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
-    addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories }); // Truyền giá trị vào hàm addToCart
-    window.alert(`Added ${name} to the cart!`);
-};
+    const handleAddToCart = () => {
+        const { id, name, stock, totalPrice, productImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
+        addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories }); // Truyền giá trị vào hàm addToCart
+        window.alert(`Added ${name} to the cart!`);
+    };
 
-const handleBuy = async (id) => {
-    if (!user) {
-      navigate("/login")
-      return;
-    }
-    try {
+    const handleBuy = async (id) => {
+        if (!user) {
+            navigate("/login")
+            return;
+        }
+        try {
 
-      if (!orderId) {
-        const shipAddress = "hcm";
-        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+            if (!orderId) {
+                const shipAddress = "hcm";
+                const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-        const orderResponse = await customAxios.post('/order/add', {
-          "name": "Tổng hóa đơn",
-          "status": "pending",
-          "paymentMethod": "credit card",
-          "address": "137 Đặng Văn Bi",
-          "city": "Đà Nẵng",
-          "content": "Đóng gói cẩn thận nhé",
-          "shipDate": "2023-10-15",
-          userId: user.userId
-        });
+                const orderResponse = await customAxios.post('/order/add', {
+                    "name": "Tổng hóa đơn",
+                    "status": "pending",
+                    "paymentMethod": "credit card",
+                    "address": "137 Đặng Văn Bi",
+                    "city": "Đà Nẵng",
+                    "content": "Đóng gói cẩn thận nhé",
+                    "shipDate": "2023-10-15",
+                    userId: user.userId
+                });
 
-        orderId = orderResponse.data.id;
-        localStorage.setItem('orderId', orderId);
-      }
+                orderId = orderResponse.data.id;
+                localStorage.setItem('orderId', orderId);
+            }
 
-      const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+            const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
 
-      await customAxios.post('/order_detail/add', {
-        quantity: 1,
-        hirePrice: product.hirePrice,
-        name : productDetail.cage.description,
-        totalOfProd: product.totalOfProd,
-        note: `Sản phẩm là ${id}`,
-        orderId,
-        productId: id,
-        totalCost: product.totalPrice
-      });
+            await customAxios.post('/order_detail/add', {
+                quantity: 1,
+                hirePrice: product.hirePrice,
+                name: productDetail.cage.description,
+                totalOfProd: product.totalOfProd,
+                note: `Sản phẩm là ${id}`,
+                orderId,
+                productId: id,
+                totalCost: product.totalPrice
+            });
 
-      navigate(`/order/${orderId}`);
-    } catch (error) {
-      console.error("Lỗi khi tạo order và order detail:", error);
-    }
-  };
-    
+            navigate(`/order/${orderId}`);
+        } catch (error) {
+            console.error("Lỗi khi tạo order và order detail:", error);
+        }
+    };
+    const handleCustomProduct = (id) => {
+        navigate(`/customeproduct/${id}`);
+    };
+
 
     if (loading) {
         return (
@@ -164,6 +169,13 @@ const handleBuy = async (id) => {
                                             </Button>
                                             <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(productDetail.id)}>
                                                 Buy Now
+                                            </Button>
+                                            <Button
+                                                className='custom-button-custom-product'
+                                                variant="contained"
+                                                onClick={()=>handleCustomProduct(productDetail.id)}
+                                            >
+                                                Custom Product And Buy
                                             </Button>
                                         </div>
                                     </Grid>

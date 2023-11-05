@@ -36,18 +36,19 @@ function Header(props) {
     const isAddProduct = location.pathname === '/addproduct';
     // const isUpdateProduct = location.pathname === "/update/*";
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
-
+    const isError = location.pathname === '/error';
+    const isVoucher = location.pathname === '/voucher';
     const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
 
         logout();
     }
 
-    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager){
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher){
         return <NavBar/>
 
     }
@@ -96,7 +97,7 @@ function Header(props) {
                             <NavLink to="/contact" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
                         </Nav>
 
-                        <Form className="d-flex">
+                        {/* <Form className="d-flex">
                             <Form.Control
                                 type="search"
                                 placeholder="Search"
@@ -104,13 +105,10 @@ function Header(props) {
                                 aria-label="Search"
                             />
                             <Button variant="outline-success">Search</Button>
-                        </Form>
+                        </Form> */}
                         <Nav>
                             {/* Nút giỏ hàng */}
-                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
-                                <i className="bi bi-cart-check"></i>
-                                <Cart />
-                            </Button>
+                            
 
                             {isLoggedIn ? (
 
@@ -170,6 +168,10 @@ function Header(props) {
                                     </div>
                                 </div>
                             )}
+                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
+                                <i className="bi bi-cart-check"></i>
+                                <Cart />
+                            </Button>
 
                         </Nav>
 
