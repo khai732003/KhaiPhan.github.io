@@ -1,0 +1,26 @@
+
+.navbar-timeline {
+  margin-bottom: 220px;
+  margin-top: 100px;
+}
+
+.timeline-table-container{
+  margin: 0 200px 0 200px;
+}
+
+.timeline-table {
+  min-width: 650px;
+  border: 3px solid #cebcbc;
+}
+
+.timeline-table .MuiTableRow-root:nth-child(even) {
+  background-color: #cebcbc;
+}
+
+.timeline-table .MuiTableRow-root:nth-child(odd) {
+  background-color: antiquewhite;
+}
+
+.timeline-table .MuiTableRow-root:hover {
+  background-color: rgb(216, 210, 221);
+}
