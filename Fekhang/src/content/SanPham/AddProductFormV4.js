@@ -3,10 +3,14 @@ import { useState, useEffect } from 'react';
 import { Form, Input, Button, Upload, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import customAxios from '../../CustomAxios/customAxios';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
+
 const AddProductForm = () => {
+  const navigate = useNavigate();
   const [accessoryCount, setAccessoryCount] = useState(0);
   const [productImage, setProductImage] = useState("");
   const [productDetailImages, setProductDetailImages] = useState([]);
@@ -22,7 +26,7 @@ const AddProductForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/cageshop/api/category/list');
+        const response = await customAxios.get('http://localhost:8080/cageshop/api/category/list');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -97,7 +101,7 @@ const AddProductForm = () => {
             const formData = new FormData();
             formData.append('file', file.originFileObj);
             formData.append('upload_preset', 'klbxvzvn'); // Replace 'klbxvzvn' with your Cloudinary preset name
-            const response = await axios.post('https://api.cloudinary.com/v1_1/dcr9jaohf/image/upload', formData);
+            const response = await customAxios.post('https://api.cloudinary.com/v1_1/dcr9jaohf/image/upload', formData);
             return response.data.secure_url;
           })
         );
@@ -163,7 +167,7 @@ const AddProductForm = () => {
     }
   
     try {
-      const response = await axios.post('http://localhost:8080/cageshop/api/product/add', data, {
+      const response = await customAxios.post('http://localhost:8080/cageshop/api/product/add', data, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -223,11 +227,15 @@ const AddProductForm = () => {
     }
     return accessoryForms;
   };
+  // const navigate = useNavigate();
+const handlereturn = () => {
+  navigate(-1);
 
+}
 
 
   return (
-    <Form name="addProduct" onFinish={handleSubmit} layout="vertical">
+    <Form name="addProduct" onFinish={handleSubmit} layout="vertical" style={{paddingTop:'4rem'}}>
       <h2>Product Details</h2>
       <Form.Item label="Product Name" name="name" rules={[{ required: true, message: 'Please input the product name!' }]}>
         <Input />
@@ -334,7 +342,7 @@ const AddProductForm = () => {
           </Form.Item>
 
           {accessoryCount > 0 && generateAccessoryForms()}
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handlereturn}>
             Add birdcage
           </Button>
 

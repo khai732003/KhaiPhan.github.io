@@ -153,6 +153,18 @@ const NavBar = () => {
                 <ListItemText primary="Product Management" />
               </StyledToggleButton>
 
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/voucher"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <StoreIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Voucher" />
+              </StyledToggleButton>
+
               <div>
                 <p className="navbar-item">Income</p>
                 <hr />

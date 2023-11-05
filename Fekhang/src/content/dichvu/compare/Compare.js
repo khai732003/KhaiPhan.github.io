@@ -65,10 +65,10 @@ function Compare() {
         <tbody>
           {products.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((product) => (
             <tr key={product.id}>
-              <td className="compare-product-name">{product.name}</td>
+              <td className="compare-product-name">{product.cage.description}</td>
               <td>
                 <img
-                  src={product.image}
+                  src={product.productImage}
                   alt={product.name}
                   className="compare-product-image"
                 />
@@ -104,7 +104,7 @@ function Compare() {
               {selectedProducts.map((product) => (
                 <th key={product.id}>
                   <div className="compare-header">
-                    <div className="compare-product-name">{product.name}</div>
+                    <div className="compare-product-name">{product.cage.description}</div>
                     <div className="header-button">
                       <Button
                         variant="outlined"
@@ -124,9 +124,9 @@ function Compare() {
             <tr>
               <td className="table-compare-property">Image</td>
               {selectedProducts.map((product) => (
-                <td key={product.id}>
-                  <img
-                    src={product.image}
+                <td key={product.id} >
+                  <img style={{height: '5rem', width:'5rem'}}
+                    src={product.productImage}
                     alt={product.name}
                     className="compare-product-image"
                   />

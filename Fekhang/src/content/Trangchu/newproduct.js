@@ -44,7 +44,7 @@ const NewProduct = () => {
                                 </div> */}
                                 <p>Price: ${product.totalPrice.toFixed(2)}</p>
                                 <Button variant="primary" onClick={handleGoToProduct}>Go to shop</Button>
-                                <p>Coupon: {product.coupon}</p>
+                                {/* <p>Coupon: {product.coupon}</p> */}
                             </div>
                         </Col>
                     ))}
