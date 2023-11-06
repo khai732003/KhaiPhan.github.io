@@ -1,5 +1,6 @@
 package com.swp.cageshop.controller;
 
+import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.entity.Accessories;
 import com.swp.cageshop.repository.AccessoriesRepository;
 import com.swp.cageshop.service.productsService.AccessoriesService;
@@ -19,7 +20,7 @@ public class AccessoriesController {
     private AccessoriesService accessoryService;
 
     @GetMapping("/accessories")
-    public List<Accessories> getAllAccessories() {
+    public List<AccessoryDTO> getAllAccessories() {
         return accessoryService.getAllAccessories();
     }
 

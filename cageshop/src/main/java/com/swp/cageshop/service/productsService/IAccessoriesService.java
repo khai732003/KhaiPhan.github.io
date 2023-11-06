@@ -1,12 +1,13 @@
 package com.swp.cageshop.service.productsService;
 
+import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.entity.Accessories;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IAccessoriesService {
-    public List<Accessories> getAllAccessories();
+    public List<AccessoryDTO> getAllAccessories();
     public Optional<Accessories> getAccessoryById(Long id);
 
     public Accessories createAccessory(Accessories accessory);
