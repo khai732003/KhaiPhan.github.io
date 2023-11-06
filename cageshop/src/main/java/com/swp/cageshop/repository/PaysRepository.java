@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,7 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
 
     List<Pays> findByOrder_User_Id(Long userId);
 
-    @Query("SELECT new com.swp.cageshop.DTO.PaymentDTO(p.id, p.createDate, p.price, p.paymentCode, p.status, p.order.id) FROM Pays p WHERE p.status = ?1")
-    List<PaymentDTO> findByStatus(String status);
+    List<Pays> findByStatus(String status);
 
-
+    List<Pays> findByStatusAndCreateDate(String status, Date createdAt);
 }

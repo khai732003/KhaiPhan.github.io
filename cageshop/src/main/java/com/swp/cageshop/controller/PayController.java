@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.client.RestTemplate;
@@ -101,9 +103,11 @@ public class PayController {
                 ordersRepository.save(orders);
                 iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
                 VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
-                Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
-                v.setQuantity(v.getQuantity()-1);
-                voucherRepository.save(v);
+                if(vu!=null) {
+                    Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
+                    v.setQuantity(v.getQuantity() - 1);
+                    voucherRepository.save(v);
+                }
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);
@@ -137,6 +141,12 @@ public class PayController {
     @GetMapping("/doanh-thu")
     public double getAllPaysWithCompletedStatus() {
         return paysService.getTotalRevenueFromCompletedPays();
+    }
+
+
+    @GetMapping("/doanh-thu/{date}")
+    public double getTotalRevenueByDateFromCompletedPays(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return paysService.getTotalRevenueByDateFromCompletedPays(date);
     }
 
 }
