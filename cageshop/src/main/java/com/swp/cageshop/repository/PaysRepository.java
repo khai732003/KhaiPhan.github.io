@@ -1,10 +1,7 @@
 package com.swp.cageshop.repository;
 
 import com.swp.cageshop.DTO.PaymentDTO;
-import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.PaypalPayment;
-import com.swp.cageshop.entity.Pays;
-import com.swp.cageshop.entity.VNPayPayment;
+import com.swp.cageshop.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +25,6 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
 
     @Query("SELECT new com.swp.cageshop.DTO.PaymentDTO(p.id, p.createDate, p.price, p.paymentCode, p.status, p.order.id) FROM Pays p WHERE p.status = ?1")
     List<PaymentDTO> findByStatus(String status);
+
 
 }

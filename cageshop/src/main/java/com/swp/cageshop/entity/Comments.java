@@ -9,11 +9,8 @@ import lombok.Data;
 @Entity
 @Table(name = "Comments")
 @Data
-public class Comments {
+public class Comments extends EntityBase{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
   @Column(nullable = false, length = 100)
   private String title;
@@ -22,9 +19,6 @@ public class Comments {
   @Column(columnDefinition = "LONGTEXT", nullable = false)
   private String content;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "comment_date", nullable = false)
-  private Date date;
 
   // N:1 voi user
   @ManyToOne

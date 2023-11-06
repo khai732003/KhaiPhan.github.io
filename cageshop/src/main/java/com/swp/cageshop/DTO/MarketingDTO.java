@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MarketingDTO {
+public class MarketingDTO extends DTOBase {
     private String title;
     private String name;
     private String img;

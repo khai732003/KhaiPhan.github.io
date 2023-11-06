@@ -37,5 +37,7 @@ public class Feedback extends EntityBase{
     @OneToMany(mappedBy = "feedback")
     private List<Reply> reply;
 
+
+
 }
 

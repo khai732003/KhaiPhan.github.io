@@ -135,16 +135,12 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public List<OrderDetail> listAll() {
         return orderDetailRepository.findAll();
     }
-
     @Override
-    public ResponseEntity<String> deleteById(Long id) {
-        try {
-            orderDetailRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Đã xóa.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Xóa không thành công.");
-        }
+    public void deleteOrderDetail(Long id) {
+        orderDetailRepository.deleteById(id);
     }
+
+
 
 
 }

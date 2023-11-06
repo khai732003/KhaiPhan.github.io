@@ -10,11 +10,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO extends DTOBase {
-
     private String title;
     private String content;
-    private Long userId; // Representing the user's ID
-    private Long productId; // Representing the product's ID
+    private Long userId;
+    private Long productId;
     private Long marketingId;
 
 }

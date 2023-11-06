@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/cageshop/api")
+@RequestMapping("/cageshop/api/order_detail")
 public class OrderDetailController {
     @Autowired
     private IOrderDetailService orderDetailService;
@@ -36,7 +36,7 @@ public class OrderDetailController {
 
     @Autowired
     private IOrderDetailService iOrderDetailService;
-    @PostMapping("/order_detail/add")
+    @PostMapping("/add")
     public OrderDetailDTO addOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
 
         return orderDetailService.addOrderDetail(orderDetailDTO);
@@ -45,7 +45,7 @@ public class OrderDetailController {
 
 
 
-    @PutMapping("/order_detail/update/{orderDetailId}")
+    @PutMapping("/update/{orderDetailId}")
     public ResponseEntity<?> updateOrderDetail(
             @PathVariable Long orderDetailId,
             @RequestParam int newQuantity,
@@ -65,23 +65,24 @@ public class OrderDetailController {
         }
     }
 
-    @GetMapping("/order_detail/list")
+    @GetMapping("/list")
     public List<OrderDetailDTO> getAllOrderDetails() {
         return orderDetailService.getAllOrderDetailDTOs();
     }
 
-    @DeleteMapping("/order_detail/{orderId}")
+    @DeleteMapping("/{orderId}")
     public List<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable Long orderId) {
         return iOrderDetailService.getAllOrderDetailsByOrderId(orderId);
     }
 
-    @DeleteMapping("/order_detail/delete/{orderId}")
-    public ResponseEntity<?> deleteOrderDetailById(@PathVariable Long orderId){
-        return iOrderDetailService.deleteById(orderId);
+    @PatchMapping("delete-by/{id}")
+    public ResponseEntity<String> deleteOrderDetail(@PathVariable Long id) {
+        orderDetailService.deleteOrderDetail(id);
+        return new ResponseEntity<>("Order detail with id " + id + " has been marked as deleted.", HttpStatus.OK);
     }
 
-    @GetMapping("/order_detail/listall")
-    public List<OrderDetail> getAll() {
+       @GetMapping("/list-all")
+        public List<OrderDetail> getAll() {
         return iOrderDetailService.listAll();
-    }
+        }
 }

@@ -22,8 +22,6 @@ import java.util.Map;
 @RequestMapping("/cageshop/api/shipping")
 public class ShippingController {
 
-    @Value("${EASYPOST_API_KEY}")
-    private String apiKey;
 
     @Autowired
     private IShippingService shippingService;

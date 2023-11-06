@@ -33,4 +33,11 @@ public class VoucherExpirationScheduler {
             }
         }
     }
+
+
+    @Scheduled(cron = "0 0/15 * * * *")
+    public void checkOrdersStatus() {
+        // Code to check and update order status
+    }
+
 }

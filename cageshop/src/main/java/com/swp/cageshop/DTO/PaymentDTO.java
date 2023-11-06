@@ -10,9 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentDTO {
-    private Long id;
-    private Date createDate;
+public class PaymentDTO extends DTOBase {
     private double price;
     public String paymentCode;
     public String status;

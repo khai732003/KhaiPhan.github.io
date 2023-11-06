@@ -48,7 +48,7 @@ public class CommentsServiceImpl implements ICommentsService {
                 // Update the existing comment with data from commentDTO
                 existingComment.setTitle(commentDTO.getTitle());
                 existingComment.setContent(commentDTO.getContent());
-                existingComment.setDate(commentDTO.getCreateDate());
+                existingComment.setCreateDate(commentDTO.getCreateDate());
 
                 // Save the updated comment
                 Comments updatedComment = commentsRepository.save(existingComment);
@@ -112,7 +112,7 @@ public class CommentsServiceImpl implements ICommentsService {
                 comment.setProduct(product);
 
                 // Set the comment date (you can use the current date here)
-                comment.setDate(new Date());
+                comment.setCreateDate(new Date());
 
                 // Save the comment to the database
                 Comments savedComment = commentsRepository.save(comment);
@@ -124,7 +124,7 @@ public class CommentsServiceImpl implements ICommentsService {
                     savedCommentDTO.setContent(savedComment.getContent());
                     savedCommentDTO.setUserId(savedComment.getUser().getId());
                     savedCommentDTO.setProductId(savedComment.getProduct().getId());
-                    savedCommentDTO.setCreateDate(savedComment.getDate());
+                    savedCommentDTO.setCreateDate(savedComment.getCreateDate());
 
                     return savedCommentDTO;
                 }
@@ -144,7 +144,7 @@ public class CommentsServiceImpl implements ICommentsService {
             if (user != null && marketing != null) {
                 comment.setUser(user);
                 comment.setMarketing(marketing);
-                comment.setDate(new Date());
+                comment.setCreateDate(new Date());
 
                 Comments savedComment = commentsRepository.save(comment);
 

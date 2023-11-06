@@ -81,7 +81,23 @@ import java.util.stream.Collectors;
             return null; // hoặc có thể ném ra một Exception phù hợp ở đây nếu không tìm thấy shipping với orderId tương ứng
         }
 
-//////////////////////////////// STATUS
+
+        public ShippingDTO patchUpdateShippingStatusById(Long id, ShippingStatus newStatus) {
+            Shipping shipping = shippingRepository.findById(id).orElse(null);
+            if (shipping != null) {
+                shipping.setStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái cho Shipping
+                Shipping updatedShipping = shippingRepository.save(shipping);
+                if (shipping.getOrder() != null) {
+                    Orders order = shipping.getOrder();
+                    order.setShipStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái vận chuyển cho đơn hàng
+                    ordersRepository.save(order);
+                }
+                return modelMapper.map(updatedShipping, ShippingDTO.class);
+            }
+            return null; // hoặc có thể ném ra một Exception phù hợp ở đây nếu không tìm thấy shipping với id tương ứng
+        }
+
+        //////////////////////////////// STATUS
         public List<ShippingDTO> getShippingsByStatus(ShippingStatus status) {
             List<Shipping> shippings = shippingRepository.findByStatus(status.name());
             List<ShippingDTO> shippingDTOs = new ArrayList<>();

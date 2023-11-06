@@ -20,14 +20,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "PAY_TYPE")
-public abstract class Pays{
+public abstract class Pays extends EntityBase{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
 
     @Column
     private double price;
@@ -42,13 +36,9 @@ public abstract class Pays{
     @JoinColumn(name = "order_id")
     private Orders order;
 
-
     @PrePersist
     public void Status(){
         this.status = "CREATED";
-    }
-    public void prePersist() {
-        this.createDate = new Date();
     }
 
 

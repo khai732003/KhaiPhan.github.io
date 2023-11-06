@@ -11,9 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoucherDTO{
-    private Long id;
-    private LocalDateTime createDate;
+public class VoucherDTO extends DTOBase {
     private String code;
     private String description;
     private double voucherAmount;

@@ -15,7 +15,7 @@ public class FeedbackDTO extends DTOBase
 {
         private double rating;
         private String content;
-        private Long userId; // Representing the user's ID
-        private Long productId; // Representing the product's I
+        private Long userId;
+        private Long productId;
 
     }

@@ -3,6 +3,8 @@ package com.swp.cageshop.service.ordersService;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.DTO.ShippingDTO;
+import com.swp.cageshop.config.ShippingStatus;
+import com.swp.cageshop.config.VoucherType;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
@@ -48,6 +50,8 @@ public class OrdersServiceImpl implements IOrdersService {
     private IVouchersService iVouchersService;
 
 
+    @Autowired
+    private VouchersRepository vouchersRepository;
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
@@ -197,9 +201,9 @@ public class OrdersServiceImpl implements IOrdersService {
 
 
 @Override
-    public void updateOrderAndOrderDetails(Orders order) {
+    public void updateOrderAndOrderDetailsAndVoucher(Orders order) {
         if (order != null) {
-            order.setShipStatus("COMPLETED");
+            order.setShipStatus(ShippingStatus.NOT_CONFIRM.toString());
             ordersRepository.save(order);
             OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
             orderDetail.setStatus("COMPLETED");
@@ -266,6 +270,5 @@ public class OrdersServiceImpl implements IOrdersService {
         }
         return orderDTOs;
     }
-
 
 }
