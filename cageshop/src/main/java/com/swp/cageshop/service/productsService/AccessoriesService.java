@@ -21,22 +21,39 @@ public class AccessoriesService implements IAccessoriesService{
     private AccessoriesRepository accessoryRepository;
 
     public List<AccessoryDTO> getAllAccessories() {
-        List<Accessories> accessories = accessoryRepository.findAll(); // Điều chỉnh tên phương thức và tên biến tùy thuộc vào tên thực tế của bạn
-        ModelMapper modelMapper = new ModelMapper(); // Tạo một đối tượng ModelMapper nếu bạn chưa có nó
+        List<Accessories> accessories = accessoryRepository.findAll();
+        ModelMapper modelMapper = new ModelMapper();
 
         return accessories.stream()
                 .map(accessory -> modelMapper.map(accessory, AccessoryDTO.class))
                 .collect(Collectors.toList());
     }
 
+    public List<AccessoryDTO> getAccessoriesWithNullProductId() {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Accessories> accessoriesWithNullProductId = accessoryRepository.findAccessoriesWithNullProductId();
+        return accessoriesWithNullProductId
+                .stream()
+                .map(accessory -> modelMapper.map(accessory, AccessoryDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 
     public Optional<Accessories> getAccessoryById(Long id) {
         return accessoryRepository.findById(id);
     }
 
-    public Accessories createAccessory(Accessories accessory) {
-        return accessoryRepository.save(accessory);
+    public AccessoryDTO addAccessories(AccessoryDTO accessoryDTO) {
+        if (accessoryDTO != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+            Accessories savedAccessory = accessoryRepository.save(accessory);
+            return modelMapper.map(savedAccessory, AccessoryDTO.class);
+        }
+        return null;
     }
+
 
     public void deleteAccessory(Long id) {
         accessoryRepository.deleteById(id);

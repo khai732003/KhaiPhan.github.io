@@ -10,7 +10,7 @@ public interface IAccessoriesService {
     public List<AccessoryDTO> getAllAccessories();
     public Optional<Accessories> getAccessoryById(Long id);
 
-    public Accessories createAccessory(Accessories accessory);
+    public AccessoryDTO addAccessories(AccessoryDTO accessoryDTO);
 
     public void deleteAccessory(Long id);
 

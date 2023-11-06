@@ -17,4 +17,8 @@ public interface AccessoriesRepository extends JpaRepository<Accessories, Long> 
     List<Accessories> findAccessoriesByProduct(@Param("product") Products product);
 
 
+    @Query("SELECT a FROM Accessories a WHERE a.product is null")
+    List<Accessories> findAccessoriesWithNullProductId();
+
+
 }

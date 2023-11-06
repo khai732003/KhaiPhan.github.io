@@ -24,16 +24,29 @@ public class AccessoriesController {
         return accessoryService.getAllAccessories();
     }
 
+    @GetMapping("/newaccessories")
+    public List<AccessoryDTO> getAccessoriesWithNullProductId() {
+        return accessoryService.getAccessoriesWithNullProductId();
+    }
+    @PostMapping("/addaccessories")
+    public AccessoryDTO createAccessory(@RequestBody AccessoryDTO accessory) {
+        return accessoryService.addAccessories(accessory);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Accessories> getAccessoryById(@PathVariable Long id) {
         Optional<Accessories> accessory = accessoryService.getAccessoryById(id);
         return accessory.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
-    public Accessories createAccessory(@RequestBody Accessories accessory) {
-        return accessoryService.createAccessory(accessory);
-    }
+
+
+
+
+
+
+
+
 
     @PutMapping("/{id}")
     public Accessories updateAccessory(@PathVariable Long id, @RequestBody Accessories accessory) {
