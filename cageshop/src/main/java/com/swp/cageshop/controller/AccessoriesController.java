@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/accessories")
+@RequestMapping("/cageshop/api")
 public class AccessoriesController {
 
     @Autowired
     private AccessoriesService accessoryService;
 
-    @GetMapping
+    @GetMapping("/accessories")
     public List<Accessories> getAllAccessories() {
         return accessoryService.getAllAccessories();
     }
