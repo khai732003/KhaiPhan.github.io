@@ -16,6 +16,7 @@
 .navbar-nav {
   --bs-navbar-nav-link-padding-x: 1rem;
   --bs-emphasis-color-rgb: yellow;
+   margin-right: 5rem;
 
   .active {
     position: relative;
@@ -82,6 +83,7 @@
     
   }
   .dropdown-menu{
+    
     .dropdown-item{
       background-color: white ;
     }

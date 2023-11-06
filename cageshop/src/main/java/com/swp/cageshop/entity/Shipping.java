@@ -12,15 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Shipping")
-public class Shipping{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+public class Shipping extends EntityBase{
 
     @Column(nullable = false)
     private LocalDateTime shippingDate;
@@ -34,15 +26,9 @@ public class Shipping{
     @Column(nullable = false)
     private String status;
 
-
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
-
-    @PrePersist
-    public void onPersist() {
-        this.createDate = LocalDateTime.now();
-    }
 
 }
 

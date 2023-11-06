@@ -38,7 +38,7 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         if (!used){
             VoucherUsage voucherUsage = modelMapper.map(voucherUsageDTO, VoucherUsage.class);
             Vouchers voucher = vouchersRepository.findByCode(voucherUsageDTO.getCodeVoucher());
-            if (voucher != null) {
+            if (voucher != null && voucher.getQuantity() > 0) {
                 voucherUsage.setVoucher(voucher);
                 VoucherUsage savedVoucherUsage = voucherUsageRepository.save(voucherUsage);
                 return modelMapper.map(savedVoucherUsage, VoucherUsageDTO.class);

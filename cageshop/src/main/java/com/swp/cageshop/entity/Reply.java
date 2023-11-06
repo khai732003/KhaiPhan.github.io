@@ -18,4 +18,6 @@ public class Reply extends EntityBase{
     @ManyToOne
     @JoinColumn(name="feedback_id")
     private Feedback feedback;
+
+
 }

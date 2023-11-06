@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO {
-    private Long id;
+public class RoleDTO extends DTOBase {
     private String name;
+    private boolean isDeleted;
 }

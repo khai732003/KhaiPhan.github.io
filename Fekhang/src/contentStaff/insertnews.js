@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import customAxios from '../CustomAxios/customAxios';
 
 
 
@@ -36,7 +37,7 @@ const ModalAddNews = (props) => {
     };
 
     const handleSubmit = async () => {
-        let res = await axios.post('https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/add', formData);
+        let res = await customAxios.post('/marketing/add', formData);
 
         if (res) {
             toast.success("Create succesful !");

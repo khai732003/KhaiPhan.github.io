@@ -21,7 +21,7 @@ public class ProductDTO extends DTOBase {
         private double totalPrice;
         private String status;
         private int orderLevel;
-        private Long categoryId; // To represent the category ID
+        private Long categoryId;
         private List<CommentDTO> comments;
         private List<FeedbackDTO> feedbacks;
         private List<OrderDetailDTO> orderDetails;

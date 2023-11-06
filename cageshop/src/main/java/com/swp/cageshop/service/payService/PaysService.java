@@ -143,12 +143,22 @@ public class PaysService implements PaysServiceImpl {
     @Override
     public double getTotalRevenueFromCompletedPays() {
         double totalRevenue = 0;
-        List<PaymentDTO> paymentDTOs = paysRepository.findByStatus("COMPLETED");
-        for (PaymentDTO paymentDTO : paymentDTOs) {
-            totalRevenue += paymentDTO.getPrice();
+        List<Pays> pay = paysRepository.findByStatus("COMPLETED");
+        for (Pays pays : pay) {
+            totalRevenue += pays.getPrice();
         }
         return totalRevenue;
     }
 
+
+    @Override
+    public double getTotalRevenueByDateFromCompletedPays(Date date) {
+        double totalRevenue = 0;
+        List<Pays> pay = paysRepository.findByStatusAndCreateDate("COMPLETED", date); // Gọi phương thức từ repository với tham số ngày
+        for (Pays pays : pay) {
+            totalRevenue += pays.getPrice();
+        }
+        return totalRevenue;
+    }
 
 }

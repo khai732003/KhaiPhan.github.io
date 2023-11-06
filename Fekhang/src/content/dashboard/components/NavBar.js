@@ -178,7 +178,7 @@ const NavBar = () => {
               <StyledToggleButton
                 button
                 component={Link}
-                to="/usermanagement"
+                to="/adminprofile"
                 className="navbar-btn navbar-item"
               >
                 <ListItemIcon>
@@ -197,6 +197,32 @@ const NavBar = () => {
                   <MilitaryTechIcon color="inherit" />
                 </ListItemIcon>
                 <ListItemText primary="Certificate" />
+              </StyledToggleButton>
+
+
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/rating"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <MilitaryTechIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="RatingList" />
+              </StyledToggleButton>
+
+
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/timeline"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <MilitaryTechIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="TimeLine" />
               </StyledToggleButton>
             </List>
           </div>

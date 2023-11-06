@@ -10,10 +10,6 @@ import java.util.List;
 @Data
 public class Marketings extends EntityBase{
 
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  private Long id;
-
   @Lob
   @Column(nullable = false)
   private String title;
@@ -33,6 +29,8 @@ public class Marketings extends EntityBase{
   @Lob
   @Column(nullable = false)
   private String shortinfo;
+
+
 
 
 }

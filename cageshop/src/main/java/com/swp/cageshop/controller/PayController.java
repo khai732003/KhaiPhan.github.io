@@ -1,20 +1,16 @@
 package com.swp.cageshop.controller;
 
 import com.swp.cageshop.DTO.*;
-import com.swp.cageshop.entity.OrderDetail;
-import com.swp.cageshop.entity.Orders;
-import com.swp.cageshop.entity.Pays;
-import com.swp.cageshop.entity.Users;
-import com.swp.cageshop.repository.OrdersRepository;
-import com.swp.cageshop.repository.PaysRepository;
-import com.swp.cageshop.repository.ProductsRepository;
-import com.swp.cageshop.repository.UsersRepository;
+import com.swp.cageshop.entity.*;
+import com.swp.cageshop.repository.*;
+import com.swp.cageshop.service.ordersService.IOrdersService;
 import com.swp.cageshop.service.payService.PaysService;
 import com.swp.cageshop.service.productsService.IProductsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.client.RestTemplate;
@@ -52,6 +49,16 @@ public class PayController {
     @Autowired
     private PaysService paysService;
 
+    @Autowired
+    private IOrdersService iOrdersService;
+
+
+    @Autowired
+    private VoucherUsageRepository voucherUsageRepository;
+
+
+    @Autowired
+    private VouchersRepository voucherRepository;
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
         try {
@@ -61,30 +68,15 @@ public class PayController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
             String paymentResult = payService.payWithVNPAY(vnPayDTO, request);
-
-            // Tạo đối tượng PaymentResponseDTO và thiết lập giá trị URL
             PayResponseDTO paymentResponseDTO = new PayResponseDTO();
             paymentResponseDTO.setStatus("Sucess");
             paymentResponseDTO.setMessage("Ok");
             paymentResponseDTO.setUrl(paymentResult);
-
-            // Trả về ResponseEntity với đối tượng PaymentResponseDTO và HTTP status OK
             return ResponseEntity.ok(paymentResponseDTO);
         } catch (UnsupportedEncodingException e) {
-            // Xử lý ngoại lệ và trả về lỗi 500 Internal Server Error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
-//    @GetMapping("/payments")
-//    public ResponseEntity<List<PayDTO>> getAllPayments() {
-//        List<PayDTO> paymentList = payService.getAllPayDTO();
-//        if (paymentList.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(paymentList);
-//        }
-//        return ResponseEntity.ok(paymentList);
-//    }
 
     // String responseCode, = 00
     @GetMapping("/payment_infor")
@@ -109,7 +101,13 @@ public class PayController {
                 Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
                 orders.setPayStatus("PAID");
                 ordersRepository.save(orders);
-                // Chuyển hướng request nếu responseCode là "00"
+                iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
+                VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
+                if(vu!=null) {
+                    Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
+                    v.setQuantity(v.getQuantity() - 1);
+                    voucherRepository.save(v);
+                }
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);
@@ -143,6 +141,12 @@ public class PayController {
     @GetMapping("/doanh-thu")
     public double getAllPaysWithCompletedStatus() {
         return paysService.getTotalRevenueFromCompletedPays();
+    }
+
+
+    @GetMapping("/doanh-thu/{date}")
+    public double getTotalRevenueByDateFromCompletedPays(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return paysService.getTotalRevenueByDateFromCompletedPays(date);
     }
 
 }

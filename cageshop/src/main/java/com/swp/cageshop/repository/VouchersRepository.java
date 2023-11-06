@@ -1,5 +1,6 @@
 package com.swp.cageshop.repository;
 
+import com.swp.cageshop.entity.Shipping;
 import com.swp.cageshop.entity.Vouchers;
 import org.springframework.data.jpa.repository.JpaRepository;
 

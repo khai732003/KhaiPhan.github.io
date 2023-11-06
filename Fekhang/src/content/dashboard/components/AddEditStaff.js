@@ -6,6 +6,7 @@ import customAxios from '../../../CustomAxios/customAxios';
 import { useAuth } from '../../SanPham/Context/AuthContext';
 
 const AddEditStaff = () => {
+  const {user} = useAuth();
   const { id } = useParams();
   const { staff, loadStaff, setStaffFromToken } = useAuth();
   const [error, setError] = useState(null);
@@ -23,7 +24,7 @@ const AddEditStaff = () => {
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlJGeDFoDO2mUm5q3S8O_oc-8O4BYFWjNemRIdQ_6LQ&s',
     address: '',
     roleId: 1,
-    managerId: null
+    managerId: user.userId
   });
 
   useEffect(() => {

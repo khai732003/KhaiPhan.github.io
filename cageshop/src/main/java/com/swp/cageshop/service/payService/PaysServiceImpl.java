@@ -9,8 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface PaysServiceImpl {
     public String payWithVNPAY(VnPayDTO vnPayDTO, HttpServletRequest request) throws UnsupportedEncodingException;
@@ -22,5 +25,6 @@ public interface PaysServiceImpl {
 
     public double getTotalRevenueFromCompletedPays();
 
+    public double getTotalRevenueByDateFromCompletedPays(Date date);
 
 }

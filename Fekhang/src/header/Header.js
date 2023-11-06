@@ -9,8 +9,9 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../content/SanPham/Context/CartContext';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../content/SanPham/Context/AuthContext';
-import NavBar from '../content/dashboard/components/NavBar  ';
+
 import Cart from '../content/SanPham/Cart';
+import NavBar from '../content/dashboard/components/NavbBar';
 function Header(props) {
 
     const navigate = useNavigate();
@@ -35,18 +36,19 @@ function Header(props) {
     const isAddProduct = location.pathname === '/addproduct';
     // const isUpdateProduct = location.pathname === "/update/*";
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
-
+    const isError = location.pathname === '/error';
+    const isVoucher = location.pathname === '/voucher';
     const isPaypal= location.pathname === '/paypal';
     const handleOnLogout = () => {
 
         logout();
     }
 
-    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager){
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher){
         return <NavBar/>
 
     }
@@ -92,10 +94,10 @@ function Header(props) {
                                 </div> */}
                             </div>
                             <NavLink to="/tintuc" activeClassName="active" className="nav-link">TIN TỨC</NavLink>
-                            <NavLink to="/lienhe" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
+                            <NavLink to="/contact" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
                         </Nav>
 
-                        <Form className="d-flex">
+                        {/* <Form className="d-flex">
                             <Form.Control
                                 type="search"
                                 placeholder="Search"
@@ -103,13 +105,10 @@ function Header(props) {
                                 aria-label="Search"
                             />
                             <Button variant="outline-success">Search</Button>
-                        </Form>
+                        </Form> */}
                         <Nav>
                             {/* Nút giỏ hàng */}
-                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
-                                <i className="bi bi-cart-check"></i>
-                                <Cart />
-                            </Button>
+                            
 
                             {isLoggedIn ? (
 
@@ -169,6 +168,10 @@ function Header(props) {
                                     </div>
                                 </div>
                             )}
+                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
+                                <i className="bi bi-cart-check"></i>
+                                <Cart />
+                            </Button>
 
                         </Nav>
 

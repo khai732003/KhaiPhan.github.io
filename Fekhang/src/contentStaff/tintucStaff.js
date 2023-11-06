@@ -7,6 +7,7 @@ import ModalAddNews from './insertnews';
 import ModalDelete from './deletenews';
 import { Button } from '@mui/material';
 import './tintucStaff.scss'
+import customAxios from '../CustomAxios/customAxios';
 const TintucStaff = () => {
     const [News, setNews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +56,7 @@ const TintucStaff = () => {
     };
 
     const getAllNews = async () => {
-        const res = await axios.get('https://6821-2402-800-637c-840e-79ac-59ee-21bd-28ff.ngrok.io/cageshop/api/marketing/list');
+        const res = await customAxios.get('/marketing/list');
         if (res && res.data) {
             setNews(res.data);
         }

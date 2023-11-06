@@ -24,7 +24,7 @@ public interface IOrdersService {
 
     public OrderDTO findById(Long id);
 
-    public void updateOrderAndOrderDetails(Orders order);
+    public void updateOrderAndOrderDetailsAndVoucher(Orders order);
 
     public List<OrderDTO> getPaidOrders();
 

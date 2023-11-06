@@ -1,6 +1,8 @@
 package com.swp.cageshop.controller;
 
 import com.swp.cageshop.DTO.FeedbackDTO;
+import com.swp.cageshop.entity.Feedback;
+import com.swp.cageshop.repository.FeedbackRepository;
 import com.swp.cageshop.service.feedbacksService.IFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,15 +15,26 @@ import java.util.List;
 @RequestMapping("/cageshop/api/feedback")
 public class FeedbackController {
 
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
     @Autowired
     private IFeedbackService feedbackService;
 
     @PostMapping("/add")
     public ResponseEntity<FeedbackDTO> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
+        Feedback existingFeedback = feedbackRepository.findByUserIdAndProductId(feedbackDTO.getUserId(), feedbackDTO.getProductId());
+        if (existingFeedback != null) {
+            return new ResponseEntity("Phản hồi đã tồn tại", HttpStatus.BAD_REQUEST);
+        }
         FeedbackDTO createdFeedback = feedbackService.createFeedback(feedbackDTO);
-        return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+        if (createdFeedback != null) {
+            return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+
 
     @GetMapping("/get-all")
     public ResponseEntity<List<FeedbackDTO>> getAllFeedbacks() {
@@ -50,10 +63,10 @@ public class FeedbackController {
         }
     }
 
-    @DeleteMapping("delete-by/{id}")
-    public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
+    @PatchMapping("delete-by/{id}")
+    public ResponseEntity<FeedbackDTO> deleteFeedback(@PathVariable Long id) {
         feedbackService.deleteFeedback(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/average-rating/{productId}")

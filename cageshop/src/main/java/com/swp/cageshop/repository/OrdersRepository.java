@@ -20,4 +20,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findByShipStatus(String shipStatus);
 
     List<Orders> findByUserId(Long userId);
+
+
 }

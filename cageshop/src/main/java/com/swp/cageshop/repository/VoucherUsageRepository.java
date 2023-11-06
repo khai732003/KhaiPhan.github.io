@@ -19,4 +19,7 @@ public interface VoucherUsageRepository extends JpaRepository<VoucherUsage, Long
 
     List<VoucherUsage> findByOrderId(Long orderId);
 
+
+    @Query("SELECT vu FROM VoucherUsage vu WHERE vu.order.id = :orderId")
+    VoucherUsage findByOrderId1(@Param("orderId") Long orderId);
 }

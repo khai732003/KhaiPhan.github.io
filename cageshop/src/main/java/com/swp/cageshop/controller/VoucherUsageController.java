@@ -26,13 +26,10 @@ public class VoucherUsageController {
 
     @PostMapping("/add-by-voucher")
     public ResponseEntity<VoucherUsageDTO> createVoucherUsageByVoucherCode(@RequestBody VoucherUsageDTO voucherUsageDTO) {
-        try {
             VoucherUsageDTO createdVoucherUsage = voucherUsageService.createVoucherUsageByVoucherCode(voucherUsageDTO);
             return new ResponseEntity<>(createdVoucherUsage, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+
 
     @GetMapping("/get-all")
     public ResponseEntity<List<VoucherUsageDTO>> getAllVoucherUsages() {

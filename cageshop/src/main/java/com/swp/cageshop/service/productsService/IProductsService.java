@@ -32,6 +32,8 @@ public interface IProductsService {
 
   public List<ProductDTO> getProductsOutOfStock();
 
+  public List<ProductDTO> getProductsStatusCustomProduct();
+
   public List<ProductDTO> getProductsByStatusAvailable();
 
   public List<ProductDTO> getProductsStatusNoMoreMade();

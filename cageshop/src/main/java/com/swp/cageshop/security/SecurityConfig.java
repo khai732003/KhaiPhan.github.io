@@ -73,25 +73,22 @@ public class SecurityConfig {
   @Bean
   public PasswordEncoder passwordEncoder()
   { return new BCryptPasswordEncoder(); }
-//==============================================================
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  //==============================================================
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 
-  http.csrf(AbstractHttpConfigurer::disable)
-      .authorizeHttpRequests(authorize -> authorize
-//              .anyRequest().permitAll()
-          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/list-date-desc",
-              "/cageshop/api/user/authenticate","/cageshop/api/product/top3",
-              "/cageshop/api/marketing/list").permitAll()
-          .anyRequest().authenticated()
-      )
-      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
-  http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(authorize -> authorize
+                .anyRequest().permitAll()
+//          .requestMatchers("/cageshop/api/user/register","/cageshop/api/product/list-date-desc",
+//              "/cageshop/api/user/authenticate","/cageshop/api/product/top3",
+//              "/cageshop/api/marketing/list").permitAll()
+//          .anyRequest().authenticated()
+        );
+//      .cors(c -> c.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-  return http.build();
+    return http.build();
+  }
 }
-}
-
-
-

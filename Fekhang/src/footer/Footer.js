@@ -19,16 +19,16 @@ const Footer = (props) => {
     const isStaffManager = location.pathname === '/staffmanagement';
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
     const isAddProduct = location.pathname === '/addproduct';
-    
-
+    const isVoucher = location.pathname === '/voucher';
+    const isError = location.pathname === '/error';
     const isPaypal= location.pathname === '/paypal';
 
 
-    if (isLoginPage || isRegisterPage || isSuccess || isPaypal) {
+    if (isLoginPage || isRegisterPage || isSuccess || isPaypal ||isError) {
         return null;
     }
 
-    if (isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager) {
+    if (isUserManager || isVoucher|| isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager) {
         return <FooterAdmin />
     }
     return (
