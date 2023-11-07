@@ -16,4 +16,6 @@ public interface IFeedbackService {
 
     public double getAverageRatingByProduct(Long productId);
 
+    public boolean checkIfUserHasPurchasedProduct(FeedbackDTO feedbackDTO);
+
     }

@@ -1,10 +1,10 @@
 package com.swp.cageshop.service.feedbacksService;
 
+import com.easypost.model.Order;
 import com.swp.cageshop.DTO.FeedbackDTO;
-import com.swp.cageshop.entity.Feedback;
-import com.swp.cageshop.entity.Products;
-import com.swp.cageshop.entity.Users;
+import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.FeedbackRepository;
+import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ProductsRepository;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.feedbacksService.IFeedbackService;
@@ -31,18 +31,22 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Autowired
     private ProductsRepository productRepository;
 
+    @Autowired
+    private OrdersRepository ordersRepository;
+    @Override
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO) {
         Users users = userRepository.getReferenceById(feedbackDTO.getUserId());
         Products products = productRepository.getReferenceById(feedbackDTO.getProductId());
-            if (users != null && products != null) {
+        if (users != null && products != null) {
                 Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
                 Feedback savedFeedback = feedbackRepository.save(feedback);
                 return modelMapper.map(savedFeedback, FeedbackDTO.class);
-            }
+        }
         return null;
     }
 
 
+    @Override
     public List<FeedbackDTO> getAllFeedbacks() {
         List<Feedback> feedbacks = feedbackRepository.findAll();
 
@@ -58,12 +62,12 @@ public class FeedbackServiceImpl implements IFeedbackService {
                 .map(feedback -> modelMapper.map(feedback, FeedbackDTO.class))
                 .collect(Collectors.toList());
     }
-
+    @Override
     public FeedbackDTO getFeedbackById(Long id) {
         Feedback feedback = feedbackRepository.findById(id).orElse(null);
         return modelMapper.map(feedback, FeedbackDTO.class);
     }
-
+    @Override
     public FeedbackDTO updateFeedback(FeedbackDTO feedbackDTO) {
         Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
         feedback.setUser(userRepository.getReferenceById(feedbackDTO.getUserId()));
@@ -76,7 +80,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
     public void deleteFeedback(Long id) {
         feedbackRepository.deleteById(id);
     }
-
+    @Override
     public double getAverageRatingByProduct(Long productId) {
         List<Feedback> ratings = feedbackRepository.findAllRatingByProductId(productId);
         double sum = 0;
@@ -85,5 +89,24 @@ public class FeedbackServiceImpl implements IFeedbackService {
         }
         return ratings.isEmpty() ? 0 : sum / ratings.size();
     }
+
+    @Override
+    public boolean checkIfUserHasPurchasedProduct(FeedbackDTO feedbackDTO) {
+        List<Orders> orderIdWithUserPurchased = ordersRepository.findOrdersByUserId(feedbackDTO.getUserId());
+        if (orderIdWithUserPurchased != null) {
+            for (Orders order : orderIdWithUserPurchased) {
+                List<OrderDetail> orderDetails = order.getOrderDetails();
+                for (OrderDetail orderDetail : orderDetails) {
+                    Products product = orderDetail.getProduct();
+                    Long productIdFound = product.getId();
+                    if (productIdFound.equals(feedbackDTO.getProductId())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
 }

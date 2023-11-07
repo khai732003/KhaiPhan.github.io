@@ -516,16 +516,18 @@ public class ProductsServiceImpl implements IProductsService {
     // Cai nay cua Huu Bao xin thu loi nhe, tat ca vi loi ich chung
     // Boi vi sau khi thuc hien thanh toan toi muon cap nhat lai stock
     public void updateProductStock(Orders order) {
-        OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
-        Products products = productsRepository.findProductIdByOrderDetail_Id(orderDetail.getId());
-        if (products != null) {
-            Products productFound =  productsRepository.getReferenceById(products.getId());
-            int newStock = productFound.getStock() - orderDetail.getQuantity();
-            productFound.setStock(newStock);
-            productsRepository.save(productFound);
+        List<OrderDetail> orderDetails = orderDetailsRepository.findByOrder_Id(order.getId());
+        for (OrderDetail orderDetail : orderDetails) {
+            Products product = orderDetail.getProduct();
+            if (product != null) {
+                Products productFound = productsRepository.getReferenceById(product.getId());
+                int newStock = productFound.getStock() - orderDetail.getQuantity();
+                productFound.setStock(newStock);
+                productsRepository.save(productFound);
+            }
         }
-
     }
+
 
 
     //////////////////////////////////////////

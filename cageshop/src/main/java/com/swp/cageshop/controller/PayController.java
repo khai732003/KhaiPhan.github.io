@@ -19,10 +19,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+import java.util.*;
+
 import org.springframework.web.client.RestTemplate;
 
 @RequestMapping("/cageshop/api")
@@ -147,6 +148,24 @@ public class PayController {
     @GetMapping("/doanh-thu/{date}")
     public double getTotalRevenueByDateFromCompletedPays(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return paysService.getTotalRevenueByDateFromCompletedPays(date);
+    }
+
+
+
+    @GetMapping("/by-date")
+    public Map<LocalDate, Double> getRevenueByDate() {
+        return payService.getRevenueByDate();
+    }
+
+
+    @GetMapping("/month")
+    public Map<YearMonth, Double> getRevenueByMonth() {
+        return payService.getRevenueByMonth();
+    }
+
+    @GetMapping("/year")
+    public Map<Year, Double> getRevenueByYear() {
+        return payService.getRevenueByYear();
     }
 
 }
