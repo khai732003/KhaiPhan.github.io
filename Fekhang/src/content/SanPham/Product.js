@@ -82,7 +82,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
           quantity: 1,
           hirePrice: product.hirePrice,
           totalOfProd: product.totalOfProd,
-          name: product.cage.description,
+          name: product.name,
           note: `Sản phẩm là ${product.id}`,
           orderId,
           productId: product.id,
@@ -106,7 +106,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
           <div className="card-body" >
             <div className="card-info">
             {/* <div className="card-text">Id: {id}</div> */}
-              <h5 className="card-title">{cage.description}</h5>
+              <h5 className="card-title">{name}</h5>
               <div className="card-text" >Stock: {stock}</div>
               <div className="card-text">Code: {code}</div>
               <div className="accessories-list">
