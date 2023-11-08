@@ -1,8 +1,8 @@
 /* Compare.scss */
 .compare-container {
-  padding: 20px;
+  padding: 10px;
   max-width: 1000px;
-  margin: 100px auto;
+  margin: 70px auto;
 }
 
 .compare-title {
@@ -23,8 +23,12 @@
   padding: 12px 15px;
   text-align: center;
   font-weight: bold;
-  background-color: #b96b6b;
-  color: #333;
+  background-color: #364853;
+  color: white;
+}
+
+.compare-table-body{
+  background-color: rgb(194, 189, 179);
 }
 
 .compare-product-name {
@@ -42,6 +46,11 @@
   border-radius: 5px;
 }
 
+.pagination{
+  margin-left: 320px;
+  margin-bottom: 30px;
+}
+
 // .table-compare-property img{
 //   width: 4rem;
 //   height: 4rem;
@@ -57,7 +66,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   .table-compare-header {
-    background-color: #24282c;
+    background-color: #2e455b;
 
     th {
       padding: 12px 15px;
@@ -79,12 +88,14 @@
   }
 
   .table-compare-body {
+    text-align-last: center;
+
     tr:nth-child(even) {
       background-color: #F5F5F5;
     }
 
     tr:nth-child(odd) {
-      background-color: #abd1ea;
+      background-color: #c1d8e7;
     }
 
     td {

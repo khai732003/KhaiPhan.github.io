@@ -12,9 +12,11 @@ const Footer = (props) => {
     const isSuccess = location.pathname === '/paysuccess';
     const isUserManager = location.pathname === '/usermanagement';
     const isAdmin = location.pathname === '/admin';
+    const isAdminProfile = location.pathname === '/adminprofile';
     const isAddUser = location.pathname === '/add-user';
     const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
     const isRevenue = location.pathname === "/revenue";
+    const isTimeLine = location.pathname === "/timeline";
     const isProductManager = location.pathname === "/productmanagement";
     const isStaffManager = location.pathname === '/staffmanagement';
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
@@ -28,7 +30,7 @@ const Footer = (props) => {
         return null;
     }
 
-    if (isUserManager || isVoucher|| isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager) {
+    if (isUserManager || isVoucher|| isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isAdminProfile || isTimeLine) {
         return <FooterAdmin />
     }
     return (
