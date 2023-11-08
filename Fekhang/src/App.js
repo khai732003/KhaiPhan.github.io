@@ -43,6 +43,8 @@ import AddEditStaff from './content/dashboard/components/AddEditStaff';
 import ContactPage2 from './content/lienhe/ContactPage2';
 import CustomProduct from './content/SanPham/CustomProduct';
 import Error from './Error';
+import ConfirmEmail from './content/SanPham/ConfirmEmail';
+import VNPayPayment from './content/SanPham/VNPayPayment';
 
 
 
@@ -69,7 +71,9 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
+              <Route path="/pay/:orderId" element={<VNPayPayment />} />
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
+              <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
 
               {/* Vùng Admin */}

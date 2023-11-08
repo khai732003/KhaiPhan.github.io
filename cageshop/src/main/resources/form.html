@@ -45,13 +45,29 @@
         }
     </style>
 </head>
-<body>
 <div class="container">
     <h2>Xác nhận đơn hàng</h2>
     <p>Cảm ơn bạn đã đặt hàng. Dưới đây là thông tin đơn hàng của bạn:</p>
+    <div id="orderDetails">
+        <!-- Chi tiết đơn hàng sẽ được chèn vào đây -->
+    </div>
     <p><strong>Mã đơn hàng:</strong> [[orderId]]</p>
     <p><strong>Email:</strong> [[email]]</p>
-    <a href="https://example.com/confirm" class="button" style="background-color: #4CAF50;">Xác nhận đơn hàng</a>
+    <a href="http://localhost:3000/pay/[[orderId]]" class="button" style="background-color: #4CAF50;">Xác nhận đơn hàng</a>
 </div>
+<script>
+    // Nhúng chuỗi JSON vào div có id là "orderDetails"
+    var orderDetailsJson = `[[orderDetails]]`;
+    var orderDetails = JSON.parse(orderDetailsJson);
+
+    // Xử lý và hiển thị thông tin từ chuỗi JSON trong orderDetails div
+    var orderDetailsDiv = document.getElementById("orderDetails");
+    orderDetails.forEach(function(detail) {
+        var detailDiv = document.createElement("div");
+        detailDiv.innerHTML = `<p><strong>Tên sản phẩm:</strong> ${detail.name}</p>
+                           <p><strong>Tổng giá:</strong> ${detail.totalPrice}</p>`;
+        orderDetailsDiv.appendChild(detailDiv);
+    });
+</script>
 </body>
 </html>

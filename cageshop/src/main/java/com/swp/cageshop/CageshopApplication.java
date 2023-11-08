@@ -30,12 +30,5 @@ public class CageshopApplication {
 	}
 
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void sendEmail() {
-		senderService.sendEmail("nguyenatony13@gmail.com",
-				"Xác nhận đơn hàng",
-				"Đơn hàng của bạn đã được xác nhận.",
-				"Mã Đơn hàng");
-	}
 
 }

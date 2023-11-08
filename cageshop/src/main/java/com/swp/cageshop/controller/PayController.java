@@ -90,9 +90,8 @@ public class PayController {
 
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
-
+        Pays pays = paysRepository.findByPaymentCode(txnRef);
         if ("00".equals(responseCode)) {
-            Pays pays = paysRepository.findByPaymentCode(txnRef);
             if (pays != null) {
                 pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
@@ -114,6 +113,10 @@ public class PayController {
                 response.setHeader("Location", redirectUrl);
                 }
         } else {
+            paysRepository.deleteById(pays.getId());
+            String redirectUrl = "http://localhost:3000/";
+            response.setStatus(HttpStatus.FOUND.value());
+            response.setHeader("Location", redirectUrl);
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
