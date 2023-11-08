@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import customAxios from '../../CustomAxios/customAxios';
-
+import { useAuth } from './Context/AuthContext';
 export default function ConfirmEmail() {
   const [confirmStatus, setConfirmStatus] = useState(null);
   let orderId = localStorage.getItem('orderId');
+  const {user} = useAuth();
+  const email = user.email;
   const handleConfirmOrder = async () => {
 
     try {
-      const response = await axios.get(`http://localhost:8080/confirmOrder?email=nguyenatony13@gmail.com&orderId=${orderId}`);
+      const response = await customAxios.get(`http://localhost:8080/confirmOrder?email=${email}&orderId=${orderId}`);
       // Xử lý dữ liệu trả về từ API nếu cần
       console.log(response.data);
       setConfirmStatus('Order confirmed successfully!');
