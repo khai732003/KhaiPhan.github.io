@@ -1,0 +1,44 @@
+/* AddEditProduct.css */
+
+/* Tùy chỉnh màu nền cho phần tiêu đề */
+.card-body {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+  
+  /* Tùy chỉnh nút "BACK" */
+  .btn-back {
+    background-color: #e0e0e0;
+    color: #212121;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .btn-back:hover {
+    background-color: #ccc; /* Màu khi di chuột qua */
+  }
+  
+  /* Tùy chỉnh input fields */
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  /* Thêm hiệu ứng hover cho nút "Submit" */
+  .btn-submit {
+    background-color: #393f81;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .btn-submit:hover {
+    background-color: #212121; /* Màu khi di chuột qua */
+  }
+  

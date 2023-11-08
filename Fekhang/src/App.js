@@ -23,6 +23,7 @@ import Header from './header/Header';
 import TintucStaff from './contentStaff/tintucStaff';
 
 import UserManagement from './content/dashboard/pages/UserManagement';
+import TimeLine from './content/dashboard/pages/TimeLine';
 import ProductManagement from './content/dashboard/pages/ProductManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
@@ -78,6 +79,7 @@ function App() {
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
               <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
+              <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
 
 
               {/* Vùng manager */}

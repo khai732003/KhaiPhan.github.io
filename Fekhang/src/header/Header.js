@@ -28,10 +28,12 @@ function Header(props) {
     const isUserManager = location.pathname === '/usermanagement';
     const isStaffManager = location.pathname === '/staffmanagement';
     const isAdmin = location.pathname === '/admin';
+    const isAdminProfile = location.pathname === '/adminprofile';
     const isAddUser = location.pathname === '/add-user';
     // const isUpdateUser = location.pathname === "/update/*";
     const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
     const isRevenue = location.pathname === "/revenue";
+    const isTimeLine = location.pathname === "/timeline";
     const isProductManager = location.pathname === "/productmanagement";
     const isAddProduct = location.pathname === '/addproduct';
     // const isUpdateProduct = location.pathname === "/update/*";
@@ -48,7 +50,7 @@ function Header(props) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher){
+    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher || isAdminProfile || isTimeLine){
         return <NavBar/>
 
     }

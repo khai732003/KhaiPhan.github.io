@@ -5,6 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import customAxios from '../../CustomAxios/customAxios';
 import { useNavigate } from 'react-router-dom';
+import "../SanPham/addproductform.css";
 
 const { Option } = Select;
 
@@ -235,7 +236,8 @@ const handlereturn = () => {
 
 
   return (
-    <Form name="addProduct" onFinish={handleSubmit} layout="vertical" style={{paddingTop:'4rem'}}>
+    <div className='add-product-form'>
+    <Form className="addProduct" onFinish={handleSubmit} layout="vertical" style={{paddingTop:'4rem'}}>
       <h2>Product Details</h2>
       <Form.Item label="Product Name" name="name" rules={[{ required: true, message: 'Please input the product name!' }]}>
         <Input />
@@ -388,6 +390,7 @@ const handlereturn = () => {
       )}
 
     </Form>
+    </div>
   );
 };
 

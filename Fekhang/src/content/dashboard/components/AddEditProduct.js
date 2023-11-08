@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Alert, Button } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../../CustomAxios/customAxios";
-
+import "../styles/addeditproduct.css";
 const API_URL = "http://localhost:8080/cageshop/api/product/get-list";
 
 const AddEditProduct = () => {
