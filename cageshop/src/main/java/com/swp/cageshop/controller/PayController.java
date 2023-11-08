@@ -156,18 +156,18 @@ public class PayController {
 
 
     @GetMapping("/by-date")
-    public Map<LocalDate, Double> getRevenueByDate() {
+    public List<Map<String, Object>> getRevenueByDate() {
         return payService.getRevenueByDate();
     }
 
 
     @GetMapping("/month")
-    public Map<YearMonth, Double> getRevenueByMonth() {
+    public List<Map<String, Object>> getRevenueByMonth() {
         return payService.getRevenueByMonth();
     }
 
     @GetMapping("/year")
-    public Map<Year, Double> getRevenueByYear() {
+    public List<Map<String, Object>> getRevenueByYear() {
         return payService.getRevenueByYear();
     }
 

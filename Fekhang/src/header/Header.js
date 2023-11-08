@@ -149,6 +149,15 @@ function Header(props) {
                                                 NEW MARKETING
                                             </NavLink>
                                         )}
+                                        {user.role === "CUSTOMER" && (
+                                            <NavLink
+                                                to="/history"
+                                                className="dropdown-item nav-link"
+                                                // onClick={() => navigate("/staffnew")}
+                                            >
+                                                HISTORY ORDER
+                                            </NavLink>
+                                        )}
                                         <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
                                         </div>

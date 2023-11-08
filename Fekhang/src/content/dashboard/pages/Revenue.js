@@ -93,7 +93,7 @@ import Pagination from "@mui/material/Pagination";
 
 const Revenue = () => {
   const [revenueData, setRevenueData] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState('');
   const itemsPerPage = 5;
 
   const [page, setPage] = useState(1);
@@ -116,7 +116,7 @@ const Revenue = () => {
     const fetchData = async () => {
       try {
         const response = await customAxios.get(
-          "https://6548df44dd8ebcd4ab23c85c.mockapi.io/venue"
+          "/by-date"
         );
         if (response.status !== 200) {
           throw Error("Network response was not ok");
@@ -214,14 +214,7 @@ const Revenue = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody className="revenue-total-body">   
-                  {products &&
-                    products.map((product, index) => (
-                      <TableRow key={product.id}>
-                        <TableCell className="user-management-td smaller-text">
-                          {product.data}
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {products}
                 </TableBody>
               </Table>
             </Box>

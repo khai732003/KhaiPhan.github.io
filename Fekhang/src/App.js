@@ -46,6 +46,8 @@ import CustomProduct from './content/SanPham/CustomProduct';
 import Error from './Error';
 import ConfirmEmail from './content/SanPham/ConfirmEmail';
 import VNPayPayment from './content/SanPham/VNPayPayment';
+import HistoryOrder from './content/SanPham/HistoryOrder';
+import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
 
 
 
@@ -78,6 +80,7 @@ function App() {
               <Route element={<Error />} />
 
               {/* Vùng Admin */}
+              <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
               <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
               <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
@@ -114,7 +117,7 @@ function App() {
 
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
-
+              <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
               <Route path='/error' element={<Error />} />
 
             </Routes>
