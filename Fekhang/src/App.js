@@ -48,6 +48,7 @@ import ConfirmEmail from './content/SanPham/ConfirmEmail';
 import VNPayPayment from './content/SanPham/VNPayPayment';
 import HistoryOrder from './content/SanPham/HistoryOrder';
 import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
+import LocalOrder from './content/SanPham/LocalOrder';
 
 
 
@@ -74,6 +75,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
+              <Route path="/localorder" element={<LocalOrder />} />
               <Route path="/pay/:orderId" element={<VNPayPayment />} />
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
               <Route path="/email/:orderId" element={<ConfirmEmail />} />

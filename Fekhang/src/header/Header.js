@@ -150,6 +150,7 @@ function Header(props) {
                                             </NavLink>
                                         )}
                                         {user.role === "CUSTOMER" && (
+                                            <>
                                             <NavLink
                                                 to="/history"
                                                 className="dropdown-item nav-link"
@@ -157,6 +158,15 @@ function Header(props) {
                                             >
                                                 HISTORY ORDER
                                             </NavLink>
+                                            <NavLink
+                                                to="/localorder"
+                                                className="dropdown-item nav-link"
+                                                // onClick={() => navigate("/staffnew")}
+                                            >
+                                                WISHLIST ORDER
+                                            </NavLink>
+                                            </>
+                                            
                                         )}
                                         <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
