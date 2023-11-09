@@ -5,6 +5,7 @@ import com.swp.cageshop.DTO.BirdCageDTO;
 import com.swp.cageshop.DTO.CategoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.BirdCages;
+import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.service.categoriesService.ICategoriesService;
 import com.swp.cageshop.service.ordersService.IOrdersService;
 import com.swp.cageshop.service.productsService.IBirdCagesService;
@@ -67,6 +68,38 @@ public class ProductsController {
                 productDTO.setCategoryId(categoryId);
 
                 ProductDTO savedProductDTO = productsService.addProduct(productDTO);
+
+
+                Long saveBirdcageID = productDTO.getCage().getId();
+
+
+
+
+                if (savedProductDTO != null) {
+                    return ResponseEntity.ok(savedProductDTO);
+                } else {
+                    return ResponseEntity.badRequest().body("Failed to add product.");
+                }
+            } else {
+                return ResponseEntity.badRequest().body("Category not found.");
+            }
+        }
+        return ResponseEntity.badRequest().body("ProductDTO is null.");
+    }
+
+    @PostMapping("/product/add2")
+    public ResponseEntity<?> addProduct2(@RequestBody ProductDTO productDTO) {
+        if (productDTO != null){
+            Long categoryId = productDTO.getCategoryId();
+            CategoryDTO category = categoriesService.getOneCategory(categoryId);
+            if (category != null) {
+                productDTO.setCategoryId(categoryId);
+
+                productDTO.getCage().setProductId(productDTO.getId());
+
+
+                ProductDTO savedProductDTO = productsService.test(productDTO);
+
 
                 if (savedProductDTO != null) {
                     return ResponseEntity.ok(savedProductDTO);
@@ -213,7 +246,7 @@ public class ProductsController {
     }
     @GetMapping("/product/customproduct")
     public List<ProductDTO> getProductsCustomProduct() {
-        return productsService.getProductsOutOfStock();
+        return productsService.getProductsStatusCustomProduct();
     }
 
 
