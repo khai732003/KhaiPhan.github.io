@@ -1,6 +1,5 @@
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../header/Header.scss'
@@ -40,7 +39,7 @@ function Header(props) {
     const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
     const isError = location.pathname === '/error';
     const isVoucher = location.pathname === '/voucher';
-    const isPaypal= location.pathname === '/paypal';
+    const isPaypal = location.pathname === '/paypal';
     const handleOnLogout = () => {
 
         logout();
@@ -50,8 +49,8 @@ function Header(props) {
         return null;
     }
 
-    if(isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher || isAdminProfile || isTimeLine){
-        return <NavBar/>
+    if (isUserManager || isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isVoucher || isAdminProfile || isTimeLine) {
+        return <NavBar />
 
     }
 
@@ -69,32 +68,8 @@ function Header(props) {
                         >
                             <NavLink to="/" activeClassName="active" className="nav-link">TRANG CHỦ</NavLink>
                             <NavLink to="/Gioithieu" className="nav-link">GIỚI THIỆU</NavLink>
-
-                            <div className="custom-dropdown" >
-                                <NavLink to="/sanpham" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">SẢN PHẨM <span class="bi bi-caret-down-fill" /></NavLink>
-                                <div className="dropdown-menu">
-                                    <NavLink to="/sanpham" className="dropdown-item nav-link">
-                                        Sản Phẩm
-                                    </NavLink>
-                                    {/* <NavLink to="/apitest" className="dropdown-item nav-link">
-                                        Đăng Ký
-                                        
-                                    </NavLink> */}
-                                </div>
-                            </div>
-
-                            <div className="custom-dropdown" >
-                                <NavLink to="/dichvu" style={{ textDecoration: 'none', color: '#535b62' }} className="nav-link">DỊCH VỤ <span class="bi bi-caret-down-fill" /></NavLink>
-
-                                {/* <div className="dropdown-menu">
-                                    <NavLink to="/staffnew" className="dropdown-item nav-link">
-                                        Đăng Nhập
-                                    </NavLink>
-                                    <NavLink to="/signup" className="dropdown-item nav-link">
-                                        Đăng Ký
-                                    </NavLink>
-                                </div> */}
-                            </div>
+                            <NavLink to="/sanpham" className="nav-link" activeClassName="active">SẢN PHẨM</NavLink>
+                            <NavLink to="/dichvu" className="nav-link" activeClassName="active">DỊCH VỤ</NavLink>
                             <NavLink to="/tintuc" activeClassName="active" className="nav-link">TIN TỨC</NavLink>
                             <NavLink to="/contact" activeClassName="active" className="nav-link">LIÊN HỆ</NavLink>
                         </Nav>
@@ -110,7 +85,7 @@ function Header(props) {
                         </Form> */}
                         <Nav>
                             {/* Nút giỏ hàng */}
-                            
+
 
                             {isLoggedIn ? (
 
@@ -124,10 +99,10 @@ function Header(props) {
                                             Profile
                                         </NavLink>
                                         {user.role === "ADMIN" && (
-                                        <NavLink to="/admin" className="dropdown-item nav-link" >
-                                            Admin Dashboard
-                       
-                                        </NavLink>
+                                            <NavLink to="/admin" className="dropdown-item nav-link" >
+                                                Admin Dashboard
+
+                                            </NavLink>
                                         )}
 
                                         {user.role === "MANAGER" && (
@@ -151,22 +126,22 @@ function Header(props) {
                                         )}
                                         {user.role === "CUSTOMER" && (
                                             <>
-                                            <NavLink
-                                                to="/history"
-                                                className="dropdown-item nav-link"
+                                                <NavLink
+                                                    to="/history"
+                                                    className="dropdown-item nav-link"
                                                 // onClick={() => navigate("/staffnew")}
-                                            >
-                                                HISTORY ORDER
-                                            </NavLink>
-                                            <NavLink
-                                                to="/localorder"
-                                                className="dropdown-item nav-link"
+                                                >
+                                                    HISTORY ORDER
+                                                </NavLink>
+                                                <NavLink
+                                                    to="/localorder"
+                                                    className="dropdown-item nav-link"
                                                 // onClick={() => navigate("/staffnew")}
-                                            >
-                                                WISHLIST ORDER
-                                            </NavLink>
+                                                >
+                                                    WISHLIST ORDER
+                                                </NavLink>
                                             </>
-                                            
+
                                         )}
                                         <div className="dropdown-item nav-link" onClick={handleOnLogout}>
                                             Logout
@@ -175,8 +150,8 @@ function Header(props) {
                                 </div>
                             ) : (
                                 // Hiển thị các tùy chọn đăng nhập/đăng ký khi không có người dùng đăng nhập
-                                <div className="custom-dropdown">
-                                    <Button className="btn btn-outline-secondary btnhead">
+                                <div className="custom-dropdown" >
+                                    <Button className="btn btn-outline-secondary btnhead" style={{ width: '8vw' }}>
                                         <i className="bi bi-person-circle"></i>
                                     </Button>
                                     <div className="dropdown-menu">
@@ -189,7 +164,7 @@ function Header(props) {
                                     </div>
                                 </div>
                             )}
-                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart}>
+                            <Button variant="outline-secondary" to="/cart" className="btn" title="Giỏ Hàng" onClick={toggleCart} style={{ width: '8vw' }}>
                                 <i className="bi bi-cart-check"></i>
                                 <Cart />
                             </Button>

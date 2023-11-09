@@ -120,6 +120,7 @@ function App() {
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
               <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
+              {/* <Route path="/history" element={<HistoryOrder />} /> */}
               <Route path='/error' element={<Error />} />
 
             </Routes>
