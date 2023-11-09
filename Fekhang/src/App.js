@@ -44,6 +44,11 @@ import AddEditStaff from './content/dashboard/components/AddEditStaff';
 import ContactPage2 from './content/lienhe/ContactPage2';
 import CustomProduct from './content/SanPham/CustomProduct';
 import Error from './Error';
+import ConfirmEmail from './content/SanPham/ConfirmEmail';
+import VNPayPayment from './content/SanPham/VNPayPayment';
+import HistoryOrder from './content/SanPham/HistoryOrder';
+import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
+import LocalOrder from './content/SanPham/LocalOrder';
 
 
 
@@ -70,10 +75,14 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
+              <Route path="/localorder" element={<LocalOrder />} />
+              <Route path="/pay/:orderId" element={<VNPayPayment />} />
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
+              <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
 
               {/* Vùng Admin */}
+              <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
               <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
               <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
@@ -110,7 +119,7 @@ function App() {
 
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
-
+              <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
               <Route path='/error' element={<Error />} />
 
             </Routes>

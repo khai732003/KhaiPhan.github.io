@@ -26,23 +26,42 @@ const Cart = () => {
   const totalCartPrice = cart.reduce((total, item) => total + item.totalPrice, 0);
   const isCartEmpty = cart.length === 0;
   const navigate = useNavigate();
+  const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   let orderId = localStorage.getItem('orderId');
 
   const handleOrderListClick = () => {
-    if(!orderId){
+    if (!orderId) {
       setIsSnackbarOpen2(true);
       return;
     }
     navigate(`/order/${orderId}`)
   }
 
+  useEffect(() => {
+    // Kiểm tra xem có quay trở lại từ Login.js hay không
+    const storedIsReturningFromLogin = localStorage.getItem('isReturningFromLogin');
+    const isCartReturn = localStorage.getItem('isCartReturn');
+    if (storedIsReturningFromLogin === 'true' && isCartReturn === 'true' ) {
+      setIsReturningFromLogin(true);
+      
+      localStorage.setItem('isCartReturn', 'false');
+      localStorage.setItem('isReturningFromLogin', 'false');
+    }
+  }, []); 
+
+  useEffect(() => {
+    if (isReturningFromLogin) {
+      handleOrderClick();
+    }
+  }, [isReturningFromLogin]);
+
   const handleOrderClick = async () => {
 
     if (!user) {
+      localStorage.setItem('isCartReturn','true');
       navigate("/login")
       return;
     }
-    console.log(user)
 
     if (isCartEmpty) {
       setIsSnackbarOpen(true);
@@ -74,6 +93,7 @@ const Cart = () => {
         await customAxios.post('/order_detail/add', {
           quantity: 1,
           hirePrice: item.hirePrice,
+
           name : item.name,
           // totalOfProd: item.totalOfProd,
           note: `Sản phẩm là ${item.id} `,

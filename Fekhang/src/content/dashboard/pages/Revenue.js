@@ -50,7 +50,7 @@ const Revenue = () => {
     const fetchData = async () => {
       try {
         const response = await customAxios.get(
-          "https://6548df44dd8ebcd4ab23c85c.mockapi.io/venue"
+          "/by-date"
         );
         if (response.status !== 200) {
           throw Error("Network response was not ok");

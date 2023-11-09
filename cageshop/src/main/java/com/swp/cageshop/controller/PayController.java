@@ -90,9 +90,8 @@ public class PayController {
 
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
-
+        Pays pays = paysRepository.findByPaymentCode(txnRef);
         if ("00".equals(responseCode)) {
-            Pays pays = paysRepository.findByPaymentCode(txnRef);
             if (pays != null) {
                 pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
@@ -114,6 +113,10 @@ public class PayController {
                 response.setHeader("Location", redirectUrl);
                 }
         } else {
+            paysRepository.deleteById(pays.getId());
+            String redirectUrl = "http://localhost:3000/";
+            response.setStatus(HttpStatus.FOUND.value());
+            response.setHeader("Location", redirectUrl);
             transactionDTO.setStatus("No");
             transactionDTO.setMessage("Fail");
             transactionDTO.setData("");
@@ -153,18 +156,18 @@ public class PayController {
 
 
     @GetMapping("/by-date")
-    public Map<LocalDate, Double> getRevenueByDate() {
+    public List<Map<String, Object>> getRevenueByDate() {
         return payService.getRevenueByDate();
     }
 
 
     @GetMapping("/month")
-    public Map<YearMonth, Double> getRevenueByMonth() {
+    public List<Map<String, Object>> getRevenueByMonth() {
         return payService.getRevenueByMonth();
     }
 
     @GetMapping("/year")
-    public Map<Year, Double> getRevenueByYear() {
+    public List<Map<String, Object>> getRevenueByYear() {
         return payService.getRevenueByYear();
     }
 

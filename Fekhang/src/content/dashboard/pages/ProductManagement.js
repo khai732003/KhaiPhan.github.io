@@ -243,10 +243,13 @@ const ProductManagement = () => {
                           {<p>Cage</p>}
                         </Typography>
                         <hr />
-                        <Typography variant="body1" className="info-item">
+                        {/* <Typography variant="body1" className="info-item">
                           <span className="info-label">Description</span>:
                           {detailPopup.name}
                         </Typography>
+                          {detailPopup.cage.description}
+                        </Typography> */}
+
                         <Typography variant="body1" className="info-item">
                           <span className="info-label">Material</span>:
                           {detailPopup.cage.material}
