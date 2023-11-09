@@ -1,79 +1,126 @@
-import React, { useState } from 'react';
-import customAxios from '../../CustomAxios/customAxios';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from './Context/AuthContext';
-import { Alert, Button ,} from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import './Scss/Login-Register.scss'
+import React, { useState } from "react";
+import customAxios from "../../CustomAxios/customAxios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/AuthContext";
+import { Alert, Button } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import "./Scss/Login-Register.scss";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 const Register = () => {
   const { user, loadUser, setUserFromToken } = useAuth();
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState("paper");
+
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
   const [formData, setFormData] = useState({
-    email: '',
-    name: '',
-    fullname: '',
-    gender: '', 
-    password: '',
-    phone: '',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlJGeDFoDO2mUm5q3S8O_oc-8O4BYFWjNemRIdQ_6LQ&s',
-    address: '',
+    email: "",
+    name: "",
+    fullname: "",
+    gender: "",
+    password: "",
+    phone: "",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmlJGeDFoDO2mUm5q3S8O_oc-8O4BYFWjNemRIdQ_6LQ&s",
+    address: "",
     roleId: 4,
-    managerId: null
+    managerId: null,
   });
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!agreeTerms) {
+      setError(
+        "Bạn phải đồng ý với các điều khoản và thông tin của cửa hàng để đăng ký."
+      );
+      return;
+    }
+
     try {
       const response = await customAxios.post(
-        'http://localhost:8080/cageshop/api/user/register',
+        "http://localhost:8080/cageshop/api/user/register",
         formData,
         {
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      console.log(response)
+      console.log(response);
       const { accessToken } = response.data;
 
       // Lưu token vào localStorage
-      localStorage.setItem('token', accessToken);
-      setUserFromToken(accessToken)
-      navigate('/');
-      console.log('Dữ liệu từ server:', response.data.accessToken);
-
-    }  catch (error) {
+      localStorage.setItem("token", accessToken);
+      setUserFromToken(accessToken);
+      navigate("/");
+      console.log("Dữ liệu từ server:", response.data.accessToken);
+    } catch (error) {
       // Kiểm tra xem error.response và error.response.data.message có tồn tại hay không
-    if (error.response && error.response.data && error.response.data.message) {
-      // Kiểm tra nếu chuỗi chứa từ 'email' hoặc 'username'
-      if (error.response.data.message.includes('email') || error.response.data.message.includes('username')) {
-        setError('Email hoặc tên người dùng đã tồn tại.');
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        // Kiểm tra nếu chuỗi chứa từ 'email' hoặc 'username'
+        if (
+          error.response.data.message.includes("email") ||
+          error.response.data.message.includes("username")
+        ) {
+          setError("Email hoặc tên người dùng đã tồn tại.");
+        } else {
+          setError("Đã xảy ra lỗi khi đăng kí.");
+        }
       } else {
-        setError('Đã xảy ra lỗi khi đăng kí.');
+        // Nếu không có thông báo từ server, hiển thị thông báo lỗi chung
+        setError("Đã xảy ra lỗi khi đăng kí.");
       }
-    } else {
-      // Nếu không có thông báo từ server, hiển thị thông báo lỗi chung
-      setError('Đã xảy ra lỗi khi đăng kí.');
-    }
     }
   };
 
   const handleReturnPage = () => {
     window.history.back();
-  }
+  };
 
   return (
     <div>
-      <div className="alert-container"> {/* Thêm class "alert-container" để áp dụng CSS */}
+      <div className="alert-container">
+        {" "}
+        {/* Thêm class "alert-container" để áp dụng CSS */}
         {error && <Alert severity="info">{error}</Alert>}
       </div>
       <section className="vh-110" style={{ backgroundColor: "#808080" }}>
@@ -82,23 +129,29 @@ const Register = () => {
             <div className="col col-xl-10">
               <div className="card" style={{ borderRadius: "1rem" }}>
                 <div className="row g-0">
-                  
                   <div className="col-md-6 col-lg-6 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-1.5 text-black">
                       <form onSubmit={handleRegister}>
                         <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
                           {/* <i className="fas fa-cubes fa-2x me-3" style={{ color: "#ff6219" }}></i> */}
-                          <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            <Button sx={{ fontSize: 18 }} variant="contained" 
-                            style={{ backgroundColor: '#e0e0e0', color: '#212121' }} 
-                            startIcon={<ArrowBackIosIcon/>} onClick={handleReturnPage}
+                          <div
+                            className="mb-5 pb-lg-2"
+                            style={{ color: "#393f81" }}
+                          >
+                            <Button
+                              sx={{ fontSize: 18 }}
+                              variant="contained"
+                              style={{
+                                backgroundColor: "#e0e0e0",
+                                color: "#212121",
+                              }}
+                              startIcon={<ArrowBackIosIcon />}
+                              onClick={handleReturnPage}
                             >
                               BACK
                             </Button>
                           </div>
-                          <span className="h1 fw-bold mb-0">
-                              REGISTER
-                          </span>
+                          <span className="h1 fw-bold mb-0">REGISTER</span>
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Email
@@ -112,9 +165,8 @@ const Register = () => {
                             value={formData.email}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your Email'
+                            placeholder="Enter Your Email"
                           />
-
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -129,9 +181,8 @@ const Register = () => {
                             value={formData.name}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your Username'
+                            placeholder="Enter Your Username"
                           />
-
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -146,9 +197,8 @@ const Register = () => {
                             value={formData.fullname}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your FullName'
+                            placeholder="Enter Your FullName"
                           />
-
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -163,14 +213,13 @@ const Register = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your Password'
+                            placeholder="Enter Your Password"
                           />
-
                         </div>
-                        
-                          <label className="form-label" htmlFor="form2Example17">
-                            Giới Tính:
-                          </label>
+
+                        <label className="form-label" htmlFor="form2Example17">
+                          Giới Tính:
+                        </label>
 
                         <div className="form-outline mb-4">
                           <select
@@ -186,7 +235,6 @@ const Register = () => {
                           </select>
                         </div>
 
-                        
                         <label className="form-label" htmlFor="form2Example17">
                           Phone Number
                         </label>
@@ -195,14 +243,12 @@ const Register = () => {
                             type="text"
                             id="form2Example17"
                             className="form-control form-control-lg"
-
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your Phone Number'
+                            placeholder="Enter Your Phone Number"
                           />
-
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Address
@@ -216,11 +262,64 @@ const Register = () => {
                             value={formData.address}
                             onChange={handleInputChange}
                             required
-                            placeholder='Enter Your Address'
+                            placeholder="Enter Your Address"
                           />
                         </div>
+
+                        <React.Fragment>
+                          <Button onClick={handleClickOpen("paper")}>
+                            Điều khoản của cửa hàng
+                          </Button>
+                          <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            scroll={scroll}
+                            aria-labelledby="scroll-dialog-title"
+                            aria-describedby="scroll-dialog-description"
+                          >
+                            <DialogTitle id="scroll-dialog-title">
+                              Điều khoản của cửa hàng
+                            </DialogTitle>
+                            <DialogContent dividers={scroll === "paper"}>
+                              <DialogContentText
+                                id="scroll-dialog-description"
+                                ref={descriptionElementRef}
+                                tabIndex={-1}
+                              >
+                                {[...new Array(1)]
+                                  .map(() => `Phan Quôsc Khải như con cuuuuuuuuuuuuuuuuuuuuuuuuuuuu`)
+                                  .join("\n")}
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose}>Đóng</Button>
+                            </DialogActions>
+                          </Dialog>
+                        </React.Fragment><hr/>
+
+                        <div className="form-check mb-4">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="agreeTermsCheckbox"
+                            checked={agreeTerms}
+                            onChange={() => setAgreeTerms(!agreeTerms)}
+                            required
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="agreeTermsCheckbox"
+                          >
+                            Tôi đồng ý với các điều khoản của cửa
+                            hàng.
+                          </label>
+                        </div>
+
                         <div className="pt-1 mb-4">
-                          <button className="btn btn-dark btn-lg btn-block" type="submit">
+                          <button
+                            className="btn btn-dark btn-lg btn-block"
+                            type="submit"
+                          >
                             Register Now
                           </button>
                         </div>
@@ -239,9 +338,9 @@ const Register = () => {
               </div>
             </div>
           </div>
-        </div >
-      </section >
-    </div >
+        </div>
+      </section>
+    </div>
   );
 };
 

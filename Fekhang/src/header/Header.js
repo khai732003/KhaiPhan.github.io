@@ -238,6 +238,24 @@ function Header(props) {
                           NEW MARKETING
                         </NavLink>
                       )}
+
+                      {user.role === "CUSTOMER" && (
+                        <>
+                        <NavLink
+                          to="/history"
+                          className="dropdown-item nav-link"
+                        >
+                          HISTORY ORDER
+                        </NavLink>
+                        <NavLink
+                          to="/localorder"
+                          className="dropdown-item nav-link"
+                          
+                        >
+                          LOCAL ORDER
+                        </NavLink>
+                        </>
+                      )}
                       <div
                         className="dropdown-item nav-link"
                         onClick={handleOnLogout}
