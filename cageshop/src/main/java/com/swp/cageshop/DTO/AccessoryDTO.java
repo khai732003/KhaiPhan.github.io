@@ -15,7 +15,7 @@ public class AccessoryDTO {
 
     private double price;
     private String type;
+    private Boolean customProduct;
 
-    @Transient
     private Long productId;;
 }

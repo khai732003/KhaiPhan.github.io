@@ -13,8 +13,13 @@ import java.util.List;
 @Repository
 public interface AccessoriesRepository extends JpaRepository<Accessories, Long> {
 
+
     @Query("SELECT a FROM Accessories a WHERE a.product = :product")
     List<Accessories> findAccessoriesByProduct(@Param("product") Products product);
+
+
+    @Query("SELECT a FROM Accessories a WHERE a.CustomProduct = true")
+    List<Accessories> findAccessoriesByCustomProductTrue();
 
 
     @Query("SELECT a FROM Accessories a WHERE a.product is null")

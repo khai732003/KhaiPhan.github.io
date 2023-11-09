@@ -1,42 +1,52 @@
 /* Profile.scss */
 
-
-
 .mt-5 {
-  margin-top: 3rem;
+  margin-top: 1rem;
   justify-content: center;
+  padding-top: 0px;
 
   .row {
     justify-content: center;
+    margin-bottom: 50px;
 
     .left-content-profile {
       margin-top: 60px;
-      background: linear-gradient(to bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+      background: linear-gradient(
+        to bottom,
+        rgba(246, 211, 101, 1),
+        rgba(253, 160, 133, 1)
+      );
       max-height: 400px;
 
       .text-center {
+        margin-top: 20px;
         .custom-btn-profile {
           width: 180px;
           height: 40px;
           color: #fff;
           border-radius: 5px;
+          margin-top: 20px;
           padding: 10px 25px;
-          font-family: 'Lato', sans-serif;
+          font-family: "Lato", sans-serif;
           font-weight: 500;
           background: transparent;
           cursor: pointer;
           transition: all 0.3s ease;
           position: relative;
           display: inline-block;
-          box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
-            7px 7px 20px 0px rgba(0, 0, 0, .1),
-            4px 4px 5px 0px rgba(0, 0, 0, .1);
+          box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+            7px 7px 20px 0px rgba(0, 0, 0, 0.1),
+            4px 4px 5px 0px rgba(0, 0, 0, 0.1);
           outline: none;
         }
 
         .btn {
           background: rgb(247, 150, 192);
-          background: radial-gradient(circle, rgba(247, 150, 192, 1) 0%, rgba(118, 174, 241, 1) 100%);
+          background: radial-gradient(
+            circle,
+            rgba(247, 150, 192, 1) 0%,
+            rgba(118, 174, 241, 1) 100%
+          );
           line-height: 42px;
           padding: 0;
           border: none;
@@ -48,21 +58,21 @@
           content: "";
           right: 0;
           top: 0;
-          box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .9),
-            -4px -4px 6px 0 rgba(116, 125, 136, .2),
-            inset -4px -4px 6px 0 rgba(255, 255, 255, .9),
-            inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+          box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.9),
+            -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
+            inset -4px -4px 6px 0 rgba(255, 255, 255, 0.9),
+            inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
           transition: all 0.3s ease;
         }
 
         .btn:before {
           height: 0%;
-          width: .1px;
+          width: 0.1px;
         }
 
         .btn:after {
           width: 0%;
-          height: .1px;
+          height: 0.1px;
         }
 
         .btn:hover:before {
@@ -79,21 +89,21 @@
           content: "";
           left: 0;
           bottom: 0;
-          box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .9),
-            -4px -4px 6px 0 rgba(116, 125, 136, .2),
-            inset -4px -4px 6px 0 rgba(255, 255, 255, .9),
-            inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+          box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.9),
+            -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
+            inset -4px -4px 6px 0 rgba(255, 255, 255, 0.9),
+            inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
           transition: all 0.3s ease;
         }
 
         .btn span:before {
-          width: .1px;
+          width: 0.1px;
           height: 0%;
         }
 
         .btn span:after {
           width: 0%;
-          height: .1px;
+          height: 0.1px;
         }
 
         .btn span:hover:before {
@@ -103,17 +113,17 @@
         .btn span:hover:after {
           width: 100%;
         }
-
       }
-
-
     }
+  }
+
+  .information-profile-right {
+    padding-top: 0px;
   }
 
   /* Left Side styles */
   .text-center {
     text-align: center;
-
   }
 
   .img-fluid {
@@ -137,15 +147,14 @@
 
   .button-mt2 {
     background-color: white;
-
   }
-
 
   /* Middle and Right Side styles (form and upload) */
 
   /* Custom file upload label styles */
   .custom-file-upload {
-    input[type="file"] {}
+    input[type="file"] {
+    }
 
     &:hover {
       background-color: #0056b3;

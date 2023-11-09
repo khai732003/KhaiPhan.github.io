@@ -93,7 +93,25 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
       } catch (error) {
         console.error("Lỗi khi tạo order và order detail:", error);
       }
-    
+
+    //   const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+      
+    //   await customAxios.post('/order_detail/add', {
+    //     quantity: 1,
+    //     hirePrice: product.hirePrice,
+    //     totalOfProd: product.totalOfProd,
+    //     name : product.name,
+    //     note: `Sản phẩm là ${product.id}`,
+    //     orderId,
+    //     productId: product.id,
+    //     totalCost: product.totalPrice
+    //   });
+
+    //   navigate(`/order/${orderId}`);
+  
+    // } catch (error) {
+    //   console.error("Lỗi khi tạo order và order detail:", error);
+    // }
   };
 
 
