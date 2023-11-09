@@ -71,7 +71,7 @@ function Compare() {
                 .map((product) => (
                   <tr key={product.id}>
                     <td className="compare-product-name">
-                      {product.cage.description}
+                      {product.name}
                     </td>
                     <td>
                       <img
@@ -112,7 +112,7 @@ function Compare() {
                     <th key={product.id}>
                       <div className="compare-header">
                         <div className="compare-product-name">
-                          {product.cage.description}
+                          {product.name}
                         </div>
                         <div className="header-button">
                           <Button
@@ -184,7 +184,7 @@ function Compare() {
                   <td className="table-compare-property">Description</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {product.cage.description}
+                      {product.name}
                     </td>
                   ))}
                 </tr>

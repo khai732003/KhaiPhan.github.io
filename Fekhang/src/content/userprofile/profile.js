@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import '../userprofile/profile.scss';
-import { FaSave, FaEdit } from 'react-icons/fa';
-
-
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { FaSave, FaEdit } from "react-icons/fa";
+import customAxios from "../../CustomAxios/customAxios";
+import "../userprofile/profile.scss"; // Đảm bảo bạn đặt lại đúng đường dẫn đến file .scss
+import {useAuth} from '../SanPham/Context/AuthContext';
 const Profile = () => {
-  const initialUser = {
-    username: 'john_doe',
-    fullName: 'John Doe',
-    email: 'john@example.com',
-    phoneNumber: '123-456-7890',
-    gender: 'Male',
-    address: '123 Main St, City',
-    profileImage: 'path_to_profile_image.jpg',
+  const initialUserProfile = {
+    // username: "",
+    fullname: "",
+    email: "",
+    phone: "",
+    gender: "",
+    address: "",
+    image: "",
   };
 
-  const [user, setUser] = useState(initialUser);
+  const [userprofile, setUserProfile] = useState(initialUserProfile);
   const [isEditMode, setIsEditMode] = useState(false);
+  const {user} = useAuth();
+  const userId = user.userId;
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setUser({ ...user, profileImage: event.target.result });
+        setUserProfile({ ...userprofile, profileImage: event.target.result });
       };
       reader.readAsDataURL(file);
     }
@@ -33,21 +35,42 @@ const Profile = () => {
     setIsEditMode(!isEditMode);
   };
 
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      try {
+        const response = await customAxios.get(`/user/list/${userId}`); // Thay thế bằng đường dẫn API của bạn
+        if (response.status === 200) {
+          setUserProfile(response.data);
+        } else {
+          console.error("Failed to fetch user profile data");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile data:", error);
+      }
+    };
+    // console.log
+
+    loadUserProfile();
+  }, [userId]);
+
   return (
-    <Container className="mt-5">
+    <Container className="mt-5" style={{ paddingTop: 70 }}>
       <Row>
-        <Col md={4} className='left-content-profile'>
+        {/* Cột bên trái */}
+        <Col md={4} className="left-content-profile">
           <div className="text-center">
             <img
-              src={user.profileImage}
+              src={userprofile.image}
               alt="Profile"
               className="img-fluid rounded-circle"
             />
             <div className="mt-2">
-              <h5> <strong>{user.fullName}</strong></h5>
-              <p>{user.email}</p>
+              <h5>
+                <strong>{userprofile.fullname}</strong>
+              </h5>
+              {/* <p>{userprofile.role.name}</p> */}
             </div>
-            <Button
+            {/* <Button
               variant="primary"
               className="button-mt2 custom-btn-profile"
               onClick={handleProfileUpdate}
@@ -61,90 +84,112 @@ const Profile = () => {
                   <FaEdit /> Change Profile
                 </>
               )}
-            </Button>
+            </Button> */}
           </div>
         </Col>
-        {/* Middle */}
-        <Col md={5}>
+        {/* Cột bên phải */}
+        <Col md={8}>
           <center>
             <h1>Information</h1>
           </center>
-          <Form>
-            <Form.Group controlId="username">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                value={user.username}
-                readOnly
-                disabled={!isEditMode}
-              />
-            </Form.Group>
-            <Form.Group controlId="fullName">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control
-                type="text"
-                value={user.fullName}
-                onChange={(e) => setUser({ ...user, fullName: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group controlId="phoneNumber">
-              <Form.Label>Phone Number</Form.Label>
-              <Form.Control
-                type="tel"
-                value={user.phoneNumber}
-                onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group controlId="gender">
-              <Form.Label>Gender</Form.Label>
-              <Form.Control
-                as="select"
-                value={user.gender}
-                onChange={(e) => setUser({ ...user, gender: e.target.value })}
-              >
-                <option>Male</option>
-                <option>Female</option>
-                <option>Others</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="address">
-              <Form.Label>Address</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={user.address}
-                onChange={(e) => setUser({ ...user, address: e.target.value })}
-              />
-            </Form.Group>
-            <div className="text-center">
-              <label htmlFor="profileImageUpload" className="custom-file-upload">
-                <input
-                  type="file"
-                  id="profileImageUpload"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                />
-              </label>
-              <img
-                src={user.profileImage}
-                alt="Profile"
-                className="img-fluid rounded-circle mt-3"
-              />
-            </div>
-            {isEditMode && (
-              <Button variant="primary" onClick={handleProfileUpdate}>
-                Save Changes
-              </Button>
-            )}
-          </Form>
+          <Container className="information-profile-right">
+            <Row>
+              <Col md={6}>
+                {/* Cột bên trái cho username, fullname, phone number và email */}
+                <Form>
+                  {/* <Form.Group controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={userprofile.username}
+                      readOnly
+                      disabled={!isEditMode}
+                    />
+                  </Form.Group> */}
+                  <Form.Group controlId="fullName">
+                    <Form.Label>Full Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={userprofile.fullname}
+                      readOnly
+                      onChange={(e) =>
+                        setUserProfile({ ...userprofile, fullname: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      value={userprofile.email}
+                      readOnly
+                      onChange={(e) =>
+                        setUserProfile({ ...userprofile, email: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="phoneNumber">
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={userprofile.phone}
+                      readOnly
+                      onChange={(e) =>
+                        setUserProfile({ ...userprofile, phone: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+              <Col md={6}>
+                {/* Cột bên phải cho các trường còn lại */}
+                <Form>
+                <Form.Group controlId="phoneNumber">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={userprofile.gender}
+                      readOnly
+                      onChange={(e) =>
+                        setUserProfile({ ...userprofile, phone: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+                      {/* <option>Nam</option>
+                      <option>Nữ</option>
+                      <option>Others</option> */}
+                  <Form.Group controlId="address">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={userprofile.address}
+                      readOnly
+                      onChange={(e) =>
+                        setUserProfile({ ...userprofile, address: e.target.value })
+                      }
+                    />
+                  </Form.Group>
+                  {/* <div className="text-center">
+                    <label htmlFor="profileImageUpload" className="custom-file-upload">
+                      <input
+                        type="file"
+                        id="profileImageUpload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                      />
+                    </label>
+                  </div> */}
+                  {/* {isEditMode && (
+                    <Button variant="primary" onClick={handleProfileUpdate}>
+                      Save Changes
+                    </Button>
+                  )} */}
+                  <button>Edit Profile</button>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
         </Col>
       </Row>
     </Container>

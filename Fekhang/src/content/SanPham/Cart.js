@@ -74,7 +74,7 @@ const Cart = () => {
         await customAxios.post('/order_detail/add', {
           quantity: 1,
           hirePrice: item.hirePrice,
-          name : item.cage.description,
+          name : item.name,
           // totalOfProd: item.totalOfProd,
           note: `Sản phẩm là ${item.id} `,
           orderId: orderId,

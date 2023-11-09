@@ -74,7 +74,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
             await customAxios.post('/order_detail/add', {
                 quantity: 1,
                 hirePrice: product.hirePrice,
-                name: productDetail.cage.description,
+                name: productDetail.name,
                 totalOfProd: product.totalOfProd,
                 note: `Sản phẩm là ${id}`,
                 orderId,
@@ -140,7 +140,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                                     <Grid item xs={12} md={7} style={{ position: 'relative' }}>
                                         <div style={{ padding: '20px' }}>
                                             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
-                                                {productDetail.cage.description}
+                                                {productDetail.name}
                                             </h3>
                                             <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}

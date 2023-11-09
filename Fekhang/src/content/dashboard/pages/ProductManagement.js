@@ -245,7 +245,7 @@ const ProductManagement = () => {
                         <hr />
                         <Typography variant="body1" className="info-item">
                           <span className="info-label">Description</span>:
-                          {detailPopup.cage.description}
+                          {detailPopup.name}
                         </Typography>
                         <Typography variant="body1" className="info-item">
                           <span className="info-label">Material</span>:
