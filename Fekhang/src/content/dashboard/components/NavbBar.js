@@ -24,13 +24,16 @@ import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Popover, Box } from "@mui/material";
 import Button from "@mui/material/Button";
+import { useAuth } from "../../SanPham/Context/AuthContext";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme(); // Correct placement of the useTheme hook
-
+  const { user, logout } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
+  const [avatarAnchorEl, setAvatarAnchorEl] = useState(null);
 
   const [notifications, setNotifications] = useState([
     "Thông báo 1",
@@ -48,8 +51,17 @@ const NavBar = () => {
     "Thông báo 1",
     "Thông báo 1",
     "Thông báo 1",
-
   ]);
+
+  const handleAvatarClick = (event) => {
+    setAvatarMenuOpen(!avatarMenuOpen);
+    setAvatarAnchorEl(event.currentTarget);
+  };
+
+  const handleAvatarClose = () => {
+    setAvatarMenuOpen(false);
+  };
+  
 
   const notificationCount = notifications.length;
 
@@ -88,6 +100,13 @@ const NavBar = () => {
     setOpen(!open);
   };
 
+  const handleLogout = () => {
+    logout();
+    setAvatarMenuOpen(false);
+  };
+
+  
+
   return (
     <div className="navbar-admin-dashboard">
       <StyledAppBar position="fixed" style={{ zIndex: 1400 }}>
@@ -122,6 +141,7 @@ const NavBar = () => {
           <Avatar
             src="https://s120-ava-talk.zadn.vn/a/8/2/b/4/120/1af046c98dfdda606e1b250d0a4bce20.jpg"
             sx={{ marginLeft: "40px" }}
+            onClick={(event) => handleAvatarClick(event)}
           />
         </Toolbar>
       </StyledAppBar>
@@ -161,6 +181,26 @@ const NavBar = () => {
               </ListItem>
             ))}
           </List>
+        </Box>
+      </Popover>
+
+      <Popover
+        open={avatarMenuOpen}
+        anchorEl={window}
+        onClose={handleAvatarClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Box p={1}>
+          <Button variant="contained" onClick={handleLogout} style={{marginTop: 70}}>
+            Logout
+          </Button>
         </Box>
       </Popover>
 

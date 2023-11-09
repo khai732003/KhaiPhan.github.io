@@ -14,6 +14,7 @@ import Badge, { BadgeProps } from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Stack from "@mui/material/Stack";
 
 import Cart from "../content/SanPham/Cart";
 import NavBar from "../content/dashboard/components/NavbBar";
@@ -107,7 +108,10 @@ function Header(props) {
         className="bg-body-tertiary"
         style={{ padding: "0 0 " }}
       >
-        <Container fluid style={{ backgroundColor: "white" }}>
+        <Container
+          fluid
+          style={{ backgroundColor: "white", paddingRight: 0, paddingLeft: 0 }}
+        >
           <Navbar.Brand className="brand " href="/">
             <img
               className="logo"
@@ -134,17 +138,13 @@ function Header(props) {
                   style={{ textDecoration: "none", color: "#535b62" }}
                   className="nav-link"
                 >
-                  SẢN PHẨM <span class="bi bi-caret-down-fill" />
+                  SẢN PHẨM
                 </NavLink>
-                <div className="dropdown-menu">
-                  <NavLink to="/sanpham" className="dropdown-item nav-link">
-                    Sản Phẩm
-                  </NavLink>
-                  {/* <NavLink to="/apitest" className="dropdown-item nav-link">
+
+                {/* <NavLink to="/apitest" className="dropdown-item nav-link">
                                         Đăng Ký
                                         
                                     </NavLink> */}
-                </div>
               </div>
 
               <div className="custom-dropdown">
@@ -153,7 +153,7 @@ function Header(props) {
                   style={{ textDecoration: "none", color: "#535b62" }}
                   className="nav-link"
                 >
-                  DỊCH VỤ <span class="bi bi-caret-down-fill" />
+                  DỊCH VỤ
                 </NavLink>
 
                 {/* <div className="dropdown-menu">
@@ -197,67 +197,74 @@ function Header(props) {
                 <div className="wel-user">
                   <div className="wel">
                     Welcome to {user.fullName}
+                    {user.image}
                   </div>
-                <div className="custom-dropdown">
-                  <StyledBadge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    variant="dot"
-                    className="avatar"
-                  >
-                    <Avatar src={user.image} />
-                  </StyledBadge>
-
-                  <div className="dropdown-menu">
-                    <NavLink to="/profile" className="dropdown-item nav-link">
-                      Profile
-          
-                    </NavLink>
-                    {user.role === "ADMIN" && (
-                      <NavLink to="/admin" className="dropdown-item nav-link">
-                        Admin Dashboard
-                      </NavLink>
-                    )}
-
-                    {user.role === "MANAGER" && (
-                      <NavLink
-                        to="/staffmanagement"
-                        className="dropdown-item nav-link"
-                        onClick={() => navigate("/staffmanagement")}
-                      >
-                        Management Dashboard
-                      </NavLink>
-                    )}
-
-                    {user.role === "STAFF" && (
-                      <NavLink
-                        to="/staffnew"
-                        className="dropdown-item nav-link"
-                        onClick={() => navigate("/staffnew")}
-                      >
-                        NEW MARKETING
-                      </NavLink>
-                    )}
-                    <div
-                      className="dropdown-item nav-link"
-                      onClick={handleOnLogout}
+                  <div className="custom-dropdown">
+                    <StyledBadge
+                      overlap="circular"
+                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                      variant="dot"
+                      className="avatar"
                     >
-                      Logout
+                      <Avatar alt="User Avatar" src={user.image} />
+                    </StyledBadge>
+
+                    <div className="dropdown-menu">
+                      <NavLink to="/profile" className="dropdown-item nav-link">
+                        Profile
+                      </NavLink>
+                      {user.role === "ADMIN" && (
+                        <NavLink to="/admin" className="dropdown-item nav-link">
+                          Admin Dashboard
+                        </NavLink>
+                      )}
+
+                      {user.role === "MANAGER" && (
+                        <NavLink
+                          to="/staffmanagement"
+                          className="dropdown-item nav-link"
+                          onClick={() => navigate("/staffmanagement")}
+                        >
+                          Management Dashboard
+                        </NavLink>
+                      )}
+
+                      {user.role === "STAFF" && (
+                        <NavLink
+                          to="/staffnew"
+                          className="dropdown-item nav-link"
+                          onClick={() => navigate("/staffnew")}
+                        >
+                          NEW MARKETING
+                        </NavLink>
+                      )}
+                      <div
+                        className="dropdown-item nav-link"
+                        onClick={handleOnLogout}
+                      >
+                        Logout
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
               ) : (
                 // Hiển thị các tùy chọn đăng nhập/đăng ký khi không có người dùng đăng nhập
                 <div className="custom-dropdown">
-                  <Avatar style={{ marginTop: 10 }} />
-                  <div className="dropdown-menu">
-                    <NavLink to="/login" className="dropdown-item nav-link">
-                      Đăng Nhập
-                    </NavLink>
-                    <NavLink to="/register" className="dropdown-item nav-link">
-                      Đăng Ký
-                    </NavLink>
+                  <div className="login-register-user">
+                    <div className="nav-link-login">
+                      <NavLink to="/login" activeClassName="active">
+                        <Stack direction="row" spacing={2}>
+                          <Button>Đăng Nhập</Button>
+                        </Stack>
+                      </NavLink>
+                    </div>
+                    <div className="nav-link-register">
+                      <NavLink to="/register" activeClassName="active">
+                        <Stack direction="row" spacing={2}>
+                          <Button>Đăng Ký</Button>
+                        </Stack>
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
               )}

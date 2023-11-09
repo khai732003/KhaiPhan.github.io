@@ -116,8 +116,6 @@ function CustomProduct() {
         const fetchAccessories = async () => {
             try {
 
-                const response = await customAxios.get('http://localhost:8080/cageshop/api/newaccessories'); // Replace with your actual API endpoint
-
                 const response = await customAxios.get('/newaccessories'); // Replace with your actual API endpoint
 
                 setAccessories(response.data);
