@@ -11,7 +11,7 @@ function CustomProduct() {
     useEffect(() => {
         const fetchAccessories = async () => {
             try {
-                const response = await customAxios.get('http://localhost:8080/cageshop/api/newaccessories'); // Replace with your actual API endpoint
+                const response = await customAxios.get('/newaccessories'); // Replace with your actual API endpoint
                 setAccessories(response.data);
             } catch (error) {
                 console.error("Error fetching accessories:", error);
@@ -50,7 +50,6 @@ function CustomProduct() {
 
     return (
         <div>
-
             <h2>Select Accessories:</h2>
             {accessories.map((accessory) => (
                 <div key={accessory.id}>

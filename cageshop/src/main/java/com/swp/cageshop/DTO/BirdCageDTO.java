@@ -18,7 +18,7 @@ public class BirdCageDTO   {
     private double price;
 
 
-    @Transient
+
     private Long productId;
 
 }

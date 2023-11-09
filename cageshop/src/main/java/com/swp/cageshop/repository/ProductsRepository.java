@@ -21,6 +21,8 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     List<Products> findByCategory(Categories category);
 
+
+
     Products findProductIdByOrderDetail_Id(Long orderDetailId);
 
   @Query(value = "SELECT * FROM products p ORDER BY p.create_date DESC LIMIT 3",
@@ -80,7 +82,7 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 //    List<Products> findProductsByDescriptionContaining(String keyword);
 
 
-    @Query("SELECT p FROM Products p ORDER BY p.createDate DESC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available'  ORDER BY p.createDate DESC" )
     List<Products> findAllProductsSortedByCreateDateDesc();
 
 
