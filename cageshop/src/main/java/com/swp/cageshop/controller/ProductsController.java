@@ -213,7 +213,7 @@ public class ProductsController {
     }
     @GetMapping("/product/customproduct")
     public List<ProductDTO> getProductsCustomProduct() {
-        return productsService.getProductsOutOfStock();
+        return productsService.getProductsStatusCustomProduct();
     }
 
 

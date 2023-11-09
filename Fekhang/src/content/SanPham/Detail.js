@@ -66,7 +66,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
             console.log(id)
             handleBuy(id);
         }
-    }, [isReturningFromLogin],[id]);
+    }, [isReturningFromLogin,orderId]);
 
     const handleBuy = async (id) => {
 

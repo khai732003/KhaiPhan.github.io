@@ -80,8 +80,8 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 //    List<Products> findProductsByDescriptionContaining(String keyword);
 
 
-    @Query("SELECT p FROM Products p ORDER BY p.createDate DESC")
-    List<Products> findAllProductsSortedByCreateDateDesc();
+  @Query("SELECT p FROM Products p WHERE p.status = 'Available'  ORDER BY p.createDate DESC" )
+  List<Products> findAllProductsSortedByCreateDateDesc();
 
 
 

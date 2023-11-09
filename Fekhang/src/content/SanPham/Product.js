@@ -17,6 +17,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
   const { addToCart } = useCart();
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   let orderId = localStorage.getItem('orderId');
+  const address = user.address;
 
   const handleAddToCart = () => {
     addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories});
@@ -65,7 +66,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
             "name": "Tổng hóa đơn",
             "status": "pending",
             "paymentMethod": "credit card",
-            "address": "137 Đặng Văn Bi",
+            "address": address,
             "city": "Đà Nẵng",
             "content": "Đóng gói cẩn thận nhé",
             "shipDate": "2023-10-15",

@@ -73,27 +73,32 @@ public class ProductsServiceImpl implements IProductsService {
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
                 product.setCategory(category);
-                Products savedProduct = productsRepository.save(product);
-                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+
+                Products savedProduct = productsRepository.save(product); // Lưu sản phẩm trước
 
                 if (productDTO.getCage() != null) {
                     BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
                     birdCages.setProduct(savedProduct); // Set the product for the bird cage
+                    birdCages.setId(savedProduct.getId()); // Set the proid for the bird cage
                     birdCageRepository.save(birdCages);
                 }
+
                 if (productDTO.getAccessories() != null) {
                     for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
                         Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
+                        accessoryDTO.setProductId(savedProduct.getId());
                         accessoriesRepository.save(accessory);
                     }
                 }
 
+                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
                 return savedProductDTO;
             }
         }
         return null;
     }
+
 
 
 
@@ -282,8 +287,6 @@ public class ProductsServiceImpl implements IProductsService {
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
-
-
     }
 
 
