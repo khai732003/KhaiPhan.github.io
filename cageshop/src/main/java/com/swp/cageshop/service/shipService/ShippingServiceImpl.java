@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
             if(orders != null) {
                 shippingDTO.setAddress(orders.getAddress());
                 shippingDTO.setCity(orders.getCity());
+                orders.setShipStatus(ShippingStatus.CONFIRMED.toString());
                 Shipping shipping = modelMapper.map(shippingDTO, Shipping.class);
                 Shipping savedShipping = shippingRepository.save(shipping);
                 return modelMapper.map(savedShipping, ShippingDTO.class);

@@ -2,6 +2,7 @@ package com.swp.cageshop.service.payService;
 
 import com.swp.cageshop.DTO.PaymentDTO;
 import com.swp.cageshop.DTO.VnPayDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.service.productsService.IProductsService;
@@ -18,7 +19,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.web.servlet.view.RedirectView;
 
 
@@ -160,5 +165,84 @@ public class PaysService implements PaysServiceImpl {
         }
         return totalRevenue;
     }
+
+    public List<Map<String, Object>> getRevenueByDate() {
+        List<Orders> orders = ordersRepository.findByPayStatusAndShipStatus("PAID", "DELIVERED");
+        List<Pays> completedPays = new ArrayList<>();
+        for (Orders order : orders) {
+            Pays pay = order.getPays();
+            completedPays.add(pay);
+        }
+        List<Map<String, Object>> result = completedPays.stream()
+            .collect(Collectors.groupingBy(
+                p -> p.getCreateDate()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate(),
+                Collectors.summingDouble(Pays::getPrice)
+            ))
+            .entrySet()
+            .stream()
+            .map(entry -> {
+                Map<String, Object> item = new HashMap<>();
+                item.put(entry.getKey().toString(), entry.getValue());
+                return item;
+            })
+            .collect(Collectors.toList());
+
+        return result;
+    }
+
+
+    public List<Map<String, Object>> getRevenueByMonth() {
+        List<Orders> orders = ordersRepository.findByPayStatusAndShipStatus("PAID", "DELIVERED");
+        List<Pays> completedPays = new ArrayList<>();
+        for (Orders order : orders) {
+            Pays pay = order.getPays();
+            completedPays.add(pay);
+        }
+        Map<YearMonth, Double> resultMap = completedPays.stream()
+            .collect(Collectors.groupingBy(
+                p -> YearMonth.from(p.getCreateDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()),
+                Collectors.summingDouble(Pays::getPrice)
+            ));
+
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Map.Entry<YearMonth, Double> entry : resultMap.entrySet()) {
+            Map<String, Object> item = new HashMap<>();
+            item.put(entry.getKey().toString(), entry.getValue());
+            resultList.add(item);
+        }
+
+        return resultList;
+    }
+
+    public List<Map<String, Object>> getRevenueByYear() {
+        List<Orders> orders = ordersRepository.findByPayStatusAndShipStatus("PAID", "DELIVERED");
+        List<Pays> completedPays = new ArrayList<>();
+        for (Orders order : orders) {
+            Pays pay = order.getPays();
+            completedPays.add(pay);
+        }
+        Map<Year, Double> resultMap = completedPays.stream()
+            .collect(Collectors.groupingBy(
+                p -> Year.from(p.getCreateDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()),
+                Collectors.summingDouble(Pays::getPrice)
+            ));
+
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Map.Entry<Year, Double> entry : resultMap.entrySet()) {
+            Map<String, Object> item = new HashMap<>();
+            item.put(entry.getKey().toString(), entry.getValue());
+            resultList.add(item);
+        }
+
+        return resultList;
+    }
+
 
 }

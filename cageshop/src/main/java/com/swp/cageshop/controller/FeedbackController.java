@@ -21,17 +21,22 @@ public class FeedbackController {
     @Autowired
     private IFeedbackService feedbackService;
 
+
     @PostMapping("/add")
     public ResponseEntity<FeedbackDTO> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         Feedback existingFeedback = feedbackRepository.findByUserIdAndProductId(feedbackDTO.getUserId(), feedbackDTO.getProductId());
         if (existingFeedback != null) {
             return new ResponseEntity("Phản hồi đã tồn tại", HttpStatus.BAD_REQUEST);
         }
-        FeedbackDTO createdFeedback = feedbackService.createFeedback(feedbackDTO);
-        if (createdFeedback != null) {
-            return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(feedbackService.checkIfUserHasPurchasedProduct(feedbackDTO) == true) {
+            FeedbackDTO createdFeedback = feedbackService.createFeedback(feedbackDTO);
+            if (createdFeedback != null) {
+                return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity("User này chưa thực hiện thanh toán và chưa nhận được các sản phẩm này", HttpStatus.BAD_REQUEST);
         }
     }
 

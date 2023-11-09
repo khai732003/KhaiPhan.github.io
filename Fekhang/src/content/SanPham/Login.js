@@ -7,7 +7,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from '@mui/material';
 import './Scss/Product.scss'
 
-const Login = ({currentPath}) => {
+const Login = ({ currentPath }) => {
+  const orderId = localStorage.getItem("orderId");
   console.log(currentPath)
   const { user, loadUser, setUserFromToken } = useAuth();
   const navigate = useNavigate();
@@ -27,21 +28,34 @@ const Login = ({currentPath}) => {
     e.preventDefault();
     try {
       const response = await customAxios.post('/user/authenticate', formData);
-
       const token = response.data;
-
       localStorage.setItem('token', token);
+      setUserFromToken(token);
 
-      setUserFromToken(token)
-      if(currentPath == undefined){
+      // Đặt giá trị của cờ để xác định việc quay trở lại từ Login.js
+      localStorage.setItem('isReturningFromLogin', 'true');
+
+      const toBuyPath = localStorage.getItem('toBuy');
+
+      // Nếu có đường dẫn đã lưu, chuyển hướng đến đường dẫn đó và xóa toBuy từ localStorage
+      if (toBuyPath) {
+        // localStorage.removeItem('toBuy');
+        navigate(toBuyPath);
+      } else if (currentPath) {
+        // Nếu không có đường dẫn đã lưu, và có currentPath, chuyển hướng đến currentPath
+        navigate(currentPath);
+      } else if (currentPath == undefined) {
+        // Nếu không có đường dẫn đã lưu, và có currentPath, chuyển hướng đến currentPath
+        navigate(-1);
+      } else {
+        // Nếu không có đường dẫn đã lưu và không có currentPath, chuyển hướng về trang trước
         navigate(-1);
       }
-      navigate(`${currentPath}`);
-
     } catch (error) {
       console.error('Đăng nhập thất bại:', error);
     }
   };
+
 
   const handleReturnPage = () => {
     navigate(-1);
@@ -83,9 +97,9 @@ const Login = ({currentPath}) => {
 
                           </span>
                           <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            <Button sx={{ fontSize: 18 }} variant="contained" 
-                            style={{ backgroundColor: '#e0e0e0', color: '#212121' }} 
-                            startIcon={<ArrowBackIcon/>} onClick={handleReturnPage}
+                            <Button sx={{ fontSize: 18 }} variant="contained"
+                              style={{ backgroundColor: '#e0e0e0', color: '#212121' }}
+                              startIcon={<ArrowBackIcon />} onClick={handleReturnPage}
                             >
                               BACK
                             </Button>

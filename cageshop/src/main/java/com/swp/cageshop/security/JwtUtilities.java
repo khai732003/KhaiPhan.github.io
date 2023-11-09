@@ -49,8 +49,9 @@ public class JwtUtilities{
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String username,String fullname ,String roles, Long id) {
-        return Jwts.builder().setSubject(username).claim("fullName", fullname).claim("role", roles).claim("userId", id)
+    public String generateToken(String username,String fullname ,String roles, Long id, String address, String email) {
+        return Jwts.builder().setSubject(username).claim("fullName", fullname).claim("address", address).claim("email", email).
+            claim("role", roles).claim("userId", id)
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(Date.from(Instant.now().plus(jwtExpiration, java.time.temporal.ChronoUnit.MILLIS)))
             .signWith(SignatureAlgorithm.HS256, secret).compact();

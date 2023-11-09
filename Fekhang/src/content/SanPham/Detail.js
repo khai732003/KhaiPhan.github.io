@@ -17,9 +17,11 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
     const [loading, setLoading] = useState(true);
     const { productId } = useParams();
     const navigate = useNavigate();
-  
+    const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
 
     let orderId = localStorage.getItem('orderId');
+
+    
     useEffect(() => {
         customAxios
             .get(`/product/select/${productId}`)
@@ -31,25 +33,52 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                 console.error('Error fetching product detail:', error);
                 setLoading(false);
             });
-    }, [productId]);
+    }, []);
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
     };
 
     const handleAddToCart = () => {
-        const { id, name, stock, totalPrice, productImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
+        const { id, name, stock, totalPrice, productImage,productDetailImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
         addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories }); // Truyền giá trị vào hàm addToCart
         window.alert(`Added ${name} to the cart!`);
     };
 
+    useEffect(() => {
+        // Kiểm tra xem có quay trở lại từ Login.js hay không
+        const storedIsReturningFromLogin = localStorage.getItem('isReturningFromLogin');
+        const isDetailReturn = localStorage.getItem('isDetailReturn');
+        if (storedIsReturningFromLogin === 'true' && isDetailReturn === 'true') {
+            setIsReturningFromLogin(true);
+            // Đặt giá trị của cờ thành false để tránh việc rerender không cần thiết
+            localStorage.setItem('isReturningFromLogin', 'false');
+            localStorage.setItem('isDetailReturn', 'false');
+        }
+    }, []); // Chỉ chạy một lần sau khi render đầu tiên
+    
+
+    useEffect(() => {
+        // Kiểm tra cờ và gọi handleBuy() chỉ khi quay trở lại từ Login.js
+        if (isReturningFromLogin) {
+            const id = localStorage.getItem('proId');
+            localStorage.removeItem('proId');
+            console.log(id)
+            handleBuy(id);
+        }
+    }, [isReturningFromLogin],[id]);
+
     const handleBuy = async (id) => {
+
         if (!user) {
+            localStorage.setItem('isDetailReturn','true');
+            localStorage.setItem('proId', productId);
+            localStorage.setItem('toBuy', window.location.pathname);
             navigate("/login")
             return;
         }
         try {
-
+            console.log(id)
             if (!orderId) {
                 const shipAddress = "hcm";
                 const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
@@ -67,26 +96,29 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
 
                 orderId = orderResponse.data.id;
                 localStorage.setItem('orderId', orderId);
+                console.log(orderId)
             }
 
-            const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+            console.log(orderId)
 
+            // const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
             await customAxios.post('/order_detail/add', {
                 quantity: 1,
-                hirePrice: product.hirePrice,
-                name: productDetail.cage.description,
-                totalOfProd: product.totalOfProd,
+                hirePrice: productDetail.hirePrice,
+                name: productDetail.name,
+                totalOfProd: productDetail.totalOfProd,
                 note: `Sản phẩm là ${id}`,
-                orderId,
-                productId: id,
-                totalCost: product.totalPrice
+                orderId: orderId,
+                productId: productDetail.id,
+                totalCost: productDetail.totalPrice
             });
-
+            console.log(orderId)
             navigate(`/order/${orderId}`);
         } catch (error) {
             console.error("Lỗi khi tạo order và order detail:", error);
         }
     };
+
     const handleCustomProduct = (id) => {
         navigate(`/customeproduct/${id}`);
     };
@@ -118,7 +150,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                                             id='image-container-productdetail'
                                             component="img"
                                             alt="Product"
-                                            image={selectedImage || productDetail.productImage}
+                                            image={selectedImage || productDetail.productDetailImage[0]}
 
                                         />
                                         <List style={{ paddingTop: '1rem', paddingBottom: '0' }}>
@@ -140,7 +172,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                                     <Grid item xs={12} md={7} style={{ position: 'relative' }}>
                                         <div style={{ padding: '20px' }}>
                                             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
-                                                {productDetail.cage.description}
+                                                {productDetail.name}
                                             </h3>
                                             <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}

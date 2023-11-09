@@ -38,7 +38,7 @@ const NewProduct = () => {
                         <Col md={4} key={product.id} className='Col'>
                             <div className='cardi'>
                                 <Image src={product.productImage} alt={product.name} fluid />
-                                <h3>{product.cage.description}</h3>
+                                <h3>{product.name}</h3>
                                 {/* <div className="rating">
                                     {renderStarRating(product.rating)}
                                 </div> */}

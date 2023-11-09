@@ -27,4 +27,7 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
     List<Pays> findByStatus(String status);
 
     List<Pays> findByStatusAndCreateDate(String status, Date createdAt);
+
+    Pays findByOrderId(Long orderId);
+
 }

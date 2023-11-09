@@ -10,6 +10,7 @@ import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.productsService.IProductsService;
 import com.swp.cageshop.service.voucherUsageService.IVoucherUsageService;
 import com.swp.cageshop.service.vouchersService.IVouchersService;
+import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -205,9 +206,11 @@ public class OrdersServiceImpl implements IOrdersService {
         if (order != null) {
             order.setShipStatus(ShippingStatus.NOT_CONFIRM.toString());
             ordersRepository.save(order);
-            OrderDetail orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
-            orderDetail.setStatus("COMPLETED");
-            orderDetailsRepository.save(orderDetail);
+            List<OrderDetail> orderDetail = orderDetailsRepository.findByOrder_Id(order.getId());
+            for(OrderDetail orderD : orderDetail) {
+                orderD.setStatus("COMPLETED");
+                orderDetailsRepository.save(orderD);
+            }
             productsService.updateProductStock(order);
         }
     }
