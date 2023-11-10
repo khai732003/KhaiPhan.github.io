@@ -15,11 +15,12 @@ import Grid from '@mui/material/Grid';
 export default function LocalOrder() {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
-  const userId = user.userId;
+
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        const userId = user.userId;
         const response = await customAxios.get(`/order/list-by-user/${userId}`);
         setOrders(response.data);
       } catch (error) {

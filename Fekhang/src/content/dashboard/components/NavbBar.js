@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,6 +25,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Popover, Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useAuth } from "../../SanPham/Context/AuthContext";
+import customAxios from "../../../CustomAxios/customAxios";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -35,23 +36,22 @@ const NavBar = () => {
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [avatarAnchorEl, setAvatarAnchorEl] = useState(null);
 
-  const [notifications, setNotifications] = useState([
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-    "Thông báo 1",
-  ]);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await customAxios.get('/cageshop/api/order/list-all-orderPaid-by/NOT_CONFIRM');
+        
+        // Assuming the API response contains an array of notifications
+        setNotifications(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAvatarClick = (event) => {
     setAvatarMenuOpen(!avatarMenuOpen);

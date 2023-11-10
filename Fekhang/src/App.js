@@ -51,6 +51,8 @@ import HistoryOrder from './content/SanPham/HistoryOrder';
 import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
 import LocalOrder from './content/SanPham/LocalOrder';
 import ShowCustom from './content/SanPham/ShowCustom';
+import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
+import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 
 
 
@@ -93,6 +95,7 @@ function App() {
               <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
               <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
+              
 
 
               {/* Vùng manager */}
@@ -110,7 +113,7 @@ function App() {
               <Route path="/update-product/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/update-product/:id" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
               <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />
-
+              <Route path="/listconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ConfirmPage} path="/listconfirm" />} />
 
 
 

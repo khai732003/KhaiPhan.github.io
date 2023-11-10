@@ -1,38 +1,38 @@
-// ListConfirm.js
+// UpdateDelivered.js
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../../CustomAxios/customAxios';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 
-const ListConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
-  const [notificationsConfirmed, setNotificationsConfirmed] = useState([]);
+const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
+  const [notificationsDelivering, setNotificationsDelivering] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await customAxios.get('/order/list-all-orderPaid-by/CONFIRMED');
-        setNotificationsConfirmed(response.data);
+        const response = await customAxios.get('/order/list-all-orderPaid-by/DELIVERING');
+        setNotificationsDelivering(response.data);
       } catch (error) {
-        console.error('Error fetching confirmed data:', error);
+        console.error('Error fetching delivering data:', error);
       }
     };
 
     fetchData();
   }, [triggerUpdate]); // Include triggerUpdate as a dependency
 
-  const handleUpdateStatus = async (orderId) => {
+  const handleUpdateDelivered = async (orderId) => {
     try {
-      const updateStatusResponse = await customAxios.put(`/shipping/update/status/${orderId}?newStatus=DELIVERING`);
-      console.log('Update status response:', updateStatusResponse.data);
+      const updateDeliveredResponse = await customAxios.put(`/shipping/update/status/${orderId}?newStatus=DELIVERED`);
+      console.log('Update delivered response:', updateDeliveredResponse.data);
       setTriggerUpdate((prev) => prev + 1); // Update triggerUpdate to trigger useEffect in parent
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Error updating delivered status:', error);
     }
   };
 
   return (
     <Container className="history-order-container">
       <Typography variant="h4" className="header" gutterBottom>
-        Confirmed Orders
+        Delivering Orders
       </Typography>
 
       <TableContainer component={Paper}>
@@ -46,14 +46,14 @@ const ListConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {notificationsConfirmed.map(notification => (
+            {notificationsDelivering.map(notification => (
               <TableRow key={notification.id}>
                 <TableCell>{notification.id}</TableCell>
                 <TableCell>{notification.name}</TableCell>
                 <TableCell>{notification.shipStatus}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleUpdateStatus(notification.id)}>
-                    UPDATE STATUS
+                  <Button onClick={() => handleUpdateDelivered(notification.id)}>
+                    UPDATE DELIVERED
                   </Button>
                 </TableCell>
               </TableRow>
@@ -65,4 +65,4 @@ const ListConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
   );
 };
 
-export default ListConfirm;
+export default UpdateDelivered;
