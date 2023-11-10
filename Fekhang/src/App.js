@@ -49,6 +49,7 @@ import VNPayPayment from './content/SanPham/VNPayPayment';
 import HistoryOrder from './content/SanPham/HistoryOrder';
 import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
 import LocalOrder from './content/SanPham/LocalOrder';
+import ShowCustom from './content/SanPham/ShowCustom';
 
 
 
@@ -68,6 +69,7 @@ function App() {
               <Route path='/contact' element={<ContactPage2 />} />
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/detail/:productId" element={<Detail />} />
+              <Route path="/customdetail/:productId" element={<ShowCustom />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
               <Route path="/tintuc" element={<NewsPage />} />

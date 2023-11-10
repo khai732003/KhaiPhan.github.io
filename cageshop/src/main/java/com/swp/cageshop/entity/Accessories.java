@@ -27,6 +27,9 @@ public class Accessories {
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = true)
+    private Boolean CustomProduct;
+
 
 
 

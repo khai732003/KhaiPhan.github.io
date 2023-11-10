@@ -1,6 +1,8 @@
 package com.swp.cageshop.repository;
 
 import com.swp.cageshop.DTO.ProductDTO;
+import com.swp.cageshop.entity.Accessories;
+import com.swp.cageshop.entity.BirdCages;
 import com.swp.cageshop.entity.Categories;
 import com.swp.cageshop.entity.Products;
 import org.springframework.data.domain.Sort;
@@ -20,6 +22,8 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
     void deleteAll();
 
     List<Products> findByCategory(Categories category);
+
+
 
     Products findProductIdByOrderDetail_Id(Long orderDetailId);
 
@@ -80,8 +84,10 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 //    List<Products> findProductsByDescriptionContaining(String keyword);
 
 
-  @Query("SELECT p FROM Products p WHERE p.status = 'Available'  ORDER BY p.createDate DESC" )
-  List<Products> findAllProductsSortedByCreateDateDesc();
+
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available'  ORDER BY p.createDate DESC" )
+    List<Products> findAllProductsSortedByCreateDateDesc();
+
 
 
 

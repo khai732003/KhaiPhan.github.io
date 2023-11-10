@@ -1,8 +1,6 @@
 package com.swp.cageshop.service.productsService;
 
 import com.swp.cageshop.DTO.AccessoryDTO;
-import com.swp.cageshop.DTO.BirdCageDTO;
-import com.swp.cageshop.DTO.CategoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.*;
 
@@ -15,11 +13,7 @@ import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.categoriesService.ICategoriesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,8 +61,11 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
+
+
         if (productDTO != null) {
             Products product = modelMapper.map(productDTO, Products.class);
+
             // Set the category for the product
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
@@ -76,29 +73,94 @@ public class ProductsServiceImpl implements IProductsService {
 
                 Products savedProduct = productsRepository.save(product); // Lưu sản phẩm trước
 
+
                 if (productDTO.getCage() != null) {
                     BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
                     birdCages.setProduct(savedProduct); // Set the product for the bird cage
                     birdCages.setId(savedProduct.getId()); // Set the proid for the bird cage
                     birdCageRepository.save(birdCages);
+
                 }
 
                 if (productDTO.getAccessories() != null) {
+
                     for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
                         Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+                        accessory.setCustomProduct(false);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
+
                         accessoryDTO.setProductId(savedProduct.getId());
+
                         accessoriesRepository.save(accessory);
+
                     }
                 }
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+                deleteBirdCagesWithNullProductId();
+                deleteAccessoriesWithNullProductIdAndCustomProductNotNull();
                 return savedProductDTO;
             }
         }
         return null;
     }
 
+    public void deleteBirdCagesWithNullProductId() {
+        List<BirdCages> birdcage=  birdCageRepository.findByProductIdIsNull();
+        birdCageRepository.deleteAll(birdcage);
+    }
+
+    // Method to delete Accessories with productId null and customProduct not null
+    public void deleteAccessoriesWithNullProductIdAndCustomProductNotNull() {
+        List<Accessories> accessories = accessoriesRepository.findByProductIdIsNullAndCustomProductIsNull();
+        accessoriesRepository.deleteAll(accessories);
+    }
+
+    public ProductDTO test(ProductDTO productDTO) {
+        if (productDTO != null) {
+            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+            if (category != null) {
+                // Save bird cage and accessories first
+                if (productDTO.getCage() != null) {
+                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
+                    birdCages.setProduct(null);
+                    birdCageRepository.save(birdCages);
+                }
+
+                List<Accessories> savedAccessories = new ArrayList<>();
+                if (productDTO.getAccessories() != null) {
+                    for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
+                        Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+                        accessory.setCustomProduct(false);
+                        accessory.setProduct(null);
+                        savedAccessories.add(accessory);
+                        accessoriesRepository.save(accessory);
+                    }
+                }
+
+                // Save the product after bird cage and accessories are saved
+                Products product = modelMapper.map(productDTO, Products.class);
+                product.setCategory(category);
+                Products savedProduct = productsRepository.save(product);
+
+                // Set the product for the bird cage, if it exists
+                if (productDTO.getCage() != null) {
+                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
+                    birdCages.setProduct(savedProduct);
+                    birdCageRepository.save(birdCages);
+                }
+
+                // Set the product for each accessory
+                for (Accessories accessory : savedAccessories) {
+                    accessory.setProduct(savedProduct);
+                    accessoriesRepository.save(accessory);
+                }
+
+                return modelMapper.map(savedProduct, ProductDTO.class);
+            }
+        }
+        return null;
+    }
 
 
 

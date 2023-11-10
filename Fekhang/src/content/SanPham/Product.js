@@ -17,7 +17,6 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
   const { addToCart } = useCart();
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   let orderId = localStorage.getItem('orderId');
-  const address = user.address;
 
   const handleAddToCart = () => {
     addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories});
@@ -59,6 +58,7 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
     }
       try {
         if (!orderId) {
+          const address = user.address;
           const shipAddress = "hcm";
           const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
@@ -94,7 +94,25 @@ const Product = ({ id, name, stock, totalPrice, productImage, code, cage, access
       } catch (error) {
         console.error("Lỗi khi tạo order và order detail:", error);
       }
-    
+
+    //   const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+      
+    //   await customAxios.post('/order_detail/add', {
+    //     quantity: 1,
+    //     hirePrice: product.hirePrice,
+    //     totalOfProd: product.totalOfProd,
+    //     name : product.name,
+    //     note: `Sản phẩm là ${product.id}`,
+    //     orderId,
+    //     productId: product.id,
+    //     totalCost: product.totalPrice
+    //   });
+
+    //   navigate(`/order/${orderId}`);
+  
+    // } catch (error) {
+    //   console.error("Lỗi khi tạo order và order detail:", error);
+    // }
   };
 
 

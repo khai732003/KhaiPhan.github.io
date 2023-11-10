@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../CustomAxios/customAxios';
-import ListCustom from './ListCustom';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function CustomProduct() {
@@ -10,17 +9,17 @@ function CustomProduct() {
     const [accessories, setAccessories] = useState([]);
 
     useEffect(() => {
-        async function fetchAccessories() {
+        const fetchAccessories = async () => {
             try {
-                const response = await customAxios.get('/newaccessories');
+                const response = await customAxios.get('/newaccessories'); // Replace with your actual API endpoint
                 setAccessories(response.data);
             } catch (error) {
-                console.error("Error fetching accessories data:", error);
+                console.error("Error fetching accessories:", error);
             }
-        }
+        };
 
         fetchAccessories();
-    }, []); // Chạy chỉ một lần sau khi component được render
+    }, []);
 
     const handleAccessorySelect = (accessoryId) => {
         if (selectedAccessories.includes(accessoryId)) {
@@ -42,15 +41,8 @@ function CustomProduct() {
                 };
             });
 
-            const response = await customAxios.post(`/product/clone-and-add-accessories/${id}`, selectedAccessoryDTOs);
-
-            // Kiểm tra xem response có dữ liệu cần thiết hay không, và sử dụng nó để điều hướng
-            if (response && response.data && response.data.id) {
-                const newProductId = response.data.id;
-                navigate(`/customdetail/${newProductId}`);
-            } else {
-                console.error("Invalid response format:", response);
-            }
+            await customAxios.post(`/product/clone-and-add-accessories/${id}`, selectedAccessoryDTOs);
+            navigate(`/order-detail/${id}`);
         } catch (error) {
             console.error("Error while cloning product and adding accessories:", error);
         }
@@ -59,7 +51,6 @@ function CustomProduct() {
     return (
         <div>
             <h2>Select Accessories:</h2>
-            <ListCustom accessories={accessories} onAccessorySelect={handleAccessorySelect} />
             {accessories.map((accessory) => (
                 <div key={accessory.id}>
                     <input

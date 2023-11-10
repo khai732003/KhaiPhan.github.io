@@ -2,26 +2,22 @@ import React, { useState, useEffect } from 'react';
 import customAxios from '../../CustomAxios/customAxios';
 import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box, Grid, Container, Card, CardMedia, List, Button } from '@mui/material';
 import './Scss/Detail.scss';
+import { Box, Grid, Container, Card, CardMedia, List, Button } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useAuth } from './Context/AuthContext';
 import { useCart } from './Context/CartContext';
 
-function Detail({ id, name, stock, totalPrice, productImage, code, cage, accessories }) {
-    const { user } = useAuth();
-    const { addToCart } = useCart();
+function ShowCustom() {
+    
+    const {user} = useAuth();
+    const { productId } = useParams();
     const [productDetail, setProductDetail] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { productId } = useParams();
     const navigate = useNavigate();
-    const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
-
     let orderId = localStorage.getItem('orderId');
 
-    
     useEffect(() => {
         customAxios
             .get(`/product/select/${productId}`)
@@ -33,40 +29,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                 console.error('Error fetching product detail:', error);
                 setLoading(false);
             });
-    }, []);
-
-    const handleImageClick = (image) => {
-        setSelectedImage(image);
-    };
-
-    const handleAddToCart = () => {
-        const { id, name, stock, totalPrice, productImage,productDetailImage, code, cage, accessories } = productDetail; // Lấy giá trị từ productDetail
-        addToCart({ id, name, stock, totalPrice, productImage, code, cage, accessories }); // Truyền giá trị vào hàm addToCart
-        window.alert(`Added ${name} to the cart!`);
-    };
-
-    useEffect(() => {
-        // Kiểm tra xem có quay trở lại từ Login.js hay không
-        const storedIsReturningFromLogin = localStorage.getItem('isReturningFromLogin');
-        const isDetailReturn = localStorage.getItem('isDetailReturn');
-        if (storedIsReturningFromLogin === 'true' && isDetailReturn === 'true') {
-            setIsReturningFromLogin(true);
-            // Đặt giá trị của cờ thành false để tránh việc rerender không cần thiết
-            localStorage.setItem('isReturningFromLogin', 'false');
-            localStorage.setItem('isDetailReturn', 'false');
-        }
-    }, []); // Chỉ chạy một lần sau khi render đầu tiên
-    
-
-    useEffect(() => {
-        // Kiểm tra cờ và gọi handleBuy() chỉ khi quay trở lại từ Login.js
-        if (isReturningFromLogin) {
-            const id = localStorage.getItem('proId');
-            localStorage.removeItem('proId');
-            console.log(id)
-            handleBuy(id);
-        }
-    }, [isReturningFromLogin,orderId]);
+    }, [productId]);
 
     const handleBuy = async (id) => {
 
@@ -122,10 +85,9 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
         }
     };
 
-    const handleCustomProduct = (id) => {
-        navigate(`/customeproduct/${id}`);
+    const handleImageClick = (image) => {
+        setSelectedImage(image);
     };
-
 
     if (loading) {
         return (
@@ -153,8 +115,7 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                                             id='image-container-productdetail'
                                             component="img"
                                             alt="Product"
-                                            image={selectedImage || productDetail.productDetailImage[0]}
-
+                                            image={productDetail.productImage}
                                         />
                                         <List style={{ paddingTop: '1rem', paddingBottom: '0' }}>
                                             {productDetail.productDetailImage && productDetail.productDetailImage.map((image, index) => (
@@ -196,21 +157,11 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
                                                     ))}
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div style={{ position: 'absolute', bottom: '5rem', width: '100%', display: 'flex', justifyContent: 'space-around' }}>
-                                            <Button className='custom-button-cart' variant="contained" startIcon={<AddShoppingCartIcon />} onClick={handleAddToCart}>
-                                                Add to Cart
-                                            </Button>
+
                                             <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(productDetail.id)}>
                                                 Buy Now
-                                            </Button>
-                                            <Button
-                                                className='custom-button-custom-product'
-                                                variant="contained"
-                                                onClick={()=>handleCustomProduct(productDetail.id)}
-                                            >
-                                                Custom Product And Buy
                                             </Button>
                                         </div>
                                     </Grid>
@@ -224,4 +175,4 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
     );
 }
 
-export default Detail;
+export default ShowCustom;
