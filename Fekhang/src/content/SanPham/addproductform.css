@@ -1,0 +1,48 @@
+/* AddProductForm.css */
+
+/* Thay đổi màu nền cho phần tiêu đề */
+.add-product-form{
+    margin-right: 300px;
+    margin-left: 300px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 64px;
+}
+
+h2 {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Tùy chỉnh nút "Add birdcage" và các nút khác */
+  .ant-btn-primary {
+    background-color: #393f81;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .ant-btn-primary:hover {
+    background-color: #212121; /* Màu khi di chuột qua */
+  }
+  
+  /* Tùy chỉnh nút "Add More Accessories" và "Remove All Accessories" */
+  .ant-btn-link {
+    color: #393f81;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .ant-btn-link:hover {
+    color: #212121; /* Màu khi di chuột qua */
+  }
+  

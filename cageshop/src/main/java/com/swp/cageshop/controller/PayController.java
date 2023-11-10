@@ -92,7 +92,6 @@ public class PayController {
 
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
-
         if ("00".equals(responseCode)) {
             VNPayPayment vnPayEntity = modelMapper.map(storedVnPayDTO, VNPayPayment.class);
             paysRepository.save(vnPayEntity);
@@ -100,15 +99,15 @@ public class PayController {
             if (pays != null) {
                 pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
-                    transactionDTO.setStatus("OK");
-                    transactionDTO.setMessage("Success");
-                    transactionDTO.setData("");
+                transactionDTO.setStatus("OK");
+                transactionDTO.setMessage("Success");
+                transactionDTO.setData("");
                 Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
                 orders.setPayStatus("PAID");
                 ordersRepository.save(orders);
                 iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
                 VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
-                if(vu!=null) {
+                if (vu != null) {
                     Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
                     v.setQuantity(v.getQuantity() - 1);
                     voucherRepository.save(v);
@@ -116,9 +115,9 @@ public class PayController {
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);
-                }
-        } else if ("24".equals(responseCode)){
-            String redirectUrl = "https://723fkr-my.sharepoint.com/:w:/g/personal/ditmefptu_723fkr_onmicrosoft_com/EeY0djGfEM5KjvbJsXTwkmMBFGUev0DTpOoTOqLckRd4xw?rtime=Dke0o17f20g"; // Địa chỉ bạn muốn chuyển hướng đến
+            }
+        } else if ("24".equals(responseCode)) {
+            String redirectUrl = "http://localhost:3000/";
             response.setStatus(HttpStatus.FOUND.value());
             response.setHeader("Location", redirectUrl);
             transactionDTO.setStatus("No");
@@ -160,18 +159,18 @@ public class PayController {
 
 
     @GetMapping("/by-date")
-    public Map<LocalDate, Double> getRevenueByDate() {
+    public List<Map<String, Object>> getRevenueByDate() {
         return payService.getRevenueByDate();
     }
 
 
     @GetMapping("/month")
-    public Map<YearMonth, Double> getRevenueByMonth() {
+    public List<Map<String, Object>> getRevenueByMonth() {
         return payService.getRevenueByMonth();
     }
 
     @GetMapping("/year")
-    public Map<Year, Double> getRevenueByYear() {
+    public List<Map<String, Object>> getRevenueByYear() {
         return payService.getRevenueByYear();
     }
 

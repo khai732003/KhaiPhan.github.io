@@ -5,6 +5,7 @@ import Trangchu from './content/Trangchu/Trangchu';
 import Dichvu from './content/dichvu/dichvu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Profile from './content/userprofile/profile';
+import EditProfile from './content/userprofile/EditProfile';
 import NewsPage from './content/tintuc/tintuc';
 // import DetailNewsPage from './content/tintuc/newsdetail';
 import { listofnews } from './share/listOfnews';
@@ -23,6 +24,7 @@ import Header from './header/Header';
 import TintucStaff from './contentStaff/tintucStaff';
 
 import UserManagement from './content/dashboard/pages/UserManagement';
+import TimeLine from './content/dashboard/pages/TimeLine';
 import ProductManagement from './content/dashboard/pages/ProductManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
@@ -43,6 +45,11 @@ import AddEditStaff from './content/dashboard/components/AddEditStaff';
 import ContactPage2 from './content/lienhe/ContactPage2';
 import CustomProduct from './content/SanPham/CustomProduct';
 import Error from './Error';
+import ConfirmEmail from './content/SanPham/ConfirmEmail';
+import VNPayPayment from './content/SanPham/VNPayPayment';
+import HistoryOrder from './content/SanPham/HistoryOrder';
+import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
+import LocalOrder from './content/SanPham/LocalOrder';
 
 
 
@@ -67,17 +74,23 @@ function App() {
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
+              <Route path="/localorder" element={<LocalOrder />} />
+              <Route path="/pay/:orderId" element={<VNPayPayment />} />
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
+              <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
 
               {/* Vùng Admin */}
+              <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
               <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
               <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
               <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
+              <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
 
 
               {/* Vùng manager */}
@@ -108,7 +121,8 @@ function App() {
 
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
-
+              <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
+              {/* <Route path="/history" element={<HistoryOrder />} /> */}
               <Route path='/error' element={<Error />} />
 
             </Routes>

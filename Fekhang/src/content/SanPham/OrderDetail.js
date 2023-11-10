@@ -41,9 +41,10 @@ const OrderDetail = (props) => {
               <div className="list-orderdetail" key={item.id}>
                 <div><img src={item.productImg} alt="fix" /></div>
                 <div className="orderdetail-name">
+                  {item.id}
                   {/* <div>Product ID: {item.productId}</div> */}
                   {item.name}
-                  <div className="quantity"> X{item.quantity}</div>
+                  <div className="quantity"> X{item.quantity} {item.productId}</div>
                 </div>
                 <div className="price">
                   

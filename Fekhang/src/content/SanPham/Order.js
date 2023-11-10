@@ -9,6 +9,7 @@ import './Scss/Order.scss';
 import { Grid } from '@mui/material';
 import { Button } from "@mui/material";
 import TextField from '@mui/material/TextField';
+import ConfirmEmail from "./ConfirmEmail";
 const Order = () => {
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
@@ -98,11 +99,13 @@ const Order = () => {
             <div>Ship Address: {order.shipAddress}</div> */}
                 <div className="total-price">
                   <div style={{fontSize: '1rem', marginRight:'1rem'}}> Total Price: </div>
+                  <div>ship-price {order.shipPrice} VND </div>
                   <div>
+
                   {order.total_price} VND</div>
-                  </div>
-                  
-                <VNPayPayment />
+                </div>
+                  <ConfirmEmail />
+                {/* <VNPayPayment /> */}
               </div>
             )}
           </Grid>

@@ -14,9 +14,9 @@ const CartItem = ({ item }) => {
 
   return (
     <ListItem style={{height : '100%'}} disablePadding={true} subheader className='container-cart'>
-      <Avatar className='img-cart' style={{height: '6rem', width : '6rem'}}  variant="square" src={item.productImage} alt={item.cage.description} />
+      <Avatar className='img-cart' style={{height: '6rem', width : '6rem'}}  variant="square" src={item.productImage} alt={item.name} />
       <ListItemText 
-        primary={`${item.cage.description} (CODE: ${item.code})`}
+        primary={`${item.name} (CODE: ${item.code})`}
         secondary={`Price: ${item.totalPrice}`}
       />
       <IconButton aria-label="delete" onClick={handleDelete}>

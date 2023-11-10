@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import customAxios from '../../CustomAxios/customAxios';
 import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+
 const VNPayPayment = () => {
-  const orderId = localStorage.getItem('orderId');
+  const {orderId} = useParams();
 
   const [orderInfo, setOrderInfo] = useState({
     vnp_OrderInfo: "Anh yeu em nhieu lam 1", // Thông tin đơn hàng
@@ -13,24 +15,22 @@ const VNPayPayment = () => {
   const handlePayment = async () => {
     try {
       const response = await customAxios.post("/pay", orderInfo);
-
       console.log(response.data.url);
-
-
       window.location.href = response.data.url;
     } catch (error) {
       console.error("Lỗi khi gọi API thanh toán VNPay:", error);
-
     }
   };
+
+  useEffect(() => {
+    // Tự động gọi hàm handlePayment khi trang được tải
+    handlePayment();
+  }, []); // Truyền một mảng rỗng để đảm bảo hàm chỉ được gọi một lần sau khi trang được tải
 
   return (
     <div className="vnpay-payment-container">
       <h2>Thanh toán bằng</h2>
-      <Button  variant="contained" style={{height:'3.5rem'}} onClick={handlePayment}>
-        <img style={{height:'100%', width:'100%'}} src='https://image4.owler.com/logo/vnpay_owler_20160302_230830_original.jpg' alt="noimg"/>
-      </Button>
-
+      {/* Button không cần thiết ở đây vì hàm handlePayment được gọi tự động */}
     </div>
   );
 };

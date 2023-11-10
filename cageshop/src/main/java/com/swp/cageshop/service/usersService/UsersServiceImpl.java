@@ -79,7 +79,9 @@ public class UsersServiceImpl implements IUsersService {
     String rolesNames = users.getRole().getName();
     Long id = users.getId();
     String fullname = users.getFullname();
-    String token = jwtUtilities.generateToken(users.getName(),fullname,rolesNames, id);
+    String email = users.getEmail();
+    String address = users.getAddress();
+    String token = jwtUtilities.generateToken(users.getName(),fullname,rolesNames, id,address,email);
     return token;
   }
 
@@ -100,7 +102,9 @@ public class UsersServiceImpl implements IUsersService {
       String rolesNames = roles.getName();
       Long id = users.getId();
       String fullname = userDTO.getFullname();
-      String token = jwtUtilities.generateToken(userDTO.getName(),fullname,rolesNames, id);
+      String address = userDTO.getAddress();
+      String email = userDTO.getEmail();
+      String token = jwtUtilities.generateToken(userDTO.getName(),fullname,rolesNames, id,address,email);
       return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK);
 
     }

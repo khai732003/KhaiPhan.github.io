@@ -31,7 +31,7 @@ public class AccessoriesService implements IAccessoriesService{
 
     public List<AccessoryDTO> getAccessoriesWithNullProductId() {
         ModelMapper modelMapper = new ModelMapper();
-        List<Accessories> accessoriesWithNullProductId = accessoryRepository.findAccessoriesWithNullProductId();
+        List<Accessories> accessoriesWithNullProductId = accessoryRepository.findAccessoriesByCustomProductTrue();
         return accessoriesWithNullProductId
                 .stream()
                 .map(accessory -> modelMapper.map(accessory, AccessoryDTO.class))
@@ -48,6 +48,7 @@ public class AccessoriesService implements IAccessoriesService{
         if (accessoryDTO != null) {
             ModelMapper modelMapper = new ModelMapper();
             Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
+            accessory.setCustomProduct(true);
             Accessories savedAccessory = accessoryRepository.save(accessory);
             return modelMapper.map(savedAccessory, AccessoryDTO.class);
         }

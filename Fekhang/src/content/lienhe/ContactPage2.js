@@ -43,8 +43,8 @@ export default function ContactPage2() {
                             </div>
                         </div>
                     </div>
-                    <div className='input-container-contact'>
-                        <h2>Contact Us</h2>
+                    <div className='input-container-contact-1'>
+                        <h2 id='content-input-container-contact-1'>Contact Us</h2>
                         <form onSubmit={handleSubmit}>
                             <input
                                 placeholder='Full name'
