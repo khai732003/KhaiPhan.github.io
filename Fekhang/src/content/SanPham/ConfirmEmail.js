@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../CustomAxios/customAxios';
 import { useAuth } from './Context/AuthContext';
+import { Button } from '@mui/material';
+import './Scss/confirm.scss';
 
 export default function ConfirmEmail({ orderId2 }) {
   const [confirmStatus, setConfirmStatus] = useState(null);
@@ -28,8 +30,8 @@ export default function ConfirmEmail({ orderId2 }) {
   };
 
   return (
-    <div>
-      <button onClick={handleConfirmOrder}>Confirm</button>
+    <div className='confirm'>
+      <Button variant='contained' onClick={handleConfirmOrder}>Confirm Order</Button>
       {confirmStatus && <p>{confirmStatus}</p>}
     </div>
   );

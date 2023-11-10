@@ -5,6 +5,7 @@ import Trangchu from './content/Trangchu/Trangchu';
 import Dichvu from './content/dichvu/dichvu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Profile from './content/userprofile/profile';
+import EditProfile from './content/userprofile/EditProfile';
 import NewsPage from './content/tintuc/tintuc';
 // import DetailNewsPage from './content/tintuc/newsdetail';
 import { listofnews } from './share/listOfnews';
@@ -75,6 +76,7 @@ function App() {
               <Route path="/tintuc" element={<NewsPage />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
               <Route path="/localorder" element={<LocalOrder />} />
@@ -122,6 +124,7 @@ function App() {
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
               <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
+              {/* <Route path="/history" element={<HistoryOrder />} /> */}
               <Route path='/error' element={<Error />} />
 
             </Routes>

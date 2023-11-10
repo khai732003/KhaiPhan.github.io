@@ -12,7 +12,9 @@ function CustomProduct() {
     useEffect(() => {
         async function fetchAccessories() {
             try {
-                const response = await customAxios.get('/newaccessories');
+
+
+                const response = await customAxios.get('/newaccessories'); // Replace with your actual API endpoint
                 setAccessories(response.data);
             } catch (error) {
                 console.error("Error fetching accessories data:", error);

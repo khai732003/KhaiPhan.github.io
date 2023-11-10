@@ -54,17 +54,18 @@
                     align-items: center;
                 }
 
-                a{
+                a {
                     text-decoration: none;
-                        &:hover{
-                            color: rgb(226, 98, 6);
-                        
-                        }
+
+                    &:hover {
+                        color: rgb(226, 98, 6);
+
+                    }
                 }
             }
         }
 
-        .input-container-contact {
+        .input-container-contact-1 {
             top: 15%;
             left: 30%;
             padding: 50px 40px;
@@ -73,6 +74,10 @@
             width: 40%;
             font-family: inherit;
             height: 80vh;
+
+            #content-input-container-contact-1 {
+                background-color: rgba(255, 255, 255, 0.0);
+            }
 
             form {
 

@@ -64,6 +64,18 @@
 
 }
 
+.login-register-user{
+  display: flex;
+  margin-right: 0px;
+  padding-right: 10px;
+  margin-top: 10px;
+}
+
+.login-register-user .nav-link-login{
+  margin-right: 10px;
+  text-decoration: none;
+}
+
 .wel-user{
   display: flex;
   color:black;
@@ -71,10 +83,10 @@
 
 @keyframes slideFromRight {
   0%, 100% {
-    transform: translateX(5%);
+    transform: translateX(1%);
   }
   50% {
-    transform: translateX(-25%);
+    transform: translateX(-20%);
   }
 }
 
@@ -93,7 +105,7 @@
 .custom-dropdown{
   cursor: pointer;
   i{
-    font-size: 19px;
+    font-size: 18px;
   
   }
   .btnhead{

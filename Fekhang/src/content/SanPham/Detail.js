@@ -51,15 +51,14 @@ function Detail({ id, name, stock, totalPrice, productImage, code, cage, accesso
         const isDetailReturn = localStorage.getItem('isDetailReturn');
         if (storedIsReturningFromLogin === 'true' && isDetailReturn === 'true') {
             setIsReturningFromLogin(true);
-            // Đặt giá trị của cờ thành false để tránh việc rerender không cần thiết
             localStorage.setItem('isReturningFromLogin', 'false');
             localStorage.setItem('isDetailReturn', 'false');
         }
-    }, []); // Chỉ chạy một lần sau khi render đầu tiên
+    }, []); 
     
 
     useEffect(() => {
-        // Kiểm tra cờ và gọi handleBuy() chỉ khi quay trở lại từ Login.js
+
         if (isReturningFromLogin) {
             const id = localStorage.getItem('proId');
             localStorage.removeItem('proId');
