@@ -55,9 +55,9 @@ public class OrdersController {
         return iOrdersService.findById(id);
     }
 
-    @GetMapping("/list-all/paid")
-    public List<OrderDTO> getPaidOrders() {
-        return ordersService.getPaidOrders();
+    @GetMapping("/list-all-orderPaid-by/{shipStatus}")
+    public List<OrderDTO> getPaidOrders(@PathVariable String shipStatus) {
+        return ordersService.getPaidAndNotConfirmedOrders(shipStatus);
     }
 
     @GetMapping("/list-by-status/{shipStatus}")
