@@ -26,4 +26,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     List<Orders> findByPayStatusAndShipStatus(String payStatus, String shipStatus);
 
+    void deleteById(Long orderId);
+
+    List<Orders> findByUserIdAndPayStatusAndShipStatus(Long userId, String payStatus, String shipStatus);
+
 }
