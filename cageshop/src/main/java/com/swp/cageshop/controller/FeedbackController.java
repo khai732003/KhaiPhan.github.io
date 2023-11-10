@@ -79,4 +79,17 @@ public class FeedbackController {
         double averageRating = feedbackService.getAverageRatingByProduct(productId);
         return ResponseEntity.ok(averageRating);
     }
+
+
+    @GetMapping("/byProductId/{productId}")
+    public ResponseEntity<List<FeedbackDTO>> getAllFeedbacksByProductId(@PathVariable Long productId) {
+        List<FeedbackDTO> feedbackDTOs = feedbackService.getAllFeedbacksByProductId(productId);
+
+        if (feedbackDTOs.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(feedbackDTOs, HttpStatus.OK);
+        }
+    }
+
 }

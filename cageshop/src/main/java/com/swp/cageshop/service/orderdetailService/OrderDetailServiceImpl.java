@@ -1,11 +1,14 @@
 package com.swp.cageshop.service.orderdetailService;
 
+import com.easypost.model.Order;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Products;
 import com.swp.cageshop.repository.OrderDetailsRepository;
+import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ProductsRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -29,6 +32,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     @Autowired
     private ProductsRepository productsRepository;
+
+    @Autowired
+    private OrdersRepository ordersRepository;
 
     public OrderDetailDTO addOrderDetail(OrderDetailDTO orderDetailDTO) {
         double totalCost, hireCost, totalProduct;
@@ -130,6 +136,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
         return orderDetailDTOList;
     }
+
+
+
 
     @Override
     public List<OrderDetail> listAll() {
