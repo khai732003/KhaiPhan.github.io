@@ -72,10 +72,12 @@ public class Users extends EntityBase{
 //  private List<Marketings> marketings;
 
 
+  @JsonIgnore
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
+  @JsonIgnore
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedback> feedback;

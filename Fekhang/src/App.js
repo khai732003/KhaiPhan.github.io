@@ -14,7 +14,8 @@ import Compare from './content/dichvu/compare/Compare';
 import ProductPage from './content/SanPham/ProductPage'
 import Detail from './content/SanPham/Detail'
 import Success from './content/SanPham/Success'
-import Login from './content/SanPham/Login'
+import Login from './content/SanPham/Login';
+import AddFeedBack from './content/SanPham/AddFeedBack';
 import Register from './content/SanPham/Register'
 import AddProductFormV4 from './content/SanPham/AddProductFormV4'
 import Order from './content/SanPham/Order'
@@ -86,6 +87,7 @@ function App() {
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
               <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
+              <Route path="/addfeedback/:productId" element={<AddFeedBack />} />
 
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />

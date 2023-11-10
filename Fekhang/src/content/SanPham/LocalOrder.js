@@ -11,10 +11,12 @@ import Typography from '@mui/material/Typography';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
 
 export default function LocalOrder() {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
+  const [deleteMode, setDeleteMode] = useState(false);
 
 
   useEffect(() => {
@@ -59,6 +61,7 @@ export default function LocalOrder() {
       </Typography>
       {orders.map(order => (
         <Paper key={order.id} elevation={3} className="order-paper">
+
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} container>
               <Grid item sm={2}>
@@ -101,6 +104,7 @@ export default function LocalOrder() {
                     {product.name} x{product.quantity}<br />
                     {/* Tổng giá sản phẩm: {product.totalCost} */}
                   </Typography>
+                  
                 </div>
               ))}
             </Grid>

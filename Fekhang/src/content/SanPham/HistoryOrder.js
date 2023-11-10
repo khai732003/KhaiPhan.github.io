@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import customAxios from '../../CustomAxios/customAxios'; // Thay đường dẫn đến customAxios bằng đường dẫn thực tế
 import { useAuth } from './Context/AuthContext';
-import { Container, Typography, Paper, Divider, Grid, StepLabel, Step, Box, Stepper } from '@mui/material';
+import { Container, Typography, Paper, Divider, Grid, StepLabel, Step, Box, Stepper, Button } from '@mui/material';
 import './Scss/HistoryDetail.scss'
+import { useNavigate } from 'react-router-dom';
 export default function HistoryOrder() {
     const [orders, setOrders] = useState([]);
     const { user } = useAuth();
+    const navigate = useNavigate();
     const userId = user.userId;
     useEffect(() => {
         // Gọi API sử dụng customAxios để lấy danh sách các đơn hàng đã thanh toán của người dùng với userId là 3
@@ -40,6 +42,9 @@ export default function HistoryOrder() {
             return 0; // Set a default step number if the status is unknown
         }
       };
+      const handleFeedBack = (productId) => {
+        navigate(`/detail/${productId}`)
+      }
 
     return (
         <Container className="history-order-container">
@@ -80,6 +85,7 @@ export default function HistoryOrder() {
                                         {product.name} x{product.quantity}<br />
                                         Tổng giá sản phẩm: {product.totalCost}
                                     </Typography>
+                                    <Button onClick={() => handleFeedBack(product.productId)}>FeedBack</Button>
                                 </div>
                             ))}
                         </Grid>
