@@ -2,6 +2,7 @@ package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 
@@ -26,7 +27,7 @@ public interface IOrdersService {
 
     public void updateOrderAndOrderDetailsAndVoucher(Orders order);
 
-    public List<OrderDTO> getPaidOrders();
+    public List<OrderDTO> getPaidAndNotConfirmedOrders(String shipStatus);
 
     public List<OrderDTO> getOrdersByShipStatus(String shipStatus);
 

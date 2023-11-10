@@ -73,7 +73,6 @@ public class PaysService implements PaysServiceImpl {
         vnp_Params.put("vnp_OrderInfo", vnPayDTO.vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", vnPayDTO.vnp_OrderType);
         vnp_Params.put("vnp_ReturnUrl", VnPayConstant.vnp_ReturnUrl);
-
         vnp_Params.put("vnp_TxnRef", randomTxnRef);
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
@@ -106,10 +105,6 @@ public class PaysService implements PaysServiceImpl {
         String vnp_SecureHash = Config.hmacSHA512(VnPayConstant.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VnPayConstant.vnp_Url + "?" + queryUrl;
-
-        VNPayPayment vnPayPayment = modelMapper.map(vnPayDTO, VNPayPayment.class);
-        paysRepository.save(vnPayPayment);
-
         return paymentUrl;
     }
 

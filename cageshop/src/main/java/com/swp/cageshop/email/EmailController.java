@@ -16,7 +16,7 @@ public class EmailController {
 
     @GetMapping("/confirmOrder")
     public String confirmOrder(@RequestParam String email, @RequestParam String orderId) {
-        String subject = "Xác nhận đơn hàng";
+        String subject = "coạcfwfwfdfssdffsđsfsg";
         String body = "Đơn hàng của bạn với mã " + orderId + " đã được xác nhận.";
         emailService.sendEmail(email, subject, body, orderId);
         return "confirmationPage";
