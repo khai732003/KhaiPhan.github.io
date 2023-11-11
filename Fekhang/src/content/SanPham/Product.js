@@ -75,6 +75,7 @@ const Product = ({
   }, [isReturningFromLogin]);
 
   const handleBuy = async (id) => {
+    console.log(id)
     if (!user) {
       localStorage.setItem("proId", id);
       localStorage.setItem("toBuy", window.location.pathname);

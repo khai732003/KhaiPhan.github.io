@@ -154,7 +154,7 @@ function Detail({
       return;
     }
     try {
-      console.log(id)
+      const address = user.address;
       if (!orderId) {
         const shipAddress = "hcm";
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
@@ -163,7 +163,7 @@ function Detail({
           "name": "Tổng hóa đơn",
           "status": "pending",
           "paymentMethod": "credit card",
-          "address": "137 Đặng Văn Bi",
+          "address": address,
           "city": "Đà Nẵng",
           "content": "Đóng gói cẩn thận nhé",
           "shipDate": "2023-10-15",

@@ -34,7 +34,7 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String image;
 
-  @Column(nullable = false, length = 10)
+  @Column(unique = true, nullable = false, length = 10)
   private String phone;
 
   @Column(nullable = false)

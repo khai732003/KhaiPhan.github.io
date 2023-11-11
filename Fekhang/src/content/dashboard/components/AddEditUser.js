@@ -85,7 +85,7 @@ const AddEditUser = () => {
 
   const updateUser = async () => {
     try {
-      const response = await customAxios.put(`/user/update-user/${id}`, formData);
+      const response = await customAxios.put(`/user/update/${id}`, formData);
       if (response.status === 200) {
         navigate("/usermanagement");
       }

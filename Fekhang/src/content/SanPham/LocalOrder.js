@@ -12,6 +12,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Button, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function LocalOrder() {
   const [orders, setOrders] = useState([]);
@@ -20,7 +21,7 @@ export default function LocalOrder() {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [orderIdToDelete, setOrderIdToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -63,6 +64,11 @@ export default function LocalOrder() {
     setDeleteConfirmationOpen(false);
     setOrderIdToDelete(null);
   };
+
+  const handleReOrder = (orderId) =>{
+    localStorage.setItem('orderId', orderId);
+    navigate(`/order/${orderId}`);
+  }
 
   const getStepNumber = (shipStatus) => {
     switch (shipStatus) {
@@ -138,6 +144,11 @@ export default function LocalOrder() {
               ))}
             </Grid>
             <Grid item xs={12} sm={4} container direction="row" justifyContent="flex-end" alignItems="flex-end">
+              <Grid item xs={12} sm={6}>
+                {order.payStatus === 'NOT_PAY' && <div>
+                  <Button variant='outlined' onClick={()=>handleReOrder(order.id)}>RE-ORDER</Button>
+                  </div>}
+              </Grid>
               <Grid item xs={12} sm={6}>
                 {order.payStatus === 'NOT_PAY' && <div><ConfirmEmail orderId2={order.id} /></div>}
                 {order.payStatus === 'PAID' && (

@@ -241,23 +241,39 @@ public class ProductsServiceImpl implements IProductsService {
                 clonedProduct.setCode(product.getCode());
 
                 if (product.getCage() != null) {
-                    BirdCages birdCages = modelMapper.map(product.getCage(), BirdCages.class);
-                    birdCages.setProduct(clonedProduct); // Set the product for the bird cage
-                    clonedProduct.setCage(birdCages);
-                    
+                    BirdCages originalBirdCage = product.getCage();
+                    BirdCages clonedBirdCage = new BirdCages();
+                    clonedBirdCage.setDescription(originalBirdCage.getDescription());
+                    clonedBirdCage.setSize(originalBirdCage.getSize());
+                    clonedBirdCage.setPrice(originalBirdCage.getPrice());
+                    clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
+                    clonedBirdCage.setProduct(clonedProduct);
+                    clonedProduct.setCage(clonedBirdCage);
                 }
 
                 clonedProduct.setStatus("CustomProduct");
 
+                // Clone existing accessories
                 List<Accessories> productAccessories = new ArrayList<>();
-                for (AccessoryDTO accessoryDTO : accessories) {
-                    Accessories accessory = new Accessories();
-                    accessory.setDescription(accessoryDTO.getDescription());
-                    accessory.setPrice(accessoryDTO.getPrice());
-                    accessory.setType(accessoryDTO.getType());
-                    accessory.setProduct(clonedProduct);
-                    productAccessories.add(accessory);
+                for (Accessories originalAccessory : product.getAccessories()) {
+                    Accessories clonedAccessory = new Accessories();
+                    clonedAccessory.setDescription(originalAccessory.getDescription());
+                    clonedAccessory.setPrice(originalAccessory.getPrice());
+                    clonedAccessory.setType(originalAccessory.getType());
+                    clonedAccessory.setProduct(clonedProduct);
+                    productAccessories.add(clonedAccessory);
                 }
+
+                // Add new accessories
+                for (AccessoryDTO accessoryDTO : accessories) {
+                    Accessories newAccessory = new Accessories();
+                    newAccessory.setDescription(accessoryDTO.getDescription());
+                    newAccessory.setPrice(accessoryDTO.getPrice());
+                    newAccessory.setType(accessoryDTO.getType());
+                    newAccessory.setProduct(clonedProduct);
+                    productAccessories.add(newAccessory);
+                }
+
                 clonedProduct.setAccessories(productAccessories);
 
                 Products updatedProduct = productsRepository.save(clonedProduct);

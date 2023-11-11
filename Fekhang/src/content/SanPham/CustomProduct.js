@@ -49,30 +49,30 @@ function CustomProduct() {
 
   const handleBuyCustomProduct = async () => {
     try {
-      const selectedAccessoryDTOs = selectedAccessories.map((accessoryId) => {
-        const selectedAccessory = accessories.find(
-          (accessory) => accessory.id === accessoryId
-        );
-        return {
-          id: selectedAccessory.id,
-          description: selectedAccessory.description,
-          price: selectedAccessory.price,
-          type: selectedAccessory.type,
-        };
-      });
+        const selectedAccessoryDTOs = selectedAccessories.map((accessoryId) => {
+            const selectedAccessory = accessories.find((accessory) => accessory.id === accessoryId);
+            return {
+                id: selectedAccessory.id,
+                description: selectedAccessory.description,
+                price: selectedAccessory.price,
+                type: selectedAccessory.type
+            };
+        });
 
-      await customAxios.post(
-        `/product/clone-and-add-accessories/${id}`,
-        selectedAccessoryDTOs
-      );
-      navigate(`/order-detail/${id}`);
+        const response = await customAxios.post(`/product/clone-and-add-accessories/${id}`, selectedAccessoryDTOs);
+
+        // Kiểm tra xem response có dữ liệu cần thiết hay không, và sử dụng nó để điều hướng
+        if (response && response.data && response.data.id) {
+            const newProductId = response.data.id;
+            localStorage.setItem("cusPro", newProductId);
+            navigate(`/customdetail/${newProductId}`);
+        } else {
+            console.error("Invalid response format:", response);
+        }
     } catch (error) {
-      console.error(
-        "Error while cloning product and adding accessories:",
-        error
-      );
+        console.error("Error while cloning product and adding accessories:", error);
     }
-  };
+};
 
   return (
     <Container

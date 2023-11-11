@@ -28,6 +28,10 @@ public class UsersController {
   @Autowired
   private IUsersService iUsersService;
 
+  @GetMapping("/user/findpassword/{phone}")
+  public UserDTO findPasswordByPhone(@PathVariable String phone){
+    return iUsersService.listPasswordsByPhone(phone);
+  }
   @PostMapping("/user/authenticate")
   public String authenticate(@RequestBody LoginDTO loginDTO)
   { return  iUsersService.authenticate(loginDTO);}

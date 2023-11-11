@@ -6,7 +6,7 @@ import './Scss/Detail.scss';
 import { Box, Grid, Container, Card, CardMedia, List, Button } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useAuth } from './Context/AuthContext';
-import { useCart } from './Context/CartContext';
+import ClearIcon from '@mui/icons-material/Clear';
 
 function ShowCustom() {
     
@@ -84,6 +84,9 @@ function ShowCustom() {
             console.error("Lỗi khi tạo order và order detail:", error);
         }
     };
+    const handleCustomProduct = (id) => {
+        navigate(`/customeproduct/${id}`);
+      };
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -99,6 +102,10 @@ function ShowCustom() {
 
     if (!productDetail) {
         return <div>Product not found</div>;
+    }
+    const handleCancel = () =>{
+        localStorage.removeItem("cusPro");
+        navigate(-1);
     }
 
     return (
@@ -160,6 +167,9 @@ function ShowCustom() {
                                         </div>
                                         <div style={{ position: 'absolute', bottom: '5rem', width: '100%', display: 'flex', justifyContent: 'space-around' }}>
 
+                                            <Button className='custom-button-cancel' startIcon={<ClearIcon />} onClick={handleCancel}>
+                                                Cancel
+                                            </Button>
                                             <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(productDetail.id)}>
                                                 Buy Now
                                             </Button>
