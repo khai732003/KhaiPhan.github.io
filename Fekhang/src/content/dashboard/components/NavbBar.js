@@ -279,6 +279,18 @@ const NavBar = () => {
                 <ListItemText primary="Product Management" />
               </StyledToggleButton>
 
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/listconfirm"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <StoreIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Confirm Management" />
+              </StyledToggleButton>
+
               <div>
                 <p className="navbar-item">Income</p>
                 <hr />

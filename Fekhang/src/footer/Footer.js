@@ -24,13 +24,13 @@ const Footer = (props) => {
     const isVoucher = location.pathname === '/voucher';
     const isError = location.pathname === '/error';
     const isPaypal= location.pathname === '/paypal';
-
+    const isListConfirm = location.pathname === "/listconfirm";
 
     if (isLoginPage || isRegisterPage || isSuccess || isPaypal ||isError) {
         return null;
     }
 
-    if (isUserManager || isVoucher|| isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isAdminProfile || isTimeLine) {
+    if (isListConfirm||isUserManager || isVoucher|| isAdmin || isAddUser || isUpdateUser || isRevenue || isProductManager || isAddProduct || isUpdateProduct || isStaffManager || isAdminProfile || isTimeLine) {
         return <FooterAdmin />
     }
     return (

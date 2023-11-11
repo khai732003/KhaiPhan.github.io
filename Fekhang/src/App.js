@@ -54,6 +54,7 @@ import LocalOrder from './content/SanPham/LocalOrder';
 import ShowCustom from './content/SanPham/ShowCustom';
 import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
 import ConfirmPage from './content/dashboard/pages/ConfirmPage';
+import ListDelivered from './content/dashboard/pages/ListDelivered';
 
 
 
@@ -116,7 +117,7 @@ function App() {
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
               <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />
               <Route path="/listconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ConfirmPage} path="/listconfirm" />} />
-
+              <Route path="/listdelivered" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ListDelivered} path="/listdelivered" />} />
 
 
               {/*Vùng Staff*/}

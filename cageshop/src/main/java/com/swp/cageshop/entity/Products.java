@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Products extends EntityBase {
 
-  @Column(nullable = false, length = 50)
+  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = true, length=6)
+  @Column(nullable = true)
   private String code;
 
   @Lob
@@ -30,11 +30,11 @@ public class Products extends EntityBase {
   @CollectionTable(name = "product_detail_images", joinColumns = @JoinColumn(name = "product_id"))
   @Column(name = "image_url")
   private List<String> productDetailImage;
-  @Column(nullable = false,length = 10)
+  @Column(nullable = false)
   private int stock;
 
 
-  @Column(nullable = false,length = 10)
+  @Column(nullable = false)
   private double totalPrice;
 
 // -------------------------------------------------

@@ -74,10 +74,10 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
   //Sort
-    @Query("SELECT p FROM Products p ORDER BY p.totalPrice ASC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.totalPrice ASC")
     List<Products> findProductsByTotalPriceAsc();
 
-    @Query("SELECT p FROM Products p ORDER BY p.totalPrice DESC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.totalPrice DESC")
     List<Products> findProductsByTotalPriceDesc();
 
 
@@ -91,22 +91,22 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
 
-    @Query("SELECT p FROM Products p ORDER BY p.createDate ASC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.createDate ASC")
     List<Products> findAllProductsSortedByCreateDateAsc();
 
 
 
-    @Query("SELECT p FROM Products p WHERE p.createDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT p FROM Products p WHERE  p.createDate BETWEEN :startDate AND :endDate")
     List<Products> findByReleaseDateBetween(@Param("startDate") Date startDate,
                                             @Param("endDate") Date endDate);
 
-    @Query("SELECT p FROM Products p WHERE p.stock <= :maxStock")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.stock <= :maxStock")
     List<Products> findProductsWithLimitedStock(@Param("maxStock") int maxStock);
 
-    @Query("SELECT p FROM Products p WHERE p.totalPrice BETWEEN :minPrice AND :maxPrice")
-    List<Products> findByPriceBetween(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
+  @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.totalPrice BETWEEN :minPrice AND :maxPrice ORDER BY p.totalPrice ASC")
+  List<Products> findByPriceBetween(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
-    @Query("SELECT p.name, c.description FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE c.description LIKE %:keyword%")
+    @Query("SELECT p.name, c.description FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE p.name LIKE %:keyword%")
     List<Products> findProductsByKeyword(@Param("keyword") String keyword);
 
 

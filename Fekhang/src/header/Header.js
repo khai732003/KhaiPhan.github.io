@@ -46,7 +46,7 @@ function Header(props) {
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
-
+  const isListConfirm = location.pathname === "/listconfirm";
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -96,7 +96,7 @@ function Header(props) {
     isStaffManager ||
     isVoucher ||
     isAdminProfile ||
-    isTimeLine
+    isTimeLine || isListConfirm
   ) {
     return <NavBar />;
   }

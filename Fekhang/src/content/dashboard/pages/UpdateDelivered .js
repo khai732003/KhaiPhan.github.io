@@ -30,7 +30,7 @@ const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
   };
 
   return (
-    <Container className="history-order-container">
+    <Container style={{color:'#3f51b5', textAlign:'center'}}>
       <Typography variant="h4" className="header" gutterBottom>
         Delivering Orders
       </Typography>
