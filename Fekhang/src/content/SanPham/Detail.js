@@ -41,6 +41,7 @@ function Detail({
   const navigate = useNavigate();
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   const [rate, setRate] = useState(null);
+  const [show, setShow] = useState(null);
 
   let orderId = localStorage.getItem("orderId");
 
@@ -58,11 +59,27 @@ function Detail({
   }, []);
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const userId = user.userId;
+        const response = await customAxios.get(`/order/checkUserPurchase/${userId}/${productId}`);
+        setShow(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  useEffect(() => {
     customAxios
-      .get(`https://6548df44dd8ebcd4ab23c85c.mockapi.io/rating`)
+      .get(`/feedback/average-rating/${productId}`)
       .then((response) => {
         console.log(response.data); // Log the response to the console
         setRate(response.data);
+        console.log(rate)
         setLoading(false);
       })
       .catch((error) => {
@@ -80,7 +97,6 @@ function Detail({
   const handleReturnPage = () => {
     navigate(-1);
   };
-
   const handleAddToCart = () => {
     const {
       id,
@@ -108,66 +124,61 @@ function Detail({
 
   useEffect(() => {
     // Kiểm tra xem có quay trở lại từ Login.js hay không
-    const storedIsReturningFromLogin = localStorage.getItem(
-      "isReturningFromLogin"
-    );
-    const isDetailReturn = localStorage.getItem("isDetailReturn");
-    if (storedIsReturningFromLogin === "true" && isDetailReturn === "true") {
+    const storedIsReturningFromLogin = localStorage.getItem('isReturningFromLogin');
+    const isDetailReturn = localStorage.getItem('isDetailReturn');
+    if (storedIsReturningFromLogin === 'true' && isDetailReturn === 'true') {
       setIsReturningFromLogin(true);
-      // Đặt giá trị của cờ thành false để tránh việc rerender không cần thiết
-      localStorage.setItem("isReturningFromLogin", "false");
-      localStorage.setItem("isDetailReturn", "false");
+      localStorage.setItem('isReturningFromLogin', 'false');
+      localStorage.setItem('isDetailReturn', 'false');
     }
-  }, []); // Chỉ chạy một lần sau khi render đầu tiên
+  }, []);
 
-  useEffect(
-    () => {
-      // Kiểm tra cờ và gọi handleBuy() chỉ khi quay trở lại từ Login.js
-      if (isReturningFromLogin) {
-        const id = localStorage.getItem("proId");
-        localStorage.removeItem("proId");
-        console.log(id);
-        handleBuy(id);
-      }
-    },
-    [isReturningFromLogin],
-    [id]
-  );
+
+  useEffect(() => {
+
+    if (isReturningFromLogin) {
+      const id = localStorage.getItem('proId');
+      localStorage.removeItem('proId');
+      console.log(id)
+      handleBuy(id);
+    }
+  }, [isReturningFromLogin, orderId]);
 
   const handleBuy = async (id) => {
+
     if (!user) {
-      localStorage.setItem("isDetailReturn", "true");
-      localStorage.setItem("proId", productId);
-      localStorage.setItem("toBuy", window.location.pathname);
-      navigate("/login");
+      localStorage.setItem('isDetailReturn', 'true');
+      localStorage.setItem('proId', productId);
+      localStorage.setItem('toBuy', window.location.pathname);
+      navigate("/login")
       return;
     }
     try {
-      console.log(id);
+      console.log(id)
       if (!orderId) {
         const shipAddress = "hcm";
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-        const orderResponse = await customAxios.post("/order/add", {
-          name: "Tổng hóa đơn",
-          status: "pending",
-          paymentMethod: "credit card",
-          address: "137 Đặng Văn Bi",
-          city: "Đà Nẵng",
-          content: "Đóng gói cẩn thận nhé",
-          shipDate: "2023-10-15",
-          userId: user.userId,
+        const orderResponse = await customAxios.post('/order/add', {
+          "name": "Tổng hóa đơn",
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": "137 Đặng Văn Bi",
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          "shipDate": "2023-10-15",
+          userId: user.userId
         });
 
         orderId = orderResponse.data.id;
-        localStorage.setItem("orderId", orderId);
-        console.log(orderId);
+        localStorage.setItem('orderId', orderId);
+        console.log(orderId)
       }
 
-      console.log(orderId);
+      console.log(orderId)
 
       // const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
-      await customAxios.post("/order_detail/add", {
+      await customAxios.post('/order_detail/add', {
         quantity: 1,
         hirePrice: productDetail.hirePrice,
         name: productDetail.name,
@@ -178,9 +189,9 @@ function Detail({
         note: `Sản phẩm là ${id}`,
         orderId: orderId,
         productId: productDetail.id,
-        totalCost: productDetail.totalPrice,
+        totalCost: productDetail.totalPrice
       });
-      console.log(orderId);
+      console.log(orderId)
       navigate(`/order/${orderId}`);
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
@@ -191,16 +202,10 @@ function Detail({
     navigate(`/customeproduct/${id}`);
   };
 
+
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
       </div>
     );
@@ -209,19 +214,6 @@ function Detail({
   if (!productDetail) {
     return <div>Product not found</div>;
   }
-
-  //   const labels: { [index: string]: string } = {
-  //     0.5: "Useless",
-  //     1: "Useless+",
-  //     1.5: "Poor",
-  //     2: "Poor+",
-  //     2.5: "Ok",
-  //     3: "Ok+",
-  //     3.5: "Good",
-  //     4: "Good+",
-  //     4.5: "Excellent",
-  //     5: "Excellent+",
-  //   };
 
   return (
     <div className="full-container-details" style={{ paddingBottom: "3rem" }}>
@@ -351,11 +343,7 @@ function Detail({
                               </div>
                             ))}
                         </div>
-                        {/* <div>
-                          {rate?.map((item) => (
-                            <div key={item.id}>{item.rating}</div>
-                          ))}
-                        </div> */}
+
                         <hr />
                         <Box
                           sx={{
@@ -366,11 +354,8 @@ function Detail({
                         >
                           <Rating
                             name="text-feedback"
-                            value={
-                              rate && rate.length > 0
-                                ? parseFloat(rate[0].rating)
-                                : 0
-                            }
+                            value=
+                            {rate}
                             readOnly
                             precision={0.5}
                             emptyIcon={
@@ -383,13 +368,17 @@ function Detail({
                         </Box>
                       </div>
                     </div>
-                    <div>
-                      <Stack direction="row" spacing={2} style={{justifyContent: "end"}}>
+                    {show === true && <div>
+                      <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                         <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
-                            FeedBack
+                          FeedBack
                         </Button>
                       </Stack>
-                    </div>
+                    </div>}
+                    {show === false && ( 
+                  <div></div>
+                )}
+                    
 
                     <div
                       style={{

@@ -1,6 +1,8 @@
 package com.swp.cageshop.repository;
 
 import com.swp.cageshop.DTO.ProductDTO;
+import com.swp.cageshop.entity.Accessories;
+import com.swp.cageshop.entity.BirdCages;
 import com.swp.cageshop.entity.Categories;
 import com.swp.cageshop.entity.Products;
 import org.springframework.data.domain.Sort;
@@ -72,14 +74,15 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
   //Sort
-    @Query("SELECT p FROM Products p ORDER BY p.totalPrice ASC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.totalPrice ASC")
     List<Products> findProductsByTotalPriceAsc();
 
-    @Query("SELECT p FROM Products p ORDER BY p.totalPrice DESC")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.totalPrice DESC")
     List<Products> findProductsByTotalPriceDesc();
 
 
 //    List<Products> findProductsByDescriptionContaining(String keyword);
+
 
 
     @Query("SELECT p FROM Products p WHERE p.status = 'Available'  ORDER BY p.createDate DESC" )
@@ -87,23 +90,24 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
 
-    @Query("SELECT p FROM Products p ORDER BY p.createDate ASC")
+
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' ORDER BY p.createDate ASC")
     List<Products> findAllProductsSortedByCreateDateAsc();
 
 
 
-    @Query("SELECT p FROM Products p WHERE p.createDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT p FROM Products p WHERE  p.createDate BETWEEN :startDate AND :endDate")
     List<Products> findByReleaseDateBetween(@Param("startDate") Date startDate,
                                             @Param("endDate") Date endDate);
 
-    @Query("SELECT p FROM Products p WHERE p.stock <= :maxStock")
+    @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.stock <= :maxStock")
     List<Products> findProductsWithLimitedStock(@Param("maxStock") int maxStock);
 
-    @Query("SELECT p FROM Products p WHERE p.totalPrice BETWEEN :minPrice AND :maxPrice")
-    List<Products> findByPriceBetween(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
+  @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.totalPrice BETWEEN :minPrice AND :maxPrice ORDER BY p.totalPrice ASC")
+  List<Products> findByPriceBetween(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
-    @Query("SELECT p.name, c.description FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE c.description LIKE %:keyword%")
-    List<Products> findProductsByKeyword(@Param("keyword") String keyword);
+  @Query("SELECT p FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE p.status = 'Available' AND p.name LIKE %:keyword% OR c.description LIKE %:keyword%")
+  List<Products> findProductsByKeyword(@Param("keyword") String keyword);
 
 
 ///////////////////////////////////////////////////////

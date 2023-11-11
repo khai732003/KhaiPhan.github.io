@@ -49,21 +49,19 @@ const Revenue = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await customAxios.get(
-          "/by-date"
-        );
+        const response = await customAxios.get("/by-date");
         if (response.status !== 200) {
           throw Error("Network response was not ok");
         }
+    
         const apiData = response.data;
         console.log(apiData);
+    
         if (Array.isArray(apiData)) {
-          const combinedData = Object.entries(apiData[0]).map(
-            ([date, revenue]) => ({
-              date: date,
-              revenue: revenue,
-            })
-          );
+          const combinedData = apiData.map((item) => ({
+            date: Object.keys(item)[0],
+            revenue: Object.values(item)[0],
+          }));
           setRevenueData(combinedData);
         } else {
           console.error("API data is not an array:", apiData);
@@ -72,6 +70,7 @@ const Revenue = () => {
         console.error("Error fetching revenue data:", error);
       }
     };
+    
 
     fetchData();
     getListProducts();

@@ -70,17 +70,18 @@ public class ProductsServiceImpl implements IProductsService {
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
                 product.setCategory(category);
-                Products savedProduct = productsRepository.save(product);
-                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+
+                Products savedProduct = productsRepository.save(product); // Lưu sản phẩm trước
+
 
                 if (productDTO.getCage() != null) {
-
                     BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
                     birdCages.setProduct(savedProduct); // Set the product for the bird cage
-
+                    birdCages.setId(savedProduct.getId()); // Set the proid for the bird cage
                     birdCageRepository.save(birdCages);
 
                 }
+
                 if (productDTO.getAccessories() != null) {
 
                     for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
@@ -88,15 +89,31 @@ public class ProductsServiceImpl implements IProductsService {
                         accessory.setCustomProduct(false);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
 
+                        accessoryDTO.setProductId(savedProduct.getId());
+
                         accessoriesRepository.save(accessory);
 
                     }
                 }
 
+                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+                deleteBirdCagesWithNullProductId();
+                deleteAccessoriesWithNullProductIdAndCustomProductNotNull();
                 return savedProductDTO;
             }
         }
         return null;
+    }
+
+    public void deleteBirdCagesWithNullProductId() {
+        List<BirdCages> birdcage=  birdCageRepository.findByProductIdIsNull();
+        birdCageRepository.deleteAll(birdcage);
+    }
+
+    // Method to delete Accessories with productId null and customProduct not null
+    public void deleteAccessoriesWithNullProductIdAndCustomProductNotNull() {
+        List<Accessories> accessories = accessoriesRepository.findByProductIdIsNullAndCustomProductIsNull();
+        accessoriesRepository.deleteAll(accessories);
     }
 
     public ProductDTO test(ProductDTO productDTO) {
@@ -144,6 +161,7 @@ public class ProductsServiceImpl implements IProductsService {
         }
         return null;
     }
+
 
 
 
@@ -331,8 +349,6 @@ public class ProductsServiceImpl implements IProductsService {
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
-
-
     }
 
 

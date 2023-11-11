@@ -18,9 +18,6 @@ public interface IOrdersService {
 
     public OrderDTO updateOrderDTO(long id, OrderDTO OrderDTO);
 
-
-    public boolean deleteOrderDTO(long id);
-
     public List<OrderDTO> getAllOrderDTO();
 
     public OrderDTO findById(Long id);
@@ -38,5 +35,9 @@ public interface IOrdersService {
     public List<OrderDTO> getOrdersByUserId(Long userId);
 
     public List<OrderDTO> getOrdersByUserIdAndPayStatus(Long userId, String payStatus);
+
+    public boolean deleteOrderDTO(long orderId);
+
+    public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId);
 
 }

@@ -47,7 +47,8 @@ function Header(props) {
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
-
+  const isListConfirm = location.pathname === "/listconfirm";
+  
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -96,9 +97,10 @@ function Header(props) {
     isUpdateProduct ||
     isStaffManager ||
     isVoucher ||
-    isAdminProfile ||
-    isTimeLine || 
-    isAddAccessories
+    isAdminProfile || 
+    isAddAccessories ||
+    isTimeLine || isListConfirm
+
   ) {
     return <NavBar />;
   }
@@ -208,7 +210,9 @@ function Header(props) {
                       variant="dot"
                       className="avatar"
                     >
+
                       <Avatar alt="User Avatar" src={user.image} />
+
                     </StyledBadge>
 
                     <div className="dropdown-menu">
@@ -246,6 +250,7 @@ function Header(props) {
                         <NavLink
                           to="/history"
                           className="dropdown-item nav-link"
+
                         >
                           HISTORY ORDER
                         </NavLink>
@@ -257,6 +262,7 @@ function Header(props) {
                           LOCAL ORDER
                         </NavLink>
                         </>
+
                       )}
                       <div
                         className="dropdown-item nav-link"

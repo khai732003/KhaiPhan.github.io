@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -107,6 +108,22 @@ public class FeedbackServiceImpl implements IFeedbackService {
         }
         return false;
     }
+
+
+    @Override
+    public List<FeedbackDTO> getAllFeedbacksByProductId(Long productId) {
+        List<Feedback> feedbacks = feedbackRepository.findAllByProductId(productId);
+        List<FeedbackDTO> feedbackDTOs = new ArrayList<>();
+
+        for (Feedback feedback : feedbacks) {
+            FeedbackDTO mappedFeedbackDTO = modelMapper.map(feedback, FeedbackDTO.class);
+            mappedFeedbackDTO.setUserName(userRepository.findUserNameByUserId(feedback.getUser().getId()));
+            feedbackDTOs.add(mappedFeedbackDTO);
+        }
+
+        return feedbackDTOs;
+    }
+
 
 
 }

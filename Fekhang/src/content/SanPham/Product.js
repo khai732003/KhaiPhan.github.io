@@ -81,48 +81,40 @@ const Product = ({
       navigate("/login");
       return;
     }
-    try {
-      if (!orderId) {
-        const shipAddress = "hcm";
-        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+      try {
+        if (!orderId) {
+          const address = user.address;
+          const shipAddress = "hcm";
+          const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-        const orderResponse = await customAxios.post("/order/add", {
-          name: "Tổng hóa đơn",
-          status: "pending",
-          paymentMethod: "credit card",
-          address: "137 Đặng Văn Bi",
-          city: "Đà Nẵng",
-          content: "Đóng gói cẩn thận nhé",
-          shipDate: "2023-10-15",
-          userId: user.userId,
+          const orderResponse = await customAxios.post('/order/add', {
+            "name": "Tổng hóa đơn",
+            "status": "pending",
+            "paymentMethod": "credit card",
+            "address": address,
+            "city": "Đà Nẵng",
+            "content": "Đóng gói cẩn thận nhé",
+            "shipDate": "2023-10-15",
+            userId: user.userId
+          });
+
+          orderId = orderResponse.data.id;
+          localStorage.setItem('orderId', orderId);
+        }
+
+        const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+
+        await customAxios.post('/order_detail/add', {
+          quantity: 1,
+          hirePrice: product.hirePrice,
+          totalOfProd: product.totalOfProd,
+          name: product.name,
+          note: `Sản phẩm là ${product.id}`,
+          orderId,
+          productId: product.id,
+          totalCost: product.totalPrice
         });
-
-        orderId = orderResponse.data.id;
-        localStorage.setItem("orderId", orderId);
-      }
-
-      const product = {
-        id,
-        name,
-        stock,
-        totalPrice,
-        productImage,
-        code,
-        cage,
-        accessories,
-      };
-
-      await customAxios.post("/order_detail/add", {
-        quantity: 1,
-        hirePrice: product.hirePrice,
-        totalOfProd: product.totalOfProd,
-        name: product.name,
-        note: `Sản phẩm là ${product.id}`,
-        orderId,
-        productId: product.id,
-        totalCost: product.totalPrice,
-      });
-
+    
       navigate(`/order/${orderId}`);
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
@@ -131,11 +123,11 @@ const Product = ({
 
   return (
     <div>
-      <div className="card-stock">Stock: {stock}</div>
+
       <div className="col-md-12 container-product">
         <Card sx={{ maxWidth: 345 }} className="product-card">
-          {/* <div className="card-stock">Stock: {stock}</div> */}
           <div className="card-body">
+          <div className="card-stock">Stock: {stock}</div>
             <div
               className="card-product"
               style={{ paddingTop: 12 }}

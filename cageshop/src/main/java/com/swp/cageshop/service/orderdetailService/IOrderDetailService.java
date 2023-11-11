@@ -22,5 +22,4 @@ public interface IOrderDetailService {
     public void deleteOrderDetail(Long id);
 
 
-
 }

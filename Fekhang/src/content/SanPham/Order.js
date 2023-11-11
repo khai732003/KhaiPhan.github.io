@@ -93,10 +93,7 @@ const Order = () => {
                   </Button>
 
                 </div>
-                {/* <div>ID: {order.id}</div>
-            <div>Status: {order.status}</div>
-            <div>Payment Method: {order.paymentMethod}</div>
-            <div>Ship Address: {order.shipAddress}</div> */}
+
                 <div className="total-price">
                   <div style={{fontSize: '1rem', marginRight:'1rem'}}> Total Price: </div>
                   <div>ship-price {order.shipPrice} VND </div>
