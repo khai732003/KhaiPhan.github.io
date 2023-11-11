@@ -123,11 +123,11 @@ const Product = ({
 
   return (
     <div>
-      <div className="card-stock">Stock: {stock}</div>
+
       <div className="col-md-12 container-product">
         <Card sx={{ maxWidth: 345 }} className="product-card">
-          {/* <div className="card-stock">Stock: {stock}</div> */}
           <div className="card-body">
+          <div className="card-stock">Stock: {stock}</div>
             <div
               className="card-product"
               style={{ paddingTop: 12 }}

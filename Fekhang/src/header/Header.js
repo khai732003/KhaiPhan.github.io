@@ -47,6 +47,7 @@ function Header(props) {
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
   const isListConfirm = location.pathname === "/listconfirm";
+  
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",

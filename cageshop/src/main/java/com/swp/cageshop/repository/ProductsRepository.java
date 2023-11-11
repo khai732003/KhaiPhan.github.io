@@ -106,8 +106,8 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
   @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.totalPrice BETWEEN :minPrice AND :maxPrice ORDER BY p.totalPrice ASC")
   List<Products> findByPriceBetween(@Param("minPrice") double minPrice, @Param("maxPrice") double maxPrice);
 
-    @Query("SELECT p.name, c.description FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE p.name LIKE %:keyword%")
-    List<Products> findProductsByKeyword(@Param("keyword") String keyword);
+  @Query("SELECT p FROM Products p JOIN BirdCages c ON p.id = c.product.id WHERE p.status = 'Available' AND p.name LIKE %:keyword% OR c.description LIKE %:keyword%")
+  List<Products> findProductsByKeyword(@Param("keyword") String keyword);
 
 
 ///////////////////////////////////////////////////////

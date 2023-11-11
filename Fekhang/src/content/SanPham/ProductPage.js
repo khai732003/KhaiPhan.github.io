@@ -14,6 +14,7 @@ const ProductPage = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectedSort, setSelectedSort] = useState("dateDesc");
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -21,6 +22,7 @@ const ProductPage = () => {
 
   const handleSortChange = (event) => {
     const selectedSort = event.target.value;
+    setSelectedSort(selectedSort); // Cập nhật giá trị đã chọn vào state
     switch (selectedSort) {
       case "priceAsc":
         setCurrentApiUrl("/product/list-price-asc");
@@ -36,13 +38,11 @@ const ProductPage = () => {
     }
   };
 
-  useEffect(() => {
-    const apiUrl = currentApiUrl;
+  const handleSearch = () => {
+    const apiUrl = `/product/search/${searchKeyword}`;
     const headers = {
       "ngrok-skip-browser-warning": "123",
     };
-
-    // Add logic here to handle other filters if needed
 
     customAxios
       .get(apiUrl, { headers: headers })
@@ -54,6 +54,29 @@ const ProductPage = () => {
         console.error("Lỗi khi lấy dữ liệu:", error);
         setIsLoading(false);
       });
+  };
+
+  useEffect(() => {
+    const apiUrl = currentApiUrl;
+    const headers = {
+      "ngrok-skip-browser-warning": "123",
+    };
+
+    if (searchKeyword) {
+      // Nếu có từ khóa tìm kiếm, sử dụng API tìm kiếm thay vì API hiện tại
+      handleSearch();
+    } else {
+      customAxios
+        .get(apiUrl, { headers: headers })
+        .then((response) => {
+          setProducts(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy dữ liệu:", error);
+          setIsLoading(false);
+        });
+    }
   }, [currentApiUrl, minPrice, maxPrice, searchKeyword]);
 
   if (isLoading) {
@@ -70,14 +93,13 @@ const ProductPage = () => {
 
   return (
     <>
-    {/* Sử dụng các filter của MUI */}
-    <Box mt={3} display="flex" justifyContent="center">
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <Box mt={3} display="flex" justifyContent="center" paddingTop="6rem">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
           <InputLabel id="sort-label">Sort By</InputLabel>
           <Select
             labelId="sort-label"
             id="sort-select"
-            value=""
+            value={selectedSort}
             onChange={handleSortChange}
           >
             <MenuItem value="dateDesc">Newest</MenuItem>
@@ -93,8 +115,7 @@ const ProductPage = () => {
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        {/* Remove Min/Max Price filter */}
-        <Button variant="contained" onClick={() => setCurrentApiUrl("/product/list-price-asc")}>Filter</Button>
+        {/* <Button variant="contained" onClick={() => setCurrentApiUrl("/product/list-price-asc")}>Filter</Button> */}
       </Box>
       <div className="container product-page">
         <div className="row">
@@ -131,7 +152,7 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 };

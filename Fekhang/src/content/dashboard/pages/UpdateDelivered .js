@@ -2,9 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../../CustomAxios/customAxios';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
+import PaginationComponent from './PaginationComponent';
+
+const ITEMS_PER_PAGE = 5;
 
 const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
   const [notificationsDelivering, setNotificationsDelivering] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +23,17 @@ const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
     fetchData();
   }, [triggerUpdate]); // Include triggerUpdate as a dependency
 
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  // Get the list of items for the current page
+  const currentItems = notificationsDelivering.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const handleUpdateDelivered = async (orderId) => {
     try {
       const updateDeliveredResponse = await customAxios.put(`/shipping/update/status/${orderId}?newStatus=DELIVERED`);
@@ -30,7 +45,7 @@ const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
   };
 
   return (
-    <Container style={{color:'#3f51b5', textAlign:'center'}}>
+    <Container style={{color:'#3f51b5', textAlign:'center', height:'72.5vh'}}>
       <Typography variant="h4" className="header" gutterBottom>
         Delivering Orders
       </Typography>
@@ -46,7 +61,7 @@ const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {notificationsDelivering.map(notification => (
+            {currentItems.map(notification => (
               <TableRow key={notification.id}>
                 <TableCell>{notification.id}</TableCell>
                 <TableCell>{notification.name}</TableCell>
@@ -61,6 +76,9 @@ const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <PaginationComponent items={notificationsDelivering} onPageChange={handlePageChange} />
+
     </Container>
   );
 };

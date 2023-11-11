@@ -1,11 +1,14 @@
+// ListNotConfirm.js
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../../CustomAxios/customAxios';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
-import ListConfirm from './ListConfirm';
-import UpdateDelivered from './UpdateDelivered ';
+import PaginationComponent from './PaginationComponent';
+
+const ITEMS_PER_PAGE = 5;
 
 const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
   const [notifications, setNotifications] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +22,17 @@ const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
 
     fetchData();
   }, [triggerUpdate]); // Include triggerUpdate as a dependency
+
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  // Get the list of items for the current page
+  const currentItems = notifications.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleConfirm = async (orderId) => {
     try {
@@ -36,7 +50,7 @@ const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
 
   return (
     <>
-    <Container style={{color:'#3f51b5', textAlign:'center'}}>
+    <Container style={{color:'#3f51b5', textAlign:'center', height:'72.5vh'}}>
       <Typography variant="h4" className="header" gutterBottom>
         Waiting Confirm
       </Typography>
@@ -52,7 +66,7 @@ const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {notifications.map(notification => (
+            {currentItems.map(notification => (
               <TableRow key={notification.id}>
                 <TableCell>{notification.id}</TableCell>
                 <TableCell>{notification.name}</TableCell>
@@ -67,10 +81,11 @@ const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
 
+      <PaginationComponent items={notifications} onPageChange={handlePageChange} />
+
+    </Container>
     </>
-    
   );
 };
 
