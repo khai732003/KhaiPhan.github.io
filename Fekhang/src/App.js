@@ -51,6 +51,7 @@ import VNPayPayment from './content/SanPham/VNPayPayment';
 import HistoryOrder from './content/SanPham/HistoryOrder';
 import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
 import LocalOrder from './content/SanPham/LocalOrder';
+import AddEditCategory from './content/dashboard/components/AddEditCategory';
 
 
 
@@ -87,6 +88,7 @@ function App() {
 
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
+              <Route path="/add-edit-category" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditCategory} path="/add-edit-category" />} />
               <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
               <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />

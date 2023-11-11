@@ -123,13 +123,19 @@ const ProductManagement = () => {
           </div>
         </div>
 
-        <div className="btn-add action-bar">
+        <div className="btn-add">
+          <Link to={"/addaccessories"}>
+            <button className="add-staff-btn" style={{marginRight: '20'}}>Add new Accessories</button>
+          </Link>
+        </div>
+
+        <div className="btn-add">
           <Link to={"/add-edit-category"}>
             <button className="add-staff-btn">Add new Category</button>
           </Link>
         </div>
 
-        <div className="btn-add action-bar">
+        <div className="btn-add">
           <Link to={"/addproduct"}>
             <button className="add-staff-btn">Add new product</button>
           </Link>

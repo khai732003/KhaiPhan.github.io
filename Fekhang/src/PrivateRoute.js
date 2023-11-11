@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from './content/SanPham/Context/AuthContext';
 import Login from './content/SanPham/Login';
 
+
 const PrivateRoute = ({ allowedRoles, component: Component, path }) => {
   const { user } = useAuth();
   const thisPath = path;

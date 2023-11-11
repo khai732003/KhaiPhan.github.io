@@ -41,6 +41,7 @@ function Header(props) {
   const isTimeLine = location.pathname === "/timeline";
   const isProductManager = location.pathname === "/productmanagement";
   const isAddProduct = location.pathname === "/addproduct";
+  const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
   const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
@@ -96,7 +97,8 @@ function Header(props) {
     isStaffManager ||
     isVoucher ||
     isAdminProfile ||
-    isTimeLine
+    isTimeLine || 
+    isAddAccessories
   ) {
     return <NavBar />;
   }
