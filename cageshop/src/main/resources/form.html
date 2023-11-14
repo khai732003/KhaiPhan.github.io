@@ -56,18 +56,39 @@
     <a href="http://localhost:3000/pay/[[orderId]]" class="button" style="background-color: #4CAF50;">Xác nhận đơn hàng</a>
 </div>
 <script>
-    // Nhúng chuỗi JSON vào div có id là "orderDetails"
-    var orderDetailsJson = `[[orderDetails]]`;
-    var orderDetails = JSON.parse(orderDetailsJson);
+    function confirmOrder() {
+        // Chuẩn bị dữ liệu đơn hàng từ HTML
+        var orderId = "[[orderId]]";
+        var email = "[[email]]";
+        var orderDetailsJson = `[[orderDetails]]`;
+        var orderDetails = JSON.parse(orderDetailsJson);
 
-    // Xử lý và hiển thị thông tin từ chuỗi JSON trong orderDetails div
-    var orderDetailsDiv = document.getElementById("orderDetails");
-    orderDetails.forEach(function(detail) {
-        var detailDiv = document.createElement("div");
-        detailDiv.innerHTML = `<p><strong>Tên sản phẩm:</strong> ${detail.name}</p>
-                           <p><strong>Tổng giá:</strong> ${detail.totalPrice}</p>`;
-        orderDetailsDiv.appendChild(detailDiv);
-    });
+        // Tạo đối tượng đơn hàng để gửi lên server
+        var order = {
+            orderId: orderId,
+            email: email,
+            orderDetails: orderDetails
+        };
+
+        // Gọi API để lưu đơn hàng vào cơ sở dữ liệu
+        fetch('http://localhost:8080/api/orders/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Hiển thị thông báo xác nhận cho người dùng nếu cần
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Xử lý lỗi nếu cần
+        });
+    }
 </script>
+
 </body>
 </html>

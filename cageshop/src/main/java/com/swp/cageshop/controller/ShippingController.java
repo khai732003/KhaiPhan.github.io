@@ -1,7 +1,6 @@
 package com.swp.cageshop.controller;
 
-import com.easypost.model.Shipment;
-import com.easypost.service.EasyPostClient;
+
 import com.swp.cageshop.DTO.ShippingDTO;
 import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.Shipping;
@@ -11,8 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.easypost.EasyPost;
-import com.easypost.exception.EasyPostException;
+
 
 import java.util.HashMap;
 import java.util.List;

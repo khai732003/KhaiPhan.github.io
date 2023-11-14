@@ -1,6 +1,5 @@
 package com.swp.cageshop.controller;
 
-import com.swp.cageshop.DTO.ReplyDTO;
 import com.swp.cageshop.service.replyService.IReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
