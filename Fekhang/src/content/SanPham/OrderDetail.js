@@ -31,6 +31,11 @@ const OrderDetail = (props) => {
     }
   };
 
+  function formatCurrency(amount) {
+    // Sử dụng hàm toLocaleString để định dạng số với dấu phẩy ngăn cách hàng nghìn
+    return amount.toLocaleString('en-US');
+  }
+
 
   return (
     <div className="order-details">
@@ -41,15 +46,14 @@ const OrderDetail = (props) => {
               <div className="list-orderdetail" key={item.id}>
                 <div><img src={item.productImg} alt="fix" /></div>
                 <div className="orderdetail-name">
-                  {item.id}
                   {/* <div>Product ID: {item.productId}</div> */}
                   {item.name}
-                  <div className="quantity"> X{item.quantity} {item.productId}</div>
+                  <div className="quantity"> X{item.quantity}</div>
                 </div>
                 <div className="price">
-                  
-                  <div>Total Cost: {item.totalCost}</div>
+                  <div>Total Cost: {formatCurrency(item.totalCost)}</div>
                 </div>
+
                 {/* Thêm nút "Xóa" và gắn hàm xóa vào sự kiện click */}
                 <Button onClick={() => handleDeleteOrderDetail(item.id)} variant="outlined" startIcon={<DeleteIcon />}>
                   Delete

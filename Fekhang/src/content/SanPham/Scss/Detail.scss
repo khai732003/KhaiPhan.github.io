@@ -1,42 +1,91 @@
-.full-container-details{
-    .product-container-productdetail{
-        .container-productdetail{
+.full-container-details {
+    .product-container-productdetail {
+        .container-productdetail {
+            .list-acc {
+                position: absolute;
+                right: 15%;
+                top: 20%;
+
+                .sub-acc {
+                    border: 1px solid;
+                    padding: 0.5rem;
+                    margin-bottom: 0.5rem;
+                    border-radius: 1rem;
+                    background-color: #ccc;
+                }
+            }
+
             .custom-button-cart {
                 border: 2px solid;
                 background-color: rgb(255, 255, 255);
                 color: rgb(0, 0, 0);
                 transition: background-color 0.3s ease, color 0.3s ease;
-            
+
                 &:hover {
                     border: 2px solid black;
-                    background-color: #000000; /* Thay đổi màu khi hover */
-                    color: rgb(255, 255, 255); /* Màu văn bản khi hover */
+                    background-color: #000000;
+                    /* Thay đổi màu khi hover */
+                    color: rgb(255, 255, 255);
+                    /* Màu văn bản khi hover */
                 }
-            
+
                 &:disabled {
-                    background-color: #ccc; /* Màu xám khi nút không được kích hoạt */
-                    color: #9e8c8c; /* Màu văn bản khi nút không được kích hoạt */
-                    cursor: not-allowed; /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
+                    background-color: #ccc;
+                    /* Màu xám khi nút không được kích hoạt */
+                    color: #9e8c8c;
+                    /* Màu văn bản khi nút không được kích hoạt */
+                    cursor: not-allowed;
+                    /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
                 }
-        }
+            }
+
             .custom-button-buy {
                 border: 2px solid;
                 background-color: rgb(255, 255, 255);
                 color: rgb(0, 0, 0);
                 transition: background-color 0.3s ease, color 0.3s ease;
-            
+
                 &:hover {
                     border: 2px solid black;
-                    background-color: #000000; /* Thay đổi màu khi hover */
-                    color: rgb(255, 255, 255); /* Màu văn bản khi hover */
+                    background-color: #000000;
+                    /* Thay đổi màu khi hover */
+                    color: rgb(255, 255, 255);
+                    /* Màu văn bản khi hover */
                 }
-            
+
                 &:disabled {
-                    background-color: #ccc; /* Màu xám khi nút không được kích hoạt */
-                    color: #9e8c8c;  /* Màu văn bản khi nút không được kích hoạt */
-                    cursor: not-allowed; /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
+                    background-color: #ccc;
+                    /* Màu xám khi nút không được kích hoạt */
+                    color: #9e8c8c;
+                    /* Màu văn bản khi nút không được kích hoạt */
+                    cursor: not-allowed;
+                    /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
                 }
+            }
+
+            .custom-button-cancel {
+                border: 2px solid;
+                background-color: rgb(255, 255, 255);
+                color: rgb(255, 0, 0);
+                transition: background-color 0.3s ease, color 0.3s ease;
+
+                &:hover {
+                    border: 2px solid rgb(255, 0, 0);
+                    background-color: #fc0000;
+                    /* Thay đổi màu khi hover */
+                    color: rgb(255, 255, 255);
+                    /* Màu văn bản khi hover */
+                }
+
+                &:disabled {
+                    background-color: #ccc;
+                    /* Màu xám khi nút không được kích hoạt */
+                    color: #9e8c8c;
+                    /* Màu văn bản khi nút không được kích hoạt */
+                    cursor: not-allowed;
+                    /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
+                }
+            }
         }
     }
-}
 }

@@ -284,7 +284,7 @@ public class ProductsController {
         if (!products.isEmpty()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping("/product/price-range/{minPrice}/{maxPrice}")
@@ -296,7 +296,7 @@ public class ProductsController {
         if (!products.isEmpty()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -330,7 +330,7 @@ public class ProductsController {
         if (!products.isEmpty()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping("/product/accessories-type/{accessoryType}")

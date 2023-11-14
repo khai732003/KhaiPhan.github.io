@@ -34,7 +34,7 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String image;
 
-  @Column(nullable = false, length = 10)
+  @Column(unique = true, nullable = false, length = 10)
   private String phone;
 
   @Column(nullable = false)
@@ -72,10 +72,12 @@ public class Users extends EntityBase{
 //  private List<Marketings> marketings;
 
 
+  @JsonIgnore
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
   private List<Comments> comments;
 
+  @JsonIgnore
   // 1:N voi Feedback
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Feedback> feedback;

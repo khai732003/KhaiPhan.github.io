@@ -1,12 +1,15 @@
+// File: tintuc.js
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Header from '../../header/Header';
 import Footer from '../../footer/Footer';
 import ImageSlider from './slideshow';
-import NewsPage from './listitem';
+import ListItem from './listitem';
 import '../tintuc/newspage.scss'
 import "@fontsource/roboto/500.css";
+import listOfnews from '../../share/listOfnews';
+
 export default function tintuc() {
   return (
     <>
@@ -18,7 +21,7 @@ export default function tintuc() {
                 <ImageSlider />
               </Grid>
               <Grid item xs={12} md={4} display="flex" justifyContent="center" alignItems="center">
-                <NewsPage />
+                <ListItem />
               </Grid>
             </Grid>
           </Box>

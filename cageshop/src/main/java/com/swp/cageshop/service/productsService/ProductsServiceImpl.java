@@ -70,17 +70,18 @@ public class ProductsServiceImpl implements IProductsService {
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
                 product.setCategory(category);
-                Products savedProduct = productsRepository.save(product);
-                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+
+                Products savedProduct = productsRepository.save(product); // Lưu sản phẩm trước
+
 
                 if (productDTO.getCage() != null) {
-
                     BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
                     birdCages.setProduct(savedProduct); // Set the product for the bird cage
-
+                    birdCages.setId(savedProduct.getId()); // Set the proid for the bird cage
                     birdCageRepository.save(birdCages);
 
                 }
+
                 if (productDTO.getAccessories() != null) {
 
                     for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
@@ -88,15 +89,31 @@ public class ProductsServiceImpl implements IProductsService {
                         accessory.setCustomProduct(false);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
 
+                        accessoryDTO.setProductId(savedProduct.getId());
+
                         accessoriesRepository.save(accessory);
 
                     }
                 }
 
+                ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
+                deleteBirdCagesWithNullProductId();
+                deleteAccessoriesWithNullProductIdAndCustomProductNotNull();
                 return savedProductDTO;
             }
         }
         return null;
+    }
+
+    public void deleteBirdCagesWithNullProductId() {
+        List<BirdCages> birdcage=  birdCageRepository.findByProductIdIsNull();
+        birdCageRepository.deleteAll(birdcage);
+    }
+
+    // Method to delete Accessories with productId null and customProduct not null
+    public void deleteAccessoriesWithNullProductIdAndCustomProductNotNull() {
+        List<Accessories> accessories = accessoriesRepository.findByProductIdIsNullAndCustomProductIsNull();
+        accessoriesRepository.deleteAll(accessories);
     }
 
     public ProductDTO test(ProductDTO productDTO) {
@@ -144,6 +161,7 @@ public class ProductsServiceImpl implements IProductsService {
         }
         return null;
     }
+
 
 
 
@@ -218,30 +236,49 @@ public class ProductsServiceImpl implements IProductsService {
                 Products clonedProduct = new Products();
                 clonedProduct.setName(product.getName());
                 clonedProduct.setStock(1);
-                clonedProduct.setTotalPrice(product.getTotalPrice());
+
                 clonedProduct.setProductImage(product.getProductImage());
                 clonedProduct.setCode(product.getCode());
 
                 if (product.getCage() != null) {
-                    BirdCages birdCages = modelMapper.map(product.getCage(), BirdCages.class);
-                    birdCages.setProduct(clonedProduct); // Set the product for the bird cage
-                    clonedProduct.setCage(birdCages);
-                    
+                    BirdCages originalBirdCage = product.getCage();
+                    BirdCages clonedBirdCage = new BirdCages();
+                    clonedBirdCage.setDescription(originalBirdCage.getDescription());
+                    clonedBirdCage.setSize(originalBirdCage.getSize());
+                    clonedBirdCage.setPrice(originalBirdCage.getPrice());
+                    clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
+                    clonedBirdCage.setProduct(clonedProduct);
+                    clonedProduct.setCage(clonedBirdCage);
+
                 }
 
                 clonedProduct.setStatus("CustomProduct");
 
+                // Clone existing accessories
                 List<Accessories> productAccessories = new ArrayList<>();
-                for (AccessoryDTO accessoryDTO : accessories) {
-                    Accessories accessory = new Accessories();
-                    accessory.setDescription(accessoryDTO.getDescription());
-                    accessory.setPrice(accessoryDTO.getPrice());
-                    accessory.setType(accessoryDTO.getType());
-                    accessory.setProduct(clonedProduct);
-                    productAccessories.add(accessory);
+                for (Accessories originalAccessory : product.getAccessories()) {
+                    Accessories clonedAccessory = new Accessories();
+                    clonedAccessory.setDescription(originalAccessory.getDescription());
+                    clonedAccessory.setPrice(originalAccessory.getPrice());
+                    clonedAccessory.setType(originalAccessory.getType());
+                    clonedAccessory.setProduct(clonedProduct);
+                    productAccessories.add(clonedAccessory);
                 }
-                clonedProduct.setAccessories(productAccessories);
 
+                double result = 0;
+                // Add new accessories
+                for (AccessoryDTO accessoryDTO : accessories) {
+                    Accessories newAccessory = new Accessories();
+                    newAccessory.setDescription(accessoryDTO.getDescription());
+                    newAccessory.setPrice(accessoryDTO.getPrice());
+                    newAccessory.setType(accessoryDTO.getType());
+                    newAccessory.setProduct(clonedProduct);
+                    result +=  newAccessory.getPrice();
+                    clonedProduct.setTotalPrice(product.getTotalPrice() + result);
+                    productAccessories.add(newAccessory);
+                }
+
+                clonedProduct.setAccessories(productAccessories);
                 Products updatedProduct = productsRepository.save(clonedProduct);
                 return modelMapper.map(updatedProduct, ProductDTO.class);
             }
@@ -331,8 +368,6 @@ public class ProductsServiceImpl implements IProductsService {
         return products.stream()
             .map(product -> modelMapper.map(product, ProductDTO.class))
             .collect(Collectors.toList());
-
-
     }
 
 

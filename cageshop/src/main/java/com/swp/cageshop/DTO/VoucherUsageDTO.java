@@ -12,7 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoucherUsageDTO extends DTOBase{
-    private LocalDateTime usedAt;
     private Long userId;
     private Long orderId;
     private String codeVoucher;

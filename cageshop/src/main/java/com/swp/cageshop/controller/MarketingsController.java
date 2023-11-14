@@ -4,6 +4,7 @@ import com.swp.cageshop.DTO.MarketingDTO;
 import com.swp.cageshop.entity.Marketings;
 import com.swp.cageshop.service.marketingsService.IMarketingsService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,5 +38,11 @@ public class MarketingsController {
   @GetMapping("/marketing/list")
   public List<Marketings> listAll(){
     return iMarketingsService.listAll();
+  }
+
+
+  @GetMapping("/marketing/list/{id}")
+  public Optional<MarketingDTO> listById(@PathVariable Long id){
+    return iMarketingsService.listMaById(id);
   }
 }

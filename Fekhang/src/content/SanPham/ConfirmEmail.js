@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import customAxios from '../../CustomAxios/customAxios';
 import { useAuth } from './Context/AuthContext';
+import { Button } from '@mui/material';
+import './Scss/confirm.scss';
 
 export default function ConfirmEmail({ orderId2 }) {
   const [confirmStatus, setConfirmStatus] = useState(null);
   const { user } = useAuth();
-  const email = user.email;
+
   let orderId = orderId2 || localStorage.getItem('orderId'); // Sử dụng orderId2 nếu được truyền vào, ngược lại sử dụng localStorage
 
   const handleConfirmOrder = async () => {
     try {
+      const email = user.email;
       const response = await customAxios.get(`http://localhost:8080/confirmOrder?email=${email}&orderId=${orderId}`);
       // Xử lý dữ liệu trả về từ API nếu cần
       console.log(response.data);
@@ -28,8 +31,8 @@ export default function ConfirmEmail({ orderId2 }) {
   };
 
   return (
-    <div>
-      <button onClick={handleConfirmOrder}>Confirm</button>
+    <div className='confirm'>
+      <Button variant='contained' onClick={handleConfirmOrder}>Confirm Order</Button>
       {confirmStatus && <p>{confirmStatus}</p>}
     </div>
   );

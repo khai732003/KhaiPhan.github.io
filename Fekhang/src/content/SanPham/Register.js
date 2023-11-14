@@ -10,16 +10,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Register = () => {
   const { user, loadUser, setUserFromToken } = useAuth();
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const [validationErrors, setValidationErrors] = useState({});
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState("paper");
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
@@ -58,15 +60,60 @@ const Register = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setValidationErrors({
+      ...validationErrors,
+      [e.target.name]: null,
+    });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateUsername = (username) => {
+    return username.length > 5;
+  };
+
+  const validatePassword = (password) => {
+    // Password validation logic (customize as needed)
+    // Example: Password must have at least 8 characters, including one uppercase letter, one lowercase letter, and one digit.
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validatePhoneNumber = (phone) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Validation logic
+    const errors = {};
+    if (!validateEmail(formData.email)) {
+      errors.email = "Invalid email format";
+    }
+    if (!validateUsername(formData.name)) {
+      errors.name = "Username must be more than 5 characters";
+    }
+    if (!validateUsername(formData.fullname)) {
+      errors.fullname = "Fullname must be more than 5 characters";
+    }
+    if (!validatePassword(formData.password)) {
+      errors.password = "Password must be strong";
+    }
+    if (!validatePhoneNumber(formData.phone)) {
+      errors.phone = "Invalid phone number (10 digits)";
+    }
     if (!agreeTerms) {
-      setError(
-        "Bạn phải đồng ý với các điều khoản và thông tin của cửa hàng để đăng ký."
-      );
+      errors.agreeTerms = "You must agree to the terms and conditions";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
       return;
     }
 
@@ -161,12 +208,19 @@ const Register = () => {
                             id="form2Example17"
                             type="email"
                             name="email"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${
+                              validationErrors.email ? "is-invalid" : ""
+                            }`}
                             value={formData.email}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your Email"
                           />
+                          {validationErrors.email && (
+                            <div className="invalid-feedback">
+                              {validationErrors.email}
+                            </div>
+                          )}
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -176,13 +230,20 @@ const Register = () => {
                           <input
                             type="text"
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${
+                              validationErrors.name ? "is-invalid" : ""
+                            }`}
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your Username"
                           />
+                          {validationErrors.name && (
+                            <div className="invalid-feedback">
+                              {validationErrors.name}
+                            </div>
+                          )}
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -192,29 +253,60 @@ const Register = () => {
                           <input
                             type="text"
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${
+                              validationErrors.fullname ? "is-invalid" : ""
+                            }`}
                             name="fullname"
                             value={formData.fullname}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your FullName"
                           />
+                          {validationErrors.fullname && (
+                            <div className="invalid-feedback">
+                              {validationErrors.fullname}
+                            </div>
+                          )}
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
                           Password
                         </label>
-                        <div className="form-outline mb-4">
+                        <div
+                          className="form-outline mb-4"
+                          style={{ position: "relative" }}
+                        >
                           <input
                             id="form2Example17"
-                            className="form-control form-control-lg"
-                            type="password"
+                            className={`form-control form-control-lg ${
+                              validationErrors.password ? "is-invalid" : ""
+                            }`}
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             value={formData.password}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your Password"
                           />
+                          {validationErrors.password && (
+                            <div className="invalid-feedback">
+                              {validationErrors.password}
+                            </div>
+                          )}
+                          {/* Eye icon for password toggle */}
+                          <span
+                            className="password-toggle-icon"
+                            onClick={() => setShowPassword(!showPassword)}
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </span>
                         </div>
 
                         <label className="form-label" htmlFor="form2Example17">
@@ -242,13 +334,20 @@ const Register = () => {
                           <input
                             type="text"
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${
+                              validationErrors.phone ? "is-invalid" : ""
+                            }`}
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your Phone Number"
                           />
+                          {validationErrors.phone && (
+                            <div className="invalid-feedback">
+                              {validationErrors.phone}
+                            </div>
+                          )}
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Address
@@ -287,7 +386,10 @@ const Register = () => {
                                 tabIndex={-1}
                               >
                                 {[...new Array(1)]
-                                  .map(() => `Phan Quôsc Khải như con cuuuuuuuuuuuuuuuuuuuuuuuuuuuu`)
+                                  .map(
+                                    () =>
+                                      `Phan Quôsc Khải như con cuuuuuuuuuuuuuuuuuuuuuuuuuuuu`
+                                  )
                                   .join("\n")}
                               </DialogContentText>
                             </DialogContent>
@@ -295,7 +397,8 @@ const Register = () => {
                               <Button onClick={handleClose}>Đóng</Button>
                             </DialogActions>
                           </Dialog>
-                        </React.Fragment><hr/>
+                        </React.Fragment>
+                        <hr />
 
                         <div className="form-check mb-4">
                           <input
@@ -310,9 +413,13 @@ const Register = () => {
                             className="form-check-label"
                             htmlFor="agreeTermsCheckbox"
                           >
-                            Tôi đồng ý với các điều khoản của cửa
-                            hàng.
+                            Tôi đồng ý với các điều khoản của cửa hàng.
                           </label>
+                          {validationErrors.agreeTerms && (
+                            <div className="invalid-feedback">
+                              {validationErrors.agreeTerms}
+                            </div>
+                          )}
                         </div>
 
                         <div className="pt-1 mb-4">

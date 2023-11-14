@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name = "Shipping")
 public class Shipping extends EntityBase{
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date shippingDate;
 
     @Column(nullable = false)

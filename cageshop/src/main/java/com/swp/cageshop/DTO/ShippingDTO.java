@@ -15,8 +15,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class ShippingDTO{
     private Long id;
-    private LocalDateTime createDate;
-    private LocalDateTime shippingDate;
+    private Date createDate;
+    private Date shippingDate;
     private String address;
     private String city;
     private String status;

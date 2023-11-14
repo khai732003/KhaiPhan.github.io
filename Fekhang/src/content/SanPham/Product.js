@@ -75,54 +75,49 @@ const Product = ({
   }, [isReturningFromLogin]);
 
   const handleBuy = async (id) => {
+    console.log(id)
     if (!user) {
       localStorage.setItem("proId", id);
       localStorage.setItem("toBuy", window.location.pathname);
       navigate("/login");
       return;
     }
-    try {
-      if (!orderId) {
-        const shipAddress = "hcm";
-        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+      try {
+        if (!orderId) {
+          const address = user.address;
+          const shipAddress = "hcm";
+          const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-        const orderResponse = await customAxios.post("/order/add", {
-          name: "Tổng hóa đơn",
-          status: "pending",
-          paymentMethod: "credit card",
-          address: "137 Đặng Văn Bi",
-          city: "Đà Nẵng",
-          content: "Đóng gói cẩn thận nhé",
-          shipDate: "2023-10-15",
-          userId: user.userId,
+          const orderResponse = await customAxios.post('/order/add', {
+            "name": "Tổng hóa đơn",
+            "status": "pending",
+            "paymentMethod": "credit card",
+            "address": address,
+            "city": "Đà Nẵng",
+            "content": "Đóng gói cẩn thận nhé",
+            "shipDate": "2023-10-15",
+            userId: user.userId
+          });
+
+        
+          orderId = orderResponse.data.id;
+          localStorage.setItem('orderId', orderId);
+          console.log(orderId)
+        }
+
+        const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+
+        await customAxios.post('/order_detail/add', {
+          quantity: 1,
+          hirePrice: product.hirePrice,
+          totalOfProd: product.totalOfProd,
+          name: product.name,
+          note: `Sản phẩm là ${product.id}`,
+          orderId,
+          productId: product.id,
+          totalCost: product.totalPrice
         });
-
-        orderId = orderResponse.data.id;
-        localStorage.setItem("orderId", orderId);
-      }
-
-      const product = {
-        id,
-        name,
-        stock,
-        totalPrice,
-        productImage,
-        code,
-        cage,
-        accessories,
-      };
-
-      await customAxios.post("/order_detail/add", {
-        quantity: 1,
-        hirePrice: product.hirePrice,
-        totalOfProd: product.totalOfProd,
-        name: product.name,
-        note: `Sản phẩm là ${product.id}`,
-        orderId,
-        productId: product.id,
-        totalCost: product.totalPrice,
-      });
-
+    
       navigate(`/order/${orderId}`);
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
@@ -131,14 +126,28 @@ const Product = ({
 
   return (
     <div>
-      <div className="card-stock">Stock: {stock}</div>
+
       <div className="col-md-12 container-product">
+                  <div className="card-stock">{stock}</div>
+      <div className="accessories-list">
+                    {accessories.map((accessory, index) => (
+                      <div key={index} className="accessory-item">
+                        <div className="sub-access">
+                        {accessory.description}      
+                        </div>                
+                      </div>
+                    ))}
+                  </div>
+                  
         <Card sx={{ maxWidth: 345 }} className="product-card">
-          {/* <div className="card-stock">Stock: {stock}</div> */}
+        
           <div className="card-body">
+
+          <abbr title="Click To Detail"style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          >
             <div
               className="card-product"
-              style={{ paddingTop: 12 }}
+              style={{ paddingTop: 12 ,addingBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
               onClick={() => handleOnDetail(id)}
             >
               <CardMedia
@@ -148,18 +157,17 @@ const Product = ({
                 className="card-img-top"
               />
             </div>
-            <CardContent style={{ paddingBottom: 0 }}>
+            <CardContent style={{ paddingBottom: 0, textDecoration:'none'}}  onClick={() => handleOnDetail(id)}
+            >
               <Typography gutterBottom variant="h5" component="div">
-                <h5 className="card-title">{name}</h5>
+                <h5 className="card-title" style={{ paddingBottom: 0, textDecoration:'none'}} >{name}</h5>
               </Typography>
               <Typography variant="body2" color="">
                 <div className="card-info" style={{ paddingBottom: 0 }}>
                   {/* <div className="card-text">Id: {id}</div> */}
 
                   <div className="card-text">Code: {code}</div>
-                  <div className="accessories-list">
-                    Accessories: {accessoriesList}
-                  </div>
+
 
                   <div
                     className="card-price"
@@ -175,7 +183,7 @@ const Product = ({
               </Typography>
               <hr />
             </CardContent>
-
+            </abbr>
             <CardActions>
               <div
                 className=""

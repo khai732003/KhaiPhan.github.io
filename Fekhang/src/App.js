@@ -51,6 +51,11 @@ import VNPayPayment from './content/SanPham/VNPayPayment';
 import HistoryOrder from './content/SanPham/HistoryOrder';
 import AddAccessoriesForm from './content/dashboard/components/AddAccessoriesForm';
 import LocalOrder from './content/SanPham/LocalOrder';
+import AddEditCategory from './content/dashboard/components/AddEditCategory';
+import ShowCustom from './content/SanPham/ShowCustom';
+import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
+import ConfirmPage from './content/dashboard/pages/ConfirmPage';
+import ListDelivered from './content/dashboard/pages/ListDelivered';
 
 
 
@@ -70,6 +75,7 @@ function App() {
               <Route path='/contact' element={<ContactPage2 />} />
               <Route path="/Gioithieu" element={<Gioithieu />} />
               <Route path="/detail/:productId" element={<Detail />} />
+              <Route path="/customdetail/:productId" element={<ShowCustom />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
               <Route path="/tintuc" element={<NewsPage />} />
@@ -87,12 +93,14 @@ function App() {
 
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
+              <Route path="/add-edit-category" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditCategory} path="/add-edit-category" />} />
               <Route path="/voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={Voucher} path="/voucher" />} />
               <Route path="/adminprofile" element={<PrivateRoute allowedRoles={['ADMIN']} component={AdminProfile} path="/adminprofile" />} />
               <Route path="/usermanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={UserManagement} path="/usermanagement" />} />
               <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
               <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
+              
 
 
               {/* Vùng manager */}
@@ -110,8 +118,8 @@ function App() {
               <Route path="/update-product/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/update-product/:id" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
               <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />
-
-
+              <Route path="/listconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ConfirmPage} path="/listconfirm" />} />
+              <Route path="/listdelivered" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ListDelivered} path="/listdelivered" />} />
 
 
               {/*Vùng Staff*/}
@@ -128,7 +136,7 @@ function App() {
               <Route path='/error' element={<Error />} />
 
             </Routes>
-            <Footer />
+            <Footer/>
           </CartProvider>
         </AuthProvider>
       </Router>
