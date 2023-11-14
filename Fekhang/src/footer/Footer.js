@@ -30,22 +30,8 @@ const Footer = (props) => {
     return null;
   }
 
-  if (
-    isUserManager ||
-    isVoucher ||
-    isAdmin ||
-    isAddUser ||
-    isUpdateUser ||
-    isRevenue ||
-    isProductManager ||
-    isAddProduct ||
-    isUpdateProduct ||
-    isStaffManager ||
-    isAdminProfile ||
-    isTimeLine ||
-    isAddAccessories
-  ) {
-    if (
+  if (isUserManager ||isVoucher ||isAdmin ||isAddUser ||isUpdateUser ||isRevenue ||isProductManager ||
+    isAddProduct ||isUpdateProduct ||isStaffManager ||isAdminProfile ||isTimeLine || isAddAccessories||
       isListConfirm ||
       isUserManager ||
       isVoucher ||
@@ -150,6 +136,6 @@ const Footer = (props) => {
         </footer>
       </div>
     );
-  }
+  
 };
 export default Footer;

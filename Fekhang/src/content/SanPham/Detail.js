@@ -216,7 +216,9 @@ function Detail({
   }
 
   return (
+
     <div className="full-container-details" style={{ paddingBottom: "3rem" }}>
+
       <Box className="product-container-productdetail">
         <Grid
           container
@@ -224,8 +226,22 @@ function Detail({
           className="container-productdetail"
           justifyContent="center"
         >
+
           <Grid item xs={12} md={11} style={{ margin: "" }}>
             <Container maxWidth="md">
+              <div >
+
+                <div className="list-acc">
+                  <div>
+                    Accessory
+                  </div>
+                  {productDetail.accessories.map((accessory, index) => (
+                    <div key={index} className="sub-acc">
+                      <strong>{accessory.description}:</strong> ${accessory.price}
+                    </div>
+                  ))}
+                </div>
+              </div>
               <Card style={{ padding: "2rem", borderRadius: "1rem" }}>
                 <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
                   <Button
@@ -289,15 +305,7 @@ function Detail({
                       >
                         {productDetail.name}
                       </h3>
-                      <p
-                        style={{
-                          lineHeight: "1.6",
-                          color: "#757a7f",
-                          marginBottom: "20px",
-                        }}
-                      >
-                        {productDetail.info}
-                      </p>
+                        
                       <div
                         style={{
                           marginBottom: "20px",
@@ -375,10 +383,10 @@ function Detail({
                         </Button>
                       </Stack>
                     </div>}
-                    {show === false && ( 
-                  <div></div>
-                )}
-                    
+                    {show === false && (
+                      <div></div>
+                    )}
+
 
                     <div
                       style={{
@@ -410,7 +418,7 @@ function Detail({
                         variant="contained"
                         onClick={() => handleCustomProduct(productDetail.id)}
                       >
-                        Custom Product And Buy
+                        Custom Product
                       </Button>
                     </div>
                   </Grid>
@@ -420,7 +428,7 @@ function Detail({
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </div >
   );
 }
 

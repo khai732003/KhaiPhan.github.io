@@ -9,8 +9,8 @@ import { useAuth } from './Context/AuthContext';
 import ClearIcon from '@mui/icons-material/Clear';
 
 function ShowCustom() {
-    
-    const {user} = useAuth();
+
+    const { user } = useAuth();
     const { productId } = useParams();
     const [productDetail, setProductDetail] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -34,7 +34,7 @@ function ShowCustom() {
     const handleBuy = async (id) => {
 
         if (!user) {
-            localStorage.setItem('isDetailReturn','true');
+            localStorage.setItem('isDetailReturn', 'true');
             localStorage.setItem('proId', productId);
             localStorage.setItem('toBuy', window.location.pathname);
             navigate("/login")
@@ -86,7 +86,7 @@ function ShowCustom() {
     };
     const handleCustomProduct = (id) => {
         navigate(`/customeproduct/${id}`);
-      };
+    };
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -103,7 +103,7 @@ function ShowCustom() {
     if (!productDetail) {
         return <div>Product not found</div>;
     }
-    const handleCancel = () =>{
+    const handleCancel = () => {
         localStorage.removeItem("cusPro");
         navigate(-1);
     }
@@ -114,6 +114,19 @@ function ShowCustom() {
                 <Grid container spacing={2} className="container-productdetail" justifyContent="center">
                     <Grid item xs={12} md={11} style={{ margin: '' }}>
                         <Container maxWidth="md" >
+                            <div >
+
+                                <div className="list-acc">
+                                    <div>
+                                        Accessory
+                                    </div>
+                                    {productDetail.accessories.map((accessory, index) => (
+                                        <div key={index} className="sub-acc">
+                                            <strong>{accessory.description}:</strong> ${accessory.price}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                             <Card style={{ padding: '2rem', borderRadius: '1rem' }}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} md={5}>
