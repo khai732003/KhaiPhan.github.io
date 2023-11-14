@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,46 +23,34 @@ public class EmailService {
 
     @Autowired
     OrdersRepository ordersRepository;
+
+    @Autowired
+    OrderDetailsRepository orderDetailsRepository;
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendEmail(String toEmail, String subject, String orderId, String email) {
+    public void sendEmail(String toEmail, String subject, Long orderId, String email) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("9.10nguyenhuubao@gmail.com");
             helper.setTo(toEmail);
             helper.setSubject(subject);
-            Long id = Long.parseLong(orderId);
-            Orders orders = ordersRepository.getReferenceById(id);
-            List<OrderDetail> orderDetails = orders.getOrderDetails();
-            List<OrderDetailDTO> orderDetailsDTO = orderDetails.stream()
-                .map(orderDetail -> {
-                    OrderDetailDTO dto = new OrderDetailDTO();
-                    dto.setQuantity(orderDetail.getQuantity());
-                    dto.setName(orderDetail.getName());
-                    dto.setTotalCost(orderDetail.getTotalCost());
-                    // Thêm các trường khác cần thiết
-                    return dto;
-                })
-                .collect(Collectors.toList());
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String orderDetailsJson = objectMapper.writeValueAsString(orderDetailsDTO);
-
-
-
-
-
+            Orders orders = ordersRepository.getReferenceById(orderId);
+            List<OrderDetail> orderDetails = orderDetailsRepository.findAllByOrderId(orderId);
+            StringBuilder orderDetailsHtml = new StringBuilder("<h2>Order Details</h2>");
+            for (OrderDetail orderDetail : orderDetails) {
+                orderDetailsHtml.append("<p>Product: ").append(orderDetail.getName())
+                        .append(", Quantity: ").append(orderDetail.getQuantity())
+                        .append(", Price: ").append(orderDetail.getTotalCost()).append("</p>");
+            }
             ClassPathResource resource = new ClassPathResource("form.html");
             String content = new String(Files.readAllBytes(resource.getFile().toPath()));
-
-            // Thay thế placeholder trong template HTML bằng chuỗi JSON của orderDetailsDTO
-            content = content.replace("[[orderDetails]]", orderDetailsJson);
-            // Thay thế các placeholder trong template HTML bằng giá trị thực từ orderId và email
-            content = content.replace("[[orderId]]", orderId);
+            content = content.replace("[[orderId]]", orders.getId().toString());
             content = content.replace("[[email]]", email);
+            content = content.replace("[[orderDetails]]", orderDetailsHtml.toString());
 
+            System.out.println("Email Content: " + content);
             helper.setText(content, true);
             mailSender.send(message);
         } catch (Exception e) {
