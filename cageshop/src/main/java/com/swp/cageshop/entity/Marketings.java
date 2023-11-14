@@ -11,23 +11,23 @@ import java.util.List;
 public class Marketings extends EntityBase{
 
   @Lob
-  @Column(nullable = false)
+  @Column(nullable = false,columnDefinition="BLOB")
   private String title;
 
   @Lob
-  @Column(nullable = false)
+  @Column(nullable = false,columnDefinition="BLOB")
   private String name;
 
   @Lob
-  @Column(nullable = true)
+  @Column(nullable = false,columnDefinition="BLOB")
   private String img;
 
   @Lob
-  @Column(nullable = false)
+  @Column(nullable = false,columnDefinition="BLOB")
   private String info;
 
   @Lob
-  @Column(nullable = false)
+  @Column(nullable = false,columnDefinition="BLOB")
   private String shortinfo;
 
 

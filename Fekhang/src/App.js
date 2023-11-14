@@ -6,7 +6,7 @@ import Dichvu from './content/dichvu/dichvu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Profile from './content/userprofile/profile';
 import EditProfile from './content/userprofile/EditProfile';
-import NewsPage from './content/tintuc/tintuc';
+import News from './content/tintuc/News';
 // import DetailNewsPage from './content/tintuc/newsdetail';
 import { listofnews } from './share/listOfnews';
 // import ProductPage from './content/SanPham/ProductPage';
@@ -78,7 +78,7 @@ function App() {
               <Route path="/customdetail/:productId" element={<ShowCustom />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
-              <Route path="/tintuc" element={<NewsPage />} />
+              <Route path="/news" element={<News />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/edit-profile" element={<EditProfile />} />
@@ -100,7 +100,8 @@ function App() {
               <Route path="/productmanagement" element={<PrivateRoute allowedRoles={['ADMIN']} component={ProductManagement} path="/productmanagement" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN']} component={Revenue} path="/revenue" />} />
               <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
-              
+              <Route path="/update-user/:id" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditUser} path="/update-user/:id" />} />
+              <Route path="/add-edit-user" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditUser} path="/add-edit-user" />} />
 
 
               {/* Vùng manager */}
