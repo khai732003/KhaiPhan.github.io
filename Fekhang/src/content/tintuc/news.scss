@@ -1,0 +1,74 @@
+.new-page {
+  margin-top: 100px;
+}
+
+.text-slider-container {
+  border: 2px solid #ddd; /* Viền của khung slider */
+  border-radius: 8px; /* Bo góc */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+  overflow: hidden;
+  margin-left: 200px;
+  margin-right: 200px;
+  
+}
+
+.text-slider {
+  display: inline-block;
+  white-space: nowrap;
+  animation: text-slider-animation 20s linear infinite,
+    blink-animation 1s infinite;
+  padding: 10px;
+}
+
+@keyframes text-slider-animation {
+    0% {
+        transform: translateX(100%);
+        color: violet; /* Màu đầu tiên của cầu vồng */
+      }
+      14.3% {
+        color: indigo; /* Màu thứ hai của cầu vồng */
+      }
+      28.6% {
+        color: blue;
+      }
+      42.9% {
+        color: green;
+      }
+      57.2% {
+        color: yellow;
+      }
+      71.5% {
+        color: orange;
+      }
+      85.8% {
+        color: red; /* Màu cuối cùng của cầu vồng */
+      }
+      100% {
+        transform: translateX(-100%);
+        color: violet; /* Trở lại màu đầu tiên để tạo vòng lặp */
+      }
+}
+@keyframes blink-animation {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.rotate-image {
+    animation: rotate 10s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

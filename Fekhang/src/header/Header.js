@@ -51,6 +51,9 @@ function Header(props) {
   const isPaypal = location.pathname === "/paypal";
   const isListConfirm = location.pathname === "/listconfirm";
 
+  const isAddEditUser = location.pathname === "/add-edit-user";
+  const isAddCategory = location.pathname === "/add-edit-category";
+
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -112,7 +115,7 @@ const handleCustome = () =>{
     isVoucher ||
     isAdminProfile ||
     isAddAccessories ||
-    isTimeLine || isListConfirm
+    isTimeLine || isListConfirm || isAddEditUser || isAddCategory
 
   ) {
     return <NavBar />;
@@ -173,7 +176,7 @@ const handleCustome = () =>{
 
               </div>
               <NavLink
-                to="/tintuc"
+                to="/news"
                 activeClassName="active"
                 className="nav-link"
               >
