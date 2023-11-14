@@ -7,6 +7,7 @@ import com.swp.cageshop.entity.Roles;
 import com.swp.cageshop.repository.MarketingsRepository;
 import com.swp.cageshop.repository.RolesRepository;
 import java.util.List;
+import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,19 @@ public class MarketingsServiceImpl implements IMarketingsService {
   @Autowired
   private ModelMapper modelMapper;
 
+
+  @Override
+  public Optional<MarketingDTO> listMaById(Long id) {
+    Optional<Marketings> marketingOptional = marketingsRepository.findById(id);
+
+    if (marketingOptional.isPresent()) {
+      Marketings marketing = marketingOptional.get();
+      MarketingDTO marketingDTO = modelMapper.map(marketing, MarketingDTO.class);
+      return Optional.of(marketingDTO);
+    }
+
+    return Optional.empty();
+  }
   @Override
   public MarketingDTO addMa(MarketingDTO dto) {
       Marketings marketings = modelMapper.map(dto, Marketings.class);

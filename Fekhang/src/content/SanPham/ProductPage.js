@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Product from "./Product";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Box, TextField, Button, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import customAxios from '../../CustomAxios/customAxios';
+import axios from "axios";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -15,6 +16,7 @@ const ProductPage = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedSort, setSelectedSort] = useState("dateDesc");
+  const [hasResults, setHasResults] = useState(true);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -22,7 +24,8 @@ const ProductPage = () => {
 
   const handleSortChange = (event) => {
     const selectedSort = event.target.value;
-    setSelectedSort(selectedSort); // Cập nhật giá trị đã chọn vào state
+    setSelectedSort(selectedSort);
+
     switch (selectedSort) {
       case "priceAsc":
         setCurrentApiUrl("/product/list-price-asc");
@@ -51,7 +54,7 @@ const ProductPage = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+        console.error("Error fetching data:", error);
         setIsLoading(false);
       });
   };
@@ -63,33 +66,26 @@ const ProductPage = () => {
     };
 
     if (searchKeyword) {
-      // Nếu có từ khóa tìm kiếm, sử dụng API tìm kiếm thay vì API hiện tại
       handleSearch();
     } else {
       customAxios
         .get(apiUrl, { headers: headers })
         .then((response) => {
-          setProducts(response.data);
+          if (Array.isArray(response.data)) {
+            setProducts(response.data);
+            setHasResults(response.data.length > 0);
+          } else {
+            setProducts([]);
+            setHasResults(false);
+          }
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error("Lỗi khi lấy dữ liệu:", error);
+          console.error("Error fetching data:", error);
           setIsLoading(false);
         });
     }
   }, [currentApiUrl, minPrice, maxPrice, searchKeyword]);
-
-  if (isLoading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
     <>
@@ -115,28 +111,36 @@ const ProductPage = () => {
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        {/* <Button variant="contained" onClick={() => setCurrentApiUrl("/product/list-price-asc")}>Filter</Button> */}
       </Box>
       <div className="container product-page">
-        <div className="row">
-          <div className="">
-            <div className="row">
-              {currentProducts.map((product) => (
-                <div className="col-md-4" key={product.id}>
-                  <Product
-                    id={product.id}
-                    name={product.name}
-                    stock={product.stock}
-                    totalPrice={product.totalPrice}
-                    productImage={product.productImage}
-                    code={product.code}
-                    cage={product.cage}
-                    accessories={product.accessories}
-                  />
-                </div>
-              ))}
-            </div>
-
+        {isLoading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            {hasResults ? (
+              <div className="row">
+                {products.map((product) => (
+                  <div className="col-md-4" key={product.id}>
+                    <Product
+                      id={product.id}
+                      name={product.name}
+                      stock={product.stock}
+                      totalPrice={product.totalPrice}
+                      productImage={product.productImage}
+                      code={product.code}
+                      cage={product.cage}
+                      accessories={product.accessories}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="not-found-message">
+                <p>No results found.</p>
+              </div>
+            )}
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination
                 count={Math.ceil(products.length / productsPerPage)}
@@ -149,10 +153,9 @@ const ProductPage = () => {
                 showLastButton
               />
             </Box>
-          </div>
-        </div>
+          </>
+        )}
       </div>
-
     </>
   );
 };

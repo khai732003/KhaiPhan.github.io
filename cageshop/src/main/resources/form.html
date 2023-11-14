@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Xác nhận đơn hàng</title>
     <style>
@@ -9,65 +10,126 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             width: 50%;
             margin: auto;
             background-color: #ffffff;
-            padding: 20px;
+            padding: 20px 20px 20px 50px;
             margin-top: 50px;
             border: 1px solid #e0e0e0;
-            font-family: 'Times New Roman', Times, serif; /* Thay đổi phông chữ ở đây */
+            font-family: 'Times New Roman', Times, serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
+
         h2 {
-            color: #333333;
-            font-family: 'Arial', sans-serif; /* Thay đổi phông chữ ở đây */
+            color: rgb(204, 64, 21);
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 15px;
         }
+
         p {
-            color: #555555;
-            font-family: 'Arial', sans-serif; /* Thay đổi phông chữ ở đây */
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 10px;
         }
+
         strong {
             color: #000000;
-            font-family: 'Arial', sans-serif; /* Thay đổi phông chữ ở đây */
+            font-family: 'Arial', sans-serif;
         }
+
+        .order-details {
+            border-top: 1px solid #e0e0e0;
+            margin-top: 15px;
+            padding-top: 10px;
+        }
+
+        .order-details p {
+            margin-bottom: 5px;
+        }
+
         .button {
             display: inline-block;
-            background-color: #4CAF50; /* Màu xanh lá cây */
+            background-color: #4CAF50;
             border: none;
             color: white;
+
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
-            font-size: 16px;
-            margin: 4px 2px;
+            font-size: 18px;
+            margin: 20px 0;
             cursor: pointer;
             border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
+
+<body>
 <div class="container">
     <h2>Xác nhận đơn hàng</h2>
-    <p>Cảm ơn bạn đã đặt hàng. Dưới đây là thông tin đơn hàng của bạn:</p>
-    <div id="orderDetails">
-        <!-- Chi tiết đơn hàng sẽ được chèn vào đây -->
+    <p> Cảm ơn bạn đã tin tưởng đặt hàng !</p>
+    <div class="order-details" id="orderDetails">
+        <h3 style="font-size: 22px;">Thông tin đơn hàng của bạn:</h3>
+        <p><strong>Mã đơn hàng:</strong>[[orderId]]</p>
+        <p><strong>Email:</strong> [[email]]  </p>
+        <a href="http://localhost:3000/pay/[[orderId]]" class="button">Xác nhận đơn hàng</a>
     </div>
-    <p><strong>Mã đơn hàng:</strong> [[orderId]]</p>
-    <p><strong>Email:</strong> [[email]]</p>
-    <a href="http://localhost:3000/pay/[[orderId]]" class="button" style="background-color: #4CAF50;">Xác nhận đơn hàng</a>
 </div>
 <script>
-    // Nhúng chuỗi JSON vào div có id là "orderDetails"
-    var orderDetailsJson = `[[orderDetails]]`;
-    var orderDetails = JSON.parse(orderDetailsJson);
+    function confirmOrder() {
+        // Chuẩn bị dữ liệu đơn hàng từ HTML
+        var orderId = "[[orderId]]";
+        var email = "[[email]]";
+        var orderDetailsJson = `[[orderDetails]]`;
+        var orderDetails = JSON.parse(orderDetailsJson);
 
+<<<<<<< HEAD
+        // Tạo đối tượng đơn hàng để gửi lên server
+        var order = {
+            orderId: orderId,
+            email: email,
+            orderDetails: orderDetails
+        };
+
+        // Gọi API để lưu đơn hàng vào cơ sở dữ liệu
+        fetch('http://localhost:8080/api/orders/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Hiển thị thông báo xác nhận cho người dùng nếu cần
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Xử lý lỗi nếu cần
+        });
+    }
+=======
     // Xử lý và hiển thị thông tin từ chuỗi JSON trong orderDetails div
     var orderDetailsDiv = document.getElementById("orderDetails");
-    orderDetails.forEach(function(detail) {
+    orderDetails.forEach(function (detail) {
         var detailDiv = document.createElement("div");
         detailDiv.innerHTML = `<p><strong>Tên sản phẩm:</strong> ${detail.name}</p>
                            <p><strong>Tổng giá:</strong> ${detail.totalPrice}</p>`;
         orderDetailsDiv.appendChild(detailDiv);
     });
+>>>>>>> 3ef93083a7cd093ee0e516ef436574bced08a159
 </script>
+
 </body>
+
 </html>

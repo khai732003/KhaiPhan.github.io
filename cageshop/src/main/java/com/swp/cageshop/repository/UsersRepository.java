@@ -16,6 +16,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   boolean existsByEmail(String email);
 
+  boolean existsByPhone(String phone);
+
   List<Users> findByNameContaining(String name);
 
   void deleteAll();
@@ -30,4 +32,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
   @Query("SELECT u.fullname FROM Users u WHERE u.id = :userId")
   String findUserNameByUserId(@Param("userId") Long userId);
+
+//  @Query("SELECT u FROM Users u WHERE u.phone = :phoneNumber")
+  Optional<Users> findByPhone(String phoneNumber);
 }

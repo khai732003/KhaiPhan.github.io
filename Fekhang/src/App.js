@@ -137,7 +137,7 @@ function App() {
               <Route path='/error' element={<Error />} />
 
             </Routes>
-            <Footer />
+            <Footer/>
           </CartProvider>
         </AuthProvider>
       </Router>

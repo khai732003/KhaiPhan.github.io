@@ -352,13 +352,13 @@ const NavBar = () => {
               <StyledToggleButton
                 button
                 component={Link}
-                to="/timeline"
+                to="/voucher"
                 className="navbar-btn navbar-item"
               >
                 <ListItemIcon>
                   <MilitaryTechIcon color="inherit" />
                 </ListItemIcon>
-                <ListItemText primary="TimeLine" />
+                <ListItemText primary="Voucher" />
               </StyledToggleButton>
             </List>
           </div>

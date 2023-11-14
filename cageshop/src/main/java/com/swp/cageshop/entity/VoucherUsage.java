@@ -21,9 +21,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class VoucherUsage extends EntityBase{
 
-    @Column(nullable = false)
-    private LocalDateTime usedAt;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private Users user;

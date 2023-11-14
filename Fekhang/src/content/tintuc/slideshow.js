@@ -1,3 +1,4 @@
+
 // import React, { useState,useEffect} from 'react';
 // import Carousel from 'react-bootstrap/Carousel';
 // import Typography from '@mui/material/Typography';
@@ -44,5 +45,3 @@
 //         </>
 //     );
 // };
-
-// export default ImageSlider;

@@ -51,9 +51,29 @@ public class UsersServiceImpl implements IUsersService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  PasswordEncoder decoder;
+
   @Autowired
   private RolesRepository rolesRepository;
 
+  @Override
+  public UserDTO listPasswordsByPhone(String phoneNumber) {
+    Optional<Users> usersOptional = usersRepository.findByPhone(phoneNumber);
+
+    Users users = usersOptional.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    // Retrieve the hashed password directly without encoding it
+    String hashedPassword = users.getPassword();
+
+    // Set the hashed password in UserDTO
+    UserDTO dto = modelMapper.map(users, UserDTO.class);
+    dto.setPassword(hashedPassword);
+
+    return dto;
+  }
+
+
+  @Override
   public List<UserDTO> getStaffByManagerId(Long managerId) {
     List<Users> users = usersRepository.findByManagerId(managerId);
     return users.stream()
@@ -87,8 +107,8 @@ public class UsersServiceImpl implements IUsersService {
 
   @Override
   public ResponseEntity<?> register(UserDTO userDTO) {
-    if(usersRepository.existsByName(userDTO.getName()) || usersRepository.existsByEmail(userDTO.getEmail()))
-    { return  new ResponseEntity<>("name or email is already taken !", HttpStatus.SEE_OTHER); }
+    if(usersRepository.existsByName(userDTO.getName()) || usersRepository.existsByEmail(userDTO.getEmail()) || usersRepository.existsByPhone(userDTO.getPhone()))
+    { return  new ResponseEntity<>("name or email or phone is already taken !", HttpStatus.SEE_OTHER); }
     else
     {
       Users users = modelMapper.map(userDTO, Users.class);

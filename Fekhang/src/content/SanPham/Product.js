@@ -75,6 +75,7 @@ const Product = ({
   }, [isReturningFromLogin]);
 
   const handleBuy = async (id) => {
+    console.log(id)
     if (!user) {
       localStorage.setItem("proId", id);
       localStorage.setItem("toBuy", window.location.pathname);
@@ -98,8 +99,10 @@ const Product = ({
             userId: user.userId
           });
 
+        
           orderId = orderResponse.data.id;
           localStorage.setItem('orderId', orderId);
+          console.log(orderId)
         }
 
         const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
@@ -125,12 +128,26 @@ const Product = ({
     <div>
 
       <div className="col-md-12 container-product">
+                  <div className="card-stock">{stock}</div>
+      <div className="accessories-list">
+                    {accessories.map((accessory, index) => (
+                      <div key={index} className="accessory-item">
+                        <div className="sub-access">
+                        {accessory.description}      
+                        </div>                
+                      </div>
+                    ))}
+                  </div>
+                  
         <Card sx={{ maxWidth: 345 }} className="product-card">
+        
           <div className="card-body">
-          <div className="card-stock">Stock: {stock}</div>
+
+          <abbr title="Click To Detail"style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          >
             <div
               className="card-product"
-              style={{ paddingTop: 12 }}
+              style={{ paddingTop: 12 ,addingBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
               onClick={() => handleOnDetail(id)}
             >
               <CardMedia
@@ -140,18 +157,17 @@ const Product = ({
                 className="card-img-top"
               />
             </div>
-            <CardContent style={{ paddingBottom: 0 }}>
+            <CardContent style={{ paddingBottom: 0, textDecoration:'none'}}  onClick={() => handleOnDetail(id)}
+            >
               <Typography gutterBottom variant="h5" component="div">
-                <h5 className="card-title">{name}</h5>
+                <h5 className="card-title" style={{ paddingBottom: 0, textDecoration:'none'}} >{name}</h5>
               </Typography>
               <Typography variant="body2" color="">
                 <div className="card-info" style={{ paddingBottom: 0 }}>
                   {/* <div className="card-text">Id: {id}</div> */}
 
                   <div className="card-text">Code: {code}</div>
-                  <div className="accessories-list">
-                    Accessories: {accessoriesList}
-                  </div>
+
 
                   <div
                     className="card-price"
@@ -167,7 +183,7 @@ const Product = ({
               </Typography>
               <hr />
             </CardContent>
-
+            </abbr>
             <CardActions>
               <div
                 className=""

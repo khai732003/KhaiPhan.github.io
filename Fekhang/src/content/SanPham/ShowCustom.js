@@ -6,13 +6,14 @@ import './Scss/Detail.scss';
 import { Box, Grid, Container, Card, CardMedia, List, Button } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useAuth } from './Context/AuthContext';
-import { useCart } from './Context/CartContext';
+import ClearIcon from '@mui/icons-material/Clear';
 
 function ShowCustom() {
-    
-    const {user} = useAuth();
+
+    const { user } = useAuth();
     const { productId } = useParams();
     const [productDetail, setProductDetail] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ function ShowCustom() {
             .then((response) => {
                 setProductDetail(response.data);
                 setLoading(false);
+                setTotalPrice(response.data.totalPrice)
             })
             .catch((error) => {
                 console.error('Error fetching product detail:', error);
@@ -31,10 +33,11 @@ function ShowCustom() {
             });
     }, [productId]);
 
+
     const handleBuy = async (id) => {
 
         if (!user) {
-            localStorage.setItem('isDetailReturn','true');
+            localStorage.setItem('isDetailReturn', 'true');
             localStorage.setItem('proId', productId);
             localStorage.setItem('toBuy', window.location.pathname);
             navigate("/login")
@@ -43,14 +46,13 @@ function ShowCustom() {
         try {
             console.log(id)
             if (!orderId) {
-                const shipAddress = "hcm";
-                const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+                const address = user.address;
 
                 const orderResponse = await customAxios.post('/order/add', {
                     "name": "Tổng hóa đơn",
                     "status": "pending",
                     "paymentMethod": "credit card",
-                    "address": "137 Đặng Văn Bi",
+                    "address": address,
                     "city": "Đà Nẵng",
                     "content": "Đóng gói cẩn thận nhé",
                     "shipDate": "2023-10-15",
@@ -59,30 +61,27 @@ function ShowCustom() {
 
                 orderId = orderResponse.data.id;
                 localStorage.setItem('orderId', orderId);
-                console.log(orderId)
             }
 
-            console.log(orderId)
-
-            // const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
             await customAxios.post('/order_detail/add', {
                 quantity: 1,
                 hirePrice: productDetail.hirePrice,
                 name: productDetail.name,
-                totalOfProd: productDetail.totalOfProd,
+                totalOfProd: productDetail.totalPrice,
                 hirePrice: productDetail.hirePrice,
-                name: productDetail.name,
-                totalOfProd: productDetail.totalOfProd,
                 note: `Sản phẩm là ${id}`,
                 orderId: orderId,
                 productId: productDetail.id,
-                totalCost: productDetail.totalPrice
+                totalCost: 1234567
             });
             console.log(orderId)
             navigate(`/order/${orderId}`);
         } catch (error) {
             console.error("Lỗi khi tạo order và order detail:", error);
         }
+    };
+    const handleCustomProduct = (id) => {
+        navigate(`/customeproduct/${id}`);
     };
 
     const handleImageClick = (image) => {
@@ -100,6 +99,11 @@ function ShowCustom() {
     if (!productDetail) {
         return <div>Product not found</div>;
     }
+    const handleCancel = () => {
+        localStorage.removeItem("cusPro");
+        localStorage.removeItem("orderId");
+        navigate("/sanpham");
+    }
 
     return (
         <div className="full-container-details" style={{ paddingBottom: '3rem' }}>
@@ -107,6 +111,19 @@ function ShowCustom() {
                 <Grid container spacing={2} className="container-productdetail" justifyContent="center">
                     <Grid item xs={12} md={11} style={{ margin: '' }}>
                         <Container maxWidth="md" >
+                            <div >
+
+                                <div className="list-acc">
+                                    <div>
+                                        Accessory
+                                    </div>
+                                    {productDetail.accessories.map((accessory, index) => (
+                                        <div key={index} className="sub-acc">
+                                            <strong>{accessory.description}:</strong> ${accessory.price}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                             <Card style={{ padding: '2rem', borderRadius: '1rem' }}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} md={5}>
@@ -138,10 +155,10 @@ function ShowCustom() {
                                             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
                                                 {productDetail.name}
                                             </h3>
-                                            <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
+                                            {/* <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}
-                                            </p>
-                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'red' }}>
+                                            </p> */}
+                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'yellow' }}>
                                                 ${productDetail.totalPrice}
                                             </div>
                                             <div style={{ marginBottom: '20px' }}>
@@ -160,6 +177,9 @@ function ShowCustom() {
                                         </div>
                                         <div style={{ position: 'absolute', bottom: '5rem', width: '100%', display: 'flex', justifyContent: 'space-around' }}>
 
+                                            <Button className='custom-button-cancel' startIcon={<ClearIcon />} onClick={handleCancel}>
+                                                Cancel
+                                            </Button>
                                             <Button className='custom-button-buy' variant="contained" startIcon={<AttachMoneyIcon />} onClick={() => handleBuy(productDetail.id)}>
                                                 Buy Now
                                             </Button>

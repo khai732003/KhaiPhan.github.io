@@ -12,6 +12,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Button, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function LocalOrder() {
   const [orders, setOrders] = useState([]);
@@ -20,7 +21,7 @@ export default function LocalOrder() {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [orderIdToDelete, setOrderIdToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -44,10 +45,17 @@ export default function LocalOrder() {
 
   const handleConfirmDelete = () => {
     setDeleting(true);
+
     customAxios
       .delete(`/order/delete/${orderIdToDelete}`)
       .then(() => {
         setOrders((prevOrders) => prevOrders.filter((o) => o.id !== orderIdToDelete));
+
+        // Kiểm tra nếu orderIdToDelete giống với giá trị của localStorage
+        if (orderIdToDelete == localStorage.getItem("orderId")) {
+          localStorage.removeItem("orderId");
+        }
+
         setDeleteConfirmationOpen(false);
       })
       .catch((error) => {
@@ -59,10 +67,16 @@ export default function LocalOrder() {
       });
   };
 
+
   const handleCancelDelete = () => {
     setDeleteConfirmationOpen(false);
     setOrderIdToDelete(null);
   };
+
+  const handleReOrder = (orderId) => {
+    localStorage.setItem('orderId', orderId);
+    navigate(`/order/${orderId}`);
+  }
 
   const getStepNumber = (shipStatus) => {
     switch (shipStatus) {
@@ -105,10 +119,10 @@ export default function LocalOrder() {
                 </Box>
               </Grid>
               <Grid item sm={1}>
-                {order.payStatus === 'NOT_PAY' && 
-                <Button variant='contained' onClick={() => handleDelete(order.id)} disabled={deleting}>
-                  {deleting ? <CircularProgress size={24} /> : 'REMOVE'}
-                </Button>}
+                {order.payStatus === 'NOT_PAY' &&
+                  <Button variant='contained' onClick={() => handleDelete(order.id)} disabled={deleting}>
+                    {deleting ? <CircularProgress size={24} /> : 'REMOVE'}
+                  </Button>}
                 {order.payStatus === 'PAID' && (
                   <div>
 
@@ -131,13 +145,18 @@ export default function LocalOrder() {
               {order.orderDetails.map(product => (
                 <div key={product.id} className="order-details">
                   <Typography variant="subtitle1" gutterBottom className="product-info">
-                    {product.name} x{product.quantity}<br />
+                    {product.name} x{product.quantity} {product.totalCost} VND<br />
                     {/* Tổng giá sản phẩm: {product.totalCost} */}
                   </Typography>
                 </div>
               ))}
             </Grid>
             <Grid item xs={12} sm={4} container direction="row" justifyContent="flex-end" alignItems="flex-end">
+              <Grid item xs={12} sm={6}>
+                {order.payStatus === 'NOT_PAY' && <div>
+                  <Button variant='outlined' onClick={() => handleReOrder(order.id)}>RE-ORDER</Button>
+                </div>}
+              </Grid>
               <Grid item xs={12} sm={6}>
                 {order.payStatus === 'NOT_PAY' && <div><ConfirmEmail orderId2={order.id} /></div>}
                 {order.payStatus === 'PAID' && (
