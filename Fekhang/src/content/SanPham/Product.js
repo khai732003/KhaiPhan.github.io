@@ -11,6 +11,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 const Product = ({ id, name, stock, totalPrice, productImage, code, cage, accessories }) => {
 
+   
   const accessoriesList = accessories.map((accessory) => accessory.description).join(', ');
   const navigate = useNavigate();
   const { user } = useAuth();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import customAxios from "../../../CustomAxios/customAxios";
-import "../styles/revenue.css";
+import "../styles/Revenue.css";
 import {
   LineChart,
   Line,

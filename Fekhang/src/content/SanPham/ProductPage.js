@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 
 import Cart from "./Cart"
 import customAxios from '../../CustomAxios/customAxios';
+import axios from "axios";
 
 
 const ProductPage = () => {
