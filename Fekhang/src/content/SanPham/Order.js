@@ -36,7 +36,7 @@ const Order = () => {
 
   const deleteOrderDetail = async (orderDetailId) => {
     try {
-      await customAxios.delete(`/order_detail/delete/${orderDetailId}`);
+      await customAxios.patch(`/order_detail/delete-by/${orderDetailId}`);
       // Sau khi xóa thành công, cập nhật state để trigger lại render
       setOrder(prevOrder => ({ ...prevOrder, orderDetails: prevOrder.orderDetails.filter(item => item.id !== orderDetailId) }));
       fetchOrder();
@@ -44,10 +44,11 @@ const Order = () => {
       console.error("Lỗi khi xóa order detail:", error);
     }
   };
+  
   const applyVoucher = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/cageshop/api/voucher-usage/add-by-voucher',
+        '/voucher-usage/add-by-voucher',
         {
           usedAt: new Date().toISOString(),
           userId: user.userId,
@@ -93,10 +94,7 @@ const Order = () => {
                   </Button>
 
                 </div>
-                {/* <div>ID: {order.id}</div>
-            <div>Status: {order.status}</div>
-            <div>Payment Method: {order.paymentMethod}</div>
-            <div>Ship Address: {order.shipAddress}</div> */}
+
                 <div className="total-price">
                   <div style={{fontSize: '1rem', marginRight:'1rem'}}> Total Price: </div>
                   <div>ship-price {order.shipPrice} VND </div>

@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 
-const URL = "http://localhost:8080/cageshop/api/product/get-list";
+const URL = "product/list-date-desc";
 
 function Compare() {
   const [selectedProducts, setSelectedProducts] = useState([]);

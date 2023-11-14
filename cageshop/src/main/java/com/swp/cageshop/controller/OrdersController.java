@@ -8,7 +8,9 @@ import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.ordersService.IOrdersService;
 import com.swp.cageshop.service.ordersService.OrdersServiceImpl;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,9 +57,9 @@ public class OrdersController {
         return iOrdersService.findById(id);
     }
 
-    @GetMapping("/list-all/paid")
-    public List<OrderDTO> getPaidOrders() {
-        return ordersService.getPaidOrders();
+    @GetMapping("/list-all-orderPaid-by/{shipStatus}")
+    public List<OrderDTO> getPaidOrders(@PathVariable String shipStatus) {
+        return ordersService.getPaidAndNotConfirmedOrders(shipStatus);
     }
 
     @GetMapping("/list-by-status/{shipStatus}")
@@ -85,4 +87,26 @@ public class OrdersController {
     public List<OrderDTO> getOrdersByUserIdAndPayStatus(@PathVariable Long userId, @PathVariable String payStatus) {
         return iOrdersService.getOrdersByUserIdAndPayStatus(userId, payStatus);
     }
+
+    @DeleteMapping("/delete/{orderId}")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
+        try {
+            ordersService.deleteOrderDTO(orderId);
+            return new ResponseEntity<>("Order with id " + orderId + " and related details have been deleted.", HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>("Order with id " + orderId + " not found.", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to delete order with id " + orderId, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/checkUserPurchase/{userId}/{productId}")
+    public ResponseEntity<Boolean> checkUserPurchase(
+            @PathVariable Long userId,
+            @PathVariable Long productId) {
+        boolean hasPurchased = ordersService.checkIfUserHasPurchasedProduct1(userId, productId);
+
+        return new ResponseEntity<>(hasPurchased, HttpStatus.OK);
+    }
+
 }

@@ -1,13 +1,68 @@
 /* Product.css */
+
+
+
 .container-product {
   cursor: pointer;
+  position: relative;
+  .accessories-list{
+    position: absolute;
 
+    z-index: 1;
+    right: 5%;
+    top: 15%;
+    .accessory-item{
+      border: 2px solid black;
+      background-color: #ddd;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      padding: 0.1rem;
+      border-radius: 0.5rem;
+      font-weight: 400;
+    }
+   
+  }
+  .card-stock {
+    z-index: 1;
+    padding-top: 1rem;
+    font-size: 2.4rem !important;
+    border: 2px solid black;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 10%;
+    border-top-width: 10.6;
+    position: absolute;
+    border-top-width: 10.6;
+    background-color: rgb(173, 158, 158);
+    color: black;
+    font-size: x-small;
+    height: 4.5rem;
+    width: 4.5rem;
+    
+  }
+  .card-stock {
+    animation: rotate 10s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
   .product-card {
     border: 1px solid #ddd;
     /* Add border styles here */
     transition: border-color 0.3s;
     /* Add smooth transition effect */
-padding-top: 1rem;
+    padding-top: 0px;
+
     width: 23rem !important;
     height: 38rem !important;
     align-items: center;
@@ -16,84 +71,92 @@ padding-top: 1rem;
     .card-img-top {
       width: 20rem;
       height: 23rem;
+      margin-left: 10px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
     }
 
     .card-body {
       width: 100%;
+      padding-bottom: 32px;
+      position: relative;
+      background-color: linen;
+      abbr[title] {
+        text-decoration: none;
+      }
+
 
       .card-info {
         display: flex;
         flex-direction: column;
-        align-items: center;
-
-        .card-title {
-          font-size: 1.5rem;
-          font-weight: 600;
-        }
+        align-items: first baseline;
+        padding: 10px;
 
         .cart-text {
-          
+        }
+
+        .card-price {
+          padding-left: 120px;
+          color: brown;
+        }
+        .card-product {
+          padding-top: 10px;
         }
       }
-
     }
 
     .click-buy-addcart {
       width: 100%;
       display: flex;
       justify-content: space-around;
-      
+
       .custom-button {
         border: 2px solid;
         background-color: rgb(255, 255, 255);
         color: rgb(0, 0, 0);
         transition: background-color 0.3s ease, color 0.3s ease;
-    
+
         &:hover {
-            border: 2px solid black;
-            background-color: #000000; /* Thay đổi màu khi hover */
-            color: rgb(255, 255, 255); /* Màu văn bản khi hover */
+          border: 2px solid black;
+          background-color: #000000; /* Thay đổi màu khi hover */
+          color: rgb(255, 255, 255); /* Màu văn bản khi hover */
         }
-    
+
         &:disabled {
-            background-color: #ccc; /* Màu xám khi nút không được kích hoạt */
-            color: #9e8c8c; /* Màu văn bản khi nút không được kích hoạt */
-            cursor: not-allowed; /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
+          background-color: #ccc; /* Màu xám khi nút không được kích hoạt */
+          color: #9e8c8c; /* Màu văn bản khi nút không được kích hoạt */
+          cursor: not-allowed; /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
         }
-}
+      }
     }
-
-
   }
 }
 
-.container{
-  padding-top: 7rem;
+.container {
+  padding-top: 1rem;
 }
-
-
-
-
 
 .product-image {
   width: 13rem;
   margin-bottom: 1rem;
   transition: 0.8s;
-
 }
 
 .product-card:hover {
-
   border: 2px solid #d5ab55;
   transition: 0.8s;
-  box-shadow: 0 4px 8px 0 rgba(124, 120, 120, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  box-shadow: 0 4px 8px 0 rgba(124, 120, 120, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.card-img-top:hover {
-  transform: scale(1.03);
-  transition: 1s;
-}
+// .card-img-top:hover {
+//   transform: scale(1.03);
+//   transition: 1s;
+// }
 
 /* styles.css */
 
@@ -102,7 +165,7 @@ padding-top: 1rem;
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 0px;
   cursor: pointer;
 }
 
@@ -112,7 +175,7 @@ padding-top: 1rem;
 
 /* Định nghĩa styles cho giỏ hàng */
 .shopping-cart {
-  padding: 16px;
+  padding: 0px;
   /* Khoảng cách bên trong phần nội dung của giỏ hàng */
   width: 300px;
   /* Điều chỉnh chiều rộng của giỏ hàng */
@@ -128,7 +191,7 @@ padding-top: 1rem;
 }
 
 .shopping-cart {
-  padding: 16px;
+  padding: 0px;
   /* Khoảng cách bên trong phần nội dung của giỏ hàng */
   width: 300px;
   /* Điều chỉnh chiều rộng của giỏ hàng */
@@ -143,12 +206,10 @@ padding-top: 1rem;
   /* Hiệu ứng shadow khi hover */
 }
 
-
 .shopping-cart .MuiButton-root {
   transition: background-color 0.3s ease;
   /* Hiệu ứng hover */
   width: 700px;
-
 }
 
 .shopping-cart .MuiButton-root:hover {
@@ -157,8 +218,6 @@ padding-top: 1rem;
   color: #fff;
   /* Màu chữ khi hover */
 }
-
-
 
 /* Định nghĩa styles cho nút "Open Cart" */
 .open-cart-button {

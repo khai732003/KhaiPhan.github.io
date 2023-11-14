@@ -4,6 +4,8 @@ import { FaSave, FaEdit } from "react-icons/fa";
 import customAxios from "../../CustomAxios/customAxios";
 import "../userprofile/profile.scss"; // Đảm bảo bạn đặt lại đúng đường dẫn đến file .scss
 import {useAuth} from '../SanPham/Context/AuthContext';
+import { Link } from "react-router-dom";
+import CreateIcon from "@mui/icons-material/Create";
 const Profile = () => {
   const initialUserProfile = {
     // username: "",
@@ -185,7 +187,9 @@ const Profile = () => {
                       Save Changes
                     </Button>
                   )} */}
-                  <button>Edit Profile</button>
+                  <Link to={`/edit-profile`}>
+                    <Button style={{background: 'black', color: 'white' }}>Edit Profile</Button>
+                  </Link>
                 </Form>
               </Col>
             </Row>

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Alert, Button } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import customAxios from '../../../CustomAxios/customAxios';
-import { useAuth } from '../../SanPham/Context/AuthContext';
+import customAxios from '../../CustomAxios/customAxios';
+import { useAuth } from '../SanPham/Context/AuthContext';
 
-const AddEditUser = () => {
+const EditProfile = () => {
   const { id } = useParams();
   const { user, loadUser, setUserFromToken } = useAuth();
   const [error, setError] = useState(null);
@@ -43,35 +43,6 @@ const AddEditUser = () => {
     navigate(-1);
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await customAxios.post(
-        '/user/register',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (response.status === 200) {
-        navigate(-1);
-      }
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        if (error.response.data.message.includes('email') || error.response.data.message.includes('username')) {
-          setError('Email or username already exists.');
-        } else {
-          setError('An error occurred while registering.');
-        }
-      } else {
-        setError('An error occurred while registering.');
-      }
-    }
-  };
-
   const getUser = async (id) => {
     try {
       const response = await customAxios.get(`/user/list/${id}`);
@@ -85,9 +56,9 @@ const AddEditUser = () => {
 
   const updateUser = async () => {
     try {
-      const response = await customAxios.put(`/user/update/${id}`, formData);
+      const response = await customAxios.put(`/user/list/${id}`, formData);
       if (response.status === 200) {
-        navigate("/usermanagement");
+        navigate("/profile");
       }
     } catch (error) {
       console.error(error);
@@ -99,9 +70,7 @@ const AddEditUser = () => {
     
     if (isEditing) {
       updateUser();
-    } else {
-      handleRegister(event);
-    }
+    } 
   };
 
   return (
@@ -117,7 +86,6 @@ const AddEditUser = () => {
                 <div className="row g-0">
                   <div className="col-md-6 col-lg-6 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-1.5 text-black">
-                      <h2>{id ? "Update User" : "Add New User"}</h2>
                       <form onSubmit={handleSubmit}>
                         <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
                           <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
@@ -128,9 +96,6 @@ const AddEditUser = () => {
                               BACK
                             </Button>
                           </div>
-                          <span className="h1 fw-bold mb-0">
-                            {id ? "Update User" : "Add New User"}
-                          </span>
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Email
@@ -256,4 +221,4 @@ const AddEditUser = () => {
   );
 };
 
-export default AddEditUser;
+export default EditProfile;

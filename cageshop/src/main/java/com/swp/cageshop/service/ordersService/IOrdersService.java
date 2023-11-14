@@ -2,6 +2,7 @@ package com.swp.cageshop.service.ordersService;
 
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.DTO.OrderDetailDTO;
+import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
 
@@ -17,16 +18,13 @@ public interface IOrdersService {
 
     public OrderDTO updateOrderDTO(long id, OrderDTO OrderDTO);
 
-
-    public boolean deleteOrderDTO(long id);
-
     public List<OrderDTO> getAllOrderDTO();
 
     public OrderDTO findById(Long id);
 
     public void updateOrderAndOrderDetailsAndVoucher(Orders order);
 
-    public List<OrderDTO> getPaidOrders();
+    public List<OrderDTO> getPaidAndNotConfirmedOrders(String shipStatus);
 
     public List<OrderDTO> getOrdersByShipStatus(String shipStatus);
 
@@ -37,5 +35,9 @@ public interface IOrdersService {
     public List<OrderDTO> getOrdersByUserId(Long userId);
 
     public List<OrderDTO> getOrdersByUserIdAndPayStatus(Long userId, String payStatus);
+
+    public boolean deleteOrderDTO(long orderId);
+
+    public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId);
 
 }

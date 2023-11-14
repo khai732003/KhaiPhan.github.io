@@ -18,4 +18,7 @@ public interface IFeedbackService {
 
     public boolean checkIfUserHasPurchasedProduct(FeedbackDTO feedbackDTO);
 
+    public List<FeedbackDTO> getAllFeedbacksByProductId(Long productId);
+
+
     }

@@ -133,6 +133,7 @@ const AddProductForm = () => {
           description: formData.cage?.description,
           material: formData.cage?.material,
           size: formData.cage?.size,
+          
           price: formData.cage?.price,
         },
         accessories: [

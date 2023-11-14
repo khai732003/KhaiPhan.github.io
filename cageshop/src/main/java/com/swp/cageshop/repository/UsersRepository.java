@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,6 +15,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
   boolean existsByName(String name);
 
   boolean existsByEmail(String email);
+
+  boolean existsByPhone(String phone);
 
   List<Users> findByNameContaining(String name);
 
@@ -26,4 +29,10 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
   List<Users> findAllStaff();
 
   List<Users> findByManagerId(Long managerId);
+
+  @Query("SELECT u.fullname FROM Users u WHERE u.id = :userId")
+  String findUserNameByUserId(@Param("userId") Long userId);
+
+//  @Query("SELECT u FROM Users u WHERE u.phone = :phoneNumber")
+  Optional<Users> findByPhone(String phoneNumber);
 }

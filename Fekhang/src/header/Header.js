@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "../header/Header.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../content/SanPham/Context/CartContext";
 import { useLocation } from "react-router-dom";
@@ -15,6 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Stack from "@mui/material/Stack";
+import BookIcon from '@mui/icons-material/Book';
 
 import Cart from "../content/SanPham/Cart";
 import NavBar from "../content/dashboard/components/NavbBar";
@@ -24,6 +25,7 @@ function Header(props) {
   const { isCartOpen, toggleCart } = useCart();
   const isLoggedIn = user;
   const location = useLocation();
+  const [hasCusPro, setHasCusPro] = useState(false);
 
   // Kiểm tra xem người dùng có đang ở trang đăng nhập hoặc đăng ký không
   const isLoginPage = location.pathname === "/login";
@@ -41,11 +43,13 @@ function Header(props) {
   const isTimeLine = location.pathname === "/timeline";
   const isProductManager = location.pathname === "/productmanagement";
   const isAddProduct = location.pathname === "/addproduct";
+  const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
   const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
+  const isListConfirm = location.pathname === "/listconfirm";
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -80,6 +84,17 @@ function Header(props) {
     logout();
   };
 
+const handleCustome = () =>{
+  const cusProId = localStorage.getItem("cusPro");
+  navigate(`/customdetail/${cusProId}`)
+}
+
+  useEffect(() => {
+    // Kiểm tra xem có "cusPro" trong Local Storage không
+    const cusProInLocalStorage = localStorage.getItem("cusPro");
+    setHasCusPro(!!cusProInLocalStorage);
+  }, [localStorage.getItem("cusPro")]);
+
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
     return null;
   }
@@ -96,10 +111,14 @@ function Header(props) {
     isStaffManager ||
     isVoucher ||
     isAdminProfile ||
-    isTimeLine
+    isAddAccessories ||
+    isTimeLine || isListConfirm
+
   ) {
     return <NavBar />;
   }
+
+
 
   return (
     <div className="fixed-header">
@@ -140,11 +159,6 @@ function Header(props) {
                 >
                   SẢN PHẨM
                 </NavLink>
-
-                {/* <NavLink to="/apitest" className="dropdown-item nav-link">
-                                        Đăng Ký
-                                        
-                                    </NavLink> */}
               </div>
 
               <div className="custom-dropdown">
@@ -156,14 +170,7 @@ function Header(props) {
                   DỊCH VỤ
                 </NavLink>
 
-                {/* <div className="dropdown-menu">
-                                    <NavLink to="/staffnew" className="dropdown-item nav-link">
-                                        Đăng Nhập
-                                    </NavLink>
-                                    <NavLink to="/signup" className="dropdown-item nav-link">
-                                        Đăng Ký
-                                    </NavLink>
-                                </div> */}
+
               </div>
               <NavLink
                 to="/tintuc"
@@ -180,16 +187,8 @@ function Header(props) {
                 LIÊN HỆ
               </NavLink>
             </Nav>
-
-            {/* <Form className="d-flex">
-                            <Form.Control
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success">Search</Button>
-                        </Form> */}
+            
+            
             <Nav className="toggle-avatar-cart">
               {/* Nút giỏ hàng */}
 
@@ -206,7 +205,9 @@ function Header(props) {
                       variant="dot"
                       className="avatar"
                     >
+
                       <Avatar alt="User Avatar" src={user.image} />
+
                     </StyledBadge>
 
                     <div className="dropdown-menu">
@@ -237,6 +238,26 @@ function Header(props) {
                         >
                           NEW MARKETING
                         </NavLink>
+                      )}
+
+                      {user.role === "CUSTOMER" && (
+                        <>
+                          <NavLink
+                            to="/history"
+                            className="dropdown-item nav-link"
+
+                          >
+                            HISTORY ORDER
+                          </NavLink>
+                          <NavLink
+                            to="/localorder"
+                            className="dropdown-item nav-link"
+
+                          >
+                            MY ORDER
+                          </NavLink>
+                        </>
+
                       )}
                       <div
                         className="dropdown-item nav-link"
@@ -276,6 +297,11 @@ function Header(props) {
                 <ShoppingCartIcon />
                 <Cart />
               </IconButton>
+              {hasCusPro && (
+                <Button onClick={handleCustome} style={{width:'3rem'}}>
+                  <BookIcon/> 
+                </Button>
+            )}
             </Nav>
           </Navbar.Collapse>
         </Container>

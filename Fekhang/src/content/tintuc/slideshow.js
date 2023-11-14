@@ -1,25 +1,14 @@
-import React, { useState,useEffect} from 'react';
+// File: slideshow.js
+import React, { useState, useEffect } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import Typography from '@mui/material/Typography';
 import '../tintuc/slideshow.scss'
 import { Link } from 'react-router-dom';
 import listOfnews from '../../share/listOfnews';
-const ImageSlider = () => {
-    const [newsData, setNewsData] = useState([]);
 
-    useEffect(() => {
-        fetch('https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news')
-            .then((response) => response.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    // Ensure data is an array
-                    setNewsData(data);
-                } else {
-                    console.error('Data from API is not an array:', data);
-                }
-            })
-            .catch((error) => console.error('Error fetching data:', error));
-    }, []);
+const ImageSlider = () => {
+    const [newsData, setNewsData] = useState(listOfnews);
+
     return (
         <>
             <div className='container-news'>

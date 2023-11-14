@@ -12,6 +12,11 @@
   z-index: 1;
 }
 
+.user-management-page .search-add-button .btn-add{
+  margin-right: 20px;
+}
+
+
 .popup-content {
   background-color: #fff;
   padding: 20px;

@@ -16,16 +16,16 @@ public class BirdCages{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 3000)
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false,length = 35)
+    @Column(nullable = false)
     private String material;
 
-    @Column(nullable = false,length =20)
+    @Column(nullable = false)
     private String size;
 
-    @Column(nullable = false,length = 10)
+    @Column(nullable = false)
     private double price;
 
 

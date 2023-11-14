@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { Button, CircularProgress, Container, TextField } from "@mui/material";
-import customAxios from "../../../CustomAxios/customAxios";
+import customAxios from "../../CustomAxios/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
-// import "./Scss/addfeedback.scss";
-import { useAuth } from "../../SanPham/Context/AuthContext";
+import "./Scss/addfeedback.scss";
+import { useAuth } from "./Context/AuthContext";
 import {
   FormControl,
   InputLabel,
@@ -12,28 +11,31 @@ import {
   MenuItem,
 } from "@mui/material";
 
-function AddEditCategory() {
+function AddFeedBack() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [category, setCategory] = useState({
-    description: "",
-    price: "",
-    type: "Accessory Type",
+  const { user } = useAuth();
+  const { productId } = useParams();
+  const [feedback, setFeedback] = useState({
+    rating: "",
+    content: "",
+    userId: user.userId,
+    productId: productId,
   });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setCategory((prevCategory) => ({
-      ...prevCategory,
+    setFeedback((prevFeedback) => ({
+      ...prevFeedback,
       [name]: value,
     }));
   };
 
-  const handleAddCategory = async () => {
+  const handleAddFeedback = async () => {
     try {
-      const response = await customAxios .post("/addaccessories", category)
+      const response = await customAxios .post("/feedback/add", feedback)
       if (response.status === 200 || response.status === 201) {
-        navigate("/productmanagement");
+        navigate("/sanpham");
       }
     } catch (error) {
       console.error(error);
@@ -43,31 +45,43 @@ function AddEditCategory() {
   return (
     <Container>
       <div className="feedback-form" style={{ marginTop: "150px" }}>
-        <h2 className="input-feedback">Add Category</h2>
+        <h2 className="input-feedback">Add Feedback</h2>
         <FormControl fullWidth className="input-feedback">
-          <InputLabel id="rating-label">Type</InputLabel>
+          <InputLabel id="rating-label">Rating</InputLabel>
           <Select
             labelId="rating-label"
             id="rating"
             name="rating"
-            value={category.type}
+            value={feedback.rating}
             onChange={handleInputChange}
           >
-            <MenuItem value={1}>Accessory Type 1</MenuItem>
-            <MenuItem value={2}>Accessory Type 2</MenuItem>
-            
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
           </Select>
         </FormControl>
 
         <TextField
-          label="Category Content"
+          label="Feedback Content"
           multiline
           rows={4}
           variant="outlined"
           fullWidth
           name="content"
-          value={category.description}
+          value={feedback.content}
           onChange={handleInputChange}
+          className="input-feedback"
+        />
+
+        <TextField
+          label="User ID"
+          variant="outlined"
+          fullWidth
+          name="userId"
+          value={feedback.userId}
+          readOnly
           className="input-feedback"
         />
 
@@ -75,9 +89,9 @@ function AddEditCategory() {
           label="Product ID"
           variant="outlined"
           fullWidth
-          name="price"
-          value={category.price}
-          
+          name="productId"
+          value={feedback.productId}
+          readOnly
           className="input-feedback"
         />
 
@@ -85,15 +99,14 @@ function AddEditCategory() {
           variant="contained"
           color="primary"
           disabled={loading}
-          onClick={handleAddCategory}
+          onClick={handleAddFeedback}
           className="input-feedback"
         >
-          {loading ? <CircularProgress size={24} /> : "Add Category"}
+          {loading ? <CircularProgress size={24} /> : "Add Feedback"}
         </Button>
       </div>
     </Container>
   );
 }
 
-export default AddEditCategory;
-
+export default AddFeedBack;

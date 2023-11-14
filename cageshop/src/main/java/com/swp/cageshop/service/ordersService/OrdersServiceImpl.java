@@ -92,10 +92,6 @@ public class OrdersServiceImpl implements IOrdersService {
         }
     }
 
-    @Override
-    public boolean deleteOrderDTO(long id) {
-        return false;
-    }
 
     public List<OrderDTO> getAllOrderDTO() {
         List<Orders> ordersList = ordersRepository.findAll();
@@ -215,12 +211,19 @@ public class OrdersServiceImpl implements IOrdersService {
         }
     }
     @Override
-    public List<OrderDTO> getPaidOrders() {
-        List<Orders> orders = ordersRepository.findPaidOrders();
-        return orders.stream()
+    public List<OrderDTO> getPaidAndNotConfirmedOrders(String shipStatus) {
+        List<Orders> paidAndNotConfirmedOrders = ordersRepository.findByPayStatusAndShipStatus("PAID", shipStatus);
+
+        List<OrderDTO> orderDTOs = paidAndNotConfirmedOrders.stream()
                 .map(order -> modelMapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());
+
+        return orderDTOs;
     }
+
+
+
+
     @Override
     public List<OrderDTO> getOrdersByShipStatus(String shipStatus) {
         List<Orders> orders = ordersRepository.findByShipStatus(shipStatus);
@@ -274,4 +277,34 @@ public class OrdersServiceImpl implements IOrdersService {
         return orderDTOs;
     }
 
+    @Override
+    public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId) {
+        // Tìm đơn hàng có userId và trạng thái đã thanh toán và đã giao hàng
+        List<Orders> orders = ordersRepository.findByUserIdAndPayStatusAndShipStatus(userId, "PAID", ShippingStatus.DELIVERED.toString());
+
+        for (Orders order : orders) {
+            // Lấy danh sách các sản phẩm trong đơn hàng
+            List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
+
+            // Kiểm tra xem sản phẩm có trong đơn hàng hay không
+            for (OrderDetail orderDetail : orderDetailList) {
+                if (orderDetail.getProduct().getId().equals(productId)) {
+                    return true; // Người dùng đã mua sản phẩm
+                }
+            }
+        }
+
+        return false; // Người dùng chưa mua sản phẩm
+    }
+
+
+
+    @Override
+    public boolean deleteOrderDTO(long orderId) {
+        ordersRepository.deleteById(orderId);
+        orderDetailsRepository.deleteAllByOrderId(orderId);
+        return true;
+    }
+
 }
+

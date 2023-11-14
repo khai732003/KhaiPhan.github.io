@@ -17,5 +17,5 @@ public class FeedbackDTO extends DTOBase
         private String content;
         private Long userId;
         private Long productId;
-
+        private String userName;
     }

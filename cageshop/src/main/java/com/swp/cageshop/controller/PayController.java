@@ -57,7 +57,7 @@ public class PayController {
     @Autowired
     private VoucherUsageRepository voucherUsageRepository;
 
-
+    private VnPayDTO storedVnPayDTO;
     @Autowired
     private VouchersRepository voucherRepository;
     @PostMapping("/pay")
@@ -73,6 +73,7 @@ public class PayController {
             paymentResponseDTO.setStatus("Sucess");
             paymentResponseDTO.setMessage("Ok");
             paymentResponseDTO.setUrl(paymentResult);
+            storedVnPayDTO = vnPayDTO;
             return ResponseEntity.ok(paymentResponseDTO);
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -86,24 +87,27 @@ public class PayController {
             @RequestParam(value = "vnp_BankCode") String bankCode,
             @RequestParam(value = "vnp_ResponseCode") String responseCode,
             @RequestParam(value = "vnp_TxnRef") String txnRef,
+
         HttpServletResponse response
 
     ) {
         TransactionDTO transactionDTO = new TransactionDTO();
-        Pays pays = paysRepository.findByPaymentCode(txnRef);
         if ("00".equals(responseCode)) {
+            VNPayPayment vnPayEntity = modelMapper.map(storedVnPayDTO, VNPayPayment.class);
+            paysRepository.save(vnPayEntity);
+            Pays pays = paysRepository.findByPaymentCode(txnRef);
             if (pays != null) {
                 pays.setStatus("COMPLETED");
                 paysRepository.save(pays);
-                    transactionDTO.setStatus("OK");
-                    transactionDTO.setMessage("Success");
-                    transactionDTO.setData("");
+                transactionDTO.setStatus("OK");
+                transactionDTO.setMessage("Success");
+                transactionDTO.setData("");
                 Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
                 orders.setPayStatus("PAID");
                 ordersRepository.save(orders);
                 iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
                 VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
-                if(vu!=null) {
+                if (vu != null) {
                     Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
                     v.setQuantity(v.getQuantity() - 1);
                     voucherRepository.save(v);
@@ -111,9 +115,8 @@ public class PayController {
                 String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);
-                }
-        } else {
-            paysRepository.deleteById(pays.getId());
+            }
+        } else if ("24".equals(responseCode)) {
             String redirectUrl = "http://localhost:3000/";
             response.setStatus(HttpStatus.FOUND.value());
             response.setHeader("Location", redirectUrl);
