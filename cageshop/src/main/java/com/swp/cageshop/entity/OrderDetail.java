@@ -16,8 +16,8 @@
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetail extends EntityBase {
-  @Column
-  private String name;
+      @Column
+       private String name;
 
     @Column(nullable = false)
     private int quantity;

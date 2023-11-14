@@ -248,14 +248,29 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 
+
     @Override
     public List<OrderDTO> getOrdersByUserId(Long userId) {
         List<Orders> orders = ordersRepository.findByUserId(userId);
         List<OrderDTO> orderDTOs = new ArrayList<>();
+
         for (Orders order : orders) {
             OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+
+            List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
+            List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+
+            for (OrderDetail detail : orderDetailList) {
+                String productImg = detail.getProduct().getProductImage();
+                OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+                orderDetailDTO.setProductImg(productImg);
+                orderDetailDTOList.add(orderDetailDTO);
+            }
+
+            orderDTO.setOrderDetails(orderDetailDTOList);
             orderDTOs.add(orderDTO);
         }
+
         return orderDTOs;
     }
 

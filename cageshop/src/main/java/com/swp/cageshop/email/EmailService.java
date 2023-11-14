@@ -38,19 +38,26 @@ public class EmailService {
             helper.setSubject(subject);
             Orders orders = ordersRepository.getReferenceById(orderId);
             List<OrderDetail> orderDetails = orderDetailsRepository.findAllByOrderId(orderId);
-            StringBuilder orderDetailsHtml = new StringBuilder("<h2>Order Details</h2>");
+
+            // Generate table rows for order details
+            StringBuilder orderDetailsHtml = new StringBuilder();
             for (OrderDetail orderDetail : orderDetails) {
-                orderDetailsHtml.append("<p>Product: ").append(orderDetail.getName())
-                        .append(", Quantity: ").append(orderDetail.getQuantity())
-                        .append(", Price: ").append(orderDetail.getTotalCost()).append("</p>");
+                orderDetailsHtml.append("<tr>")
+                        .append("<td>").append(orderDetail.getProductImage()).append("</td>")
+                        .append("<td>").append(orderDetail.getName()).append("</td>")
+                        .append("<td>").append(orderDetail.getQuantity()).append("</td>")
+                        .append("<td>").append(orderDetail.getTotalCost()).append("</td>")
+                        .append("</tr>");
             }
+
+            // Read content from the HTML file and replace placeholders
             ClassPathResource resource = new ClassPathResource("form.html");
             String content = new String(Files.readAllBytes(resource.getFile().toPath()));
             content = content.replace("[[orderId]]", orders.getId().toString());
             content = content.replace("[[email]]", email);
             content = content.replace("[[orderDetails]]", orderDetailsHtml.toString());
 
-            System.out.println("Email Content: " + content);
+            // Set email content and send the email
             helper.setText(content, true);
             mailSender.send(message);
         } catch (Exception e) {

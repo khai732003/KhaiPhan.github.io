@@ -30,19 +30,52 @@
         .header {
             background-color: #4B7BEC;
             color: #fff;
-            padding: 50px;
+            padding: 30px;
             text-align: center;
         }
 
         .content {
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
         }
 
         .footer {
             background-color: #e4e4e4;
             padding: 30px;
             text-align: center;
+        }
+
+        h1, h2, p {
+            margin-bottom: 15px;
+        }
+
+        a.button {
+            color: #fff !important;
+            background-color: #4b7bec;
+            padding: 15px 50px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        table.order-details {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table.order-details th, table.order-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table.order-details th {
+            background-color: #4B7BEC;
+            color: #fff;
         }
     </style>
 </head>
@@ -55,20 +88,29 @@
                 <img src="https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg" alt="logo" title='LOGO'>
             </a>
             <p>Thank you for your interest in our products</p>
-            <h1>If you agree to purchase, click here to redirect to the payment page</h1>
-            <a href="https://translate.google.com/?hl=vi&sl=vi&tl=en&text=chuy%E1%BB%83n%20trang&op=translate" style='color: #4b7bec; background-color:#fff; padding:15px 50px; display: inline-block; text-decoration: none; font-weight: 600; border-radius: 6px; margin-bottom: 20px;'>CONFIRM</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
+            <p>Please check the information again</p>
             <div>
-                <p>Order ID: [[orderId]]</p>
-                <p>Email: [[email]]</p>
+                <p>Mã đơn hàng của bạn: [[orderId]]</p>
             </div>
             <div id="orderDetailsPlaceholder">
-                <h2>Order Details</h2>
-                [[orderDetails]]
+                <h2>Sau đây là chi tiết các sản phẩm mà bạn đặt mua</h2>
+                <table class="order-details">
+                    <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Use a loop to iterate through order details and generate table rows -->
+                    [[orderDetails]]
+                    </tbody>
+                </table>
             </div>
+            <h1>If you agree to purchase, click here to redirect to the payment page</h1>
+            <a href="truyen link vo day" class="button">CONFIRM</a>
         </td>
     </tr>
 </table>
