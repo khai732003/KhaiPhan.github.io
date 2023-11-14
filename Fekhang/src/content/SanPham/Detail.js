@@ -198,7 +198,25 @@ function Detail({
     }
   };
 
+  useEffect(() => {
+    if (isReturningFromLogin) {
+      // Nếu người dùng đã đăng nhập, chạy lại handleCustomProduct
+      const id = localStorage.getItem("cusroid");
+      localStorage.removeItem("cusroid");
+      handleCustomProduct(id);
+      // Đặt trạng thái isReturningFromLogin về false để không chạy lại vào lần sau
+      setIsReturningFromLogin(false);
+    }
+  }, [isReturningFromLogin]);
+
   const handleCustomProduct = (id) => {
+    if (!user) {
+      localStorage.setItem('isDetailReturn', 'true');
+      localStorage.setItem('cusroid', productId);
+      localStorage.setItem('toBuy', window.location.pathname);
+      navigate("/login")
+      return;
+    }
     navigate(`/customeproduct/${id}`);
   };
 

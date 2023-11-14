@@ -47,10 +47,8 @@ const Order = () => {
   
   const applyVoucher = async () => {
     try {
-      const response = await axios.post(
-        '/voucher-usage/add-by-voucher',
+      const response = await customAxios.post('/voucher-usage/add-by-voucher',
         {
-          usedAt: new Date().toISOString(),
           userId: user.userId,
           orderId: orderId,
           codeVoucher: voucherCode
@@ -103,7 +101,6 @@ const Order = () => {
                   {order.total_price} VND</div>
                 </div>
                   <ConfirmEmail />
-                {/* <VNPayPayment /> */}
               </div>
             )}
           </Grid>

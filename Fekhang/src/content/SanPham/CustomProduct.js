@@ -99,7 +99,7 @@ function CustomProduct() {
             onChange={() => handleAccessorySelect(accessory.id)}
           />
           <label htmlFor={accessory.id} style={{ marginLeft: 1 }}>
-            {accessory.description}
+            {accessory.description} {accessory.price}
           </label>
         </Box>
       ))}<hr/>

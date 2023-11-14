@@ -99,8 +99,10 @@ const Product = ({
             userId: user.userId
           });
 
+        
           orderId = orderResponse.data.id;
           localStorage.setItem('orderId', orderId);
+          console.log(orderId)
         }
 
         const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };

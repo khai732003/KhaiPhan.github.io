@@ -13,6 +13,7 @@ function ShowCustom() {
     const { user } = useAuth();
     const { productId } = useParams();
     const [productDetail, setProductDetail] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -24,12 +25,14 @@ function ShowCustom() {
             .then((response) => {
                 setProductDetail(response.data);
                 setLoading(false);
+                setTotalPrice(response.data.totalPrice)
             })
             .catch((error) => {
                 console.error('Error fetching product detail:', error);
                 setLoading(false);
             });
     }, [productId]);
+
 
     const handleBuy = async (id) => {
 
@@ -43,14 +46,13 @@ function ShowCustom() {
         try {
             console.log(id)
             if (!orderId) {
-                const shipAddress = "hcm";
-                const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+                const address = user.address;
 
                 const orderResponse = await customAxios.post('/order/add', {
                     "name": "Tổng hóa đơn",
                     "status": "pending",
                     "paymentMethod": "credit card",
-                    "address": "137 Đặng Văn Bi",
+                    "address": address,
                     "city": "Đà Nẵng",
                     "content": "Đóng gói cẩn thận nhé",
                     "shipDate": "2023-10-15",
@@ -59,24 +61,18 @@ function ShowCustom() {
 
                 orderId = orderResponse.data.id;
                 localStorage.setItem('orderId', orderId);
-                console.log(orderId)
             }
 
-            console.log(orderId)
-
-            // const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
             await customAxios.post('/order_detail/add', {
                 quantity: 1,
                 hirePrice: productDetail.hirePrice,
                 name: productDetail.name,
-                totalOfProd: productDetail.totalOfProd,
+                totalOfProd: productDetail.totalPrice,
                 hirePrice: productDetail.hirePrice,
-                name: productDetail.name,
-                totalOfProd: productDetail.totalOfProd,
                 note: `Sản phẩm là ${id}`,
                 orderId: orderId,
                 productId: productDetail.id,
-                totalCost: productDetail.totalPrice
+                totalCost: 1234567
             });
             console.log(orderId)
             navigate(`/order/${orderId}`);
@@ -105,7 +101,8 @@ function ShowCustom() {
     }
     const handleCancel = () => {
         localStorage.removeItem("cusPro");
-        navigate(-1);
+        localStorage.removeItem("orderId");
+        navigate("/sanpham");
     }
 
     return (
@@ -158,10 +155,10 @@ function ShowCustom() {
                                             <h3 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
                                                 {productDetail.name}
                                             </h3>
-                                            <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
+                                            {/* <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}
-                                            </p>
-                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'red' }}>
+                                            </p> */}
+                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'yellow' }}>
                                                 ${productDetail.totalPrice}
                                             </div>
                                             <div style={{ marginBottom: '20px' }}>

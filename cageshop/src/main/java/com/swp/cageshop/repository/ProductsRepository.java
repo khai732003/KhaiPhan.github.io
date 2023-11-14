@@ -69,7 +69,7 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
     //Accessories
-    @Query("SELECT p FROM Products p JOIN p.accessories a WHERE a.type = :accessoryType")
+    @Query("SELECT p FROM Products p JOIN p.accessories a WHERE p.status = 'Available'AND a.type = :accessoryType")
     List<Products> findProductsByAccessoriesType(@Param("accessoryType") String accessoryType);
 
 

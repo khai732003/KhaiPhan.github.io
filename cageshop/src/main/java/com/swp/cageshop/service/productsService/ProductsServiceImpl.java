@@ -236,7 +236,7 @@ public class ProductsServiceImpl implements IProductsService {
                 Products clonedProduct = new Products();
                 clonedProduct.setName(product.getName());
                 clonedProduct.setStock(1);
-                clonedProduct.setTotalPrice(product.getTotalPrice());
+
                 clonedProduct.setProductImage(product.getProductImage());
                 clonedProduct.setCode(product.getCode());
 
@@ -249,6 +249,7 @@ public class ProductsServiceImpl implements IProductsService {
                     clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
                     clonedBirdCage.setProduct(clonedProduct);
                     clonedProduct.setCage(clonedBirdCage);
+
                 }
 
                 clonedProduct.setStatus("CustomProduct");
@@ -264,6 +265,7 @@ public class ProductsServiceImpl implements IProductsService {
                     productAccessories.add(clonedAccessory);
                 }
 
+                double result = 0;
                 // Add new accessories
                 for (AccessoryDTO accessoryDTO : accessories) {
                     Accessories newAccessory = new Accessories();
@@ -271,11 +273,12 @@ public class ProductsServiceImpl implements IProductsService {
                     newAccessory.setPrice(accessoryDTO.getPrice());
                     newAccessory.setType(accessoryDTO.getType());
                     newAccessory.setProduct(clonedProduct);
+                    result +=  newAccessory.getPrice();
+                    clonedProduct.setTotalPrice(product.getTotalPrice() + result);
                     productAccessories.add(newAccessory);
                 }
 
                 clonedProduct.setAccessories(productAccessories);
-
                 Products updatedProduct = productsRepository.save(clonedProduct);
                 return modelMapper.map(updatedProduct, ProductDTO.class);
             }
