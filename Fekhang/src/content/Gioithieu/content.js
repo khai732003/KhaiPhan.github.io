@@ -27,10 +27,10 @@ export default function AboutPage() {
             <div className='about-container'>
                 <Box>
                     <Grid xs={12} md={12} className='about-header-container'>
-                        <div className='card-header-about'>
+                        <div className='card-header-about-1'>
                             <p id='date-header-about'><strong>October 12 2023</strong></p>
                             <h1 id='title-header-about'><strong>Bird Cage Store</strong></h1>
-                            <h2 id='content-header-about'>Revive every area in your house for less with furnishings that's on-trend and also economical, also.
+                            <h2 id='content-header-about-1'>Revive every area in your house for less with furnishings that's on-trend and also economical, also.
                                 Find ideal pieces for huge residences, little spaces, houses, workshops.
                                 Locate both comfort and also innovative style amongst our choice of furniture. Visit your
                                 regional store to browse even more and also purchase.

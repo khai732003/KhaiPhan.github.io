@@ -4,6 +4,7 @@ import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import customAxios from '../../CustomAxios/customAxios';
+import axios from "axios";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
