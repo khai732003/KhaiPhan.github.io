@@ -184,6 +184,23 @@ const ProductManagement = () => {
 
         </div>
 
+        <div className="btn-add">
+          <Link to={"/addaccessories"}>
+            <button className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</button>
+          </Link>
+        </div>
+
+        <div className="btn-add">
+          <Link to={"/add-edit-category"}>
+            <button className="add-staff-btn">Add new Category</button>
+          </Link>
+        </div>
+
+        <div className="btn-add">
+          <Link to={"/addproduct"}>
+            <button className="add-staff-btn">Add new product</button>
+          </Link>
+        </div>
       </div>
 
 
@@ -321,13 +338,20 @@ const ProductManagement = () => {
                         </Typography>
                         <hr />
                         <Typography variant="h6" className="info-label">
-                          {<p>Accessories</p>}
+                          Accessories
                         </Typography>
                         <hr />
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Description</span>:
-                          {detailPopup.accessories.description}
-                        </Typography>
+
+                        {detailPopup.accessories.map((accessory, index) => (
+                          <Typography key={index} variant="body1" className="info-item">
+                            <span className="info-label">Description:</span> {accessory.description}
+                            <br />
+                            <span className="info-label">Price:</span> {accessory.price}
+                            <br />
+                            <span className="info-label">Type:</span> {accessory.type}
+                          </Typography>
+                        ))}
+
                         <Typography variant="body1" className="info-item">
                           <span className="info-label">Type</span>:
                           {detailPopup.accessories.type}

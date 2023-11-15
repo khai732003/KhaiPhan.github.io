@@ -352,17 +352,7 @@ const AddProductForm = () => {
             {generateCategoryOptions()}
           </Select>
         </Form.Item>
-        <h2>Product Type</h2>
-        <Form.Item
-          label="Product Type"
-          name="productType"
-          initialValue={productType}
-        >
-          <Select onChange={handleProductTypeChange}>
-            <Option value="birdcage">Bird Cage</Option>
-            <Option value="accessory">Accessory</Option>
-          </Select>
-        </Form.Item>
+       
 
         {productType === "birdcage" && (
           <>

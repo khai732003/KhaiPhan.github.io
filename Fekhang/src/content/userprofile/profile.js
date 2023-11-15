@@ -50,7 +50,6 @@ const Profile = () => {
         console.error("Error fetching user profile data:", error);
       }
     };
-    // console.log
 
     loadUserProfile();
   }, [userId]);

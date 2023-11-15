@@ -69,7 +69,8 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
 
     @Override
     public List<Double> findAmountVouchersByOrderId(Long orderId) {
-        return null;
+
+        return voucherUsageRepository.findVoucherAmountsByOrderId(orderId);
     }
 
     public VoucherUsageDTO getVoucherUsageById(Long id) {

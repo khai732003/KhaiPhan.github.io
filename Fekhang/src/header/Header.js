@@ -54,6 +54,7 @@ function Header(props) {
 
   const isAddEditUser = location.pathname === "/add-edit-user";
   const isAddCategory = location.pathname === "/add-edit-category";
+  const islistdevered = location.pathname === "/listdelivered";
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -116,7 +117,7 @@ const handleCustome = () =>{
     isVoucher ||
     isAdminProfile ||
     isAddAccessories ||
-    isTimeLine || isListConfirm || isAddEditUser || isAddCategory
+    isTimeLine || isListConfirm || isAddEditUser || isAddCategory || islistdevered
 
   ) {
     return <NavbBar />;
@@ -235,6 +236,7 @@ const handleCustome = () =>{
                       )}
 
                       {user.role === "STAFF" && (
+                        <>
                         <NavLink
                           to="/staffnew"
                           className="dropdown-item nav-link"
@@ -242,6 +244,15 @@ const handleCustome = () =>{
                         >
                           NEW MARKETING
                         </NavLink>
+                        <NavLink
+                          to="/listconfirm"
+                          className="dropdown-item nav-link"
+                          onClick={() => navigate("/staffnew")}
+                        >
+                          LIST CONFIRMING
+                        </NavLink>
+                        </>
+                        
                       )}
 
                       {user.role === "CUSTOMER" && (
