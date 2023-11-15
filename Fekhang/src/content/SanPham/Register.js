@@ -164,22 +164,22 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="vh-100" style={{padding:'100px 0 1200px 0',margin:'-70px 0',height:'300vh'}}>
       <div className="alert-container">
         {" "}
         {/* Thêm class "alert-container" để áp dụng CSS */}
         {error && <Alert severity="info">{error}</Alert>}
       </div>
-      <section className="vh-110" style={{ backgroundColor: "#808080" }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
+      <section  >
+        <div >
+          <div className="row d-flex justify-content-center align-items-center ">
             <div className="col col-xl-10">
               <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-6 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-1.5 text-black">
+                <div className="row g-0" >
+                  <div className="col-md-6 col-lg-6 d-flex align-items-center" >
+                    <div className="card-body p-4 p-lg-1.5 text-black" style={{backgroundColor:'#fff'}}>
                       <form onSubmit={handleRegister}>
-                        <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
+                        <div className="d-flex justify-content-left align-items-center  ">
                           {/* <i className="fas fa-cubes fa-2x me-3" style={{ color: "#ff6219" }}></i> */}
                           <div
                             className="mb-5 pb-lg-2"
@@ -188,18 +188,15 @@ const Register = () => {
                             <Button
                               sx={{ fontSize: 18 }}
                               variant="contained"
-                              style={{
-                                backgroundColor: "#e0e0e0",
-                                color: "#212121",
-                              }}
+                              
                               startIcon={<ArrowBackIosIcon />}
                               onClick={handleReturnPage}
                             >
                               BACK
                             </Button>
                           </div>
-                          <span className="h1 fw-bold mb-0">REGISTER</span>
                         </div>
+                        <p style={{textAlign:'center', fontSize:'40px', fontWeight:'bold'}}>REGISTER</p>
                         <label className="form-label" htmlFor="form2Example17">
                           Email
                         </label>

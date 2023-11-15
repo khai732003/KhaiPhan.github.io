@@ -315,7 +315,7 @@ function Detail({
                   </div>
                   {productDetail.accessories.map((accessory, index) => (
                     <div key={index} className="sub-acc">
-                      <strong>{accessory.description}:</strong> ${accessory.price}
+                      <strong>{accessory.description}:</strong> VND{accessory.price}
                     </div>
                   ))}
                 </div>

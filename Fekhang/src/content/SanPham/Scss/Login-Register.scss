@@ -1,6 +1,10 @@
-// .alert-container {
-//     position: fixed;
-//     top: 0;
-//     width: 100%;
-//     z-index: 9999;
-//   }
+.vh-100{
+    background: linear-gradient(
+        to bottom,
+        rgb(101, 195, 246),
+        rgb(133, 249, 253)
+      );
+      img{
+        border-radius: 5px;
+      }
+}

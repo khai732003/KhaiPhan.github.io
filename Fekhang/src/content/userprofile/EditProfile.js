@@ -108,7 +108,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div style={{backgroundColor: 'rgb(248,248,255)'}}>
+    <div style={{backgroundColor: 'rgb(248,248,255)'}} className='EditProfile-container'>
       <div className="alert-container">
         {error && <Alert severity="info">{error}</Alert>}
       </div>

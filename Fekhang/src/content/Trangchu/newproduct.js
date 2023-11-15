@@ -42,7 +42,7 @@ const NewProduct = () => {
                                 {/* <div className="rating">
                                     {renderStarRating(product.rating)}
                                 </div> */}
-                                <p>Price: ${product.totalPrice.toFixed(2)}</p>
+                                <p>Price: {product.totalPrice.toFixed(2)} VND</p>
                                 <Button variant="primary" onClick={handleGoToProduct}>Go to shop</Button>
                                 {/* <p>Coupon: {product.coupon}</p> */}
                             </div>

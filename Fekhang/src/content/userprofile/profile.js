@@ -70,6 +70,9 @@ const Profile = () => {
               <h5>
                 <strong>{userprofile.fullname}</strong>
               </h5>
+              <br/>
+              <p>{userprofile.phone}</p>
+              <p>{userprofile.email}</p>
               {/* <p>{userprofile.role.name}</p> */}
             </div>
             {/* <Button

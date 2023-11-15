@@ -113,13 +113,13 @@ const Login = ({ currentPath }) => {
 
   return (
     <div>
-      <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>
+      <section className="vh-100" >
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col col-xl-10">
-              <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-5 d-none d-md-block">
+              <div className="card" >
+                <div className="row g-0" >
+                  <div className="col-md-6 col-lg-5 d-none d-md-block" >
                     <img
                       src="https://images.unsplash.com/photo-1552826580-0d47cf898dee?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmlyZCUyMGNhZ2V8ZW58MHx8MHx8fDA%3D"
                       alt="login form"
@@ -127,8 +127,8 @@ const Login = ({ currentPath }) => {
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   </div>
-                  <div className="col-md-6 col-lg-7 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-5 text-black">
+                  <div className="col-md-6 col-lg-7 d-flex align-items-center"  >
+                    <div className="card-body p-4 p-lg-5 text-black" style={{ backgroundColor: "#fff" }}>
                       <form onSubmit={handleLogin}>
                       <Stack spacing={2} style={{ marginBottom: "20px" }}>
                           {/* Display error message if there's an issue */}
@@ -150,10 +150,7 @@ const Login = ({ currentPath }) => {
                             <Button
                               sx={{ fontSize: 18 }}
                               variant="contained"
-                              style={{
-                                backgroundColor: "#e0e0e0",
-                                color: "#212121",
-                              }}
+                              
                               startIcon={<ArrowBackIcon />}
                               onClick={handleReturnPage}
                             >
@@ -256,7 +253,7 @@ const Login = ({ currentPath }) => {
                           onClick={handleOnRegister}
                         >
                           Don't have an account?{" "}
-                          <a href="#!" style={{ color: "#393f81" }}>
+                          <a href="#!" style={{ color: "#E33539" }}>
                             Register here
                           </a>
                         </p>
