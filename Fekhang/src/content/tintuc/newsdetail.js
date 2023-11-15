@@ -19,7 +19,7 @@ const NewsDetail = () => {
     const fetchData = async () => {
       try {
         const response = await customAxios.get(
-          `http://localhost:8080/cageshop/api/marketing/list/${id}`
+          `/marketing/list/${id}`
         );
         setMarketingData(response.data);
         setLoading(false);
@@ -49,7 +49,7 @@ const NewsDetail = () => {
             <div className="left-column">
               <CardMedia
                 component="img"
-                sx={{ height: 140 }}
+                sx={{ height: 300 }}
                 image={marketingData.img}
                 alt={marketingData.title}
                 className="card-img-top"

@@ -151,7 +151,7 @@ const News = () => {
       try {
         // Gọi API một lần để lấy dữ liệu
         const response = await customAxios.get(
-          "http://localhost:8080/cageshop/api/marketing/list"
+          "/marketing/list"
         );
         setMarketingData(response.data);
       } catch (error) {
@@ -208,7 +208,7 @@ const News = () => {
               <h2>{marketingData[1].title}</h2>
               <p>{marketingData[1].info}</p>
               {marketingData[1].img && (
-                <img src={marketingData[1].img} alt="Column 2" />
+                <img src={marketingData[1].img} alt="Column 2" style={{height:'100%', width:'100%'}}/>
               )}
             </div>
           )}
@@ -218,7 +218,7 @@ const News = () => {
               <h2>{marketingData[2].title}</h2>
               <p>{marketingData[2].info}</p>
               {marketingData[2].img && (
-                <img src={marketingData[2].img} alt="Column 2" />
+                <img src={marketingData[2].img} alt="Column 2" style={{height:'100%', width:'100%'}}/>
               )}
             </div>
           )}

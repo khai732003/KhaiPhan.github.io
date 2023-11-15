@@ -43,12 +43,13 @@ public class EmailService {
             StringBuilder orderDetailsHtml = new StringBuilder();
             for (OrderDetail orderDetail : orderDetails) {
                 orderDetailsHtml.append("<tr>")
-                        .append("<td>").append(orderDetail.getProductImage()).append("</td>")
+                        .append("<td><img src='").append(orderDetail.getProductImage()).append("' style='max-width: 100px; max-height: 100px;' alt='Product Image'></td>")
                         .append("<td>").append(orderDetail.getName()).append("</td>")
                         .append("<td>").append(orderDetail.getQuantity()).append("</td>")
                         .append("<td>").append(orderDetail.getTotalCost()).append("</td>")
                         .append("</tr>");
             }
+
 
             // Read content from the HTML file and replace placeholders
             ClassPathResource resource = new ClassPathResource("form.html");

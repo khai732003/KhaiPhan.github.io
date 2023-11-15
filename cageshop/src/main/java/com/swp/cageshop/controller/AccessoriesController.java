@@ -20,31 +20,25 @@ public class AccessoriesController {
     @Autowired
     private AccessoriesService accessoryService;
 
-    @GetMapping("/accessories")
+    @GetMapping("/accessories/list")
     public List<AccessoryDTO> getAllAccessories() {
         return accessoryService.getAllAccessories();
     }
 
-    @GetMapping("/newaccessories")
+    @GetMapping("/accessories/newaccessories")
     public List<AccessoryDTO> getAccessoriesWithNullProductId() {
         return accessoryService.getAccessoriesWithNullProductId();
     }
-    @PostMapping("/addaccessories")
+    @PostMapping("/accessories/addaccessories")
     public AccessoryDTO createAccessory(@RequestBody AccessoryDTO accessory) {
         return accessoryService.addAccessories(accessory);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/accessories/{id}")
     public ResponseEntity<Accessories> getAccessoryById(@PathVariable Long id) {
         Optional<Accessories> accessory = accessoryService.getAccessoryById(id);
         return accessory.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-
-
-
-
-
 
 
 

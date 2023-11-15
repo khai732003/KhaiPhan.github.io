@@ -62,6 +62,11 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         return voucherUsageRepository.findCodeVouchersByOrderId(orderId);
     }
 
+    @Override
+        public List<Double> findAmountVouchersByOrderId(Long orderId) {
+        return voucherUsageRepository.findAmountByOrderId(orderId);
+    }
+
     public VoucherUsageDTO getVoucherUsageById(Long id) {
         VoucherUsage voucherUsage = voucherUsageRepository.findById(id).orElse(null);
         return modelMapper.map(voucherUsage, VoucherUsageDTO.class);
