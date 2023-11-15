@@ -8,9 +8,9 @@ body {
 }
 
 .user-management-page {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 80px auto;
-  padding: 20px 20px 20px 20px;
+  padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -30,7 +30,6 @@ body {
 .search-text {
   margin-right: 50px;
 }
-
 
 .reset-button {
   padding: 50px;
@@ -53,17 +52,13 @@ body {
   cursor: pointer;
 }
 
-.table-staff-container {
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   overflow-x: auto;
-
 }
-.pagination{
- display: flex;
- justify-content: center;
-margin-top: 50px;
 
- 
-}
 .user-table {
   width: 100%;
   border-collapse: collapse;
@@ -74,6 +69,10 @@ margin-top: 50px;
 .user-management-td {
   padding: 12px;
   text-align: left;
+  width: auto; /* Adjusted width to fit content */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Show ellipsis for long content */
 }
 
 .user-management-header {
@@ -81,19 +80,16 @@ margin-top: 50px;
   color: #fff;
 }
 
-/* Alternate row colors */
 .user-table tbody tr:nth-child(odd) .user-management-td {
   background-color: #f9f6f6;
 }
 
 .delete-btn {
   margin-left: 5px;
- 
 }
 
-/* Add any additional styles for images, buttons, etc. */
-
 .img-user-management {
-  max-width: 100%;
-  height: auto;
+  max-width: 60px;  
+  height:60px;
+  border-radius: 50%;
 }
