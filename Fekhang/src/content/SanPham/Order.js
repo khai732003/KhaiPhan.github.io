@@ -1,64 +1,101 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import customAxios from '../../CustomAxios/customAxios';
 import OrderDetail from "./OrderDetail";
 import { useNavigate } from "react-router-dom";
-import customAxios from '../../CustomAxios/customAxios';
-import VNPayPayment from "./VNPayPayment";
 import { useAuth } from "./Context/AuthContext";
+import ConfirmEmail from './ConfirmEmail';
 import './Scss/Order.scss';
-import { Grid } from '@mui/material';
-import { Button } from "@mui/material";
-import TextField from '@mui/material/TextField';
-import ConfirmEmail from "./ConfirmEmail";
+import {
+  Grid,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
+
 const Order = () => {
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
   const [voucherCode, setVoucherCode] = useState("");
+  const [voucherData, setVoucherData] = useState([]);
+  const [appliedVoucherIds, setAppliedVoucherIds] = useState([]);
   const navigate = useNavigate();
   const orderId = localStorage.getItem('orderId');
 
-  const fetchOrder = async () => {
+  const fetchVoucherData = async () => {
     try {
-      const response = await customAxios.get(`/order/list/${orderId}`);
+      const response = await customAxios.get('/voucher/get-all');
       if (response.data) {
-        setOrder(response.data);
+        setVoucherData(response.data);
       } else {
-        console.error("Dữ liệu không hợp lý từ API:", response.data);
+        console.error('Invalid data from API:', response.data);
       }
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+      console.error('Error fetching voucher data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVoucherData();
+  }, []); // Fetch data on component mount
+
+  const fetchOrder = async () => {
+    try {
+      const orderResponse = await customAxios.get(`/order/list/${orderId}`);
+      if (orderResponse.data) {
+        const orderData = orderResponse.data;
+
+        const appliedVouchers = await Promise.all(
+          appliedVoucherIds.map(async (voucherId) => {
+            const voucherResponse = await customAxios.get(`/voucher/get-by/${voucherId}`);
+            return voucherResponse.data;
+          })
+        );
+
+        orderData.appliedVouchers = appliedVouchers;
+
+        setOrder(orderData);
+      } else {
+        console.error('Invalid data from API:', orderResponse.data);
+      }
+    } catch (error) {
+      console.error('Error fetching order data:', error);
     }
   };
 
   useEffect(() => {
     fetchOrder();
-  }, [orderId]);
+  }, [orderId, appliedVoucherIds]);
 
   const deleteOrderDetail = async (orderDetailId) => {
     try {
       await customAxios.patch(`/order_detail/delete-by/${orderDetailId}`);
-      // Sau khi xóa thành công, cập nhật state để trigger lại render
-      setOrder(prevOrder => ({ ...prevOrder, orderDetails: prevOrder.orderDetails.filter(item => item.id !== orderDetailId) }));
+      // After successful deletion, update the state to trigger re-render
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        orderDetails: prevOrder.orderDetails.filter((item) => item.id !== orderDetailId),
+      }));
       fetchOrder();
     } catch (error) {
-      console.error("Lỗi khi xóa order detail:", error);
+      console.error("Error deleting order detail:", error);
     }
   };
-  
+
   const applyVoucher = async () => {
     try {
-      const response = await customAxios.post('/voucher-usage/add-by-voucher',
-        {
-          userId: user.userId,
-          orderId: orderId,
-          codeVoucher: voucherCode
-        }
-      );
+      const response = await customAxios.post('/voucher-usage/add-by-voucher', {
+        userId: user.userId,
+        orderId: orderId,
+        codeVoucher: voucherCode,
+      });
 
       console.log('Mã giảm giá áp dụng thành công:', response.data);
-      // Gọi lại fetchOrder() sau khi áp dụng mã giảm giá
-      fetchOrder();
 
+      setAppliedVoucherIds((prevIds) => [...prevIds, response.data.id]);
+      console.log(response.data.id)
+      fetchOrder();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
     }
@@ -68,39 +105,113 @@ const Order = () => {
     <div className="order-container">
       {order && (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={7} className="order-detail-container">
             {order.orderDetails.length > 0 && (
               <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
-
             )}
           </Grid>
-          <Grid className="voucher-pay" item xs={12} md={4}>
+          <Grid className="voucher-pay" item xs={12} md={5}>
             {order.orderDetails.length > 0 && (
               <div className="pay-area">
                 <div className="voucher-input">
+                  <FormControl>
+                    <InputLabel id="voucher-label">Chọn mã voucher</InputLabel>
+                    <Select
+                      labelId="voucher-label"
+                      className="input"
+                      value={voucherCode}
+                      onChange={(e) => setVoucherCode(e.target.value)}
+                    >
+                      {voucherData.map((voucher) => (
+                        <MenuItem key={voucher.id} value={voucher.code}>
+                          {voucher.code}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                  <TextField
-                    id="outlined-uncontrolled"
-                    label="Nhập mã voucher"
-                    defaultValue="foo"
-                    value={voucherCode}
-                    onChange={(e) => setVoucherCode(e.target.value)}
-                  />
-
-                  <Button onClick={applyVoucher} variant="outlined" >
+                  <Button onClick={applyVoucher} variant="outlined">
                     Áp dụng
                   </Button>
-
                 </div>
 
-                <div className="total-price">
-                  <div style={{fontSize: '1rem', marginRight:'1rem'}}> Total Price: </div>
-                  <div>ship-price {order.shipPrice} VND </div>
-                  <div>
+                <Grid
+                  className="pay-info"
+                  container
+                  xs={12}
+                  md={12}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid className="info" container xs={12}>
+                    <Grid className="local-info" item md={12} xs={12}>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Customer Name:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {user.fullName}
+                        </Grid>
+                      </Grid>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Address:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {user.address}
+                        </Grid>
+                      </Grid>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Products price:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {order.orderDetails.reduce(
+                            (totalPrice, orderDetail) =>
+                              totalPrice + orderDetail.totalCost,
+                            0
+                          )}
+                        </Grid>
+                      </Grid>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Ship price:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {order.shipPrice}
+                        </Grid>
+                      </Grid>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Discount:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {order.appliedVouchers &&
+                            order.appliedVouchers.length > 0 &&
+                            order.appliedVouchers[0].voucherAmount}
+                        </Grid>
+                      </Grid>
 
-                  {order.total_price} VND</div>
-                </div>
+                      <Grid container>
+                        <Grid className="left" item md={6} xs={12}>
+                          Total:
+                        </Grid>
+                        <Grid className="right" item md={6} xs={12}>
+                          {order.total_price}
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid
+                  className="confirm"
+                  container
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="flex-end"
+                >
                   <ConfirmEmail />
+                </Grid>
               </div>
             )}
           </Grid>

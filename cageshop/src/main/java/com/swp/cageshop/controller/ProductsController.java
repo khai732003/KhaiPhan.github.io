@@ -265,6 +265,16 @@ public class ProductsController {
         return productsService.getProductsByStatusNew();
     }
 
+    @PutMapping("/product/sell-again/{productId}")
+    public ResponseEntity<ProductDTO> setProductToSellAgain(@PathVariable Long productId) {
+        ProductDTO updatedProductDTO = productsService.setProductToSellAgain(productId);
+
+        if (updatedProductDTO != null) {
+            return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 //    @PostMapping("/{orderId}/add-product/{productId}")
 //    public ResponseEntity<String> moveProductToOrderDetail(
@@ -284,7 +294,7 @@ public class ProductsController {
         if (!products.isEmpty()) {
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
     @GetMapping("/product/price-range/{minPrice}/{maxPrice}")
