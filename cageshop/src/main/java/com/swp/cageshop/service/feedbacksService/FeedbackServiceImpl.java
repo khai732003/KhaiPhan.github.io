@@ -40,6 +40,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
         Products products = productRepository.getReferenceById(feedbackDTO.getProductId());
         if (users != null && products != null) {
                 Feedback feedback = modelMapper.map(feedbackDTO, Feedback.class);
+                feedback.setUser(users);
                 Feedback savedFeedback = feedbackRepository.save(feedback);
                 return modelMapper.map(savedFeedback, FeedbackDTO.class);
         }

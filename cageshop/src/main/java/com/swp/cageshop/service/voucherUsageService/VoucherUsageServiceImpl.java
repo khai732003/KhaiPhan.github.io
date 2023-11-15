@@ -34,10 +34,11 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public VoucherUsageDTO createVoucherUsageByVoucherCode(VoucherUsageDTO voucherUsageDTO) {
         Long userId = voucherUsageDTO.getUserId();
         Long voucherId = vouchersRepository.findIdByCode(voucherUsageDTO.getCodeVoucher());
+        if(voucherId !=null){
         boolean used = voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);
-        if (!used){
+        if (!used) {
             VoucherUsage voucherUsage = modelMapper.map(voucherUsageDTO, VoucherUsage.class);
-            Vouchers voucher = vouchersRepository.findByCode(voucherUsageDTO.getCodeVoucher());
+            Vouchers voucher = vouchersRepository.findByCodeAndIsAvailable(voucherUsageDTO.getCodeVoucher(), true);
             if (voucher != null && voucher.getQuantity() > 0) {
                 voucherUsage.setVoucher(voucher);
                 VoucherUsage savedVoucherUsage = voucherUsageRepository.save(voucherUsage);
@@ -45,6 +46,10 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
             } else {
                 return null;
             }
+        }else{
+            throw new IllegalArgumentException("Voucher này đã hết hạn");
+
+        }
         }else{
             throw new IllegalArgumentException("User đã xài voucher này rồi, mời nó nhập voucher khác đi");
         }
@@ -63,8 +68,8 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     }
 
     @Override
-        public List<Double> findAmountVouchersByOrderId(Long orderId) {
-        return voucherUsageRepository.findAmountByOrderId(orderId);
+    public List<Double> findAmountVouchersByOrderId(Long orderId) {
+        return null;
     }
 
     public VoucherUsageDTO getVoucherUsageById(Long id) {
