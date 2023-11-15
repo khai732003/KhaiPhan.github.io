@@ -12,22 +12,22 @@ function Voucher() {
     isActive: true,
     expiration_date: '',
   });
-  
+
   // Chuyển chuỗi ngày tháng thành đối tượng Date
   const expirationDate = new Date(voucherData.expiration_date);
-  
+
   // Lấy ngày hiện tại
   const currentDate = new Date();
-  
+
   // Thêm 3 ngày vào ngày hiện tại
   currentDate.setDate(currentDate.getDate() + 3);
-  
+
   // Cập nhật expiration_date trong voucherData
   const updatedVoucherData = {
     ...voucherData,
     expiration_date: currentDate.toISOString(),
   };
-  
+
   // Cập nhật state với dữ liệu mới
   setVoucherData(updatedVoucherData);
 
@@ -49,6 +49,7 @@ function Voucher() {
       description: '',
       voucherAmount: '',
       voucherType: '',
+      quantity: '',
     };
 
     if (voucherData.code.trim() === '') {
@@ -65,6 +66,9 @@ function Voucher() {
 
     if (voucherData.voucherType.trim() === '') {
       newErrors.voucherType = 'Loại Voucher không được bỏ trống';
+    }
+    if (isNaN(voucherData.quantity) || voucherData.quantity <= 0) {
+      newErrors.quantity = 'Số Lượng Voucher không hợp lệ';
     }
 
     setErrors(newErrors);
@@ -119,16 +123,7 @@ function Voucher() {
         />
         <div className="error">{errors.voucherAmount}</div>
       </div>
-      <div>
-        <TextField
-          label="Loại Voucher"
-          name="voucherType"
-          value={voucherData.voucherType}
-          onChange={handleInputChange}
-          fullWidth
-        />
-        <div className="error">{errors.voucherType}</div>
-      </div>
+    
       <Button
         variant="contained"
         color="primary"
