@@ -128,17 +128,11 @@ const Product = ({
     return amount.toLocaleString('en-US');
   }
   return (
-    <div style={{ marginTop: '40px' }}>
-
-      <div className="col-md-12 container-product">
 
 
-
-        <Card sx={{ maxWidth: 345 }} className="product-card">
-
+      <div  style={{ marginTop: '40px',width:'100%' }}>
+        <Card sx={{ maxWidth: 450 }} className="product-card">
           <div className="card-body">
-
-
             <abbr title="Click To Detail" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
             >
               <div
@@ -147,7 +141,7 @@ const Product = ({
               >
                 <CardMedia
                   style={{ width: '100%', height: '300px', objectFit: 'cover' }}
-                  sx={{ height: 140 }}
+                  sx={{ height: 160 }}
                   image={productImage}
                   alt={name}
                   className="card-img-top"
@@ -192,7 +186,7 @@ const Product = ({
                   variant="contained"
                   startIcon={<AddShoppingCartIcon />}
                   onClick={handleAddToCart}
-                  style={{ margin: '0 0 0 10px', padding: '12px 18px' }}
+                  style={{ margin: '0 0 0 10px', padding: '12px 25px' }}
                   id="addtocart"
                 >
                   Add To Cart
@@ -202,7 +196,7 @@ const Product = ({
                   color="success"
                   startIcon={<AttachMoneyIcon />}
                   onClick={() => handleBuy(id)}
-                  style={{ margin: '0 0 0 10px', padding:'12px 18px'}}
+                  style={{ margin: '0 0 0 10px', padding:'12px 25px'}}
                 >
                   Buy now
                 </Button>
@@ -211,7 +205,7 @@ const Product = ({
           </div>
         </Card>
       </div>
-    </div>
+
   );
 };
 

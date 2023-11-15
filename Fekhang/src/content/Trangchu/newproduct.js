@@ -31,7 +31,7 @@ const NewProduct = () => {
     return (
         <div className='newproduct'>
             <Container className='Container'>
-                <h1><center> <strong> <span style={{ color: '#cc6119' }}>NEW</span>PRODCUT</strong></center></h1>
+                <h1><center> <strong> <span style={{ color: '#cc6119' }}> NEW</span>  PRODUCT</strong></center></h1>
                 <h4 id='title'><center>At the forefront of ornamental bird care</center></h4>
                 <Row>
                     {products.map((product) => (
