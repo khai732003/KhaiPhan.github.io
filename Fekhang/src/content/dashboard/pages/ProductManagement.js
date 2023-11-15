@@ -14,9 +14,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import customAxios from "../../../CustomAxios/customAxios";
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 
-const URL =
-  "http://localhost:8080/cageshop/api/product/get-list";
+const URL = "http://localhost:8080/cageshop/api/product/get-list";
+
+// const AVAILABLE_PRODUCTS_URL =
+//   "http://localhost:8080/cageshop/api/product/available";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +31,9 @@ const ProductManagement = () => {
   const [currentPage, setCurrentPage] = useState(1); // Thêm trạng thái cho trang hiện tại
   const itemsPerPage = 5;
   const [detailPopup, setDetailPopup] = useState(null);
+  const [filterProducts, setFilterProducts] = useState([]);
+
+  const [selectedStatus, setSelectedStatus] = useState("all"); // Default to "all" or "available" based on your needs
 
   const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
 
@@ -37,9 +46,10 @@ const ProductManagement = () => {
     }
   };
 
+
   useEffect(() => {
     getListProducts();
-  }, []);
+  }, [selectedStatus, searchTerm, currentPage]);
 
   const handleDelete = async (id) => {
     if (
@@ -55,6 +65,12 @@ const ProductManagement = () => {
         toast.error("Deleted Error!");
       }
     }
+  };
+
+  const handleStatusChange = (event) => {
+    const status = event.target.value;
+    setSelectedStatus(status);
+    setCurrentPage(1); // Reset the page when the status changes
   };
 
   const handleSearch = () => {
@@ -74,9 +90,16 @@ const ProductManagement = () => {
   };
 
   const getVisibleProducts = () => {
+    const filteredByStatus = selectedStatus === "all" ? products : products.filter(product => product.status.toLowerCase() === selectedStatus.toLowerCase());
+    const filteredBySearch = filteredByStatus.filter((product) => {
+      return (
+        product.name &&
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredProducts.slice(startIndex, endIndex);
+    return filteredBySearch.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (event, page) => {
@@ -96,16 +119,35 @@ const ProductManagement = () => {
       <div className="search-add-btn">
         <div className="search-name">
           <div className="search-text">
+
+          </div>
+          <FormControl sx={{ m: 1, minWidth: 200 }}>
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status-select"
+              value={selectedStatus}
+              onChange={handleStatusChange}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="available">Available</MenuItem>
+              <MenuItem value="new">New</MenuItem>
+              <MenuItem value="Out Of Stock">Out Of Stock</MenuItem>
+              <MenuItem value="No More Made">No More Made</MenuItem>
+              <MenuItem value="Custom Product">Custom Product</MenuItem>
+            </Select>
+          </FormControl>
+          <div className="search-click" style={{ display: 'flex', alignItems: 'center' }}>
+
+
             <TextField
               label="Search"
               variant="outlined"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </div>
-
-          <div className="search-click">
             <Button
+              style={{ marginLeft: '20px' }}
               variant="outlined"
               className="search-button"
               onClick={handleSearch}
@@ -113,13 +155,33 @@ const ProductManagement = () => {
               Search
             </Button>
             <Button
+              style={{ margin: '0 20px' }}
               variant="outlined"
               className="reset-button"
               onClick={handleResetSearch}
             >
               Reset
             </Button>
+
+            <div className="btn-add">
+              <Link to={"/addaccessories"}>
+                <Button variant="outlined" color="success" className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</Button>
+              </Link>
+            </div>
+
+            <div className="btn-add" style={{ margin: '0 20px' }}>
+              <Link to={"/add-edit-category"}>
+                <Button variant="outlined" color="warning" className="add-staff-btn">Add new Category</Button>
+              </Link>
+            </div>
+
+            <div className="btn-add">
+              <Link to={"/addproduct"}>
+                <Button variant="outlined" color="error" className="add-staff-btn">Add new product</Button>
+              </Link>
+            </div>
           </div>
+
         </div>
 
         <div className="btn-add">
@@ -140,6 +202,8 @@ const ProductManagement = () => {
           </Link>
         </div>
       </div>
+
+
 
       <div className="table-staff-container">
         <table className="user-table">
@@ -169,6 +233,7 @@ const ProductManagement = () => {
                     src={product.productImage}
                     alt={product.id}
                     className="img-user-management"
+
                   />
                 </td>
                 <td className="user-management-td smaller-text">
@@ -177,9 +242,9 @@ const ProductManagement = () => {
 
                 <td className="user-management-td smaller-text">
                   {
-                    <button onClick={() => handleViewPopup(product)}>
+                    <Button variant="outlined" onClick={() => handleViewPopup(product)}>
                       Details
-                    </button>
+                    </Button >
                   }
                 </td>
 
@@ -209,13 +274,17 @@ const ProductManagement = () => {
             {detailPopup && (
               <div className="popup-Home-Dashboard-container">
                 <div className="popup-content">
-                  <span className="close" onClick={handleClosePopup}>
-                    <IconButton color="secondary">
-                      <CloseIcon />
-                    </IconButton>
-                  </span>
+                  <div className="close" style={{ position: 'relative' }} onClick={handleClosePopup}>
+                    <Button
+                      style={{ position: 'absolute', top: '0%', right: '47%' }}
+                      variant="contained"
+                      color="error">
 
-                  <Grid container spacing={2}>
+                      <CloseIcon />
+                    </Button>
+                  </div>
+
+                  <Grid container spacing={2} style={{ marginTop: '20px' }}>
                     <Grid item xs={12} md={5}>
                       <img
                         src={detailPopup.productImage}

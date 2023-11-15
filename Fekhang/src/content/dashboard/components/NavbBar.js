@@ -109,10 +109,10 @@ const NavBar = () => {
 
   return (
     <div className="navbar-admin-dashboard">
-      <StyledAppBar position="fixed" style={{ zIndex: 1400 }}>
+      <StyledAppBar position="fixed" style={{ zIndex: 1400,backgroundColor:'#24659d' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 10 }}>
-            ADMIN DASHBOARD
+            Admin Dashboard
           </Typography>
 
           <IconButton
@@ -216,7 +216,7 @@ const NavBar = () => {
             flexShrink: 0,
             "& .MuiDrawer-paper": {
               width: "400px",
-              backgroundColor: "rgb(210, 210, 210)", // Thay đổi màu nền của Drawer
+              backgroundColor: "#fff", // Thay đổi màu nền của Drawer
             },
           }}
         >
@@ -225,7 +225,7 @@ const NavBar = () => {
             onClick={toggleDrawer}
             onKeyDown={toggleDrawer}
           >
-            <List style={{ paddingTop: "90px" }}>
+            <List style={{ padding:'90px 30px 0 30px'}}>
               <StyledToggleButton
                 button
                 component={Link}
@@ -239,8 +239,8 @@ const NavBar = () => {
               </StyledToggleButton>
 
               <div>
-                <p className="navbar-item">Management</p>
-                <hr />
+                <p id="navbar-title">Management</p>
+               
               </div>
 
               <StyledToggleButton
@@ -292,7 +292,7 @@ const NavBar = () => {
               </StyledToggleButton>
 
               <div>
-                <p className="navbar-item">Income</p>
+                <p id="navbar-title">Income</p>
                 <hr />
               </div>
 
@@ -309,7 +309,7 @@ const NavBar = () => {
               </StyledToggleButton>
 
               <div>
-                <p className="navbar-item">Profile</p>
+                <p id="navbar-title">Profile</p>
                 <hr />
               </div>
 
@@ -324,31 +324,6 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText primary="Admin Profile" />
               </StyledToggleButton>
-
-              <StyledToggleButton
-                button
-                component={Link}
-                to="/productmanagement"
-                className="navbar-btn navbar-item"
-              >
-                <ListItemIcon>
-                  <MilitaryTechIcon color="inherit" />
-                </ListItemIcon>
-                <ListItemText primary="Certificate" />
-              </StyledToggleButton>
-
-              <StyledToggleButton
-                button
-                component={Link}
-                to="/rating"
-                className="navbar-btn navbar-item"
-              >
-                <ListItemIcon>
-                  <MilitaryTechIcon color="inherit" />
-                </ListItemIcon>
-                <ListItemText primary="RatingList" />
-              </StyledToggleButton>
-
               <StyledToggleButton
                 button
                 component={Link}

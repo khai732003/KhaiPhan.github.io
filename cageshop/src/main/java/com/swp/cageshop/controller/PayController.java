@@ -157,7 +157,17 @@ public class PayController {
         return paysService.getTotalRevenueByDateFromCompletedPays(date);
     }
 
-
+    @PatchMapping("/{paysId}/updateCreateDate/{newCreateDate}")
+    public ResponseEntity<String> updateCreateDate(
+            @PathVariable Long paysId,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date newCreateDate) {
+        try {
+            paysService.updateCreateDate(paysId, newCreateDate);
+            return ResponseEntity.ok("Create date updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating create date.");
+        }
+    }
 
     @GetMapping("/by-date")
     public List<Map<String, Object>> getRevenueByDate() {

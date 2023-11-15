@@ -189,21 +189,18 @@ const AddEditUser = () => {
   };
 
   return (
-    <div className="add-edit-container">
+    <div className="add-edit-container" style={{paddingTop:'70px', margin:'0'}}>
       <div className="form-add-edit">
         <form onSubmit={handleSubmit} style={{ width: 500 }}>
           <div
             className="d-flex justify-content-between align-items-center  mb-1 pb-1"
             style={{ paddingRight: 100 }}
           >
-            <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+            <div className="mb-5 pb-lg-2" style={{ color: "#393f81", position:'absolute', left:'10%',top:'20%' }}>
               <Button
                 sx={{ fontSize: 18 }}
-                variant="contained"
-                style={{
-                  backgroundColor: "#e0e0e0",
-                  color: "#212121",
-                }}
+                variant="outlined"
+                
                 startIcon={<ArrowBackIosIcon />}
                 onClick={handleReturnPage}
               >

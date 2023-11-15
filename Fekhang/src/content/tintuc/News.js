@@ -180,7 +180,7 @@ const News = () => {
   }, []);
 
   return (
-    <Container className="new-page">
+    <Container className="container-fluid-news">
       <Row>
         <Col md={12} style={{ marginBottom: 20 }}>
           <div className="text-slider-container">
