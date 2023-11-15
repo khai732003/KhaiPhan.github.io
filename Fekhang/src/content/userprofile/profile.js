@@ -187,7 +187,7 @@ const Profile = () => {
                       Save Changes
                     </Button>
                   )} */}
-                  <Link to={`/edit-profile`}>
+                  <Link to={`/edit-profile/${userId}`}>
                     <Button style={{background: 'black', color: 'white' }}>Edit Profile</Button>
                   </Link>
                 </Form>

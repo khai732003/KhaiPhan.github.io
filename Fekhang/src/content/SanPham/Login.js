@@ -5,7 +5,6 @@ import { useAuth } from "./Context/AuthContext";
 import "./Scss/Login-Register.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, FormControlLabel, Checkbox } from "@mui/material";
-import "./Scss/Product.scss";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";

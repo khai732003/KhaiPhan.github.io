@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Scss/Product.scss"; // Import CSS file
 import { useCart } from "./Context/CartContext";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useAuth } from "./Context/AuthContext";
@@ -8,7 +7,7 @@ import customAxios from "../../CustomAxios/customAxios";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-
+import '../SanPham/Scss/Product.scss';
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -82,42 +81,42 @@ const Product = ({
       navigate("/login");
       return;
     }
-      try {
-        if (!orderId) {
-          const address = user.address;
-          const shipAddress = "hcm";
-          const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+    try {
+      if (!orderId) {
+        const address = user.address;
+        const shipAddress = "hcm";
+        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-          const orderResponse = await customAxios.post('/order/add', {
-            "name": "Tổng hóa đơn",
-            "status": "pending",
-            "paymentMethod": "credit card",
-            "address": address,
-            "city": "Đà Nẵng",
-            "content": "Đóng gói cẩn thận nhé",
-            "shipDate": "2023-10-15",
-            userId: user.userId
-          });
-
-        
-          orderId = orderResponse.data.id;
-          localStorage.setItem('orderId', orderId);
-          console.log(orderId)
-        }
-
-        const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
-
-        await customAxios.post('/order_detail/add', {
-          quantity: 1,
-          hirePrice: product.hirePrice,
-          totalOfProd: product.totalOfProd,
-          name: product.name,
-          note: `Sản phẩm là ${product.id}`,
-          orderId,
-          productId: product.id,
-          totalCost: product.totalPrice
+        const orderResponse = await customAxios.post('/order/add', {
+          "name": "Tổng hóa đơn",
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": address,
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          "shipDate": "2023-10-15",
+          userId: user.userId
         });
-    
+
+
+        orderId = orderResponse.data.id;
+        localStorage.setItem('orderId', orderId);
+        console.log(orderId)
+      }
+
+      const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
+
+      await customAxios.post('/order_detail/add', {
+        quantity: 1,
+        hirePrice: product.hirePrice,
+        totalOfProd: product.totalOfProd,
+        name: product.name,
+        note: `Sản phẩm là ${product.id}`,
+        orderId,
+        productId: product.id,
+        totalCost: product.totalPrice
+      });
+
       navigate(`/order/${orderId}`);
     } catch (error) {
       console.error("Lỗi khi tạo order và order detail:", error);
@@ -125,96 +124,81 @@ const Product = ({
   };
 
   return (
-    <div>
+    <div style={{ marginTop: '40px' }}>
 
       <div className="col-md-12 container-product">
-                  <div className="card-stock">{stock}</div>
-      <div className="accessories-list">
-                    {accessories.map((accessory, index) => (
-                      <div key={index} className="accessory-item">
-                        <div className="sub-access">
-                        {accessory.description}      
-                        </div>                
-                      </div>
-                    ))}
-                  </div>
-                  
+
+
+
         <Card sx={{ maxWidth: 345 }} className="product-card">
-        
+
           <div className="card-body">
 
-          <abbr title="Click To Detail"style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            <div
-              className="card-product"
-              style={{ paddingTop: 12 ,addingBottom: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}
-              onClick={() => handleOnDetail(id)}
+
+            <abbr title="Click To Detail" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
             >
-              <CardMedia
-                sx={{ height: 140 }}
-                image={productImage}
-                alt={name}
-                className="card-img-top"
-              />
-            </div>
-            <CardContent style={{ paddingBottom: 0, textDecoration:'none'}}  onClick={() => handleOnDetail(id)}
-            >
-              <Typography gutterBottom variant="h5" component="div">
-                <h5 className="card-title" style={{ paddingBottom: 0, textDecoration:'none'}} >{name}</h5>
-              </Typography>
-              <Typography variant="body2" color="">
-                <div className="card-info" style={{ paddingBottom: 0 }}>
-                  {/* <div className="card-text">Id: {id}</div> */}
+              <div
+                className="card-product"
+                onClick={() => handleOnDetail(id)}
+              >
+                <CardMedia
+                  style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                  sx={{ height: 140 }}
+                  image={productImage}
+                  alt={name}
+                  className="card-img-top"
+                />
+              </div>
+              <CardContent style={{ paddingBottom: 0, textDecoration: 'none' }} onClick={() => handleOnDetail(id)}
+              >
+                <Typography gutterBottom variant="h5" component="div">
+                  <p id="card-title-name" style={{ fontWeight: 'bold', fontFamily: 'inherit', padding: '30px 0 30px 0', fontSize: '20px', textAlign: 'center' }}><span >{name}</span></p>
+                </Typography>
+                <Typography variant="body2" color="">
+                  <div className="card-info" style={{ fontSize: '15px', paddingLeft: '20px' }}>
+                    <p ><strong>Quantity:</strong> {stock}</p>
+                    <p className="card-text"><strong>Product code:</strong> {code}</p>
+                    <p className="card-price"><strong>Price: </strong><span>{totalPrice} VND </span></p>
+                    <div>
+                      {accessories.map((accessory, index) => (
+                        <div key={index} className="accessory-item">
+                          <div className="sub-access">
+                            <strong>Accessory:</strong>{accessory.description}
 
-                  <div className="card-text">Code: {code}</div>
-
-
-                  <div
-                    className="card-price"
-                    style={{
-                      fontWeight: "700",
-                      fontSize: "1.3rem",
-                      textAlign: "center",
-                    }}
-                  >
-                    Price: {totalPrice} VND
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Typography>
-              <hr />
-            </CardContent>
+
+                </Typography>
+
+              </CardContent>
             </abbr>
             <CardActions>
               <div
-                className=""
                 style={{
-                  paddingRight: 20,
-                  paddingLeft: 25,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '10px  0 30px 0 '
                 }}
               >
                 <Button
-                  size="small"
+                  variant="contained"
                   startIcon={<AddShoppingCartIcon />}
                   onClick={handleAddToCart}
-                  style={{
-                    paddingRight: 20,
-                    paddingLeft: 0,
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                  }}
+                  style={{ margin: '0 0 0 10px', padding: '12px 18px' }}
+                  id="addtocart"
                 >
                   Add To Cart
                 </Button>
                 <Button
-                  size="small"
+                  variant="contained"
+                  color="success"
                   startIcon={<AttachMoneyIcon />}
                   onClick={() => handleBuy(id)}
-                  style={{
-                    paddingRight: 20,
-                    paddingLeft: 0,
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                  }}
+                  style={{ margin: '0 0 0 10px', padding:'12px 18px'}}
                 >
                   Buy now
                 </Button>

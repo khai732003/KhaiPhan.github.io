@@ -81,7 +81,7 @@ function App() {
               <Route path="/news" element={<News />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
               <Route path="/localorder" element={<LocalOrder />} />
