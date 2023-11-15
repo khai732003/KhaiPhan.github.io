@@ -22,9 +22,7 @@ const AddEditCategory = () =>{
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [category, setCategory] = useState({
-    description: "",
-    price: "",
-    type: "Accessory Type",
+    name: "",
   });
 
   const handleInputChange = (event) => {
@@ -37,7 +35,7 @@ const AddEditCategory = () =>{
 
   const handleAddCategory = async () => {
     try {
-      const response = await customAxios .post("/addaccessories", category)
+      const response = await customAxios .post("/category/add", category)
       if (response.status === 200 || response.status === 201) {
         navigate("/productmanagement");
       }
@@ -63,7 +61,7 @@ const AddEditCategory = () =>{
         BACK
       </Button>
         <h2 className="input-feedback" >Add Category</h2>
-        <FormControl fullWidth className="input-feedback" style={{paddingBottom: 20}}>
+        {/* <FormControl fullWidth className="input-feedback" style={{paddingBottom: 20}}>
           <InputLabel id="rating-label">Type</InputLabel>
           <Select
             labelId="rating-label"
@@ -76,7 +74,7 @@ const AddEditCategory = () =>{
             <MenuItem value={2}>Accessory Type 2</MenuItem>
             
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         <TextField
           label="Category Content"
@@ -84,14 +82,14 @@ const AddEditCategory = () =>{
           rows={4}
           variant="outlined"
           fullWidth
-          name="content"
-          value={category.description}
+          name="name"
+          value={category.name}
           onChange={handleInputChange}
           className="input-feedback"
           style={{paddingBottom: 20}}
         />
 
-        <TextField
+        {/* <TextField
           label="Product ID"
           variant="outlined"
           fullWidth
@@ -99,7 +97,7 @@ const AddEditCategory = () =>{
           value={category.price}
           style={{paddingBottom: 20}}
           className="input-feedback"
-        />
+        /> */}
 
         <Button
           variant="contained"

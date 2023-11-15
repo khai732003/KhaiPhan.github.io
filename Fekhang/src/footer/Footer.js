@@ -87,13 +87,14 @@ const Footer = (props) => {
                 <div className="form-group">
                   <div className="input-group">
                     <input
+                    style={{borderRadius:'3px' , margin:'20px 0 20px 0'}}
                       type="email"
                       className="form-control"
                       id="emailInput"
                       placeholder="Enter your email"
                     />
                     <div className="input-group-append">
-                      <button type="submit" className="btn btn-primary">
+                      <button type="submit" className="btn btn-primary" style={{borderRadius:'3px'}}>
                         ĐĂNG KÝ
                       </button>
                     </div>

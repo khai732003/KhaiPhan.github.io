@@ -113,6 +113,7 @@ const ProductManagement = () => {
               Search
             </Button>
             <Button
+            style={{marginLeft:'20px'}}
               variant="outlined"
               className="reset-button"
               onClick={handleResetSearch}
@@ -124,19 +125,19 @@ const ProductManagement = () => {
 
         <div className="btn-add">
           <Link to={"/addaccessories"}>
-            <button className="add-staff-btn" style={{marginRight: '20'}}>Add new Accessories</button>
+            <Button variant="outlined" color="success" className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</Button>
           </Link>
         </div>
 
         <div className="btn-add">
           <Link to={"/add-edit-category"}>
-            <button className="add-staff-btn">Add new Category</button>
+            <Button variant="outlined" color="warning" className="add-staff-btn">Add new Category</Button>
           </Link>
         </div>
 
         <div className="btn-add">
           <Link to={"/addproduct"}>
-            <button className="add-staff-btn">Add new product</button>
+            <Button variant="outlined" color="error" className="add-staff-btn">Add new product</Button>
           </Link>
         </div>
       </div>
@@ -177,12 +178,12 @@ const ProductManagement = () => {
 
                 <td className="user-management-td smaller-text">
                   {
-                    <button onClick={() => handleViewPopup(product)}>
+                    <Button variant="outlined" onClick={() => handleViewPopup(product)}>
                       Details
-                    </button>
+                    </Button >
                   }
                 </td>
-                
+
                 <td className="user-management-td smaller-text">
                   {product.categoryId}
                 </td>
@@ -267,7 +268,7 @@ const ProductManagement = () => {
                           <span className="info-label">Price</span>:
                           {detailPopup.cage.price}
                         </Typography>
-                        <hr/>
+                        <hr />
                         <Typography variant="h6" className="info-label">
                           {<p>Accessories</p>}
                         </Typography>

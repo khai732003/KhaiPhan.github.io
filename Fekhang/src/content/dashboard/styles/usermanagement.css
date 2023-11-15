@@ -1,230 +1,95 @@
+/* Assuming you have a global reset or normalize.css */
+body {
+  font-family: 'Exo', sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .user-management-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color:white !important;
-  min-height: calc(100vh - 10vh); /* Trừ chiều cao của footer */
+  max-width: 100%;
+  margin: 80px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .search-add-btn {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-name {
+  display: flex;
+  align-items: center;
+}
+
+.search-text {
+  margin-right: 50px;
+}
+
+.reset-button {
+  padding: 50px;
+}
+
+.btn-add {
+  text-align: right;
+}
+
+.action-bar {
+  margin-top: 20px;
+}
+
+.add-staff-btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow-x: auto;
 }
 
 .user-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
-  border: 1px solid #151219 !important;
-  border-radius: 10rem !important;
-}
-.user-table th,
-.user-table td {
-  text-align: center;
-  vertical-align: middle; /* Căn giữa theo chiều dọc */
+  margin-top: 20px;
 }
 
 .user-management-header,
 .user-management-td {
-  border-bottom: 1px solid #ddd;
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #151219;
-  width: auto;
+  padding: 12px;
+  text-align: left;
+  width: auto; /* Adjusted width to fit content */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Show ellipsis for long content */
 }
 
 .user-management-header {
-  background-color: #f2f2f2;
+  background-color: #3498db;
+  color: #fff;
 }
 
-.img-user-management {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
+.user-table tbody tr:nth-child(odd) .user-management-td {
+  background-color: #f9f6f6;
 }
 
 .delete-btn {
-  padding: 6px 10px;
-  margin-right: 5px;
-  background-color: black;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  margin-left: 5px;
 }
 
-.btn-add {
-  text-align: right;
-  margin-bottom: 10px;
-  margin-right: 20px;
-}
-
-.add-staff-btn {
-  color: orangered;
-  background-color: transparent;
-  border: 2px solid orangered;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s all linear;
-  margin-top: 100px;
-}
-
-.add-staff-btn:hover {
-  background-color: orangered;
-  color: #fff;
-}
-
-.search-name {
-  margin-bottom: 10px;
-  margin-top: 90px;
-  padding-right: 35rem;
-  display: -webkit-inline-box;
-}
-
-.reset-button {
-  margin-left: 10px !important;
-}
-
-.search-click {
-  margin-left: 10px;
-}
-
-.user-management-page {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.user-management-page,
-.user-table {
-  margin: auto;
-  border: 2px solid #333;
-}
-
-.table-staff-container{
-  margin: 10px 100px 10px 100px;
-}
-
-.user-management-td.smaller-text {
-  font-size: 12px; /* Điều chỉnh kích thước font (tùy chỉnh) */
-  white-space: nowrap;
-}
-
-.user-management-page,
-.user-table .user-management-header,
-.user-management-page,
-.user-table .user-management-td {
-  background-color: #f0f0f0;
-  color: #333;
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #151219;
-  width: auto;
-}
-
-.user-management-page,
-.user-table .user-management-header {
-  background-color: #333;
-  color: #fff;
-  font-weight: bold;
-  width: auto;
-}
-
-.user-management-page,
-.user-table tbody tr:nth-child(even) {
-  background-color: #c12b2b;
-}
-
-.user-management-page,
-.user-table tbody tr:nth-child(odd) {
-  background-color: #170606;
-}
-
-.user-management-page,
-.user-table tbody tr:hover {
-  background-color: #4a167d;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.page-number {
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #151219;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin: 0 5px;
-}
-
-.user-management-header:first-child,
-.user-management-td:first-child {
-  width: 5%; /* Đặt chiều rộng cố định cho cột đầu tiên */
-}
-
-.user-management-header:nth-child(2),
-.user-management-td:nth-child(2) {
-  width: 5%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(3),
-.user-management-td:nth-child(3) {
-  width: 8%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(4),
-.user-management-td:nth-child(4) {
-  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(5),
-.user-management-td:nth-child(5) {
-  width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(6),
-.user-management-td:nth-child(6) {
-  width: 13%; 
-}
-
-.user-management-header:nth-child(7),
-.user-management-td:nth-child(7) {
-  width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(8),
-.user-management-td:nth-child(8) {
-  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-header:nth-child(9),
-.user-management-td:nth-child(9) {
-  width: 13.5%; /* Đặt chiều rộng cố định cho cột thứ hai */
-}
-
-.user-management-td > button {
-  margin: 0 5px;
-}
-
-.user-table td {
-  text-align: center;
-  padding: 10px;
-}
-
-.user-management-td:first-child,
-.user-management-td:nth-child(2) {
-  width: 10%;
-}
-
-.user-table tbody tr {
-  line-height: 2; 
+.img-user-management {
+  max-width: 60px;  
+  height:60px;
+  border-radius: 50%;
 }

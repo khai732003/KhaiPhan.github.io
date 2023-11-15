@@ -4,18 +4,35 @@ import customAxios from "../../CustomAxios/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Scss/addfeedback.scss";
 import { useAuth } from "./Context/AuthContext";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
+import StarIcon from "@mui/icons-material/Star";
+
+const labels = {
+  0.5: "Useless",
+  1: "Useless+",
+  1.5: "Poor",
+  2: "Poor+",
+  2.5: "Ok",
+  3: "Ok+",
+  3.5: "Good",
+  4: "Good+",
+  4.5: "Excellent",
+  5: "Excellent+",
+};
+
+function getLabelText(value) {
+  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+}
 
 function AddFeedBack() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
   const { productId } = useParams();
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
   const [feedback, setFeedback] = useState({
     rating: "",
     content: "",
@@ -37,7 +54,7 @@ function AddFeedBack() {
       return;
     }
     try {
-      const response = await customAxios .post("/feedback/add", feedback)
+      const response = await customAxios.post("/feedback/add", feedback);
       if (response.status === 200 || response.status === 201) {
         navigate("/sanpham");
       }
@@ -50,6 +67,34 @@ function AddFeedBack() {
     <Container>
       <div className="feedback-form" style={{ marginTop: "150px" }}>
         <h2 className="input-feedback">Add Feedback</h2>
+        {/* <Box
+          sx={{
+            width: 200,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Rating
+            name="hover-feedback"
+            value={value}
+            precision={0.5}
+            getLabelText={getLabelText}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+              handleInputChange(event); // Pass event or any other necessary arguments
+            }}
+            onChangeActive={(event, newHover) => {
+              setHover(newHover);
+            }}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+          {value !== null && (
+            <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+          )}
+        </Box> */}
+
         <FormControl fullWidth className="input-feedback">
           <InputLabel id="rating-label">Rating</InputLabel>
           <Select
@@ -59,11 +104,22 @@ function AddFeedBack() {
             value={feedback.rating}
             onChange={handleInputChange}
           >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
+             <Rating
+            name="hover-feedback"
+            value={value}
+            precision={0.5}
+            getLabelText={getLabelText}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+              handleInputChange(event); // Pass event or any other necessary arguments
+            }}
+            onChangeActive={(event, newHover) => {
+              setHover(newHover);
+            }}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
           </Select>
         </FormControl>
 
