@@ -134,10 +134,10 @@ const Product = ({
   return (
 
 
-      <div  style={{ marginTop: '40px',width:'100%' }}>
+      <div  style={{ marginTop: '40px',width:'100%'}}>
         <Card sx={{ maxWidth: 450 }} className="product-card">
           <div className="card-body">
-            <abbr title="Click To Detail" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
+            <abbr title="Click To Detail" style={{ whiteSpace: 'nowrap', overflow: 'hidden',fontFamily:'Roboto Slab' }}
             >
               <div
                 className="card-product"

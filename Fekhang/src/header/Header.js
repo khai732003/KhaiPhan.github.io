@@ -136,11 +136,13 @@ const handleCustome = () =>{
           fluid
           style={{ backgroundColor: "white", paddingRight: 0, paddingLeft: 0 }}
         >
-          <Navbar.Brand className="brand " href="/">
+          <Navbar.Brand className="brand " to='\'>
+            <Link to='/'>
             <img
               className="logo"
               src="https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg"
             ></img>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
