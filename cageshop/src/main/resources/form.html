@@ -82,7 +82,7 @@
         }
 
         table.order-details th {
-            background-color:#53d2db;
+            background-color: #53d2db;
             color: #fff;
         }
     </style>
@@ -97,9 +97,9 @@
                      alt="logo" title='LOGO'>
             </a>
             <p>Thank you for your interest in our products</p>
-            <p>Please check the information again</p>
+            <p>Please review the information again</p>
             <div>
-                <p>Mã đơn hàng của bạn: [[orderId]]</p>
+                <p>Your Order ID: [[orderId]]</p>
             </div>
         </td>
     </tr>
@@ -110,10 +110,10 @@
                 <table class="order-details">
                     <thead>
                     <tr>
-                        <th style="max-width: 100px; max-height: 100px;">Ảnh</th>
-                        <th>Sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
+                        <th style="max-width: 100px; max-height: 100px;">Image</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -121,8 +121,24 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <h2> Here are your costs: </h2>
+                <table class="order-details">
+                    <thead>
+                    <tr>
+                        <th>Shipping Cost</th>
+                        <th>Total Amount to Pay</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    [[order]]
+                    </tbody>
+                </table>
+            </div>
             <h3>If you agree to purchase, click here to redirect to the payment page</h3>
+
             <a href="http://localhost:3000/pay/[[orderId]]" class="button">CONFIRM</a>
+
         </td>
     </tr>
 </table>

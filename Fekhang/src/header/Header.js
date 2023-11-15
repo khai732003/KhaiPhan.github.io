@@ -150,10 +150,10 @@ const handleCustome = () =>{
               navbarScroll
             >
               <NavLink to="/" activeClassName="active" className="nav-link">
-                TRANG CHỦ
+                HOME PAGE
               </NavLink>
               <NavLink to="/Gioithieu" className="nav-link">
-                GIỚI THIỆU
+                INTRODUCTION
               </NavLink>
 
               <div className="custom-dropdown">
@@ -162,7 +162,7 @@ const handleCustome = () =>{
                   style={{ textDecoration: "none", color: "#535b62" }}
                   className="nav-link"
                 >
-                  SẢN PHẨM
+                  PRODUCT
                 </NavLink>
               </div>
 
@@ -172,7 +172,7 @@ const handleCustome = () =>{
                   style={{ textDecoration: "none", color: "#535b62" }}
                   className="nav-link"
                 >
-                  DỊCH VỤ
+               SERVICE
                 </NavLink>
 
 
@@ -182,14 +182,14 @@ const handleCustome = () =>{
                 activeClassName="active"
                 className="nav-link"
               >
-                TIN TỨC
+               NEWS
               </NavLink>
               <NavLink
                 to="/contact"
                 activeClassName="active"
                 className="nav-link"
               >
-                LIÊN HỆ
+               CONTACT
               </NavLink>
             </Nav>
             
@@ -290,14 +290,14 @@ const handleCustome = () =>{
                     <div className="nav-link-login">
                       <NavLink to="/login" activeClassName="active">
                         <Stack direction="row" spacing={2}>
-                          <Button>Đăng Nhập</Button>
+                          <Button>SIGN IN</Button>
                         </Stack>
                       </NavLink>
                     </div>
                     <div className="nav-link-register">
                       <NavLink to="/register" activeClassName="active">
                         <Stack direction="row" spacing={2}>
-                          <Button>Đăng Ký</Button>
+                          <Button>SIGN UP</Button>
                         </Stack>
                       </NavLink>
                     </div>

@@ -19,7 +19,8 @@ public interface IOrderDetailService {
 
     public List<OrderDetail> listAll();
 
-    public void deleteOrderDetail(Long id);
+    public void deleteAllOrderDetail(Long orderid);
 
+    public void deleteOrderDetail(Long id);
 
 }

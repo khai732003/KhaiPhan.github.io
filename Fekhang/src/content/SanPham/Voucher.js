@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
 import customAxios from '../../CustomAxios/customAxios';
+
 function Voucher() {
   const [voucherData, setVoucherData] = useState({
     code: '',
@@ -12,24 +13,6 @@ function Voucher() {
     isActive: true,
     expiration_date: '',
   });
-  
-  // Chuyển chuỗi ngày tháng thành đối tượng Date
-  const expirationDate = new Date(voucherData.expiration_date);
-  
-  // Lấy ngày hiện tại
-  const currentDate = new Date();
-  
-  // Thêm 3 ngày vào ngày hiện tại
-  currentDate.setDate(currentDate.getDate() + 3);
-  
-  // Cập nhật expiration_date trong voucherData
-  const updatedVoucherData = {
-    ...voucherData,
-    expiration_date: currentDate.toISOString(),
-  };
-  
-  // Cập nhật state với dữ liệu mới
-  setVoucherData(updatedVoucherData);
 
   const [errors, setErrors] = useState({
     code: '',
@@ -37,6 +20,16 @@ function Voucher() {
     voucherAmount: '',
     voucherType: '',
   });
+
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 3);
+
+    setVoucherData(prevData => ({
+      ...prevData,
+      expiration_date: expirationDate.toISOString(),
+    }));
+  }, []); // Empty dependency array ensures that this effect runs only once after the initial render
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

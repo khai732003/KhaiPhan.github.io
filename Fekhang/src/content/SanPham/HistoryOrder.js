@@ -21,6 +21,10 @@ export default function HistoryOrder() {
       });
   }, []);
 
+  const handleFeedBack = (productId) => {
+    navigate(`/addfeedback/${productId}`);
+  };
+
   const steps = [
     'CONFIRMED',
     'DELIVERING',
@@ -41,9 +45,9 @@ export default function HistoryOrder() {
         return 0; // Set a default step number if the status is unknown
     }
   };
-  const handleFeedBack = (productId) => {
-    navigate(`/detail/${productId}`)
-  }
+  // const handleFeedBack = (productId) => {
+  //   navigate(`/detail/${productId}`)
+  // }
 
   return (
     <Container className="history-order-container">

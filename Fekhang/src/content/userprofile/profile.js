@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { FaSave, FaEdit } from "react-icons/fa";
 import customAxios from "../../CustomAxios/customAxios";
 import "../userprofile/profile.scss"; // Đảm bảo bạn đặt lại đúng đường dẫn đến file .scss
-import {useAuth} from '../SanPham/Context/AuthContext';
+import { useAuth } from '../SanPham/Context/AuthContext';
 import { Link } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
+import { Button } from "@mui/material";
 const Profile = () => {
   const initialUserProfile = {
     // username: "",
@@ -19,7 +20,7 @@ const Profile = () => {
 
   const [userprofile, setUserProfile] = useState(initialUserProfile);
   const [isEditMode, setIsEditMode] = useState(false);
-  const {user} = useAuth();
+  const { user } = useAuth();
   const userId = user.userId;
 
   const handleImageUpload = (e) => {
@@ -56,7 +57,7 @@ const Profile = () => {
 
   return (
     <Container className="mt-5" style={{ paddingTop: 70 }}>
-      <Row>
+      <Row style={{padding:'40px 50px 40px 50px', backgroundColor: 'rgb(248,248,255)',borderRadius:'5px'}}>
         {/* Cột bên trái */}
         <Col md={4} className="left-content-profile">
           <div className="text-center">
@@ -69,6 +70,9 @@ const Profile = () => {
               <h5>
                 <strong>{userprofile.fullname}</strong>
               </h5>
+              <br/>
+              <p>{userprofile.phone}</p>
+              <p>{userprofile.email}</p>
               {/* <p>{userprofile.role.name}</p> */}
             </div>
             {/* <Button
@@ -145,7 +149,7 @@ const Profile = () => {
               <Col md={6}>
                 {/* Cột bên phải cho các trường còn lại */}
                 <Form>
-                <Form.Group controlId="phoneNumber">
+                  <Form.Group controlId="phoneNumber">
                     <Form.Label>Gender</Form.Label>
                     <Form.Control
                       type="tel"
@@ -156,7 +160,7 @@ const Profile = () => {
                       }
                     />
                   </Form.Group>
-                      {/* <option>Nam</option>
+                  {/* <option>Nam</option>
                       <option>Nữ</option>
                       <option>Others</option> */}
                   <Form.Group controlId="address">
@@ -186,8 +190,13 @@ const Profile = () => {
                       Save Changes
                     </Button>
                   )} */}
-                  <Link to={`/edit-profile`}>
-                    <Button style={{background: 'black', color: 'white' }}>Edit Profile</Button>
+                  <Link to={`/edit-profile/${userId}`}>
+                    <Button 
+                    style={{margin:'0px 0 0 0px'}}
+                    variant="contained"
+                    
+                    >Edit Profile
+                    </Button>
                   </Link>
                 </Form>
               </Col>

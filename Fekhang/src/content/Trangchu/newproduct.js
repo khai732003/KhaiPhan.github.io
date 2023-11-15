@@ -28,11 +28,14 @@ const NewProduct = () => {
         // ...
     };
 
+    function formatCurrency(amount) {
+        return amount.toLocaleString('en-US');
+      }
     return (
         <div className='newproduct'>
             <Container className='Container'>
-                <h1><center> <strong>SẢN PHẨM <span style={{ color: '#cc6119' }}>MỚI</span></strong></center></h1>
-                <h4 id='title'><center>Đi đầu trong lĩnh vực chăm sóc chim cảnh</center></h4>
+                <h1><center> <strong> <span style={{ color: '#cc6119' }}> NEW</span>  PRODUCT</strong></center></h1>
+                <h4 id='title'><center>At the forefront of ornamental bird care</center></h4>
                 <Row>
                     {products.map((product) => (
                         <Col md={4} key={product.id} className='Col'>
@@ -42,7 +45,7 @@ const NewProduct = () => {
                                 {/* <div className="rating">
                                     {renderStarRating(product.rating)}
                                 </div> */}
-                                <p>Price: ${product.totalPrice.toFixed(2)}</p>
+                                <p>Price: {formatCurrency(product.totalPrice)} VND</p>
                                 <Button variant="primary" onClick={handleGoToProduct}>Go to shop</Button>
                                 {/* <p>Coupon: {product.coupon}</p> */}
                             </div>
