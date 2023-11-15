@@ -31,8 +31,8 @@ const NewProduct = () => {
     return (
         <div className='newproduct'>
             <Container className='Container'>
-                <h1><center> <strong>SẢN PHẨM <span style={{ color: '#cc6119' }}>MỚI</span></strong></center></h1>
-                <h4 id='title'><center>Đi đầu trong lĩnh vực chăm sóc chim cảnh</center></h4>
+                <h1><center> <strong> <span style={{ color: '#cc6119' }}>NEW</span>PRODCUT</strong></center></h1>
+                <h4 id='title'><center>At the forefront of ornamental bird care</center></h4>
                 <Row>
                     {products.map((product) => (
                         <Col md={4} key={product.id} className='Col'>

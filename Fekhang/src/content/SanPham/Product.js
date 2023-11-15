@@ -169,25 +169,10 @@ const Product = ({
                           <div className="sub-access">
                             <strong>Accessory:</strong>{accessory.description}
 
-<<<<<<< HEAD
                           </div>
                         </div>
                       ))}
                     </div>
-=======
-                  <div className="card-text">Code: {code}</div>
-
-
-                  <div
-                    className="card-price"
-                    style={{
-                      fontWeight: "700",
-                      fontSize: "1.2rem",
-                      textAlign: "center",
-                    }}
-                  >
-                    Price: {formatCurrency(totalPrice)} VND
->>>>>>> 8ecffc6c77bfa5068303e117609c0c13c72a6a01
                   </div>
 
                 </Typography>
