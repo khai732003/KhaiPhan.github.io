@@ -34,8 +34,5 @@ public class Feedback extends EntityBase{
     @JoinColumn(name = "product_id", nullable = false)
     private Products product;
 
-
-
-
 }
 

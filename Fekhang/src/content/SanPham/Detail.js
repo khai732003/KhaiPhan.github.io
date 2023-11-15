@@ -394,13 +394,13 @@ function Detail({
                         </Box>
                       </div>
                     </div>
-                    {show === true && <div>
+                    {/* {show === true && <div> */}
                       <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                         <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
                           FeedBack
                         </Button>
                       </Stack>
-                    </div>}
+                    {/* </div>} */}
                     {show === false && (
                       <div></div>
                     )}

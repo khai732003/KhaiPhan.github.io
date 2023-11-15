@@ -2,12 +2,25 @@ import React, { useState, useEffect } from "react";
 import Product from "./Product";
 import Pagination from "@mui/material/Pagination";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import customAxios from '../../CustomAxios/customAxios';
-import axios from "axios";
+import Alert from "@mui/material/Alert";
+import {
+  Box,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Typography,
+} from "@mui/material";
+import customAxios from "../../CustomAxios/customAxios";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(6);
@@ -16,7 +29,9 @@ const ProductPage = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedSort, setSelectedSort] = useState("dateDesc");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [hasResults, setHasResults] = useState(true);
+  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false); // State for displaying the not found alert
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -51,13 +66,34 @@ const ProductPage = () => {
       .get(apiUrl, { headers: headers })
       .then((response) => {
         setProducts(response.data);
+        setHasResults(response.data.length > 0);
         setIsLoading(false);
+        setShowNotFoundAlert(response.data.length === 0); // Show alert if no results
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         setIsLoading(false);
+        setShowNotFoundAlert(true); // Show alert on error
       });
   };
+
+  const handleCategoryChange = (event) => {
+    const categoryId = event.target.value;
+    setSelectedCategory(categoryId);
+    setCurrentApiUrl(categoryId ? `/product/category/${categoryId}` : "/product/list-date-desc");
+  };
+
+  useEffect(() => {
+    // Fetch categories from the API
+    customAxios
+      .get("/category/list")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
   useEffect(() => {
     const apiUrl = currentApiUrl;
@@ -79,10 +115,12 @@ const ProductPage = () => {
             setHasResults(false);
           }
           setIsLoading(false);
+          setShowNotFoundAlert(response.data.length === 0); // Show alert if no results
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           setIsLoading(false);
+          setShowNotFoundAlert(true); // Show alert on error
         });
     }
   }, [currentApiUrl, minPrice, maxPrice, searchKeyword]);
@@ -102,6 +140,22 @@ const ProductPage = () => {
             <MenuItem value="priceAsc">Price: Low to High</MenuItem>
             <MenuItem value="priceDesc">Price: High to Low</MenuItem>
             <MenuItem value="dateAsc">Oldest</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <InputLabel id="category-label">Select Category</InputLabel>
+          <Select
+            labelId="category-label"
+            id="category-select"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <MenuItem value="">All Categories</MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <TextField
@@ -140,6 +194,13 @@ const ProductPage = () => {
               <div className="not-found-message">
                 <p>No results found.</p>
               </div>
+            )}
+            {showNotFoundAlert && (
+              <Alert severity="warning" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" component="div">
+                  NOT FOUND
+                </Typography>
+              </Alert>
             )}
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination

@@ -18,7 +18,7 @@ import Stack from "@mui/material/Stack";
 import BookIcon from '@mui/icons-material/Book';
 
 import Cart from "../content/SanPham/Cart";
-import NavBar from "../content/dashboard/components/NavbBar";
+import NavbBar from "../content/dashboard/components/NavbBar";
 function Header(props) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -43,9 +43,10 @@ function Header(props) {
   const isTimeLine = location.pathname === "/timeline";
   const isProductManager = location.pathname === "/productmanagement";
   const isAddProduct = location.pathname === "/addproduct";
+  const isUpdateProduct = location.pathname === "/update-product";
   const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
-  const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
+  // const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
@@ -118,7 +119,7 @@ const handleCustome = () =>{
     isTimeLine || isListConfirm || isAddEditUser || isAddCategory
 
   ) {
-    return <NavBar />;
+    return <NavbBar />;
   }
 
 

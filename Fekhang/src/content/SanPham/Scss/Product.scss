@@ -44,18 +44,18 @@
     width: 4.5rem;
     
   }
-  .card-stock {
-    animation: rotate 10s linear infinite;
-  }
+  // .card-stock {
+  //   animation: rotate 10s linear infinite;
+  // }
   
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  // @keyframes rotate {
+  //   from {
+  //     transform: rotate(0deg);
+  //   }
+  //   to {
+  //     transform: rotate(360deg);
+  //   }
+  // }
   .product-card {
     border: 1px solid #ddd;
     /* Add border styles here */

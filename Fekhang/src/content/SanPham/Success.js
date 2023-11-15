@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Scss/success.scss'
 
 export default function Success() {
   const [count, setCount] = useState(4);
@@ -16,7 +17,7 @@ export default function Success() {
     return () => {
       clearTimeout(redirectTimeout);
     };
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,9 +27,12 @@ export default function Success() {
     return () => clearInterval(interval);
   }, []);
 
-  return <div>
-    <div>THANH TOÁN THÀNH CÔNG 
+  return (
+    <div className='success'>
+      <div style={{fontSize:'5rem'}}>
+        THANH TOÁN THÀNH CÔNG
+      </div>
+      <div style={{fontSize:'3rem'}}> Về trang chủ sau {count}</div>
     </div>
-    <p> Về trang chủ sau {count}</p>
-  </div>;
+  );
 }

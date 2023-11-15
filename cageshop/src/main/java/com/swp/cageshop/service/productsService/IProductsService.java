@@ -17,6 +17,8 @@ public interface IProductsService {
 
   public boolean deleteProduct(long id);
 
+  public ProductDTO setProductToSellAgain(Long productId);
+
   public List<ProductDTO>listAllProducts();
 
   public ProductDTO listProducts(long id);

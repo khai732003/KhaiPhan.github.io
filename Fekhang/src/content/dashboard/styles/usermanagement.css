@@ -8,12 +8,20 @@ body {
 }
 
 .user-management-page {
+<<<<<<< HEAD
   max-width: 1200px;
   margin: 80px auto;
   padding: 20px 20px 20px 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+=======
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:white !important;
+  min-height: calc(100vh - 10vh); /* Trừ chiều cao của footer */
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0
 }
 
 .search-add-btn {
@@ -22,9 +30,23 @@ body {
   margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 .search-name {
   display: flex;
   align-items: center;
+=======
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 1px solid #151219 !important;
+  border-radius: 10rem !important;
+}
+.user-table th,
+.user-table td {
+  text-align: center;
+  vertical-align: middle; /* Căn giữa theo chiều dọc */
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0
 }
 
 .search-text {
@@ -40,7 +62,101 @@ body {
   text-align: right;
 }
 
+<<<<<<< HEAD
 .action-bar {
+=======
+.add-staff-btn {
+  color: orangered;
+  background-color: transparent;
+  border: 2px solid orangered;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s all linear;
+  margin-top: 100px;
+}
+
+.add-staff-btn:hover {
+  background-color: orangered;
+  color: #fff;
+}
+
+.search-name {
+  margin-bottom: 10px;
+  margin-top: 90px;
+  padding-right: 35rem;
+  display: -webkit-inline-box;
+}
+
+.reset-button {
+  margin-left: 10px !important;
+}
+
+.search-click {
+  margin-left: 10px;
+}
+
+.user-management-page {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.user-management-page,
+.user-table {
+  margin: auto;
+  border: 2px solid #333;
+}
+
+.table-staff-container{
+  margin: 10px 100px 10px 100px;
+}
+
+.user-management-td.smaller-text {
+  font-size: 12px; /* Điều chỉnh kích thước font (tùy chỉnh) */
+  white-space: nowrap;
+}
+
+.user-management-page,
+.user-table .user-management-header,
+.user-management-page,
+.user-table .user-management-td {
+  background-color: #f0f0f0;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #151219;
+  width: auto;
+}
+
+.user-management-page,
+.user-table .user-management-header {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+  width: auto;
+}
+
+.user-management-page,
+.user-table tbody tr:nth-child(even) {
+  background-color: #c12b2b;
+}
+
+.user-management-page,
+.user-table tbody tr:nth-child(odd) {
+  background-color: #170606;
+}
+
+.user-management-page,
+.user-table tbody tr:hover {
+  background-color: #4a167d;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0
   margin-top: 20px;
 }
 
@@ -76,6 +192,7 @@ margin-top: 50px;
   text-align: left;
 }
 
+<<<<<<< HEAD
 .user-management-header {
   background-color: #3498db;
   color: #fff;
@@ -84,6 +201,16 @@ margin-top: 50px;
 /* Alternate row colors */
 .user-table tbody tr:nth-child(odd) .user-management-td {
   background-color: #f9f6f6;
+=======
+.user-management-header:nth-child(3),
+.user-management-td:nth-child(3) {
+  width: 8%; /* Đặt chiều rộng cố định cho cột thứ hai */
+}
+
+.user-management-header:nth-child(4),
+.user-management-td:nth-child(4) {
+  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0
 }
 
 .delete-btn {
@@ -91,9 +218,47 @@ margin-top: 50px;
  
 }
 
+<<<<<<< HEAD
 /* Add any additional styles for images, buttons, etc. */
+=======
+.user-management-header:nth-child(6),
+.user-management-td:nth-child(6) {
+  width: 13%; 
+}
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0
 
 .img-user-management {
   max-width: 100%;
   height: auto;
 }
+<<<<<<< HEAD
+=======
+
+.user-management-header:nth-child(8),
+.user-management-td:nth-child(8) {
+  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
+}
+
+.user-management-header:nth-child(9),
+.user-management-td:nth-child(9) {
+  width: 13.5%; /* Đặt chiều rộng cố định cho cột thứ hai */
+}
+
+.user-management-td > button {
+  margin: 0 5px;
+}
+
+.user-table td {
+  text-align: center;
+  padding: 10px;
+}
+
+.user-management-td:first-child,
+.user-management-td:nth-child(2) {
+  width: 10%;
+}
+
+.user-table tbody tr {
+  line-height: 2; 
+}
+>>>>>>> 9088ac281a94ad3c9f4be932837be53e3c0f37c0

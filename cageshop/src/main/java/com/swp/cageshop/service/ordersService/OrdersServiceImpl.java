@@ -251,7 +251,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Override
     public List<OrderDTO> getOrdersByUserId(Long userId) {
-        List<Orders> orders = ordersRepository.findByUserId(userId);
+        List<Orders> orders = ordersRepository.findByUserIdOrderByCreateDateDesc(userId);
         List<OrderDTO> orderDTOs = new ArrayList<>();
 
         for (Orders order : orders) {
@@ -266,7 +266,6 @@ public class OrdersServiceImpl implements IOrdersService {
                 orderDetailDTO.setProductImg(productImg);
                 orderDetailDTOList.add(orderDetailDTO);
             }
-
             orderDTO.setOrderDetails(orderDetailDTOList);
             orderDTOs.add(orderDTO);
         }
