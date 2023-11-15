@@ -103,7 +103,7 @@ const Register = () => {
       errors.fullname = "Fullname must be more than 5 characters";
     }
     if (!validatePassword(formData.password)) {
-      errors.password = "Password must be strong";
+      errors.password = "Password must have at least 1 Uppercase letter, 1 number and more than 5 characters ";
     }
     if (!validatePhoneNumber(formData.phone)) {
       errors.phone = "Invalid phone number (10 digits)";
@@ -164,22 +164,22 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="vh-100" style={{padding:'100px 0 1250px 0',margin:'-70px 0',height:'300vh'}}>
       <div className="alert-container">
         {" "}
         {/* Thêm class "alert-container" để áp dụng CSS */}
         {error && <Alert severity="info">{error}</Alert>}
       </div>
-      <section className="vh-110" style={{ backgroundColor: "#808080" }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
+      <section  >
+        <div >
+          <div className="row d-flex justify-content-center align-items-center ">
             <div className="col col-xl-10">
               <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-6 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-1.5 text-black">
+                <div className="row g-0" >
+                  <div className="col-md-6 col-lg-6 d-flex align-items-center" >
+                    <div className="card-body p-4 p-lg-1.5 text-black" style={{backgroundColor:'#fff'}}>
                       <form onSubmit={handleRegister}>
-                        <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
+                        <div className="d-flex justify-content-left align-items-center  ">
                           {/* <i className="fas fa-cubes fa-2x me-3" style={{ color: "#ff6219" }}></i> */}
                           <div
                             className="mb-5 pb-lg-2"
@@ -188,18 +188,15 @@ const Register = () => {
                             <Button
                               sx={{ fontSize: 18 }}
                               variant="contained"
-                              style={{
-                                backgroundColor: "#e0e0e0",
-                                color: "#212121",
-                              }}
+                              
                               startIcon={<ArrowBackIosIcon />}
                               onClick={handleReturnPage}
                             >
                               BACK
                             </Button>
                           </div>
-                          <span className="h1 fw-bold mb-0">REGISTER</span>
                         </div>
+                        <p style={{textAlign:'center', fontSize:'40px', fontWeight:'bold'}}>REGISTER</p>
                         <label className="form-label" htmlFor="form2Example17">
                           Email
                         </label>
@@ -321,9 +318,9 @@ const Register = () => {
                             onChange={handleInputChange}
                             required
                           >
-                            <option value="">-- Chọn Giới Tính --</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
+                            <option value="">-- Gender --</option>
+                            <option value="Nam">Male</option>
+                            <option value="Nữ">Female</option>
                           </select>
                         </div>
 
@@ -367,7 +364,7 @@ const Register = () => {
 
                         <React.Fragment>
                           <Button onClick={handleClickOpen("paper")}>
-                            Điều khoản của cửa hàng
+                          Store Terms
                           </Button>
                           <Dialog
                             open={open}
@@ -377,7 +374,7 @@ const Register = () => {
                             aria-describedby="scroll-dialog-description"
                           >
                             <DialogTitle id="scroll-dialog-title">
-                              Điều khoản của cửa hàng
+                            Store Terms
                             </DialogTitle>
                             <DialogContent dividers={scroll === "paper"}>
                               <DialogContentText
@@ -413,7 +410,7 @@ const Register = () => {
                             className="form-check-label"
                             htmlFor="agreeTermsCheckbox"
                           >
-                            Tôi đồng ý với các điều khoản của cửa hàng.
+                           I agree to the store's terms.
                           </label>
                           {validationErrors.agreeTerms && (
                             <div className="invalid-feedback">
@@ -438,7 +435,7 @@ const Register = () => {
                       src="https://images.unsplash.com/photo-1552826580-0d47cf898dee?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmlyZCUyMGNhZ2V8ZW58MHx8MHx8fDA%3D"
                       alt="login form"
                       className="img-fluid"
-                      style={{ borderRadius: "0 1rem 1rem 0", height: "100%" }}
+                      style={{ borderRadius: "0 1rem 1rem 0", height: "100%",marginLeft:'30px'}}
                     />
                   </div>
                 </div>

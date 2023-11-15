@@ -36,10 +36,9 @@ public interface IOrdersService {
 
     public List<OrderDTO> getOrdersByUserIdAndPayStatus(Long userId, String payStatus);
 
-    public boolean deleteOrderDTO(long orderId);
+    public boolean deleteOrderDTO(Long orderId);
 
     public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId);
-
 
 
 }

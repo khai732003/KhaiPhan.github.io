@@ -113,7 +113,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
 
     @Override
     public List<FeedbackDTO> getAllFeedbacksByProductId(Long productId) {
-        List<Feedback> feedbacks = feedbackRepository.findAllByProductId(productId);
+        List<Feedback> feedbacks = feedbackRepository.findAllByProductIdOrderByIdDesc(productId);
         List<FeedbackDTO> feedbackDTOs = new ArrayList<>();
 
         for (Feedback feedback : feedbacks) {
@@ -125,6 +125,19 @@ public class FeedbackServiceImpl implements IFeedbackService {
         return feedbackDTOs;
     }
 
+    @Override
+    public List<FeedbackDTO> getAllFeedbacksByUserId(Long userId, Long productId) {
+        List<Feedback> feedbacks = feedbackRepository.findByUserIdAndProductIdOrderByIdDesc(userId, productId);
+        List<FeedbackDTO> feedbackDTOs = new ArrayList<>();
+
+        for (Feedback feedback : feedbacks) {
+            FeedbackDTO mappedFeedbackDTO = modelMapper.map(feedback, FeedbackDTO.class);
+            mappedFeedbackDTO.setUserName(feedback.getProduct().getName()); // Assuming you want to include the product name
+            feedbackDTOs.add(mappedFeedbackDTO);
+        }
+
+        return feedbackDTOs;
+    }
 
 
 }

@@ -12,7 +12,6 @@ export default function HistoryOrder() {
   useEffect(() => {
     // Gọi API sử dụng customAxios để lấy danh sách các đơn hàng đã thanh toán của người dùng với userId là 3
     customAxios.get(`/order/list-by-user-and-pay-status/${userId}/PAID`)
-      // customAxios.get('https://654cb02e77200d6ba8593b51.mockapi.io/Data')
       .then(response => {
         // Lưu kết quả trả về vào state
         setOrders(response.data);
@@ -21,6 +20,10 @@ export default function HistoryOrder() {
         console.error('Error:', error);
       });
   }, []);
+
+  const handleFeedBack = (productId) => {
+    navigate(`/addfeedback/${productId}`);
+  };
 
   const steps = [
     'CONFIRMED',
@@ -42,9 +45,9 @@ export default function HistoryOrder() {
         return 0; // Set a default step number if the status is unknown
     }
   };
-  const handleFeedBack = (productId) => {
-    navigate(`/detail/${productId}`)
-  }
+  // const handleFeedBack = (productId) => {
+  //   navigate(`/detail/${productId}`)
+  // }
 
   return (
     <Container className="history-order-container">

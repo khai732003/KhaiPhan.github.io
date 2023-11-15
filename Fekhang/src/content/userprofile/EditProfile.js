@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Alert, Button } from '@mui/material';
+import { Alert, Button, Container, Grid, Paper, TextField, Typography, Select, MenuItem } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import customAxios from '../../CustomAxios/customAxios';
 import { useAuth } from '../SanPham/Context/AuthContext';
+import './editprofile.scss';
 
 const EditProfile = () => {
   const { id } = useParams();
@@ -26,6 +27,8 @@ const EditProfile = () => {
     managerId: user.userId
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+
   useEffect(() => {
     if (isEditing) {
       getUser(id);
@@ -43,6 +46,35 @@ const EditProfile = () => {
     navigate(-1);
   };
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.email.endsWith('@gmail.com')) {
+      errors.email = 'Email must end with @gmail.com';
+    }
+
+    if (!/^[a-zA-Z\s]*$/.test(formData.fullname) || formData.fullname.length >= 200) {
+      errors.fullname = 'Fullname must not contain numbers and should be less than 200 characters';
+    }
+
+    if (!/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(formData.password)) {
+      errors.password = 'Password must have 1 uppercase letter, 1 number, and be at least 6 characters long';
+    }
+
+    if (!/^\d{10}$/.test(formData.phone)) {
+      errors.phone = 'Phone must contain exactly 10 digits';
+    }
+
+    try {
+      new URL(formData.image);
+    } catch (error) {
+      errors.image = 'Invalid image URL';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const getUser = async (id) => {
     try {
       const response = await customAxios.get(`/user/list/${id}`);
@@ -56,7 +88,7 @@ const EditProfile = () => {
 
   const updateUser = async () => {
     try {
-      const response = await customAxios.put(`/user/list/${id}`, formData);
+      const response = await customAxios.put(`/user/update/${id}`, formData);
       if (response.status === 200) {
         navigate("/profile");
       }
@@ -67,156 +99,135 @@ const EditProfile = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    if (isEditing) {
-      updateUser();
-    } 
+
+    if (validateForm()) {
+      if (isEditing) {
+        updateUser();
+      }
+    }
   };
 
   return (
-    <div>
+    <div style={{backgroundColor: 'rgb(248,248,255)'}} className='EditProfile-container'>
       <div className="alert-container">
         {error && <Alert severity="info">{error}</Alert>}
       </div>
-      <section className="vh-100" style={{ backgroundColor: "#808080" }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col col-xl-10">
-              <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-6 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-1.5 text-black">
-                      <form onSubmit={handleSubmit}>
-                        <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
-                          <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            <Button sx={{ fontSize: 18 }} variant="contained"
-                              style={{ backgroundColor: '#e0e0e0', color: '#212121' }}
-                              startIcon={<ArrowBackIosIcon />} onClick={handleReturnPage}
-                            >
-                              BACK
-                            </Button>
-                          </div>
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Email
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            id="form2Example17"
-                            type="email"
-                            name="email"
-                            className="form-control form-control-lg"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Email'
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          UserName
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Username'
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          FullName
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="fullname"
-                            value={formData.fullname}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Full Name'
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Password
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Password'
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Giới Tính:
-                        </label>
-                        <div className="form-outline mb-4">
-                          <select
-                            className="form-control form-control-lg"
-                            name="gender"
-                            value={formData.gender}
-                            onChange={handleInputChange}
-                            required
-                          >
-                            <option value="">-- Chọn Giới Tính --</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                          </select>
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Phone Number
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Phone Number'
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Address
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="address"
-                            value={formData.address}
-                            onChange={handleInputChange}
-                            required
-                            placeholder='Enter Your Address'
-                          />
-                        </div>
-                        <div className="pt-1 mb-4">
-                          <button className="btn btn-dark btn-lg btn-block" type="submit">
-                            {id ? "Update" : "Submit"}
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
+      <Container py={5} style={{ backgroundColor: '#fff' }}>
+
+        <form onSubmit={handleSubmit} style={{ paddingTop: '100px' }}>
+
+
+          <Button
+     
+            sx={{ fontSize: 18 }}
+            variant="contained"
+            style={{position:'absolute', top:'15%',left:'5%' }}
+            startIcon={<ArrowBackIosIcon />}
+            onClick={handleReturnPage}
+          >
+            BACK
+          </Button>
+
+
+          <Typography variant="h4" sx={{ mb: 4 }}>Edit Profile</Typography>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+            error={!!validationErrors.email}
+            helperText={validationErrors.email}
+          />
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            readOnly
+            style={{ margin: '20px 0' }}
+          />
+          <TextField
+            label="Full Name"
+            variant="outlined"
+            fullWidth
+            type="text"
+            name="fullname"
+            value={formData.fullname}
+            onChange={handleInputChange}
+            required
+            error={!!validationErrors.fullname}
+            helperText={validationErrors.fullname}
+          />
+          <TextField
+            label="Password"
+            variant="outlined"
+            fullWidth
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
+            error={!!validationErrors.password}
+            helperText={validationErrors.password}
+            style={{ margin: '20px 0' }}
+          />
+          <TextField
+            label="Phone Number"
+            variant="outlined"
+            fullWidth
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            required
+            error={!!validationErrors.phone}
+            helperText={validationErrors.phone}
+          />
+          <TextField
+            label="Address"
+            variant="outlined"
+            fullWidth
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            style={{ margin: '20px 0' }}
+          />
+          <Select
+            label="Gender"
+            variant="outlined"
+            fullWidth
+            name="gender"
+            value={formData.gender}
+            onChange={handleInputChange}
+            required
+            style={{ margin: '0px 0 20px 0 ' }}
+          >
+            <MenuItem value="">-- Select Gender --</MenuItem>
+            <MenuItem value="Nam">Male</MenuItem>
+            <MenuItem value="Nữ">Female</MenuItem>
+          </Select>
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            type="submit"
+            fullWidth
+            style={{ margin: '0px 0 20px 0' }}
+          >
+            {id ? "Update" : "Submit"}
+          </Button>
+        </form>
+      </Container>
+
     </div>
   );
 };

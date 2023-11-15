@@ -33,7 +33,7 @@ const ListDelivered = ({ triggerUpdate }) => {
   };
 
   return (
-    <Container className="history-order-container">
+    <Container className="history-order-container" style={{height:'100vh'}}>
       <Typography variant="h4" className="header" gutterBottom>
         Delivered Orders
       </Typography>

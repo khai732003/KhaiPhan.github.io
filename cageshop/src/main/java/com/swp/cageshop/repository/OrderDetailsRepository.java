@@ -23,5 +23,5 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetail, Long>
     OrderDetail findByOrderIdAndProductId(@Param("orderId") Long orderId, @Param("productId") Long productId);
     void deleteAllByOrderId(Long orderId);
 
-
+    List<OrderDetail> findByOrderId(Long orderId);
 }

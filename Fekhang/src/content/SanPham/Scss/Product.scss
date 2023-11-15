@@ -1,233 +1,116 @@
-/* Product.css */
+// Variables
+$card-padding: 12px;
+$card-img-height: 140px;
+$primary-color: #007bff;
 
+// Placeholders
+%reset-padding {
+    padding: 0;
+}
 
+%truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+}
 
-.container-product {
-  cursor: pointer;
-  position: relative;
-  .accessories-list{
-    position: absolute;
+// Card
+.product-card {
+    font-family: 'Roboto Slab';
 
-    z-index: 1;
-    right: 5%;
-    top: 15%;
-    .accessory-item{
-      border: 2px solid black;
-      background-color: #ddd;
-      margin-bottom: 0.5rem;
-      text-align: center;
-      padding: 0.1rem;
-      border-radius: 0.5rem;
-      font-weight: 400;
-    }
-   
-  }
-  .card-stock {
-    z-index: 1;
-    padding-top: 1rem;
-    font-size: 2.4rem !important;
-    border: 2px solid black;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    right: 10%;
-    border-top-width: 10.6;
-    position: absolute;
-    border-top-width: 10.6;
-    background-color: rgb(173, 158, 158);
-    color: black;
-    font-size: x-small;
-    height: 4.5rem;
-    width: 4.5rem;
-    
-  }
-  // .card-stock {
-  //   animation: rotate 10s linear infinite;
-  // }
-  
-  // @keyframes rotate {
-  //   from {
-  //     transform: rotate(0deg);
-  //   }
-  //   to {
-  //     transform: rotate(360deg);
-  //   }
-  // }
-  .product-card {
-    border: 1px solid #ddd;
-    /* Add border styles here */
-    transition: border-color 0.3s;
-    /* Add smooth transition effect */
-    padding-top: 0px;
-
-    width: 23rem !important;
-    height: 38rem !important;
-    align-items: center;
-    margin-bottom: 1.5rem;
-
-    .card-img-top {
-      width: 20rem;
-      height: 23rem;
-      margin-left: 10px;
-    }
-
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      text-align: center;
-    }
-
+    // Card Body
     .card-body {
-      width: 100%;
-      padding-bottom: 32px;
-      position: relative;
-      background-color: linen;
-      abbr[title] {
-        text-decoration: none;
-      }
+        position: relative;
 
 
-      .card-info {
-        display: flex;
-        flex-direction: column;
-        align-items: first baseline;
-        padding: 10px;
-
-        .cart-text {
+        /* Add a smooth transition effect */
+        abbr[title] {
+            text-decoration: none;
         }
 
-        .card-price {
-          padding-left: 120px;
-          color: brown;
-        }
+
+
+        // Product Image 
         .card-product {
-          padding-top: 10px;
+
+            padding-bottom: 0;
+            white-space: 'nowrap';
+            overflow: 'hidden';
+
+            img {
+                height: 100%;
+            }
+           
         }
-      }
+
+        // Content
+        .card-content {
+            padding-bottom: 0;
+            cursor: pointer;
+
+            // Product Name
+            .card-title {
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+
+            // Product Details
+            .card-info {
+
+                // Product Code
+                .card-text {
+                    font-size: 0.9rem;
+                    color: black;
+                    text-decoration: none;
+                }
+
+                // Price
+                .card-price {
+                    font-weight: 600;
+                    color: $primary-color;
+                }
+
+                // Accessories
+                .accessory-item {
+                    .sub-access {
+                        font-size: 0.8rem;
+                        color: black;
+                    }
+                }
+            }
+        }
+
+        // Actions
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .button {
+                @extend %reset-padding;
+
+                &:first-child {
+                    padding-right: 20px;
+                }
+
+                &:last-child {
+                    padding-left: 20px;
+                }
+            }
+        }
+
     }
 
-    .click-buy-addcart {
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add your desired box shadow values */
+    transition: box-shadow 0.3s ease;
+    /* Add a smooth transition effect */
 
-      .custom-button {
-        border: 2px solid;
-        background-color: rgb(255, 255, 255);
-        color: rgb(0, 0, 0);
-        transition: background-color 0.3s ease, color 0.3s ease;
-
-        &:hover {
-          border: 2px solid black;
-          background-color: #000000; /* Thay đổi màu khi hover */
-          color: rgb(255, 255, 255); /* Màu văn bản khi hover */
-        }
-
-        &:disabled {
-          background-color: #ccc; /* Màu xám khi nút không được kích hoạt */
-          color: #9e8c8c; /* Màu văn bản khi nút không được kích hoạt */
-          cursor: not-allowed; /* Thay đổi kiểu con trỏ khi nút không được kích hoạt */
-        }
-      }
+    &:hover {
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+        /* Add a different box shadow on hover */
+       
     }
-  }
 }
-
-.container {
-  padding-top: 1rem;
-}
-
-.product-image {
-  width: 13rem;
-  margin-bottom: 1rem;
-  transition: 0.8s;
-}
-
-.product-card:hover {
-  border: 2px solid #d5ab55;
-  transition: 0.8s;
-  box-shadow: 0 4px 8px 0 rgba(124, 120, 120, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-// .card-img-top:hover {
-//   transform: scale(1.03);
-//   transition: 1s;
-// }
-
-/* styles.css */
-
-/* Định nghĩa styles cho nút "Add to Cart" */
-.button-add-to-cart {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0px;
-  cursor: pointer;
-}
-
-.button-add-to-cart:hover {
-  background-color: #0056b3;
-}
-
-/* Định nghĩa styles cho giỏ hàng */
-.shopping-cart {
-  padding: 0px;
-  /* Khoảng cách bên trong phần nội dung của giỏ hàng */
-  width: 300px;
-  /* Điều chỉnh chiều rộng của giỏ hàng */
-  border: 1px solid #ddd;
-  /* Thêm viền xung quanh giỏ hàng */
-  transition: box-shadow 0.3s ease;
-  /* Hiệu ứng hover */
-}
-
-.shopping-cart:hover {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* Hiệu ứng shadow khi hover */
-}
-
-.shopping-cart {
-  padding: 0px;
-  /* Khoảng cách bên trong phần nội dung của giỏ hàng */
-  width: 300px;
-  /* Điều chỉnh chiều rộng của giỏ hàng */
-  border: 1px solid #ddd;
-  /* Thêm viền xung quanh giỏ hàng */
-  transition: box-shadow 0.3s ease;
-  /* Hiệu ứng hover */
-}
-
-.shopping-cart:hover {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* Hiệu ứng shadow khi hover */
-}
-
-.shopping-cart .MuiButton-root {
-  transition: background-color 0.3s ease;
-  /* Hiệu ứng hover */
-  width: 700px;
-}
-
-.shopping-cart .MuiButton-root:hover {
-  background-color: #ff0000;
-  /* Màu nền khi hover */
-  color: #fff;
-  /* Màu chữ khi hover */
-}
-
-/* Định nghĩa styles cho nút "Open Cart" */
-.open-cart-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.open-cart-button:hover {
-  background-color: #0056b3;
+#addtocart{
+    background-color:#c96019;
 }

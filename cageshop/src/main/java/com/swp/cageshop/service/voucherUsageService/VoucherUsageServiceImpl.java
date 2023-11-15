@@ -69,7 +69,7 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
 
     @Override
     public List<Double> findAmountVouchersByOrderId(Long orderId) {
-        return null;
+        return voucherUsageRepository.findVoucherAmountsByOrderId(orderId);
     }
 
     public VoucherUsageDTO getVoucherUsageById(Long id) {
@@ -101,7 +101,6 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         }
         return totalVoucherAmount;
     }
-
 
     public boolean isUserUsedVoucher(Long userId, Long voucherId) {
         return voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);

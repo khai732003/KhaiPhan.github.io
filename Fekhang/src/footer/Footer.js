@@ -25,7 +25,10 @@ const Footer = (props) => {
   const isError = location.pathname === "/error";
   const isPaypal = location.pathname === "/paypal";
   const isListConfirm = location.pathname === "/listconfirm";
+
   const isFeedBack = location.pathname === "/list-feedback";
+
+  const islistdevered = location.pathname === "/listdelivered";
 
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
     return null;
@@ -46,6 +49,8 @@ const Footer = (props) => {
       isStaffManager ||
       isAdminProfile ||
       isTimeLine || isFeedBack
+ || islistdevered
+
     ) {
       return <FooterAdmin />; 
     }
@@ -54,9 +59,9 @@ const Footer = (props) => {
         <footer className="container">
           <div className="row">
             <div className="col-md-4">
-              <span>THÔNG TIN LIÊN LẠC</span>
+              <span>CONTACT INFORMATION</span>
               <p>
-                <strong>Địa chỉ: </strong> Lô E2a-7, Đường D1, Đ. D1, Long Thạnh
+                <strong>Address: </strong> Lô E2a-7, Đường D1, Đ. D1, Long Thạnh
                 Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000
               </p>
               <p>
@@ -69,21 +74,21 @@ const Footer = (props) => {
               </p>
             </div>
             <div className="col-md-4">
-              <span>GIỜ BÁN HÀNG</span>
-              <p>Thứ Hai - Thứ Sáu: 09:00 AM - 09:00 PM</p>
-              <p>Thứ 7: 09:00 AM - 07:00 PM</p>
-              <p>Chủ nhật: Đóng cửa</p>
+              <span>TIME OPEN</span>
+              <p>Monday - Friday: 09:00 AM - 09:00 PM</p>
+              <p>Saturday: 09:00 AM - 07:00 PM</p>
+              <p>Sunday: Closed</p>
             </div>
             <div className="col-md-4">
-              <span>GIỜ DỊCH VỤ</span>
-              <p>Thứ Hai - Thứ Sáu: 09:00 AM - 09:00 PM</p>
-              <p>Thứ 7: 09:00 AM - 07:00 PM</p>
-              <p>Chủ nhật: Đóng cửa</p>
+              <span> TIME FOR SERVICE</span>
+              <p>Monday - Friday: 09:00 AM - 09:00 PM</p>
+              <p>Saturday: 09:00 AM - 07:00 PM</p>
+              <p>Sunday: Closed</p>
             </div>
           </div>
           <div className="row">
             <div className="col-md-4">
-              <span>NHẬN KHUYẾN MÃI</span>
+              {/* <span>GET PROMOTION</span>
               <form>
                 <div className="form-group">
                   <div className="input-group">
@@ -95,18 +100,19 @@ const Footer = (props) => {
                       placeholder="Enter your email"
                     />
                     <div className="input-group-append">
-                      <button type="submit" className="btn btn-primary" style={{borderRadius:'3px'}}>
-                        ĐĂNG KÝ
+                      <button type="submit" className="btn btn-primary" style={{borderRadius:'3px',width:'fit-content'}}>
+                      SIGN UP FOR PROMOTIONS
                       </button>
                     </div>
                   </div>
                 </div>
-              </form>
+              </form> */}
             </div>
             <div className="col-md-4">
-              <span>MẠNG XÃ HỘI</span>
-              <div className="social-icons">
+              <span>SOCIAL MEDIA</span>
+              <div className="social-icons-1">
                 <a
+                style={{color:'#0967ff'}}
                   href="https://www.facebook.com/FPTU.HCM"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -114,6 +120,7 @@ const Footer = (props) => {
                   <i class="bi bi-facebook"></i>
                 </a>
                 <a
+                 style={{color:'#ff0202'}}
                   href="https://www.youtube.com/@FPTUniversityHCM"
                   target="_blank"
                   rel="noopener noreferrer"

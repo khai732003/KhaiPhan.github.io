@@ -52,6 +52,10 @@ function Detail({
   const [rate, setRate] = useState(null);
   const [feedback, setFeedback] = useState();
   const [show, setShow] = useState(null);
+
+
+  const [quantity, setQuantity] = useState(1); // State for quantity
+
   const [feedbackVisible, setFeedbackVisible] = useState(true);
 
   const toggleFeedback = (id) => {
@@ -118,6 +122,7 @@ function Detail({
     fetchOrders();
   }, []);
 
+
   useEffect(() => {
     customAxios
       .get(`/feedback/average-rating/${productId}`)
@@ -133,41 +138,35 @@ function Detail({
       });
   }, []);
 
-  // useEffect(() => {
-  //   customAxios
-  //     .get(`/feedback/get-all`)
-  //     .then((response) => {
-  //       console.log(response.data); // Log the response to the console
-  //       setFeedback(response.data);
-  //       console.log(rate)
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching rating data:", error);
-  //       setLoading(false);
-  //     });
-  // }, []);
   useEffect(() => {
     customAxios
-      .get(`/feedback/byProductId/${productId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setFeedback(data);
-        } else {
-          setFeedback([]);
-        }
+      .get(`/feedback/get-all`)
+      .then((response) => {
+        console.log(response.data); // Log the response to the console
+        setFeedback(response.data);
+        console.log(rate)
+        setLoading(false);
       })
-      .catch((error) => console.error("Error fetching feedback:", error));
-  }, [productId]);
+      .catch((error) => {
+        console.error("Error fetching rating data:", error);
+        setLoading(false);
+      });
+  }, []);
+
+
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
   const handleFeedback = (productId) => {
     navigate(`/addfeedback/${productId}`);
   };
+  
   const handleReturnPage = () => {
     navigate(-1);
+  };
+  const handleQuantityChange = (event) => {
+    // Update the quantity when it changes
+    setQuantity(parseInt(event.target.value, 10));
   };
   const handleAddToCart = () => {
     const {
@@ -228,9 +227,6 @@ function Detail({
     try {
       const address = user.address;
       if (!orderId) {
-        const shipAddress = "hcm";
-        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
-
         const orderResponse = await customAxios.post('/order/add', {
           "name": "Tổng hóa đơn",
           "status": "pending",
@@ -251,7 +247,7 @@ function Detail({
 
       // const product = { id, name, stock, totalPrice, productImage, code, cage, accessories };
       await customAxios.post('/order_detail/add', {
-        quantity: 1,
+        quantity,
         hirePrice: productDetail.hirePrice,
         name: productDetail.name,
         totalOfProd: productDetail.totalOfProd,
@@ -463,9 +459,11 @@ function Detail({
                               />
                             }
                           />
+
                         </Box>
                       </div>
                     </div>
+
                     {/* {show === true && <div> */}
                     <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                       <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
@@ -473,6 +471,24 @@ function Detail({
                       </Button>
                     </Stack>
                     {/* </div>} */}
+
+                    <div>
+                      <input
+                        type="number"
+                        value={quantity}
+                        onChange={handleQuantityChange}
+                        min={1}
+                        max={productDetail.stock} // Set the maximum quantity based on stock
+                      />
+                      {show === true && <div>
+                        <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
+                          <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
+                            FeedBack
+                          </Button>
+                        </Stack>
+                      </div>}
+                    </div>
+
                     {show === false && (
                       <div></div>
                     )}

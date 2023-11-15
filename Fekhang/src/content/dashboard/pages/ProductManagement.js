@@ -201,28 +201,12 @@ const ProductManagement = () => {
             style={{ display: "flex", alignItems: "center" }}
           >
             <TextField
+            style={{marginRight:'30px'}}
               label="Search"
               variant="outlined"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-
-            {/*<Button
-              style={{ marginLeft: '20px' }}
-              variant="outlined"
-              className="search-button"
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-            <Button
-              style={{ margin: '0 20px' }}
-              variant="outlined"
-              className="reset-button"
-              onClick={handleResetSearch}
-            >
-              Reset
-            </Button> */}
 
             <div className="btn-add">
               <Link to={"/addaccessories"}>
@@ -262,6 +246,7 @@ const ProductManagement = () => {
             </div>
           </div>
         </div>
+
       </div>
 
       <div className="table-staff-container">
@@ -403,13 +388,20 @@ const ProductManagement = () => {
                         </Typography>
                         <hr />
                         <Typography variant="h6" className="info-label">
-                          {<p>Accessories</p>}
+                          Accessories
                         </Typography>
                         <hr />
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Description</span>:
-                          {detailPopup.accessories.description}
-                        </Typography>
+
+                        {detailPopup.accessories.map((accessory, index) => (
+                          <Typography key={index} variant="body1" className="info-item">
+                            <span className="info-label">Description:</span> {accessory.description}
+                            <br />
+                            <span className="info-label">Price:</span> {accessory.price}
+                            <br />
+                            <span className="info-label">Type:</span> {accessory.type}
+                          </Typography>
+                        ))}
+
                         <Typography variant="body1" className="info-item">
                           <span className="info-label">Type</span>:
                           {detailPopup.accessories.type}

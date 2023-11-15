@@ -17,7 +17,7 @@ const ModalAddNews = (props) => {
     title: '',
     info: '',
     shortinfo: '',
-    img: null, // Update to store the File object
+    img: '', // Update to store the File object
   });
 
   const handleInputChange = (e) => {

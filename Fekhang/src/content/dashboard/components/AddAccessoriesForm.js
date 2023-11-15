@@ -11,7 +11,7 @@ const AddAccessoriesForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await customAxios.post("/addaccessories", data);
+      const response = await customAxios.post("/accessories/addaccessories", data);
       navigate("/productmanagement");
       console.log("Accessory added successfully:", response.data);
     } catch (error) {

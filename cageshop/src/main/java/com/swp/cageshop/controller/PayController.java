@@ -112,7 +112,6 @@ public class PayController {
                     v.setQuantity(v.getQuantity() - 1);
                     voucherRepository.save(v);
                 }
-
             }
             String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
             response.setStatus(HttpStatus.FOUND.value());

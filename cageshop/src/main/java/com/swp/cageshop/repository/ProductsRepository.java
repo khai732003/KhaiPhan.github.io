@@ -21,11 +21,14 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     void deleteAll();
 
-    List<Products> findByCategory(Categories category);
+
+
+  @Query("SELECT p FROM Products p WHERE p.status = 'Available' AND p.category = :category ORDER BY p.createDate ASC")
+  List<Products> findByCategory(@Param("category") Categories category);
 
 
 
-    Products findProductIdByOrderDetail_Id(Long orderDetailId);
+  Products findProductIdByOrderDetail_Id(Long orderDetailId);
 
   @Query(value = "SELECT * FROM products p ORDER BY p.create_date DESC LIMIT 3",
       nativeQuery = true)
@@ -69,7 +72,7 @@ public interface ProductsRepository extends JpaRepository<Products,Long> {
 
 
     //Accessories
-    @Query("SELECT p FROM Products p JOIN p.accessories a WHERE p.status = 'Available'AND a.type = :accessoryType")
+    @Query("SELECT p FROM Products p JOIN p.accessories a WHERE p.status = 'Available' AND a.type = :accessoryType")
     List<Products> findProductsByAccessoriesType(@Param("accessoryType") String accessoryType);
 
 

@@ -7,6 +7,7 @@ import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.config.VoucherType;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
+import com.swp.cageshop.service.orderdetailService.IOrderDetailService;
 import com.swp.cageshop.service.productsService.IProductsService;
 import com.swp.cageshop.service.voucherUsageService.IVoucherUsageService;
 import com.swp.cageshop.service.vouchersService.IVouchersService;
@@ -50,6 +51,9 @@ public class OrdersServiceImpl implements IOrdersService {
     @Autowired
     private IVouchersService iVouchersService;
 
+
+    @Autowired
+    private IOrderDetailService iOrderDetailService;
 
     @Autowired
     private VouchersRepository vouchersRepository;
@@ -294,32 +298,31 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Override
     public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId) {
-        // Tìm đơn hàng có userId và trạng thái đã thanh toán và đã giao hàng
         List<Orders> orders = ordersRepository.findByUserIdAndPayStatusAndShipStatus(userId, "PAID", ShippingStatus.DELIVERED.toString());
-
         for (Orders order : orders) {
-            // Lấy danh sách các sản phẩm trong đơn hàng
             List<OrderDetail> orderDetailList = orderDetailsRepository.findAllByOrderId(order.getId());
-
-            // Kiểm tra xem sản phẩm có trong đơn hàng hay không
             for (OrderDetail orderDetail : orderDetailList) {
                 if (orderDetail.getProduct().getId().equals(productId)) {
-                    return true; // Người dùng đã mua sản phẩm
+                    return true;
                 }
             }
         }
-
-        return false; // Người dùng chưa mua sản phẩm
+        return false;
     }
 
-
-
     @Override
-    public boolean deleteOrderDTO(long orderId) {
+    public boolean deleteOrderDTO(Long orderId) {
+        var orders =ordersRepository.getReferenceById(orderId);
+       List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orderId);
+       if(voucherUsages !=null) {
+           for (VoucherUsage voucherUsage : voucherUsages) {
+               voucherUsage.setOrder(null);
+               voucherUsageRepository.save(voucherUsage);
+           }
+       }
         ordersRepository.deleteById(orderId);
         orderDetailsRepository.deleteAllByOrderId(orderId);
         return true;
     }
-
 }
 

@@ -25,7 +25,7 @@ export default function ContactPage2() {
     };
     return (
         <>
-            <div className='fullscreen-login-container' >
+            <div className='fullscreen-login-container' style={{fontFamily:'Roboto Slab'}} >
                 <div className='container-form-contact'>
                     <div className='contact-content-form'>
                         <div>

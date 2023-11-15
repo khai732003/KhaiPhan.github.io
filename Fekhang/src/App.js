@@ -82,7 +82,7 @@ function App() {
               <Route path="/news" element={<News />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
               <Route path="/localorder" element={<LocalOrder />} />
@@ -121,8 +121,7 @@ function App() {
               <Route path="/add-edit-product" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/add-edit-product" />} />
               <Route path="/update-product/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddEditProduct} path="/update-product/:id" />} />
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
-              <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />
-              <Route path="/listconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ConfirmPage} path="/listconfirm" />} />
+              <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />             
               <Route path="/listdelivered" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ListDelivered} path="/listdelivered" />} />
 
 
@@ -130,11 +129,12 @@ function App() {
 
               {/* Vùng all trừ Customer */}
               <Route path="/staffnew" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={TintucStaff} path="/staffnew" />} />
-
+              <Route path="/listconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={ConfirmPage} path="/listconfirm" />} />
 
               {/* Vùng Customer */}
               <Route path="/order/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
               <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
+              
               {/* <Route path="/history" element={<HistoryOrder />} /> */}
               <Route path='/error' element={<Error />} />
 

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
+import customAxios from '../../CustomAxios/customAxios';
+
 function Voucher() {
   const [voucherData, setVoucherData] = useState({
     code: '',
@@ -9,7 +11,7 @@ function Voucher() {
     voucherAmount: '',
     voucherType: '',
     isActive: true,
-    expiration_date: "2023-10-26T15:37:00.000",
+    expiration_date: '',
   });
 
   const [errors, setErrors] = useState({
@@ -18,6 +20,16 @@ function Voucher() {
     voucherAmount: '',
     voucherType: '',
   });
+
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 3);
+
+    setVoucherData(prevData => ({
+      ...prevData,
+      expiration_date: expirationDate.toISOString(),
+    }));
+  }, []); // Empty dependency array ensures that this effect runs only once after the initial render
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +69,7 @@ function Voucher() {
     event.preventDefault();
 
     if (validateForm()) {
-      axios.post('http://localhost:8080/cageshop/api/voucher/add', voucherData)
+      customAxios.post('/voucher/add', voucherData)
         .then(response => {
           console.log('Voucher added successfully:', response.data);
         })

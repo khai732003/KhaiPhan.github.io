@@ -15,8 +15,6 @@ public class OrderDetailDTO extends DTOBase {
 
     private double totalOfProd;
 
-    private double hirePrice;
-
     private double totalCost;
 
     private String note;

@@ -216,7 +216,11 @@ public class ProductsServiceImpl implements IProductsService {
     public boolean deleteProduct(long id) {
         if (id >= 1) {
             Products product = productsRepository.getReferenceById(id);
+<<<<<<< HEAD
             if (product != null) {
+=======
+            if (product != null ) {
+>>>>>>> 6eb8c347e8031bf998f6244cfb07a235e03f179f
                 productsRepository.delete(product);
                 return true;
             }
@@ -260,9 +264,17 @@ public class ProductsServiceImpl implements IProductsService {
         if (optionalProduct.isPresent()) {
             Products product = optionalProduct.get();
             if (product.getStock() > 0) {
+                if(product.getOrderLevel() == null){
+                    product.setOrderLevel(0);
+                }
+                product.setOrderLevel(product.getOrderLevel()+1);
                 product.setStock(product.getStock() - 1);
                 productsRepository.save(product);
                 if (product.getStock() == 0) {
+                    if(product.getOrderLevel() == null){
+                        product.setOrderLevel(0);
+                    }
+                    product.setOrderLevel(product.getOrderLevel()+1);
                     product.setStatus("OutOfStock");
                     productsRepository.save(product);
                 }
@@ -271,14 +283,22 @@ public class ProductsServiceImpl implements IProductsService {
                 Products clonedProduct = new Products();
                 clonedProduct.setName(product.getName());
                 clonedProduct.setStock(1);
-                clonedProduct.setTotalPrice(product.getTotalPrice());
+                clonedProduct.setMotherProductId(product.getId());
+
                 clonedProduct.setProductImage(product.getProductImage());
                 clonedProduct.setCode(product.getCode());
+                Categories category = categoriesRepository.findById(product.getCategory().getId()).orElse(null);
+                if(category != null){
+
+                    clonedProduct.setCategory(category);
+
+                    }
 
                 if (product.getCage() != null) {
                     BirdCages originalBirdCage = product.getCage();
                     BirdCages clonedBirdCage = new BirdCages();
                     clonedBirdCage.setDescription(originalBirdCage.getDescription());
+                    clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
                     clonedBirdCage.setSize(originalBirdCage.getSize());
                     clonedBirdCage.setPrice(originalBirdCage.getPrice());
                     clonedBirdCage.setProduct(clonedProduct);
@@ -299,14 +319,20 @@ public class ProductsServiceImpl implements IProductsService {
                 }
 
                 // Add new accessories
+                double result = 0;
+                // Add new accessories
                 for (AccessoryDTO accessoryDTO : accessories) {
                     Accessories newAccessory = new Accessories();
                     newAccessory.setDescription(accessoryDTO.getDescription());
                     newAccessory.setPrice(accessoryDTO.getPrice());
                     newAccessory.setType(accessoryDTO.getType());
+                    result += newAccessory.getPrice();
                     newAccessory.setProduct(clonedProduct);
                     productAccessories.add(newAccessory);
                 }
+                clonedProduct.setTotalPrice(product.getTotalPrice()+result);
+                clonedProduct.setAccessories(productAccessories);
+
 
                 clonedProduct.setAccessories(productAccessories);
 
@@ -324,11 +350,14 @@ public class ProductsServiceImpl implements IProductsService {
         if (optionalProduct.isPresent()) {
             Products product = optionalProduct.get();
             List<Accessories> productAccessories = product.getAccessories();
+            double result = 0;
             for (AccessoryDTO accessoryDTO : accessories) {
                 Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
                 accessory.setProduct(product);
+                result += accessoryDTO.getPrice();
                 productAccessories.add(accessory);
             }
+            product.setTotalPrice(product.getTotalPrice()+result);
             product.setAccessories(productAccessories);
             Products updatedProduct = productsRepository.save(product);
             return modelMapper.map(updatedProduct, ProductDTO.class);
@@ -572,20 +601,9 @@ public class ProductsServiceImpl implements IProductsService {
         List<OrderDetail> orderDetails = orderDetailsRepository.findByOrder_Id(order.getId());
         for (OrderDetail orderDetail : orderDetails) {
             Products product = orderDetail.getProduct();
-            if (product != null) {
-                Products productFound = productsRepository.getReferenceById(product.getId());
-
-                int newStock = productFound.getStock() - orderDetail.getQuantity();
-                if (newStock == 0) {
-                    productFound.setStatus("OutOfStock");
-                }
-                productFound.setStock(newStock);
-
-                productFound.setOrderLevel(product.getOrderLevel()+1);
-                productsRepository.save(productFound);
             }
 
-        }
+
     }
 
 
