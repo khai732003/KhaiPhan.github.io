@@ -31,7 +31,7 @@ const ProductManagement = () => {
   const [currentPage, setCurrentPage] = useState(1); // Thêm trạng thái cho trang hiện tại
   const itemsPerPage = 5;
   const [detailPopup, setDetailPopup] = useState(null);
-    const [filterProducts, setFilterProducts] = useState([]);
+  const [filterProducts, setFilterProducts] = useState([]);
 
   const [selectedStatus, setSelectedStatus] = useState("all"); // Default to "all" or "available" based on your needs
 
@@ -45,7 +45,7 @@ const ProductManagement = () => {
       setFilteredProducts(newProducts);
     }
   };
-  
+
 
   useEffect(() => {
     getListProducts();
@@ -137,22 +137,8 @@ const ProductManagement = () => {
               <MenuItem value="Custom Product">Custom Product</MenuItem>
             </Select>
           </FormControl>
-          <div className="search-click">
-            <Button
-              variant="outlined"
-              className="search-button"
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-            <Button
-            style={{marginLeft:'20px'}}
-              variant="outlined"
-              className="reset-button"
-              onClick={handleResetSearch}
-            >
-              Reset
-            </Button>
+          <div className="search-click" style={{ display: 'flex', alignItems: 'center' }}>
+
 
             <TextField
               label="Search"
@@ -160,44 +146,47 @@ const ProductManagement = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </div>
-
-          <div className="search-click">
-            {/* <Button
+            <Button
+              style={{ marginLeft: '20px' }}
               variant="outlined"
               className="search-button"
               onClick={handleSearch}
             >
               Search
-            </Button> */}
+            </Button>
             <Button
+              style={{ margin: '0 20px' }}
               variant="outlined"
               className="reset-button"
               onClick={handleResetSearch}
             >
               Reset
             </Button>
+
+            <div className="btn-add">
+              <Link to={"/addaccessories"}>
+                <Button variant="outlined" color="success" className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</Button>
+              </Link>
+            </div>
+
+            <div className="btn-add" style={{ margin: '0 20px' }}>
+              <Link to={"/add-edit-category"}>
+                <Button variant="outlined" color="warning" className="add-staff-btn">Add new Category</Button>
+              </Link>
+            </div>
+
+            <div className="btn-add">
+              <Link to={"/addproduct"}>
+                <Button variant="outlined" color="error" className="add-staff-btn">Add new product</Button>
+              </Link>
+            </div>
           </div>
+
         </div>
 
-        <div className="btn-add">
-          <Link to={"/addaccessories"}>
-            <Button variant="outlined" color="success" className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</Button>
-          </Link>
-        </div>
-
-        <div className="btn-add">
-          <Link to={"/add-edit-category"}>
-            <Button variant="outlined" color="warning" className="add-staff-btn">Add new Category</Button>
-          </Link>
-        </div>
-
-        <div className="btn-add">
-          <Link to={"/addproduct"}>
-            <Button variant="outlined" color="error" className="add-staff-btn">Add new product</Button>
-          </Link>
-        </div>
       </div>
+
+
 
       <div className="table-staff-container">
         <table className="user-table">
@@ -227,7 +216,7 @@ const ProductManagement = () => {
                     src={product.productImage}
                     alt={product.id}
                     className="img-user-management"
-                    
+
                   />
                 </td>
                 <td className="user-management-td smaller-text">
@@ -268,13 +257,17 @@ const ProductManagement = () => {
             {detailPopup && (
               <div className="popup-Home-Dashboard-container">
                 <div className="popup-content">
-                  <span className="close" onClick={handleClosePopup}>
-                    <IconButton color="secondary">
-                      <CloseIcon />
-                    </IconButton>
-                  </span>
+                  <div className="close" style={{ position: 'relative' }} onClick={handleClosePopup}>
+                    <Button
+                      style={{ position: 'absolute', top: '0%', right: '47%' }}
+                      variant="contained"
+                      color="error">
 
-                  <Grid container spacing={2}>
+                      <CloseIcon />
+                    </Button>
+                  </div>
+
+                  <Grid container spacing={2} style={{ marginTop: '20px' }}>
                     <Grid item xs={12} md={5}>
                       <img
                         src={detailPopup.productImage}
