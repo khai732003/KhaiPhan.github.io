@@ -59,9 +59,6 @@ const Order = () => {
       if (orderResponse.data) {
         const orderData = orderResponse.data;
 
-        // Khi áp dụng mã giảm giá, dữ liệu voucher đã được bao gồm trong response đơn hàng
-        // Không cần gọi API riêng lẻ để lấy thông tin voucher
-
         setOrder(orderData);
       } else {
         console.error('Invalid data from API:', orderResponse.data);
@@ -199,16 +196,11 @@ const Order = () => {
                       </Grid>
                       <Grid className="right" item md={6} xs={12}>
                         {discountedPrices && discountedPrices.length > 0 && (
-                          <Grid container>
-                            <Grid className="left" item md={6} xs={12}>
-                              Discount:
-                            </Grid>
-                            <Grid className="right" item md={6} xs={12}>
+                            <div>
                               {discountedPrices.map((price, index) => (
                                 <div key={index}>{formatCurrency(-price)}</div>
                               ))}
-                            </Grid>
-                          </Grid>
+                            </div>
                         )}
 
                       </Grid>
