@@ -43,6 +43,12 @@ public class VoucherUsageController {
         return new ResponseEntity<>(codeVouchers, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-price-by/{orderId}")
+    public ResponseEntity<List<Double>> listAmountVouchersByOrderId(@PathVariable Long orderId) {
+        List<Double> codeVouchers = voucherUsageService.findAmountVouchersByOrderId(orderId);
+        return new ResponseEntity<>(codeVouchers, HttpStatus.OK);
+    }
+
     @GetMapping("/get-by/{id}")
     public ResponseEntity<VoucherUsageDTO> getVoucherUsageById(@PathVariable Long id) {
         VoucherUsageDTO voucherUsage = voucherUsageService.getVoucherUsageById(id);

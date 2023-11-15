@@ -20,6 +20,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findByShipStatus(String shipStatus);
 
     List<Orders> findByUserId(Long userId);
+    List<Orders> findByUserIdOrderByCreateDateDesc(Long userId);
 
     @Query("SELECT o FROM Orders o WHERE o.user.id = :userId AND o.payStatus = 'PAID' AND o.shipStatus = 'DELIVERED'")
     List<Orders> findOrdersByUserId(@Param("userId") Long userId);

@@ -23,4 +23,5 @@ public interface IVoucherUsageService{
     public Double findTotalVoucherAmountByOrderId(Long orderId);
 
     public List<String> findCodeVouchersByOrderId(Long orderId);
+    public List<Double> findAmountVouchersByOrderId(Long orderId);
 }
