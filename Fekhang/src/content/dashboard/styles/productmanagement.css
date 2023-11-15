@@ -39,12 +39,19 @@
 }
 
 .popup-content .img-fluid {
-  height: 100%;
-  width: 100%;
+  height: 60%;
+  width: 60%;
   padding: auto;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  /* border: 1px solid #ccc; */
+  border-radius: 50%;
   background-color: #9c8f8f;
+}
+
+.img-user-management{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: black;
 }
 
 .product-details {

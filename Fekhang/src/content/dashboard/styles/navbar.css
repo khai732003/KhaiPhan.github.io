@@ -1,21 +1,29 @@
 /* navbar.css */
 .navbar-btn {
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease-in-out;
-  }
-  
-
-  .navbar-drawer {
-    font-size: 30px; 
-  }
-  
-  .navbar-item {
-    margin : 5px;
-  }
-
-  .navbar-drawer .MuiDrawer-paper {
-    overflow-x: hidden; 
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in-out;
 }
 
 
-  
+.navbar-drawer {
+  font-size: 30px;
+}
+
+.navbar-item {
+  margin: 5px;
+}
+
+.navbar-drawer .MuiDrawer-paper {
+  overflow-x: hidden;
+}
+
+#navbar-title {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 10px 0 10px 30px;
+  text-align: justify;
+  letter-spacing: 3px;
+  background-color: rgb(36, 101, 157);
+  border-radius: 3px;
+  color: white;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import "../styles/usermanagement.css";
 import Button from "@mui/material/Button";
@@ -101,6 +101,7 @@ const UserManagement = () => {
               Search
             </Button>
             <Button
+              style={{ marginLeft: '40px' }}
               variant="outlined"
               className="reset-button"
               onClick={handleResetSearch}
@@ -112,7 +113,10 @@ const UserManagement = () => {
 
         <div className="btn-add action-bar">
           <Link to={"/add-edit-user"}>
-            <button className="add-staff-btn">Add new User</button>
+            <Button
+              variant="outlined"
+              color="error"
+            >Add new User</Button>
           </Link>
         </div>
       </div>
@@ -156,9 +160,12 @@ const UserManagement = () => {
                 </td>
                 <td className="user-management-td">
                   <Link to={`/update-user/${user.id}`}>
-                    <Button startIcon={<CreateIcon />} />
+                    <Button
+                      color="warning"
+                      startIcon={<CreateIcon />} />
                   </Link>
                   <Button
+                    color="error"
                     className="delete-btn"
                     startIcon={<DeleteIcon />}
                     onClick={() => handleDelete(user.id)}
@@ -170,14 +177,28 @@ const UserManagement = () => {
         </table>
       </div>
 
-      <div className="pagination">
+      <div className="pagination" style={{ marginTop: '50px', marginLeft: '2%', display: 'flex' }}>
         <Pagination
           count={pageCount}
           page={currentPage}
           onChange={handlePageChange}
         />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <ToastContainer />
     </div>
+
   );
 };
 

@@ -1,32 +1,41 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import "../styles/usermanagement.css";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
 import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import customAxios from "../../../CustomAxios/customAxios";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@mui/material";
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
+import "../styles/usermanagement.css"; // Assuming you have some custom styles
 
-const URL =
-  "/user/list";
+const URL = "/user/list";
 
 const StaffManagement = () => {
   const [staffs, setStaffs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredStaffs, setFilteredStaffs] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Thêm trạng thái cho trang hiện tại
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const getListStaff = async () => {
-    const res = await customAxios.get(`${URL}`);
-    if (res.status === 200) {
-      const newStaffs = res.data.sort((a, b) => a.id - b.id);
-      setStaffs(newStaffs);
-      setFilteredStaffs(newStaffs);
+    try {
+      const res = await customAxios.get(URL);
+      if (res.status === 200) {
+        const newStaffs = res.data.sort((a, b) => a.id - b.id);
+        setStaffs(newStaffs);
+        setFilteredStaffs(newStaffs);
+      }
+    } catch (error) {
+      console.error("Error fetching staff list:", error);
     }
   };
 
@@ -35,17 +44,19 @@ const StaffManagement = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (
-      window.confirm(
-        `Are you sure that you want to delete a staff with ID: ${id}`
-      )
-    ) {
-      const res = await customAxios.delete(`/user/delete/${id}`);
-      if (res.status === 200) {
-        getListStaff();
-        toast.success("Deleted Successfully");
-      } else {
-        toast.error("Deleted Error!");
+    if (window.confirm(`Are you sure you want to delete the staff with ID: ${id}`)) {
+      try {
+        const res = await customAxios.delete(`/user/delete/${id}`);
+        if (res.status === 200) {
+          getListStaff();
+          // Assuming you have a toast notification library, adjust accordingly
+          // toast.success("Deleted Successfully");
+        } else {
+          // toast.error("Deletion Error!");
+        }
+      } catch (error) {
+        console.error("Error deleting staff:", error);
+        // toast.error("Deletion Error!");
       }
     }
   };
@@ -58,13 +69,13 @@ const StaffManagement = () => {
       );
     });
     setFilteredStaffs(filtered);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleResetSearch = () => {
     setSearchTerm("");
     setFilteredStaffs(staffs);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const getVisibleStaffs = () => {
@@ -91,17 +102,18 @@ const StaffManagement = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-
           <div className="search-click">
             <Button
-              variant="outlined"
+              variant="contained"
               className="search-button"
               onClick={handleSearch}
             >
               Search
             </Button>
             <Button
+            
               variant="outlined"
+              color="success"
               className="reset-button"
               onClick={handleResetSearch}
             >
@@ -112,64 +124,92 @@ const StaffManagement = () => {
 
         <div className="btn-add action-bar">
           <Link to={"/add-edit-staff"}>
-            <button className="add-staff-btn">Add new Staff</button>
+            <Button variant="outlined"  className="add-staff-btn">
+              Add new Staff
+            </Button>
           </Link>
         </div>
       </div>
 
       <div className="table-staff-container">
-        <table className="user-table">
-          <thead>
-            <tr>
-              <th className="user-management-header">Serial</th>
-              <th className="user-management-header">ID</th>
-              <th className="user-management-header">Avatar</th>
-              <th className="user-management-header">Full Name</th>
-              <th className="user-management-header">Name</th>
-              <th className="user-management-header">Email</th>
-              <th className="user-management-header">Address</th>
-              <th className="user-management-header">Phone Number</th>
-              <th className="user-management-header">Created At</th>
-              <th className="user-management-header">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {getVisibleStaffs().map((staff, index) => (
-              <tr key={staff.id}>
-                <td className="user-management-td smaller-text">{index + 1}</td>
-                <td className="user-management-td smaller-text">{staff.id}</td>
-                <td className="user-management-td smaller-text">
-                  <img
-                    src={staff.image}
-                    alt={staff.id}
-                    className="img-user-management"
-                  />
-                </td>
-                <td className="user-management-td smaller-text">{staff.fullname}</td>
-                <td className="user-management-td smaller-text">{staff.name}</td>
-                <td className="user-management-td smaller-text">{staff.email}</td>
-                <td className="user-management-td smaller-text">{staff.address}</td>
-                <td className="user-management-td smaller-text">{staff.phonenumber}</td>
-                <td className="user-management-td smaller-text">
-                  {staff.createDate}
-                </td>
-                <td className="user-management-td">
-                  <Link to={`/update/${staff.id}`}>
-                    <Button startIcon={<CreateIcon />} />
-                  </Link>
-                  <Button
-                    className="delete-btn"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => handleDelete(staff.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TableContainer component={Paper}>
+          <Table className="user-table" aria-label="user table">
+            <TableHead>
+              <TableRow>
+                <TableCell className="user-management-header">Serial</TableCell>
+                <TableCell className="user-management-header">ID</TableCell>
+                <TableCell className="user-management-header">Avatar</TableCell>
+                <TableCell className="user-management-header">Full Name</TableCell>
+                <TableCell className="user-management-header">Name</TableCell>
+                <TableCell className="user-management-header">Email</TableCell>
+                <TableCell className="user-management-header">Address</TableCell>
+                <TableCell className="user-management-header">
+                  Phone Number
+                </TableCell>
+                <TableCell className="user-management-header">Created At</TableCell>
+                <TableCell className="user-management-header">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {getVisibleStaffs().map((staff, index) => (
+                <TableRow key={staff.id}>
+                  <TableCell className="user-management-td smaller-text">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.id}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    <img
+                      src={staff.image}
+                      alt={staff.id}
+                      className="img-user-management"
+                    />
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.fullname}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.name}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.email}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.address}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.phonenumber}
+                  </TableCell>
+                  <TableCell className="user-management-td smaller-text">
+                    {staff.createDate}
+                  </TableCell>
+                  <TableCell className="user-management-td">
+                    <Link to={`/update/${staff.id}`}>
+                      <Button
+                        startIcon={<CreateIcon />}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Update
+                      </Button>
+                    </Link>
+                    <Button
+                      className="delete-btn"
+                      startIcon={<DeleteIcon />}
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleDelete(staff.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-
       <div className="pagination">
         <Pagination
           count={pageCount}
