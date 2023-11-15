@@ -25,9 +25,6 @@ public class OrderDetail extends EntityBase {
     @Column(nullable = false)
     private double totalOfProd;
 
-    @Column(nullable = false,name="hirePrice")
-    private double hirePrice;
-
     @Column(nullable = false)
     private double totalCost;
 

@@ -21,6 +21,15 @@ import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+
 
 function Detail({
   id,
@@ -41,7 +50,43 @@ function Detail({
   const navigate = useNavigate();
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   const [rate, setRate] = useState(null);
+  const [feedback, setFeedback] = useState();
   const [show, setShow] = useState(null);
+  const [feedbackVisible, setFeedbackVisible] = useState(true);
+
+  const toggleFeedback = (id) => {
+    setFeedbackVisible((prevVisible) => !prevVisible);
+  };
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+  }));
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    // Open the dialog
+    setOpen(true);
+
+    // Fetch feedback data from the API
+    customAxios(`/feedback/byProductId/${user.userId}}`)
+      .then(response => response.json())
+      .then(data => {
+        // Assuming data is an array of feedback
+        if (Array.isArray(data) && data.length > 0) {
+          setFeedback(data[0]); // Set the first feedback for demonstration
+        }
+      })
+      .catch(error => console.error('Error fetching feedback:', error));
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   let orderId = localStorage.getItem("orderId");
 
@@ -79,6 +124,21 @@ function Detail({
       .then((response) => {
         console.log(response.data); // Log the response to the console
         setRate(response.data);
+        console.log(rate)
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching rating data:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    customAxios
+      .get(`/feedback/get-all`)
+      .then((response) => {
+        console.log(response.data); // Log the response to the console
+        setFeedback(response.data);
         console.log(rate)
         setLoading(false);
       })
@@ -323,7 +383,7 @@ function Detail({
                       >
                         {productDetail.name}
                       </h3>
-                        
+
                       <div
                         style={{
                           marginBottom: "20px",
@@ -395,11 +455,11 @@ function Detail({
                       </div>
                     </div>
                     {/* {show === true && <div> */}
-                      <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
-                        <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
-                          FeedBack
-                        </Button>
-                      </Stack>
+                    <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
+                      <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
+                        FeedBack
+                      </Button>
+                    </Stack>
                     {/* </div>} */}
                     {show === false && (
                       <div></div>
@@ -438,11 +498,42 @@ function Detail({
                       >
                         Custom Product
                       </Button>
+
+
                     </div>
                   </Grid>
                 </Grid>
+                <hr />
+                <div>
+            <Button variant="contained" onClick={toggleFeedback}>
+              {feedbackVisible ? 'Hide' : 'Show'} Customer Feedback
+            </Button>
+          </div><br/>
+          {feedbackVisible && (
+            <div>
+              <h5 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>
+                Customer Feedback
+              </h5>
+              {feedback && feedback.map((item, index) => (
+                <div key={index} style={{ marginBottom: "10px" }}>
+                  <div className="row">
+                    <h4 gutterBottom>{item.userName}</h4>
+                    <div className="col-md-6">
+                      <Typography gutterBottom style={{color: "red"}}>{item.content}</Typography>
+                      <Typography gutterBottom>Rating: {item.rating}</Typography>
+                    </div>
+                    <div className="col-md-6 text-md-end">
+                      <Typography gutterBottom>Created Date: {item.createDate}</Typography>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
               </Card>
+
             </Container>
+
           </Grid>
         </Grid>
       </Box>

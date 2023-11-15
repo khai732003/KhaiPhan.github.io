@@ -46,7 +46,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             existing.setQuantity(quantity + 1);
             totalProduct = product.getTotalPrice() * existing.getQuantity();
             existing.setTotalOfProd(totalProduct);
-            totalCost = totalProduct + existing.getHirePrice();
+            totalCost = totalProduct;
             existing.setTotalCost(totalCost);
             orderDetailRepository.save(existing);
             return modelMapper.map(existing, OrderDetailDTO.class);
@@ -59,11 +59,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
                 quantity = 1;
             }
             orderDetailDTO.setQuantity(quantity);
-            hireCost = orderDetailDTO.getHirePrice();
             totalProduct = product.getTotalPrice() * quantity; // Nhân với quantity
 
             orderDetailDTO.setTotalOfProd(totalProduct);
-            totalCost = totalProduct + hireCost;
+            totalCost = totalProduct;
             orderDetailDTO.setTotalCost(totalCost);
             orderDetailDTO.setProductImg(productImg);
 

@@ -76,7 +76,6 @@ public class Orders extends EntityBase {
     if (this.payStatus == null) {
       this.payStatus = "NOT_PAY";
     }
-
   }
 
 

@@ -20,5 +20,6 @@ public interface IFeedbackService {
 
     public List<FeedbackDTO> getAllFeedbacksByProductId(Long productId);
 
+    public List<FeedbackDTO> getAllFeedbacksByUserId(Long userId, Long productId);
 
-    }
+}

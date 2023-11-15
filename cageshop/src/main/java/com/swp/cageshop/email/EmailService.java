@@ -13,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
+import java.text.NumberFormat;
 import jakarta.mail.internet.MimeMessage;
 
 import java.nio.file.Files;
@@ -31,6 +31,7 @@ public class EmailService {
 
     public void sendEmail(String toEmail, String subject, Long orderId, String email) {
         try {
+
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("9.10nguyenhuubao@gmail.com");
@@ -38,26 +39,33 @@ public class EmailService {
             helper.setSubject(subject);
             Orders orders = ordersRepository.getReferenceById(orderId);
             List<OrderDetail> orderDetails = orderDetailsRepository.findAllByOrderId(orderId);
-
-            // Generate table rows for order details
+            List<Orders> orderList = ordersRepository.findAllById(orderId);
             StringBuilder orderDetailsHtml = new StringBuilder();
             for (OrderDetail orderDetail : orderDetails) {
+                String formattedTotalPriceProd = NumberFormat.getNumberInstance().format(orderDetail.getTotalOfProd());
                 orderDetailsHtml.append("<tr>")
                         .append("<td><img src='").append(orderDetail.getProductImage()).append("' style='max-width: 100px; max-height: 100px;' alt='Product Image'></td>")
                         .append("<td>").append(orderDetail.getName()).append("</td>")
                         .append("<td>").append(orderDetail.getQuantity()).append("</td>")
-                        .append("<td>").append(orderDetail.getTotalCost()).append("</td>")
+                        .append("<td style='color: red; font-weight: bold;'>").append(formattedTotalPriceProd).append("</td>")
+                        .append("</tr>");
+            }
+            StringBuilder order = new StringBuilder();
+            for (Orders ordersList : orderList) {
+                String formattedTotalPrice = NumberFormat.getNumberInstance().format(ordersList.getTotal_Price());
+                String formattedShipPrice = NumberFormat.getNumberInstance().format(ordersList.getShipPrice());
+                order.append("<tr>")
+                        .append("<td style='color: red; font-weight: bold;'>").append(formattedShipPrice).append("</td>")
+                        .append("<td style='color: red; font-weight: bold;'>").append(formattedTotalPrice).append("</td>")
                         .append("</tr>");
             }
 
-
-            // Read content from the HTML file and replace placeholders
             ClassPathResource resource = new ClassPathResource("form.html");
             String content = new String(Files.readAllBytes(resource.getFile().toPath()));
             content = content.replace("[[orderId]]", orders.getId().toString());
             content = content.replace("[[email]]", email);
             content = content.replace("[[orderDetails]]", orderDetailsHtml.toString());
-
+            content = content.replace("[[order]]", order.toString());
             // Set email content and send the email
             helper.setText(content, true);
             mailSender.send(message);

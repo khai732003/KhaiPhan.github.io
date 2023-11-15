@@ -93,4 +93,13 @@ public class FeedbackController {
         }
     }
 
+    @GetMapping("/get-by-userId-and-productId")
+    public ResponseEntity<List<FeedbackDTO>> getFeedbacksByUserIdAndProductId(
+            @RequestParam Long userId,
+            @RequestParam Long productId
+    ) {
+        List<FeedbackDTO> feedbacks = feedbackService.getAllFeedbacksByUserId(userId, productId);
+        return ResponseEntity.ok(feedbacks);
+    }
+
 }
