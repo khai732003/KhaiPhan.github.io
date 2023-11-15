@@ -28,7 +28,6 @@ export default function ConfirmPage() {
         <ListNotConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <ListConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <UpdateDelivered triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
-        {/* <ListDelivered triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} /> */}
       </div>
       
 

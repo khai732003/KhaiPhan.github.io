@@ -31,7 +31,8 @@ const ProductPage = () => {
   const [selectedSort, setSelectedSort] = useState("dateDesc");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [hasResults, setHasResults] = useState(true);
-  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false); // State for displaying the not found alert
+  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
+  const [totalProducts, setTotalProducts] = useState(0); // New state to hold the total count of products
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -66,14 +67,15 @@ const ProductPage = () => {
       .get(apiUrl, { headers: headers })
       .then((response) => {
         setProducts(response.data);
+        setTotalProducts(response.data.length); // Set the total count of products
         setHasResults(response.data.length > 0);
         setIsLoading(false);
-        setShowNotFoundAlert(response.data.length === 0); // Show alert if no results
+        setShowNotFoundAlert(response.data.length === 0);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         setIsLoading(false);
-        setShowNotFoundAlert(true); // Show alert on error
+        setShowNotFoundAlert(true);
       });
   };
 
@@ -84,7 +86,6 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    // Fetch categories from the API
     customAxios
       .get("/category/list")
       .then((response) => {
@@ -109,18 +110,20 @@ const ProductPage = () => {
         .then((response) => {
           if (Array.isArray(response.data)) {
             setProducts(response.data);
+            setTotalProducts(response.data.length);
             setHasResults(response.data.length > 0);
           } else {
             setProducts([]);
+            setTotalProducts(0);
             setHasResults(false);
           }
           setIsLoading(false);
-          setShowNotFoundAlert(response.data.length === 0); // Show alert if no results
+          setShowNotFoundAlert(response.data.length === 0);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           setIsLoading(false);
-          setShowNotFoundAlert(true); // Show alert on error
+          setShowNotFoundAlert(true);
         });
     }
   }, [currentApiUrl, minPrice, maxPrice, searchKeyword]);
@@ -204,7 +207,7 @@ const ProductPage = () => {
             )}
             <Box display="flex" justifyContent="center" mt={4}>
               <Pagination
-                count={Math.ceil(products.length / productsPerPage)}
+                count={Math.ceil(totalProducts / productsPerPage)}
                 page={currentPage}
                 onChange={handlePageChange}
                 color="primary"

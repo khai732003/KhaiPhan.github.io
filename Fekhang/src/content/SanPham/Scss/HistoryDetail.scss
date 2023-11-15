@@ -33,6 +33,7 @@
         }
 
         .product-details {
+            
             margin-bottom: 1.5rem;
 
             &:last-child {
@@ -50,6 +51,11 @@
             height: 2px;
             background-color: #ddd;
             margin: 1rem 0;
+        }
+        .order-details{
+            padding-left: 2rem;
+            display: flex;
+            justify-content: start;
         }
     }
 }

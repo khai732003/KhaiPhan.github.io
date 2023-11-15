@@ -42,7 +42,7 @@ const ListNotConfirm = ({ triggerUpdate, setTriggerUpdate }) => {
         orderId: orderId,
       });
       console.log('Confirmation response:', confirmResponse.data);
-      setTriggerUpdate((prev) => prev + 1); // Update triggerUpdate to trigger useEffect in parent
+      setTriggerUpdate((prev) => prev + 1);
     } catch (error) {
       console.error('Error confirming order:', error);
     }

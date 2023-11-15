@@ -12,7 +12,6 @@ export default function HistoryOrder() {
   useEffect(() => {
     // Gọi API sử dụng customAxios để lấy danh sách các đơn hàng đã thanh toán của người dùng với userId là 3
     customAxios.get(`/order/list-by-user-and-pay-status/${userId}/PAID`)
-      // customAxios.get('https://654cb02e77200d6ba8593b51.mockapi.io/Data')
       .then(response => {
         // Lưu kết quả trả về vào state
         setOrders(response.data);
