@@ -124,6 +124,10 @@ const Product = ({
     }
   };
 
+
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
     <div>
 
@@ -173,11 +177,11 @@ const Product = ({
                     className="card-price"
                     style={{
                       fontWeight: "700",
-                      fontSize: "1.3rem",
+                      fontSize: "1.2rem",
                       textAlign: "center",
                     }}
                   >
-                    Price: {totalPrice} VND
+                    Price: {formatCurrency(totalPrice)} VND
                   </div>
                 </div>
               </Typography>

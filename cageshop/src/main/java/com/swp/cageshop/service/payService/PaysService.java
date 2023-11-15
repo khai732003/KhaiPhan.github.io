@@ -143,9 +143,9 @@ public class PaysService implements PaysServiceImpl {
     @Override
     public double getTotalRevenueFromCompletedPays() {
         double totalRevenue = 0;
-        List<Pays> pay = paysRepository.findByStatus("COMPLETED");
-        for (Pays pays : pay) {
-            totalRevenue += pays.getPrice();
+        List<Orders> orders = ordersRepository.findByPayStatusAndShipStatus("PAID", "DELIVERED");
+        for (Orders order : orders) {
+            totalRevenue += order.getTotal_Price();
         }
         return totalRevenue;
     }

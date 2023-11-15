@@ -311,16 +311,7 @@ public class ProductsController {
     }
 
 
-//    @GetMapping("/{productId}/accessories")
-//    public ResponseEntity<List<AccessoryDTO>> getProductAccessories(@PathVariable Long productId) {
-//        List<AccessoryDTO> accessories = productsService.getProductAccessories(productId);
-//
-//        if (!accessories.isEmpty()) {
-//            return new ResponseEntity<>(accessories, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//    }
+
 
     @GetMapping("/product/size/{size}")
     public ResponseEntity<List<ProductDTO>> getProductsBySize(@PathVariable String size) {

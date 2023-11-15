@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
+import customAxios from '../../CustomAxios/customAxios';
 function Voucher() {
   const [voucherData, setVoucherData] = useState({
     code: '',
@@ -9,8 +10,26 @@ function Voucher() {
     voucherAmount: '',
     voucherType: '',
     isActive: true,
-    expiration_date: "2023-10-26T15:37:00.000",
+    expiration_date: '',
   });
+  
+  // Chuyển chuỗi ngày tháng thành đối tượng Date
+  const expirationDate = new Date(voucherData.expiration_date);
+  
+  // Lấy ngày hiện tại
+  const currentDate = new Date();
+  
+  // Thêm 3 ngày vào ngày hiện tại
+  currentDate.setDate(currentDate.getDate() + 3);
+  
+  // Cập nhật expiration_date trong voucherData
+  const updatedVoucherData = {
+    ...voucherData,
+    expiration_date: currentDate.toISOString(),
+  };
+  
+  // Cập nhật state với dữ liệu mới
+  setVoucherData(updatedVoucherData);
 
   const [errors, setErrors] = useState({
     code: '',
@@ -57,7 +76,7 @@ function Voucher() {
     event.preventDefault();
 
     if (validateForm()) {
-      axios.post('http://localhost:8080/cageshop/api/voucher/add', voucherData)
+      customAxios.post('/voucher/add', voucherData)
         .then(response => {
           console.log('Voucher added successfully:', response.data);
         })

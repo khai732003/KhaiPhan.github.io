@@ -41,39 +41,70 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         int quantity;
         Products product = productsRepository.getReferenceById(orderDetailDTO.getProductId());
         OrderDetail existing = orderDetailRepository.findByOrderIdAndProductId(orderDetailDTO.getOrderId(), orderDetailDTO.getProductId());
-        if (existing != null) {
-            quantity = existing.getQuantity();
-            existing.setQuantity(quantity + 1);
-            totalProduct = product.getTotalPrice() * existing.getQuantity();
-            existing.setTotalOfProd(totalProduct);
-            totalCost = totalProduct + existing.getHirePrice();
-            existing.setTotalCost(totalCost);
-            orderDetailRepository.save(existing);
-            return modelMapper.map(existing, OrderDetailDTO.class);
 
+        if (existing != null) {
+            if (existing.getQuantity() <= product.getStock()) {
+                int newStock = product.getStock() - 1;
+                updateProductStockAndStatus(product, newStock);
+
+                quantity = existing.getQuantity();
+                existing.setQuantity(quantity + 1);
+                totalProduct = product.getTotalPrice() * existing.getQuantity();
+                existing.setTotalOfProd(totalProduct);
+                totalCost = totalProduct + existing.getHirePrice();
+                existing.setTotalCost(totalCost);
+                orderDetailRepository.save(existing);
+                return modelMapper.map(existing, OrderDetailDTO.class);
+
+            } else {
+                // Trường hợp số lượng đã đạt tối đa (đủ hàng trong kho)
+                return null;
+            }
         } else {
             String productImg = product.getProductImage();
-
             quantity = orderDetailDTO.getQuantity();
-            if(quantity == 0){
-                quantity = 1;
+
+            if (quantity <= product.getStock()) {
+                int newStock = product.getStock() - 1;
+                updateProductStockAndStatus(product, newStock);
+
+                orderDetailDTO.setQuantity(quantity);
+                hireCost = orderDetailDTO.getHirePrice();
+                totalProduct = product.getTotalPrice() * quantity;
+                orderDetailDTO.setTotalOfProd(totalProduct);
+                totalCost = totalProduct + hireCost;
+                orderDetailDTO.setTotalCost(totalCost);
+                orderDetailDTO.setProductImg(productImg);
+
+                OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
+                orderDetail.setProductImage(productImg);
+                orderDetail = orderDetailRepository.save(orderDetail);
+
+                return modelMapper.map(orderDetail, OrderDetailDTO.class);
+            } else {
+                // Trường hợp số lượng đặt hàng vượt quá số lượng tồn kho
+                throw new RuntimeException("Số lượng đặt hàng vượt quá số lượng tồn kho.");
             }
-            orderDetailDTO.setQuantity(quantity);
-            hireCost = orderDetailDTO.getHirePrice();
-            totalProduct = product.getTotalPrice() * quantity; // Nhân với quantity
-
-            orderDetailDTO.setTotalOfProd(totalProduct);
-            totalCost = totalProduct + hireCost;
-            orderDetailDTO.setTotalCost(totalCost);
-            orderDetailDTO.setProductImg(productImg);
-
-            OrderDetail orderDetail = modelMapper.map(orderDetailDTO, OrderDetail.class);
-            orderDetail.setProductImage(productImg);
-            orderDetail = orderDetailRepository.save(orderDetail);
-
-            return modelMapper.map(orderDetail, OrderDetailDTO.class);
         }
+    }
 
+    private void updateProductStockAndStatus(Products product, int newStock) {
+        if (newStock == 0) {
+            product.setStock(0);
+            product.setStatus("OutOfStock");
+            if(product.getOrderLevel() == null){
+                product.setOrderLevel(0);
+            }
+
+            product.setOrderLevel(product.getOrderLevel() + product.getStock());
+        } else {
+            product.setStock(newStock);
+            if(product.getOrderLevel() == null){
+                product.setOrderLevel(0);
+            }
+            product.setOrderLevel(product.getOrderLevel() + product.getStock());
+        }
+        productsRepository.save(product);
     }
 
 
@@ -146,6 +177,47 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
     @Override
     public void deleteOrderDetail(Long id) {
+
+        OrderDetail orderDetail = orderDetailRepository.findById(id).orElse(null);
+        if(orderDetail != null ) {
+            if (orderDetail.getProduct().getMotherProductId() != null) {
+                Products product = productsRepository.getReferenceById(
+                    orderDetail.getProduct().getMotherProductId());
+                if (product != null) {
+                    if (product.getStock() == 0) {
+                        product.setStatus("Available");
+                        product.setStock(product.getStock() + 1);
+                        productsRepository.save(product);
+                    } else
+                        product.setStock(product.getStock() + 1);
+                    productsRepository.save(product);
+                }
+
+
+            } else {
+                if (orderDetail.getProduct().getId() != null) {
+                    Products product = productsRepository.getReferenceById(
+                        orderDetail.getProduct().getId());
+                    if (product != null) {
+                        if (product.getStock() == 0) {
+                            product.setStatus("Available");
+                            product.setStock(product.getStock() + orderDetail.getQuantity());
+                            product.setOrderLevel(
+                                product.getOrderLevel() - orderDetail.getQuantity());
+                            productsRepository.save(product);
+                        } else
+                            product.setStock(product.getStock() + orderDetail.getQuantity());
+                        product.setOrderLevel(product.getOrderLevel() - orderDetail.getQuantity());
+                        productsRepository.save(product);
+                    }
+
+
+                }
+
+
+            }
+        }
+
         orderDetailRepository.deleteById(id);
     }
 

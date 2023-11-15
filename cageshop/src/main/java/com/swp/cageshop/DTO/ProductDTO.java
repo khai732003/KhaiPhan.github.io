@@ -27,7 +27,7 @@ public class ProductDTO extends DTOBase {
         private List<OrderDetailDTO> orderDetails;
         private BirdCageDTO cage;
         private List<AccessoryDTO> accessories;
-
+        private Long motherProductId;
 
 
         public double getTotalPrice() {
