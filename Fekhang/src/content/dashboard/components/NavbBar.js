@@ -308,6 +308,18 @@ const NavBar = () => {
                 <ListItemText primary="Revenue" />
               </StyledToggleButton>
 
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/voucher"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <MilitaryTechIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Voucher" />
+              </StyledToggleButton>
+
               <div>
                 <p id="navbar-title">Profile</p>
                 <hr />
@@ -324,17 +336,19 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText primary="Admin Profile" />
               </StyledToggleButton>
+
               <StyledToggleButton
                 button
                 component={Link}
-                to="/voucher"
+                to="/list-feedback"
                 className="navbar-btn navbar-item"
               >
                 <ListItemIcon>
-                  <MilitaryTechIcon color="inherit" />
+                  <GroupIcon color="inherit" />
                 </ListItemIcon>
-                <ListItemText primary="Voucher" />
+                <ListItemText primary="FeedBack" />
               </StyledToggleButton>
+              
             </List>
           </div>
         </Drawer>

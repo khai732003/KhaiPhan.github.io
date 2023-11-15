@@ -54,7 +54,7 @@ function Header(props) {
 
   const isAddEditUser = location.pathname === "/add-edit-user";
   const isAddCategory = location.pathname === "/add-edit-category";
-
+  const isFeedBack = location.pathname === "/list-feedback";
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -116,7 +116,7 @@ const handleCustome = () =>{
     isVoucher ||
     isAdminProfile ||
     isAddAccessories ||
-    isTimeLine || isListConfirm || isAddEditUser || isAddCategory
+    isTimeLine || isListConfirm || isAddEditUser || isAddCategory || isFeedBack
 
   ) {
     return <NavbBar />;
