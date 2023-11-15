@@ -14,9 +14,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import customAxios from "../../../CustomAxios/customAxios";
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 
-const URL =
-  "http://localhost:8080/cageshop/api/product/get-list";
+const URL = "http://localhost:8080/cageshop/api/product/get-list";
+
+// const AVAILABLE_PRODUCTS_URL =
+//   "http://localhost:8080/cageshop/api/product/available";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +31,9 @@ const ProductManagement = () => {
   const [currentPage, setCurrentPage] = useState(1); // Thêm trạng thái cho trang hiện tại
   const itemsPerPage = 5;
   const [detailPopup, setDetailPopup] = useState(null);
+    const [filterProducts, setFilterProducts] = useState([]);
+
+  const [selectedStatus, setSelectedStatus] = useState("all"); // Default to "all" or "available" based on your needs
 
   const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
 
@@ -36,10 +45,11 @@ const ProductManagement = () => {
       setFilteredProducts(newProducts);
     }
   };
+  
 
   useEffect(() => {
     getListProducts();
-  }, []);
+  }, [selectedStatus, searchTerm, currentPage]);
 
   const handleDelete = async (id) => {
     if (
@@ -55,6 +65,12 @@ const ProductManagement = () => {
         toast.error("Deleted Error!");
       }
     }
+  };
+
+  const handleStatusChange = (event) => {
+    const status = event.target.value;
+    setSelectedStatus(status);
+    setCurrentPage(1); // Reset the page when the status changes
   };
 
   const handleSearch = () => {
@@ -74,9 +90,16 @@ const ProductManagement = () => {
   };
 
   const getVisibleProducts = () => {
+    const filteredByStatus = selectedStatus === "all" ? products : products.filter(product => product.status.toLowerCase() === selectedStatus.toLowerCase());
+    const filteredBySearch = filteredByStatus.filter((product) => {
+      return (
+        product.name &&
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredProducts.slice(startIndex, endIndex);
+    return filteredBySearch.slice(startIndex, endIndex);
   };
 
   const handlePageChange = (event, page) => {
@@ -96,14 +119,24 @@ const ProductManagement = () => {
       <div className="search-add-btn">
         <div className="search-name">
           <div className="search-text">
-            <TextField
-              label="Search"
-              variant="outlined"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
 
+          </div>
+          <FormControl sx={{ m: 1, minWidth: 200 }}>
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status-select"
+              value={selectedStatus}
+              onChange={handleStatusChange}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="available">Available</MenuItem>
+              <MenuItem value="new">New</MenuItem>
+              <MenuItem value="Out Of Stock">Out Of Stock</MenuItem>
+              <MenuItem value="No More Made">No More Made</MenuItem>
+              <MenuItem value="Custom Product">Custom Product</MenuItem>
+            </Select>
+          </FormControl>
           <div className="search-click">
             <Button
               variant="outlined"
@@ -119,12 +152,38 @@ const ProductManagement = () => {
             >
               Reset
             </Button>
+
+            <TextField
+              label="Search"
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="search-click">
+            {/* <Button
+              variant="outlined"
+              className="search-button"
+              onClick={handleSearch}
+            >
+              Search
+            </Button> */}
+            <Button
+              variant="outlined"
+              className="reset-button"
+              onClick={handleResetSearch}
+            >
+              Reset
+            </Button>
           </div>
         </div>
 
         <div className="btn-add">
           <Link to={"/addaccessories"}>
-            <button className="add-staff-btn" style={{marginRight: '20'}}>Add new Accessories</button>
+            <button className="add-staff-btn" style={{ marginRight: "20" }}>
+              Add new Accessories
+            </button>
           </Link>
         </div>
 
@@ -182,7 +241,7 @@ const ProductManagement = () => {
                     </button>
                   }
                 </td>
-                
+
                 <td className="user-management-td smaller-text">
                   {product.categoryId}
                 </td>
@@ -267,7 +326,7 @@ const ProductManagement = () => {
                           <span className="info-label">Price</span>:
                           {detailPopup.cage.price}
                         </Typography>
-                        <hr/>
+                        <hr />
                         <Typography variant="h6" className="info-label">
                           {<p>Accessories</p>}
                         </Typography>
