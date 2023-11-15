@@ -11,7 +11,7 @@ const AddEditProduct = () => {
   const navigate = useNavigate();
 
   const isEditing = !!id;
-
+  
   const [product, setProduct] = useState({
     fullname: "",
     productImage: "",
@@ -51,7 +51,7 @@ const AddEditProduct = () => {
 
   const updateProduct = async () => {
     try {
-      const response = await customAxios.put(`/product/update-product/${id}`, product);
+      const response = await customAxios.put(`/product/update/${id}`, product);
       if (response.status === 200) {
         navigate("/productmanagement");
       }
@@ -113,7 +113,7 @@ const AddEditProduct = () => {
                           </span>
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
-                          Full Name
+                          Name
                         </label>
                         <div className="form-outline mb-4">
                           <input
@@ -121,7 +121,7 @@ const AddEditProduct = () => {
                             id="form2Example17"
                             className="form-control form-control-lg"
                             name="fullname"
-                            value={product.fullname}
+                            value={product.name}
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Full Name"

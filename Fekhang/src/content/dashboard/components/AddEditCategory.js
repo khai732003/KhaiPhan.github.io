@@ -1,18 +1,24 @@
 
 import React, { useState } from "react";
-import { Button, CircularProgress, Container, TextField } from "@mui/material";
-import customAxios from "../../../CustomAxios/customAxios";
-import { useNavigate, useParams } from "react-router-dom";
-// import "./Scss/addfeedback.scss";
-import { useAuth } from "../../SanPham/Context/AuthContext";
 import {
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import customAxios from "../../../CustomAxios/customAxios";
+import { useAuth } from "../../SanPham/Context/AuthContext";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"; // Add this line
 
-function AddEditCategory() {
+// import "./Scss/addfeedback.scss";
+
+
+const AddEditCategory = () =>{
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [category, setCategory] = useState({
@@ -40,11 +46,24 @@ function AddEditCategory() {
     }
   };
 
+  const handleReturn = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
-      <div className="feedback-form" style={{ marginTop: "150px" }}>
-        <h2 className="input-feedback">Add Category</h2>
-        <FormControl fullWidth className="input-feedback">
+      <div className="feedback-form" style={{ marginTop: "100px" }}>
+      <Button
+        sx={{ fontSize: 18 }}
+        variant="contained"
+        style={{ backgroundColor: "#e0e0e0", color: "#212121", marginBottom: 20 }}
+        startIcon={<ArrowBackIosIcon />}
+        onClick={handleReturn}
+      >
+        BACK
+      </Button>
+        <h2 className="input-feedback" >Add Category</h2>
+        <FormControl fullWidth className="input-feedback" style={{paddingBottom: 20}}>
           <InputLabel id="rating-label">Type</InputLabel>
           <Select
             labelId="rating-label"
@@ -69,6 +88,7 @@ function AddEditCategory() {
           value={category.description}
           onChange={handleInputChange}
           className="input-feedback"
+          style={{paddingBottom: 20}}
         />
 
         <TextField
@@ -77,7 +97,7 @@ function AddEditCategory() {
           fullWidth
           name="price"
           value={category.price}
-          
+          style={{paddingBottom: 20}}
           className="input-feedback"
         />
 

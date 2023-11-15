@@ -32,6 +32,10 @@ function AddFeedBack() {
   };
 
   const handleAddFeedback = async () => {
+    if (!feedback.rating || !feedback.content) {
+      console.error("Please provide both rating and feedback content.");
+      return;
+    }
     try {
       const response = await customAxios .post("/feedback/add", feedback)
       if (response.status === 200 || response.status === 201) {

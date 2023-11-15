@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: bisque !important;
+  background-color:white !important;
   min-height: calc(100vh - 10vh); /* Trừ chiều cao của footer */
 }
 
@@ -14,6 +14,13 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border: 1px solid #151219 !important;
+  border-radius: 10rem !important;
+}
+.user-table th,
+.user-table td {
+  text-align: center;
+  vertical-align: middle; /* Căn giữa theo chiều dọc */
 }
 
 .user-management-header,
@@ -92,8 +99,6 @@
 
 .user-management-page,
 .user-table {
-  width: 100%;
-  border-collapse: collapse;
   margin: auto;
   border: 2px solid #333;
 }
@@ -173,12 +178,12 @@
 
 .user-management-header:nth-child(3),
 .user-management-td:nth-child(3) {
-  width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
+  width: 8%; /* Đặt chiều rộng cố định cho cột thứ hai */
 }
 
 .user-management-header:nth-child(4),
 .user-management-td:nth-child(4) {
-  width: 10%; /* Đặt chiều rộng cố định cho cột thứ hai */
+  width: 12%; /* Đặt chiều rộng cố định cho cột thứ hai */
 }
 
 .user-management-header:nth-child(5),
@@ -188,7 +193,7 @@
 
 .user-management-header:nth-child(6),
 .user-management-td:nth-child(6) {
-  width: 12%; 
+  width: 13%; 
 }
 
 .user-management-header:nth-child(7),
@@ -203,7 +208,7 @@
 
 .user-management-header:nth-child(9),
 .user-management-td:nth-child(9) {
-  width: 13%; /* Đặt chiều rộng cố định cho cột thứ hai */
+  width: 13.5%; /* Đặt chiều rộng cố định cho cột thứ hai */
 }
 
 .user-management-td > button {

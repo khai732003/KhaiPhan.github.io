@@ -16,8 +16,13 @@
 
 //     img {
 
+
+//         width: 125px;
+//         height: 120px;
+
 //         width: 10px;
 //         height: 10px;
+
 //         margin-right: 20px;
 //         border-radius: 10px;
 //     }
@@ -82,40 +87,44 @@
 //         border: 1px solid rgb(64, 169, 255);
 //         color: #5477e9;
 //     }
+
+// }
+
 // }
 
 // File: listitem.scss
 
-.list-item-container {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    margin: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+// .list-item-container {
+//     display: flex;
+//     align-items: center;
+//     padding: 16px;
+//     margin: 8px;
+//     background-color: #fff;
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//     border-radius: 8px;
   
-    img {
-      width: 80px;
-      height: 80px;
-      margin-right: 16px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
+//     img {
+//       width: 80px;
+//       height: 80px;
+//       margin-right: 16px;
+//       object-fit: cover;
+//       border-radius: 8px;
+//     }
   
-    .info-container {
-      flex-grow: 1;
+//     .info-container {
+//       flex-grow: 1;
   
-      .title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 8px;
-      }
+//       .title {
+//         font-size: 18px;
+//         font-weight: bold;
+//         margin-bottom: 8px;
+//       }
   
-      .short-info {
-        font-size: 14px;
-        color: #555;
-      }
-    }
-  }
+//       .short-info {
+//         font-size: 14px;
+//         color: #555;
+//       }
+//     }
+//   }
   
+

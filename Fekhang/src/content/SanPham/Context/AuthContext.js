@@ -31,6 +31,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const clearRememberedLogin = () => {
+    localStorage.removeItem("rememberedUsername");
+    localStorage.removeItem("rememberPassword");
+  };
+
   useEffect(() => {
     const handleResponseError = (error) => {
       if (error.response && error.response.status === 403) {
@@ -59,12 +64,14 @@ export const AuthProvider = ({ children }) => {
     };
   }, [token]);
 
-  const logout = () => {
-    setUser(null);
-    localStorage.clear();
-    setToken(null);
-    navigate("/");
-  };
+const logout = () => {
+  setUser(null);
+  localStorage.clear();
+  setToken(null);
+  clearRememberedLogin(); // Add this line to clear remembered login information
+  navigate("/");
+};
+
 
   if (loading) {
     return <div>Loading...</div>;

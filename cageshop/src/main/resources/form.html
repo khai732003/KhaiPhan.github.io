@@ -1,103 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Xác nhận đơn hàng</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Exo', sans-serif;
+            background-color: #e4e4e4;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        .container {
-            width: 50%;
+        table {
+            width: 100%;
+            max-width: 600px;
             margin: auto;
-            background-color: #ffffff;
-            padding: 20px 20px 20px 50px;
-            margin-top: 50px;
-            border: 1px solid #e0e0e0;
-            font-family: 'Times New Roman', Times, serif;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            border-collapse: collapse;
         }
 
-        h2 {
-            color: rgb(204, 64, 21);
-            font-family: 'Arial', sans-serif;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .header {
+            background-color: #4B7BEC;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content {
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .footer {
+            background-color: #e4e4e4;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1, h2, p {
             margin-bottom: 15px;
         }
 
-        p {
-            color: #333333;
-            font-family: 'Arial', sans-serif;
-            margin-bottom: 10px;
-        }
-
-        strong {
-            color: #000000;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .order-details {
-            border-top: 1px solid #e0e0e0;
-            margin-top: 15px;
-            padding-top: 10px;
-        }
-
-        .order-details p {
-            margin-bottom: 5px;
-        }
-
-        .button {
+        a.button {
+            color: #fff !important;
+            background-color: #4b7bec;
+            padding: 15px 50px;
             display: inline-block;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-
-            padding: 10px 20px;
-            text-align: center;
             text-decoration: none;
-            font-size: 18px;
-            margin: 20px 0;
-            cursor: pointer;
-            border-radius: 5px;
+            font-weight: 600;
+            border-radius: 6px;
+            margin-bottom: 20px;
             transition: background-color 0.3s;
         }
 
-        .button:hover {
-            background-color: #45a049;
-            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+        table.order-details {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table.order-details th, table.order-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table.order-details th {
+            background-color: #4B7BEC;
+            color: #fff;
         }
     </style>
 </head>
 
 <body>
-<div class="container">
-    <h2>Xác nhận đơn hàng</h2>
-    <p> Cảm ơn bạn đã tin tưởng đặt hàng !</p>
-    <div class="order-details" id="orderDetails">
-        <h3 style="font-size: 22px;">Thông tin đơn hàng của bạn:</h3>
-        <p><strong>Mã đơn hàng:</strong>[[orderId]]</p>
-        <p><strong>Email:</strong> [[email]]  </p>
-        <a href="http://localhost:3000/pay/[[orderId]]" class="button">Xác nhận đơn hàng</a>
-    </div>
-</div>
-<script>
-    // Nhúng chuỗi JSON vào div có id là "orderDetails"
-    var orderDetailsJson = `[[orderDetails]]`;
-    var orderDetails = JSON.parse(orderDetailsJson);
-
-    // Xử lý và hiển thị thông tin từ chuỗi JSON trong orderDetails div
-    var orderDetailsDiv = document.getElementById("orderDetails");
-    orderDetails.forEach(function (detail) {
-        var detailDiv = document.createElement("div");
-        detailDiv.innerHTML = `<p><strong>Tên sản phẩm:</strong> ${detail.name}</p>
-                           <p><strong>Tổng giá:</strong> ${detail.totalPrice}</p>`;
-        orderDetailsDiv.appendChild(detailDiv);
-    });
-</script>
+<table>
+    <tr>
+        <td class="header">
+            <a href="#">
+                <img src="https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg" alt="logo" title='LOGO'>
+            </a>
+            <p>Thank you for your interest in our products</p>
+            <p>Please check the information again</p>
+            <div>
+                <p>Mã đơn hàng của bạn: [[orderId]]</p>
+            </div>
+            <div id="orderDetailsPlaceholder">
+                <h2>Sau đây là chi tiết các sản phẩm mà bạn đặt mua</h2>
+                <table class="order-details">
+                    <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Use a loop to iterate through order details and generate table rows -->
+                    [[orderDetails]]
+                    </tbody>
+                </table>
+            </div>
+            <h1>If you agree to purchase, click here to redirect to the payment page</h1>
+            <a href="truyen link vo day" class="button">CONFIRM</a>
+        </td>
+    </tr>
+</table>
 </body>
 
 </html>

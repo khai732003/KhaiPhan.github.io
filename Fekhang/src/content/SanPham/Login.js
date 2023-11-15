@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { useNavigate } from "react-router-dom";
 import customAxios from "../../CustomAxios/customAxios";
 import { useAuth } from "./Context/AuthContext";
 import "./Scss/Login-Register.scss";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Button } from "@mui/material";
+import { Button, FormControlLabel, Checkbox } from "@mui/material";
 import "./Scss/Product.scss";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
@@ -22,13 +22,22 @@ const Login = ({ currentPath }) => {
   const { user, loadUser, setUserFromToken } = useAuth();
   const navigate = useNavigate();
   const [passwordError, setPasswordError] = useState("");
+   const [usernameError, setUsernameError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
+    name: localStorage.getItem("rememberedUsername") || "",
     password: "",
   });
+
+  useEffect(() => {
+    const rememberPassword = localStorage.getItem("rememberPassword");
+    if (rememberPassword === "true") {
+      setShowPassword(true);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -37,10 +46,13 @@ const Login = ({ currentPath }) => {
     });
   };
 
+  const handleRememberPasswordChange = () => {
+    setRememberMe((prevRememberMe) => !prevRememberMe);
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!formData.password) {
-      setPasswordError("Password is required.");
+    if (!formData.password || !formData.name) {
+      setPasswordError("Both username and password are required.");
       return;
     }
     try {
@@ -62,7 +74,13 @@ const Login = ({ currentPath }) => {
       } else {
         navigate(-1);
       }
-
+      if (rememberMe) {
+        localStorage.setItem("rememberedUsername", formData.name);
+        localStorage.setItem("rememberPassword", "true");
+      } else {
+        localStorage.removeItem("rememberedUsername");
+        localStorage.removeItem("rememberPassword");
+      }
       // Your additional code using scrollTopValue
       const myElement = document.getElementById("yourElementId");
       if (myElement) {
@@ -71,6 +89,10 @@ const Login = ({ currentPath }) => {
       }
     } catch (error) {
       console.error("Login failed:", error);
+      setSuccessMessage(""); 
+      setPasswordError("Invalid Username or Password.");
+      setUsernameError("Invalid Username or Password.");
+      
     }
   };
 
@@ -102,13 +124,24 @@ const Login = ({ currentPath }) => {
                     <img
                       src="https://images.unsplash.com/photo-1552826580-0d47cf898dee?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmlyZCUyMGNhZ2V8ZW58MHx8MHx8fDA%3D"
                       alt="login form"
-                      className="img-fluid"
-                      style={{ borderRadius: "1rem 0 0 1rem" }}
+                      className="img-fluid rounded-left"
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   </div>
                   <div className="col-md-6 col-lg-7 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-5 text-black">
                       <form onSubmit={handleLogin}>
+                      <Stack spacing={2} style={{ marginBottom: "20px" }}>
+                          {/* Display error message if there's an issue */}
+                          {passwordError && (
+                            <Alert
+                              severity="error"
+                              onClose={() => setPasswordError("")}
+                            >
+                              {passwordError}
+                            </Alert>
+                          )}
+                        </Stack>
                         <div className="d-flex justify-content-between mb-3 pb-1">
                           <span className="h1 fw-bold mb-0">LOGIN</span>
                           <div
@@ -147,6 +180,7 @@ const Login = ({ currentPath }) => {
                             onChange={handleInputChange}
                             required
                             placeholder="Enter Your Username"
+                            error={!!usernameError}
                           />
                         </div>
                         <div
@@ -166,7 +200,7 @@ const Login = ({ currentPath }) => {
                             required
                             placeholder="Enter Your Password"
                             error={!!passwordError}
-                            helperText={passwordError}
+                            // helperText={passwordError}
                           />
                           {/* Eye icon for password toggle */}
                           <span
@@ -183,6 +217,17 @@ const Login = ({ currentPath }) => {
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </span>
                         </div>
+
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={rememberMe}
+                              onChange={handleRememberPasswordChange}
+                            />
+                          }
+                          label="Remember Me"
+                        />
+
                         <div className="pt-1 mb-4">
                           <button
                             className="btn btn-dark btn-lg btn-block"

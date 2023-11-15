@@ -150,7 +150,7 @@ const UserManagement = () => {
                 <td className="user-management-td smaller-text">{user.name}</td>
                 <td className="user-management-td smaller-text">{user.email}</td>
                 <td className="user-management-td smaller-text">{user.address}</td>
-                <td className="user-management-td smaller-text">{user.phonenumber}</td>
+                <td className="user-management-td smaller-text">{user.phone}</td>
                 <td className="user-management-td smaller-text">
                   {user.createDate}
                 </td>

@@ -12,7 +12,6 @@ import java.util.function.LongFunction;
 public interface
 CategoriesRepository extends JpaRepository<Categories, Long> {
     Categories saveAndFlush(Categories category);
-
     Categories findOneById(Long id);
 
 }

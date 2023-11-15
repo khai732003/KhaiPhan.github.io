@@ -1,0 +1,263 @@
+.new-page {
+  margin-top: 100px;
+}
+
+.text-slider-container {
+  // border: 2px solid #ddd; /* Viền của khung slider */
+  border-radius: 100px; /* Bo góc */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+  overflow: hidden;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.text-slider {
+  display: inline-block;
+  white-space: nowrap;
+  animation: text-slider-animation 20s linear infinite;
+  padding: 5px;
+  font-size: smaller;
+}
+
+@keyframes text-slider-animation {
+  0% {
+    transform: translateX(100%);
+    color: black; /* Set the color to black */
+  }
+  0.1% {
+    color: black;
+  }
+  100% {
+    transform: translateX(-100%);
+    color: black; /* Set the color to black for the loop */
+  }
+}
+
+.rotate-image {
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.column3-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  align-items: normal;
+
+  .column3-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    p {
+      margin: 0;
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+    }
+
+    .detail-button,
+    .arrow-down {
+      margin-left: auto;
+    }
+  }
+
+  .arrow-down {
+    font-size: 20px;
+  }
+
+  .shortinfo-list {
+    display: none;
+    margin-top: 10px;
+  }
+
+  &.active .shortinfo-list {
+    display: block;
+  }
+}
+
+.link-style {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Custom styles for Bootstrap Carousel */
+#demo {
+  width: 70%;
+  margin: auto;
+}
+
+.carousel-innerr img {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  height: 90%;
+}
+
+.carousel-caption h3 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.carousel-caption p {
+  font-size: 1.5em;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.carousel-indicators button {
+  background-color: #777;
+  border: none;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  opacity: 0.7;
+  transition: background-color 0.3s;
+}
+
+.carousel-indicators button.active {
+  background-color: #fff;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  font-size: 2em;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.carousel-control-prev {
+  left: 20px;
+}
+
+.carousel-control-next {
+  right: 20px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #333;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+/* Additional styles for the container */
+.container-fluid {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container-fluid h3 {
+  color: #333;
+}
+
+.container-fluid p {
+  font-size: 1.2em;
+  color: #777;
+}
+
+.logo-wrapper {
+  width: 90%; /* Set the width of the wrapper div as needed */
+  height: 90%;
+  overflow: hidden;
+  margin-left: 100px;
+  margin-right: 100px;
+  padding-right: 100px;
+  border: 1px solid black;
+  border-radius: 40px;
+}
+
+.logo-container {
+  display: flex;
+  animation: moveLogos 20s linear infinite;
+}
+
+.logo-item {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.logo-item:last-child {
+  margin-left: 0px;
+  height: 100%;
+}
+
+.logo-container a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-container a img {
+  width: 50px; /* Set the width of your logos */
+  height: 50px; /* Set the height of your logos */
+  border-radius: 50%;
+}
+
+.logo-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+}
+
+.logo-img:hover {
+  transform: scale(1.2);
+}
+
+@keyframes moveLogos {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+// .slider {
+//   position: fixed;
+//   left: 100%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: #ffffff;
+//   padding: 20px;
+//   border: 1px solid #000000;
+//   z-index: 9999; /* Adjust the z-index as needed to ensure it appears above other elements */
+
+//   /* Centering adjustments */
+//   width: 50%; /* Adjust the width of the slider as needed */
+//   max-width: 400px; /* Set a maximum width if desired */
+//   margin: 300px auto auto 700px ; /* Ensure the slider is centered within its container */
+// }
+
+/* ... (your existing styles) */

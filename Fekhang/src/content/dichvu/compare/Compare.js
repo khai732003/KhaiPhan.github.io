@@ -52,7 +52,7 @@ function Compare() {
   };
 
   return (
-    <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "darkgray",   boxShadow: "0 2px 8px darkgray" }}> 
+    <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "white",   boxShadow: "0 2px 8px darkgray" }}> 
     <CssBaseline />
       <Box style={{ paddingTop: "20px" }}>
         <div className="compare-container">
@@ -83,7 +83,7 @@ function Compare() {
                     <td>
                       <Button
                         variant="outlined"
-                        startIcon={<DeleteIcon />}
+                        
                         onClick={() => addProduct(product)}
                       >
                         Compare
@@ -176,9 +176,9 @@ function Compare() {
                   ))}
                 </tr>
 
-                <tr>
+                {/* <tr>
                   <td className="table-compare-property">Cage</td>
-                </tr>
+                </tr> */}
 
                 <tr>
                   <td className="table-compare-property">Description</td>

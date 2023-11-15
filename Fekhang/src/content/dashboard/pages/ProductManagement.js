@@ -60,14 +60,13 @@ const ProductManagement = () => {
   const handleSearch = () => {
     const filtered = products.filter((product) => {
       return (
-        product.fullname &&
-        product.fullname.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name &&
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Đặt lại trang hiện tại về trang đầu khi tìm kiếm
+    setCurrentPage(1);
   };
-
   const handleResetSearch = () => {
     setSearchTerm("");
     setFilteredProducts(products);
@@ -149,7 +148,7 @@ const ProductManagement = () => {
               <th className="user-management-header">Serial</th>
               <th className="user-management-header">ID</th>
               <th className="user-management-header">Product Image</th>
-              <th className="user-management-header">Stock</th>
+              <th className="user-management-header">Product Name</th>
               <th className="user-management-header">Cage and Accessories</th>
               <th className="user-management-header">Category ID</th>
               <th className="user-management-header">Status</th>
@@ -173,7 +172,7 @@ const ProductManagement = () => {
                   />
                 </td>
                 <td className="user-management-td smaller-text">
-                  {product.stock}
+                  {product.name}
                 </td>
 
                 <td className="user-management-td smaller-text">

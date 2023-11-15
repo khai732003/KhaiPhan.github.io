@@ -3,6 +3,7 @@ import { TextField, MenuItem, FormControl, InputLabel, Container, Grid, Button }
 import { useForm, FormProvider } from "react-hook-form";
 import customAxios from "../../../CustomAxios/customAxios";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const AddAccessoriesForm = () => {
   const methods = useForm();
@@ -17,15 +18,32 @@ const AddAccessoriesForm = () => {
       console.error("Error adding accessory:", error);
     }
   };
+  const handleReturnPage = () => {
+    navigate(-1);
+  };
 
   return (
-    <Container component="main" maxWidth="xs" style={{ marginTop: "10rem", marginBottom: "11rem"}}>
+    <Container component="main" maxWidth="xs" style={{marginTop: 100, marginBottom: 130,border: "3px solid black",paddingLeft: 20,paddingBottom: 20,paddingRight: 20}}>
+      <div className="mb-5 pb-lg-2" style={{ color: "#393f81", marginTop: "10px" }}>
+              <Button
+                sx={{ fontSize: 18 }}
+                variant="contained"
+                style={{
+                  backgroundColor: "#e0e0e0",
+                  color: "#212121",
+                }}
+                startIcon={<ArrowBackIosIcon />}
+                onClick={handleReturnPage}
+              >
+                BACK
+              </Button>
+            </div>
       <FormProvider {...methods} >
         <form onSubmit={methods.handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column", alignItems: "center",  border: "5",borderRadius: "3px solid black" }}>
           <h2 style={{ marginBottom: "2rem" }}>Accessories Form</h2>
           <Grid item xs={12} style={{ width: "100%", marginBottom: "1rem" }}>
             <FormControl fullWidth variant="outlined">
-              <InputLabel id="type-label">Type</InputLabel>
+              <InputLabel id="type-label"></InputLabel>
               <TextField
                 {...methods.register("type", { required: "Please select the type!" })}
                 select

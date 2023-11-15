@@ -24,5 +24,4 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetail, Long>
     void deleteAllByOrderId(Long orderId);
 
 
-
 }
