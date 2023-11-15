@@ -18,4 +18,5 @@ public class VoucherDTO extends DTOBase {
     private String voucherType;
     private LocalDateTime expiration_date;
     private int quantity;
+    private boolean isAvailable;
 }

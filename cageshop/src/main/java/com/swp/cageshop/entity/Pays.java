@@ -42,5 +42,4 @@ public abstract class Pays extends EntityBase{
         this.status = "CREATED";
     }
 
-
 }

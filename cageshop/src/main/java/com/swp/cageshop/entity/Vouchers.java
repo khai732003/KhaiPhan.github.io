@@ -39,6 +39,14 @@ public class Vouchers extends EntityBase{
   @Min(value = 0, message = "Quantity must be non-negative")
   private int quantity;
 
+  @Column(name = "is_available")
+  private boolean isAvailable;
+
+  @PrePersist
+  public void setDefaultValues() {
+    this.isAvailable = true;
+  }
+
   @OneToMany(mappedBy="voucher", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<VoucherUsage> usages;
 

@@ -238,6 +238,17 @@ public class PaysService implements PaysServiceImpl {
 
         return resultList;
     }
+    public void updateCreateDate(Long paysId, Date newCreateDate) {
+        Optional<Pays> paysOptional = paysRepository.findById(paysId);
 
+        if (paysOptional.isPresent()) {
+            Pays pays = paysOptional.get();
+            pays.setCreateDate(newCreateDate);
+            paysRepository.save(pays);
+        } else {
+            // Xử lý trường hợp không tìm thấy Pays với ID tương ứng
+            // Có thể throw exception hoặc xử lý tùy vào yêu cầu của bạn
+        }
+    }
 
 }

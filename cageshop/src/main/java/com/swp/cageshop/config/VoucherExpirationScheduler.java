@@ -2,6 +2,7 @@ package com.swp.cageshop.config;
 
 import com.swp.cageshop.entity.Vouchers;
 import com.swp.cageshop.repository.VouchersRepository;
+import com.swp.cageshop.service.vouchersService.IVouchersService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,9 @@ public class VoucherExpirationScheduler {
    @Autowired
    private VouchersRepository voucherRepository;
 
+    @Autowired
+    private IVouchersService iVouchersService;
+
     @Scheduled(cron = "@daily")
     public void checkVoucherExpiration() {
         List<Vouchers> vouchers = voucherRepository.findAll();
@@ -29,7 +33,7 @@ public class VoucherExpirationScheduler {
         System.out.println("Thời gian hiện tại ở Hà Nội là: " + currentDate);
         for (Vouchers voucher : vouchers) {
             if (voucher.getExpiration_date() != null && voucher.getExpiration_date().isBefore(currentDate)) {
-                voucherRepository.delete(voucher);
+                iVouchersService.deleteVoucher(voucher.getId());
             }
         }
     }
