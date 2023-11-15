@@ -106,7 +106,7 @@ function ShowCustom() {
     }
 
     return (
-        <div className="full-container-details" style={{ paddingBottom: '3rem' }}>
+        <div className="full-container-details" style={{ padding: '7rem 0rem' }}>
             <Box className="product-container-productdetail">
                 <Grid container spacing={2} className="container-productdetail" justifyContent="center">
                     <Grid item xs={12} md={11} style={{ margin: '' }}>
@@ -158,7 +158,7 @@ function ShowCustom() {
                                             {/* <p style={{ lineHeight: '1.6', color: '#757a7f', marginBottom: '20px' }}>
                                                 {productDetail.info}
                                             </p> */}
-                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'yellow' }}>
+                                            <div style={{ marginBottom: '20px', fontSize: '24px', color: 'black' }}>
                                                 ${productDetail.totalPrice}
                                             </div>
                                             <div style={{ marginBottom: '20px' }}>

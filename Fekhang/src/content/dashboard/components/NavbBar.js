@@ -109,7 +109,7 @@ const NavBar = () => {
 
   return (
     <div className="navbar-admin-dashboard">
-      <StyledAppBar position="fixed" style={{ zIndex: 1400 }}>
+      <StyledAppBar position="fixed" style={{ zIndex: 1400,backgroundColor:'#24659d' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 10 }}>
             Admin Dashboard

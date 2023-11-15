@@ -67,7 +67,8 @@ function AddFeedBack() {
     <Container>
       <div className="feedback-form" style={{ marginTop: "150px" }}>
         <h2 className="input-feedback">Add Feedback</h2>
-        {/* <Box
+
+        <Box
           sx={{
             width: 200,
             display: "flex",
@@ -76,42 +77,16 @@ function AddFeedBack() {
         >
           <Rating
             name="hover-feedback"
-            value={value}
-            precision={0.5}
-            getLabelText={getLabelText}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-              handleInputChange(event); // Pass event or any other necessary arguments
-            }}
-            onChangeActive={(event, newHover) => {
-              setHover(newHover);
-            }}
-            emptyIcon={
-              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-            }
-          />
-          {value !== null && (
-            <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-          )}
-        </Box> */}
-
-        <FormControl fullWidth className="input-feedback">
-          <InputLabel id="rating-label">Rating</InputLabel>
-          <Select
-            labelId="rating-label"
-            id="rating"
-            name="rating"
             value={feedback.rating}
-            onChange={handleInputChange}
-          >
-             <Rating
-            name="hover-feedback"
-            value={value}
             precision={0.5}
             getLabelText={getLabelText}
             onChange={(event, newValue) => {
-              setValue(newValue);
-              handleInputChange(event); // Pass event or any other necessary arguments
+              handleInputChange({
+                target: {
+                  name: "rating",
+                  value: newValue,
+                },
+              });
             }}
             onChangeActive={(event, newHover) => {
               setHover(newHover);
@@ -120,8 +95,12 @@ function AddFeedBack() {
               <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
             }
           />
-          </Select>
-        </FormControl>
+          {feedback.rating !== null && (
+            <Box sx={{ ml: 2 }}>
+              {labels[hover !== -1 ? hover : feedback.rating]}
+            </Box>
+          )}
+        </Box>
 
         <TextField
           label="Feedback Content"

@@ -46,7 +46,7 @@ public class Products extends EntityBase {
   private String status;
 
   @Column(nullable = true)
-  private String orderLevel;
+  private Integer orderLevel;
 
 
 // -------------------------------------------------
@@ -67,6 +67,8 @@ public class Products extends EntityBase {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<OrderDetail> orderDetail;
 
+  @Column(nullable = true)
+  private Long motherProductId;
 
   @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
   private BirdCages cage;

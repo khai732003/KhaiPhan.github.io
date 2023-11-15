@@ -19,12 +19,12 @@ export default function ConfirmPage() {
   }
   return (
     <div >
-      <div style={{paddingTop:'6rem'}}>
+      <div style={{paddingTop:'5rem', paddingBottom:'1rem'}}>
         <Button variant='contained' onClick={handleDeliverd}>
           Show Delivered
         </Button>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', height:'72.4vh' }}>
         <ListNotConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <ListConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <UpdateDelivered triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />

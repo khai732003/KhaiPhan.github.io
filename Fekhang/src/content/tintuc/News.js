@@ -19,6 +19,7 @@ const News = () => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [voucher, setVoucher] = useState([]);
 
   const socialMediaData = [
     {
@@ -147,6 +148,22 @@ const News = () => {
   };
 
   useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        // Gọi API một lần để lấy dữ liệu
+        const response = await customAxios.get(
+          "/voucher/get-all"
+        );
+        setVoucher(response.data);
+      } catch (error) {
+        console.error("Error fetching marketing data:", error);
+      }
+    };
+    
+    fetchData1();
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Gọi API một lần để lấy dữ liệu
@@ -163,14 +180,15 @@ const News = () => {
   }, []);
 
   return (
-    <Container className="new-page">
+    <Container className="container-fluid-news">
       <Row>
         <Col md={12} style={{ marginBottom: 20 }}>
           <div className="text-slider-container">
-            <p className="text-slider">
-              Nguyễn Phước Thiênn Ân Nguyễn Phước Thiênn Ân Nguyễn Phước Thiênn
-              Ân Nguyễn Phước Thiênn Ân
-            </p>
+            {voucher.map((amount, index) => (
+              <p key={index} className="text-slider">
+                {amount.code}
+              </p>
+            ))}
           </div>
         </Col>
         {/* Cột 1: Tỉ lệ 5 */}

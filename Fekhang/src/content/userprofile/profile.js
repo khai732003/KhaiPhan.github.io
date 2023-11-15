@@ -50,7 +50,6 @@ const Profile = () => {
         console.error("Error fetching user profile data:", error);
       }
     };
-    // console.log
 
     loadUserProfile();
   }, [userId]);
@@ -187,7 +186,7 @@ const Profile = () => {
                       Save Changes
                     </Button>
                   )} */}
-                  <Link to={`/edit-profile`}>
+                  <Link to={`/edit-profile/${userId}`}>
                     <Button style={{background: 'black', color: 'white' }}>Edit Profile</Button>
                   </Link>
                 </Form>

@@ -26,6 +26,8 @@ const EditProfile = () => {
     managerId: user.userId
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+
   useEffect(() => {
     if (isEditing) {
       getUser(id);
@@ -43,6 +45,35 @@ const EditProfile = () => {
     navigate(-1);
   };
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.email.endsWith('@gmail.com')) {
+      errors.email = 'Email must end with @gmail.com';
+    }
+
+    if (!/^[a-zA-Z\s]*$/.test(formData.fullname) || formData.fullname.length >= 200) {
+      errors.fullname = 'Fullname must not contain numbers and should be less than 200 characters';
+    }
+
+    if (!/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(formData.password)) {
+      errors.password = 'Password must have 1 uppercase letter, 1 number, and be at least 6 characters long';
+    }
+
+    if (!/^\d{10}$/.test(formData.phone)) {
+      errors.phone = 'Phone must contain exactly 10 digits';
+    }
+
+    try {
+      new URL(formData.image);
+    } catch (error) {
+      errors.image = 'Invalid image URL';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const getUser = async (id) => {
     try {
       const response = await customAxios.get(`/user/list/${id}`);
@@ -56,8 +87,9 @@ const EditProfile = () => {
 
   const updateUser = async () => {
     try {
-      const response = await customAxios.put(`/user/list/${id}`, formData);
+      const response = await customAxios.put(`/user/update/${id}`, formData);
       if (response.status === 200) {
+      
         navigate("/profile");
       }
     } catch (error) {
@@ -67,10 +99,12 @@ const EditProfile = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    if (isEditing) {
-      updateUser();
-    } 
+
+    if (validateForm()) {
+      if (isEditing) {
+        updateUser();
+      }
+    }
   };
 
   return (
@@ -89,9 +123,12 @@ const EditProfile = () => {
                       <form onSubmit={handleSubmit}>
                         <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
                           <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            <Button sx={{ fontSize: 18 }} variant="contained"
+                            <Button
+                              sx={{ fontSize: 18 }}
+                              variant="contained"
                               style={{ backgroundColor: '#e0e0e0', color: '#212121' }}
-                              startIcon={<ArrowBackIosIcon />} onClick={handleReturnPage}
+                              startIcon={<ArrowBackIosIcon />}
+                              onClick={handleReturnPage}
                             >
                               BACK
                             </Button>
@@ -105,12 +142,15 @@ const EditProfile = () => {
                             id="form2Example17"
                             type="email"
                             name="email"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${validationErrors.email ? 'is-invalid' : ''}`}
                             value={formData.email}
                             onChange={handleInputChange}
                             required
                             placeholder='Enter Your Email'
                           />
+                          {validationErrors.email && (
+                            <div className="invalid-feedback">{validationErrors.email}</div>
+                          )}
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           UserName
@@ -123,7 +163,7 @@ const EditProfile = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            required
+                            readOnly
                             placeholder='Enter Your Username'
                           />
                         </div>
@@ -134,13 +174,16 @@ const EditProfile = () => {
                           <input
                             type="text"
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${validationErrors.fullname ? 'is-invalid' : ''}`}
                             name="fullname"
                             value={formData.fullname}
                             onChange={handleInputChange}
                             required
                             placeholder='Enter Your Full Name'
                           />
+                          {validationErrors.fullname && (
+                            <div className="invalid-feedback">{validationErrors.fullname}</div>
+                          )}
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Password
@@ -148,7 +191,7 @@ const EditProfile = () => {
                         <div className="form-outline mb-4">
                           <input
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${validationErrors.password ? 'is-invalid' : ''}`}
                             type="password"
                             name="password"
                             value={formData.password}
@@ -156,6 +199,9 @@ const EditProfile = () => {
                             required
                             placeholder='Enter Your Password'
                           />
+                          {validationErrors.password && (
+                            <div className="invalid-feedback">{validationErrors.password}</div>
+                          )}
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Giới Tính:
@@ -180,13 +226,16 @@ const EditProfile = () => {
                           <input
                             type="text"
                             id="form2Example17"
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${validationErrors.phone ? 'is-invalid' : ''}`}
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
                             required
                             placeholder='Enter Your Phone Number'
                           />
+                          {validationErrors.phone && (
+                            <div className="invalid-feedback">{validationErrors.phone}</div>
+                          )}
                         </div>
                         <label className="form-label" htmlFor="form2Example17">
                           Address
@@ -217,6 +266,7 @@ const EditProfile = () => {
           </div>
         </div>
       </section>
+   
     </div>
   );
 };

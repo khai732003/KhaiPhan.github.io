@@ -13,6 +13,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Alert,
 } from '@mui/material';
 
 const Order = () => {
@@ -20,9 +21,20 @@ const Order = () => {
   const [order, setOrder] = useState(null);
   const [voucherCode, setVoucherCode] = useState("");
   const [voucherData, setVoucherData] = useState([]);
-  const [appliedVoucherIds, setAppliedVoucherIds] = useState([]);
   const navigate = useNavigate();
   const orderId = localStorage.getItem('orderId');
+
+  const [discountedPrices, setDiscountedPrices] = useState([]);
+
+  useEffect(() => {
+    const fetchDiscountedPrices = async () => {
+      const prices = await getDiscountedPrices();
+      setDiscountedPrices(prices);
+    };
+
+    fetchDiscountedPrices();
+  }, [orderId]);
+
 
   const fetchVoucherData = async () => {
     try {
@@ -47,15 +59,6 @@ const Order = () => {
       if (orderResponse.data) {
         const orderData = orderResponse.data;
 
-        const appliedVouchers = await Promise.all(
-          appliedVoucherIds.map(async (voucherId) => {
-            const voucherResponse = await customAxios.get(`/voucher/get-by/${voucherId}`);
-            return voucherResponse.data;
-          })
-        );
-
-        orderData.appliedVouchers = appliedVouchers;
-
         setOrder(orderData);
       } else {
         console.error('Invalid data from API:', orderResponse.data);
@@ -65,9 +68,19 @@ const Order = () => {
     }
   };
 
+  const getDiscountedPrices = async () => {
+    try {
+      const response = await customAxios.get(`/voucher-usage/get-all-price-by/${orderId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching discounted prices:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     fetchOrder();
-  }, [orderId, appliedVoucherIds]);
+  }, [orderId]);
 
   const deleteOrderDetail = async (orderDetailId) => {
     try {
@@ -90,134 +103,139 @@ const Order = () => {
         orderId: orderId,
         codeVoucher: voucherCode,
       });
-
-      console.log('Mã giảm giá áp dụng thành công:', response.data);
-
-      setAppliedVoucherIds((prevIds) => [...prevIds, response.data.id]);
-      console.log(response.data.id)
       fetchOrder();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
     }
   };
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
 
   return (
     <div className="order-container">
-      {order && (
+      {order && order.orderDetails.length > 0 ? (
         <Grid container spacing={2}>
           <Grid item xs={12} md={7} className="order-detail-container">
-            {order.orderDetails.length > 0 && (
-              <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
-            )}
+            <OrderDetail orderId={order.id} deleteOrderDetail={deleteOrderDetail} />
           </Grid>
           <Grid className="voucher-pay" item xs={12} md={5}>
-            {order.orderDetails.length > 0 && (
-              <div className="pay-area">
-                <div className="voucher-input">
-                  <FormControl>
-                    <InputLabel id="voucher-label">Chọn mã voucher</InputLabel>
-                    <Select
-                      labelId="voucher-label"
-                      className="input"
-                      value={voucherCode}
-                      onChange={(e) => setVoucherCode(e.target.value)}
-                    >
-                      {voucherData.map((voucher) => (
-                        <MenuItem key={voucher.id} value={voucher.code}>
-                          {voucher.code}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+            <div className="pay-area">
+              <div className="voucher-input">
+                <FormControl>
+                  <InputLabel id="voucher-label">Chọn mã voucher</InputLabel>
+                  <Select
+                    labelId="voucher-label"
+                    className="input"
+                    value={voucherCode}
+                    onChange={(e) => setVoucherCode(e.target.value)}
+                  >
+                    {voucherData.map((voucher) => (
+                      <MenuItem key={voucher.id} value={voucher.code}>
+                        {voucher.code}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-                  <Button onClick={applyVoucher} variant="outlined">
-                    Áp dụng
-                  </Button>
-                </div>
+                <Button onClick={applyVoucher} variant="outlined">
+                  Áp dụng
+                </Button>
+              </div>
 
-                <Grid
-                  className="pay-info"
-                  container
-                  xs={12}
-                  md={12}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Grid className="info" container xs={12}>
-                    <Grid className="local-info" item md={12} xs={12}>
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Customer Name:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {user.fullName}
-                        </Grid>
+              <Grid
+                className="pay-info"
+                container
+                xs={12}
+                md={12}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid className="info" container xs={12}>
+                  <Grid className="local-info" item md={12} xs={12}>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Customer Name:
                       </Grid>
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Address:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {user.address}
-                        </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {user.fullName}
                       </Grid>
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Products price:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {order.orderDetails.reduce(
-                            (totalPrice, orderDetail) =>
-                              totalPrice + orderDetail.totalCost,
+                    </Grid>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Address:
+                      </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {user.address}
+                      </Grid>
+                    </Grid>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Products price:
+                      </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {formatCurrency(
+                          order.orderDetails.reduce(
+                            (totalPrice, orderDetail) => totalPrice + orderDetail.totalCost,
                             0
-                          )}
-                        </Grid>
+                          )
+                        )}
                       </Grid>
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Ship price:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {order.shipPrice}
-                        </Grid>
+                    </Grid>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Ship price:
                       </Grid>
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Discount:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {order.appliedVouchers &&
-                            order.appliedVouchers.length > 0 &&
-                            order.appliedVouchers[0].voucherAmount}
-                        </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {formatCurrency(order.shipPrice)}
                       </Grid>
+                    </Grid>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Discount:
+                      </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {discountedPrices && discountedPrices.length > 0 && (
+                            <div>
+                              {discountedPrices.map((price, index) => (
+                                <div key={index}>{formatCurrency(-price)}</div>
+                              ))}
+                            </div>
+                        )}
 
-                      <Grid container>
-                        <Grid className="left" item md={6} xs={12}>
-                          Total:
-                        </Grid>
-                        <Grid className="right" item md={6} xs={12}>
-                          {order.total_price}
-                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid container>
+                      <Grid className="left" item md={6} xs={12}>
+                        Total:
+                      </Grid>
+                      <Grid className="right" item md={6} xs={12}>
+                        {formatCurrency(order.total_price)}
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid
-                  className="confirm"
-                  container
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="flex-end"
-                >
-                  <ConfirmEmail />
-                </Grid>
-              </div>
-            )}
+              </Grid>
+              <Grid
+                className="confirm"
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+              >
+                <ConfirmEmail />
+              </Grid>
+            </div>
           </Grid>
         </Grid>
+      ) : (
+        <div className="not-product" >
+          <Alert severity="info">NOT FOUND PRODUCT IN HERE</Alert>
+        </div>
+
       )}
     </div>
+
   );
 };
 

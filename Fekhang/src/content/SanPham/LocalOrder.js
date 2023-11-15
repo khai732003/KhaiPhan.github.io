@@ -158,7 +158,7 @@ export default function LocalOrder() {
                 </div>}
               </Grid>
               <Grid item xs={12} sm={6}>
-                {order.payStatus === 'NOT_PAY' && <div><ConfirmEmail orderId2={order.id} /></div>}
+                {order.payStatus === 'NOT_PAY'&& order.orderDetails.length > 0 && <div><ConfirmEmail orderId2={order.id} /></div>}
                 {order.payStatus === 'PAID' && (
                   <div>
                     <Typography gutterBottom>

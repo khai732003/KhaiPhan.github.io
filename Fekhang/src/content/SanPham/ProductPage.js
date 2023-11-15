@@ -192,7 +192,7 @@ const ProductPage = () => {
               </div>
             ) : (
               <div className="not-found-message">
-                <p>No results found.</p>
+                
               </div>
             )}
             {showNotFoundAlert && (

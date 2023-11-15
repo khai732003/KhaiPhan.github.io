@@ -16,7 +16,7 @@ const ProductSearch = () => {
     return (
         <div className='find'>
             <div className="container">
-                <h3><center><strong>TÌM KIẾM SẢN PHẨM</strong></center></h3>
+                <h3><center><strong>SEARCH</strong></center></h3>
                 <Form>
                     <Row className='Row'>
                         {/* Search Input */}
@@ -41,9 +41,9 @@ const ProductSearch = () => {
                                     value={selectedType}
                                     onChange={(e) => setSelectedType(e.target.value)}
                                 >
-                                    <option value="">Chọn loại</option>
-                                    <option value="type1">Loại 1</option>
-                                    <option value="type2">Loại 2</option>
+                                    <option value="">Choose Type</option>
+                                    <option value="type1">Type 1</option>
+                                    <option value="type2">Type 2</option>
                                     {/* Add more options as needed */}
                                 </Form.Control>
                             </Form.Group>
@@ -57,9 +57,9 @@ const ProductSearch = () => {
                                     value={selectedBrand}
                                     onChange={(e) => setSelectedBrand(e.target.value)}
                                 >
-                                    <option value="">Chọn thương hiệu</option>
-                                    <option value="brand1">Thương hiệu 1</option>
-                                    <option value="brand2">Thương hiệu 2</option>
+                                    <option value="">Choose Brand</option>
+                                    <option value="brand1">Brand 1</option>
+                                    <option value="brand2">Brand 2</option>
                                     {/* Add more options as needed */}
                                 </Form.Control>
                             </Form.Group>
@@ -68,7 +68,7 @@ const ProductSearch = () => {
                         {/* Search Button */}
                         <Col md={3} >
                             <Button variant="primary" onClick={handleSearch}>
-                                TÌM KIẾM
+                                SEARCH
                             </Button>
                         </Col>
                     </Row>

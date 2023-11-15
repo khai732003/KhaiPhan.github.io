@@ -140,6 +140,7 @@ public class UsersServiceImpl implements IUsersService {
       if (users1 != null) {
         // Lưu trữ giá trị createDate hiện tại
 //        Date currentCreateDate = users1.getCreateDate();
+        users1.setFullname(users.getEmail());
         users1.setFullname(users.getFullname());
         users1.setImage(users.getImage());
         users1.setAddress(users.getAddress());
