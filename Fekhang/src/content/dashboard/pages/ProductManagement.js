@@ -141,27 +141,13 @@ const ProductManagement = () => {
 
 
             <TextField
+            style={{marginRight:'30px'}}
               label="Search"
               variant="outlined"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Button
-              style={{ marginLeft: '20px' }}
-              variant="outlined"
-              className="search-button"
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-            <Button
-              style={{ margin: '0 20px' }}
-              variant="outlined"
-              className="reset-button"
-              onClick={handleResetSearch}
-            >
-              Reset
-            </Button>
+           
 
             <div className="btn-add">
               <Link to={"/addaccessories"}>
@@ -184,7 +170,7 @@ const ProductManagement = () => {
 
         </div>
 
-        <div className="btn-add">
+        {/* <div className="btn-add">
           <Link to={"/addaccessories"}>
             <button className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</button>
           </Link>
@@ -200,7 +186,7 @@ const ProductManagement = () => {
           <Link to={"/addproduct"}>
             <button className="add-staff-btn">Add new product</button>
           </Link>
-        </div>
+        </div> */}
       </div>
 
 

@@ -52,7 +52,7 @@ function Compare() {
   };
 
   return (
-    <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "white",   boxShadow: "0 2px 8px darkgray" }}> 
+    <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "white",   boxShadow: "0 2px 8px darkgray", fontFamily:'Roboto Slab' }}> 
     <CssBaseline />
       <Box style={{ paddingTop: "20px" }}>
         <div className="compare-container">

@@ -105,8 +105,9 @@ const Footer = (props) => {
             </div>
             <div className="col-md-4">
               <span>SOCIAL MEDIA</span>
-              <div className="social-icons">
+              <div className="social-icons-1">
                 <a
+                style={{color:'#0967ff'}}
                   href="https://www.facebook.com/FPTU.HCM"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -114,6 +115,7 @@ const Footer = (props) => {
                   <i class="bi bi-facebook"></i>
                 </a>
                 <a
+                 style={{color:'#ff0202'}}
                   href="https://www.youtube.com/@FPTUniversityHCM"
                   target="_blank"
                   rel="noopener noreferrer"
