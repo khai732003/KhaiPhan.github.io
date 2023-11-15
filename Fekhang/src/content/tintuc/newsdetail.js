@@ -1,91 +1,87 @@
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Container, Row, Col } from "react-bootstrap";
+import customAxios from "../../CustomAxios/customAxios";
+import { Link } from "react-router-dom";
+import CardMedia from '@mui/material/CardMedia';
 
-// import React, { useState, useEffect } from 'react';
-// import { Link, useParams } from 'react-router-dom';
-// import Header from '../../header/Header';
-// import Footer from '../../footer/Footer';
-// import CircularProgress from '@mui/material/CircularProgress'; // Import the CircularProgress component
-// import '../tintuc/newsdetail.scss';
-// import { Box, Grid } from '@mui/material';
-// import listOfnews from '../../share/listOfnews';
-// import zIndex from '@mui/material/styles/zIndex';
+const NewsDetail = () => {
+  const [newsData, setNewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [marketingData, setMarketingData] = useState([]);
+  const { id } = useParams(); // Assuming you want to get the 'id' parameter from the URL
 
-// export default function DetailNewsPage() {
-//   const [newsData, setNewsData] = useState([]);
-//   const [loading, setLoading] = useState(true); // Add a loading state
-//   const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await customAxios.get(
+          `http://localhost:8080/cageshop/api/marketing/list/${id}`
+        );
+        setMarketingData(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
 
-//   useEffect(() => {
-//     fetch('https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news')
-//       .then((response) => response.json())
-//       .then((data) => {
-//         if (Array.isArray(data)) {
-//           setNewsData(data);
-//         } else {
-//           console.error('Data from API is not an array:', data);
-//         }
-//       })
-//       .catch((err) => {
-//         setError(err);
-//         console.error('Error fetching data:', err);
-//       })
-//       .finally(() => {
-//         setLoading(false); // Set loading to false when done fetching
-//       });
-//   }, []);
+    fetchData();
+  }, [id]);
 
-//   const newsid = useParams();
-//   const News = newsData.find((obj) => obj.id === newsid.id);
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <CircularProgress />
+      </div>
+    );
+  }
 
-//   if (loading) {
-//     // Display a loading indicator while fetching data
-//     return (
-//       <div className="loading-container" style={{position:'absolute', top:'50%',left:'50%'}}>
+  return (
+    <div className="full-container-details">
+      <Header />
+      <Container style={{marginTop: 150, marginBottom: 100}}>
+        <Row>
+          <Col md={5}>
+            <div className="left-column">
+              <CardMedia
+                component="img"
+                sx={{ height: 140 }}
+                image={marketingData.img}
+                alt={marketingData.title}
+                className="card-img-top"
+              />
+              <p>{marketingData.someInfo}</p>
+            </div>
+          </Col>
+          <Col md={7}>
+            <div className="right-column">
+              <Link to="/news" className="back-link">
+                Back
+              </Link>
+              <div className="centered-line">
+                <h3 id="news-date">{marketingData.date}</h3>
+              </div>
+              <h3 id="title-newsdetail">{marketingData.title}</h3>
+              <h4 id="name-newsdetail">{marketingData.name}</h4>
+              <p id="info-newsdetail">{marketingData.shortinfo}</p>
+              <a
+                id="button-newsdetail"
+                href="https://vi.wikipedia.org/wiki/B%C3%B3i_c%C3%A1"
+              >
+                Tìm hiểu thêm
+              </a>
+              <p>{marketingData.content}</p>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      <Footer />
+    </div>
+  );
+};
 
-//         <CircularProgress />
-//       </div>
-//     );
-//   }
-
-//   if (error) {
-//     // Handle the error condition, e.g., display an error message.
-//     return <div>Error: {error.message}</div>;
-//   }
-
-//   if (!News) {
-//     // Handle the case where the News object is not found.
-//     return <div>News not found</div>;
-//   }
-
-//   return (
-//     <div className="full-container-details">
-//       <Header />
-//       <Box className="Box-newsdetail" >
-//         <Grid container spacing={2} className="container-newsdetail">
-//           <Grid item xs={12} md={7.5} style={{ paddingLeft: '13vw' }}>
-//             <Grid item xs={12} md={9}>
-//               <div style={{ marginTop: '70px' }}>
-//                 <Link to='/tintuc' style={{ textDecoration: 'none', color: 'white', padding: '8px 15px', backgroundColor: 'rgb(38, 250, 161)', marginBottom: '30px', display: 'block', width: 'fit-content', borderRadius: '3px' }}> Back</Link>
-//                 <div className="centered-line">
-//                   <span className="text">WELCOME</span>
-//                   <h3 id="news-date">{News.date}</h3>
-//                 </div>
-//               </div>
-//               <h2 id="title-newsdetail">{News.title}</h2>
-//               <h3 id='name-newsdetail'>{News.name}</h3>
-//               <p id="info-newsdetail">{News.shortinfo}</p>
-//               <a id='button-newsdetail' href='https://vi.wikipedia.org/wiki/B%C3%B3i_c%C3%A1'>Tìm hiểu thêm</a>
-//               <p>{News.content}</p>
-//             </Grid>
-//           </Grid>
-//           <Grid item xs={12} md={4.5} className="colored-background">
-//             <div id='box-newsdetail'>
-//               <img src={News.img} alt={News.title} id="img-newsdetail" />
-//             </div>
-//           </Grid>
-//         </Grid>
-//       </Box>
-//       <Footer></Footer>
-//     </div>
-//   );
-// }
-
+export default NewsDetail;

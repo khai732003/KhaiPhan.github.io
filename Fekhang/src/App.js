@@ -30,8 +30,7 @@ import ProductManagement from './content/dashboard/pages/ProductManagement';
 import Home from './content/dashboard/pages/Home';
 import Revenue from './content/dashboard/pages/Revenue';
 import Footer from './footer/Footer';
-
-import DetailNewsPage from './content/tintuc/newsdetail';
+import NewsDetail from './content/tintuc/NewsDetail'; 
 import Product from './content/SanPham/Product';
 import AdminProfile from './content/dashboard/pages/AdminProfile';
 import AddEditProduct from './content/dashboard/components/AddEditProduct';
@@ -56,6 +55,7 @@ import ShowCustom from './content/SanPham/ShowCustom';
 import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
 import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 import ListDelivered from './content/dashboard/pages/ListDelivered';
+
 
 
 
@@ -90,6 +90,7 @@ function App() {
               <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
               <Route path="/addfeedback/:productId" element={<AddFeedBack />} />
+              <Route path="/detail-news/:id" element={<NewsDetail/>} />
 
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
@@ -127,7 +128,6 @@ function App() {
 
               {/* Vùng all trừ Customer */}
               <Route path="/staffnew" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={TintucStaff} path="/staffnew" />} />
-              <Route exact path="tintuc/newsdetail/:id" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER', 'STAFF']} component={DetailNewsPage} path="tintuc/newsdetail/:id" />} />
 
 
               {/* Vùng Customer */}
