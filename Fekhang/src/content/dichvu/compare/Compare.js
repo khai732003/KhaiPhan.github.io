@@ -56,12 +56,12 @@ function Compare() {
     <CssBaseline />
       <Box style={{ paddingTop: "20px" }}>
         <div className="compare-container">
-          <h1 className="compare-title">Compare Items</h1>
+          <h1 className="compare-title">Compare Product Items</h1>
           <table className="compare-product-table">
             <thead>
               <tr>
-                <th className="compare-table-header">Tên sản phẩm</th>
-                <th className="compare-table-header">Hình ảnh</th>
+                <th className="compare-table-header">Product Name</th>
+                <th className="compare-table-header">Image</th>
                 <th className="compare-table-header">Option</th>
               </tr>
             </thead>
@@ -83,7 +83,7 @@ function Compare() {
                     <td>
                       <Button
                         variant="outlined"
-                        
+                        color="success"
                         onClick={() => addProduct(product)}
                       >
                         Compare

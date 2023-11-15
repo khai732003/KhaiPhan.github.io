@@ -103,7 +103,7 @@ const Register = () => {
       errors.fullname = "Fullname must be more than 5 characters";
     }
     if (!validatePassword(formData.password)) {
-      errors.password = "Password must be strong";
+      errors.password = "Password must have at least 1 Uppercase letter, 1 number and more than 5 characters ";
     }
     if (!validatePhoneNumber(formData.phone)) {
       errors.phone = "Invalid phone number (10 digits)";
@@ -164,7 +164,7 @@ const Register = () => {
   };
 
   return (
-    <div className="vh-100" style={{padding:'100px 0 1200px 0',margin:'-70px 0',height:'300vh'}}>
+    <div className="vh-100" style={{padding:'100px 0 1250px 0',margin:'-70px 0',height:'300vh'}}>
       <div className="alert-container">
         {" "}
         {/* Thêm class "alert-container" để áp dụng CSS */}
@@ -318,9 +318,9 @@ const Register = () => {
                             onChange={handleInputChange}
                             required
                           >
-                            <option value="">-- Chọn Giới Tính --</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
+                            <option value="">-- Gender --</option>
+                            <option value="Nam">Male</option>
+                            <option value="Nữ">Female</option>
                           </select>
                         </div>
 
@@ -364,7 +364,7 @@ const Register = () => {
 
                         <React.Fragment>
                           <Button onClick={handleClickOpen("paper")}>
-                            Điều khoản của cửa hàng
+                          Store Terms
                           </Button>
                           <Dialog
                             open={open}
@@ -374,7 +374,7 @@ const Register = () => {
                             aria-describedby="scroll-dialog-description"
                           >
                             <DialogTitle id="scroll-dialog-title">
-                              Điều khoản của cửa hàng
+                            Store Terms
                             </DialogTitle>
                             <DialogContent dividers={scroll === "paper"}>
                               <DialogContentText
@@ -410,7 +410,7 @@ const Register = () => {
                             className="form-check-label"
                             htmlFor="agreeTermsCheckbox"
                           >
-                            Tôi đồng ý với các điều khoản của cửa hàng.
+                           I agree to the store's terms.
                           </label>
                           {validationErrors.agreeTerms && (
                             <div className="invalid-feedback">
@@ -435,7 +435,7 @@ const Register = () => {
                       src="https://images.unsplash.com/photo-1552826580-0d47cf898dee?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmlyZCUyMGNhZ2V8ZW58MHx8MHx8fDA%3D"
                       alt="login form"
                       className="img-fluid"
-                      style={{ borderRadius: "0 1rem 1rem 0", height: "100%" }}
+                      style={{ borderRadius: "0 1rem 1rem 0", height: "100%",marginLeft:'30px'}}
                     />
                   </div>
                 </div>
