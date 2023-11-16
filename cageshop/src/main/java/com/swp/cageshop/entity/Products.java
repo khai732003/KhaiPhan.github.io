@@ -37,6 +37,9 @@ public class Products extends EntityBase {
   @Column(nullable = false)
   private double totalPrice;
 
+
+
+
 // -------------------------------------------------
 
   // 1: cage 2: accessory
@@ -47,6 +50,9 @@ public class Products extends EntityBase {
 
   @Column(nullable = true)
   private Integer orderLevel;
+
+  @Column(nullable = true)
+  private String note;
 
 
 // -------------------------------------------------

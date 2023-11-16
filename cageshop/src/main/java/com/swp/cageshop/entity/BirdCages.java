@@ -20,13 +20,23 @@ public class BirdCages{
     private String description;
 
     @Column(nullable = false)
-    private String material;
+    private String shape;
+
+    @ManyToOne
+    @JoinColumn(name = "material", nullable = false)
+    private Materials material;
+
+    @ManyToOne
+    @JoinColumn(name = "size", nullable = false)
+    private Sizes size;
 
     @Column(nullable = false)
-    private String size;
+    private double birdCagePrice;
 
     @Column(nullable = false)
-    private double price;
+    private int spokes;
+
+
 
 
     @JsonIgnore

@@ -1,7 +1,6 @@
 package com.swp.cageshop.service.productsService;
 
 import com.swp.cageshop.DTO.AccessoryDTO;
-import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.Accessories;
 import com.swp.cageshop.repository.AccessoriesRepository;
 import org.modelmapper.ModelMapper;
@@ -12,10 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 @Service
-public class AccessoriesService implements IAccessoriesService{
+public class AccessoriesService implements IAccessoriesService {
 
     @Autowired
     private AccessoriesRepository accessoryRepository;

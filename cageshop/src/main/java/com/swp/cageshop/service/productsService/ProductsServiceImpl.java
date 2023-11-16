@@ -1,7 +1,6 @@
 package com.swp.cageshop.service.productsService;
 
-import com.swp.cageshop.DTO.AccessoryDTO;
-import com.swp.cageshop.DTO.ProductDTO;
+import com.swp.cageshop.DTO.*;
 import com.swp.cageshop.entity.*;
 
 import java.text.ParseException;
@@ -11,6 +10,8 @@ import java.util.stream.Collectors;
 
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.categoriesService.ICategoriesService;
+import com.swp.cageshop.service.productsService.NewCage.IMaterialService;
+import com.swp.cageshop.service.productsService.NewCage.ISizeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -42,6 +43,19 @@ public class ProductsServiceImpl implements IProductsService {
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
 
+    @Autowired
+    private IMaterialService materialService;
+
+    @Autowired
+    private ISizeService sizeService;
+
+    @Autowired
+    private MaterialRepository materialRepository;
+
+
+    @Autowired
+    private SizeRepository sizeRepository;
+
     @Override
     public List<ProductDTO> getTop3NewestProductDTOs() {
         // Lấy top 3 sản phẩm mới nhất từ repository
@@ -59,10 +73,7 @@ public class ProductsServiceImpl implements IProductsService {
     public void deleteAll() {
         productsRepository.deleteAll();
     }
-
     public ProductDTO addProduct(ProductDTO productDTO) {
-
-
         if (productDTO != null) {
             Products product = modelMapper.map(productDTO, Products.class);
 
@@ -71,19 +82,25 @@ public class ProductsServiceImpl implements IProductsService {
             if (category != null) {
                 product.setCategory(category);
 
-                Products savedProduct = productsRepository.save(product); // Lưu sản phẩm trước
-
+                Products savedProduct = productsRepository.save(product); // Save the product
 
                 if (productDTO.getCage() != null) {
-                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
-                    birdCages.setProduct(savedProduct); // Set the product for the bird cage
-                    birdCages.setId(savedProduct.getId()); // Set the proid for the bird cage
-                    birdCageRepository.save(birdCages);
+                    BirdCages birdCages = createBirdCagesFromDto(productDTO.getCage(), savedProduct);
 
+                    // Additional logic for spokes adjustment
+                    if (birdCages.getSize().getMinspokes() > birdCages.getSpokes()) {
+                        birdCages.setSpokes(birdCages.getSize().getMinspokes());
+                    }
+                    if (birdCages.getSize().getMinspokes() < birdCages.getSpokes()) {
+                        birdCages.setSpokes(birdCages.getSize().getMaxspokes());
+                    }
+
+                    double totalPrice = birdCages.getBirdCagePrice();
+
+                    birdCageRepository.save(birdCages);
                 }
 
                 if (productDTO.getAccessories() != null) {
-
                     for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
                         Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
                         accessory.setCustomProduct(false);
@@ -92,7 +109,6 @@ public class ProductsServiceImpl implements IProductsService {
                         accessoryDTO.setProductId(savedProduct.getId());
 
                         accessoriesRepository.save(accessory);
-
                     }
                 }
 
@@ -105,6 +121,29 @@ public class ProductsServiceImpl implements IProductsService {
         return null;
     }
 
+    private BirdCages createBirdCagesFromDto(BirdCageDTO cageDTO, Products savedProduct) {
+        BirdCages birdCages = modelMapper.map(cageDTO, BirdCages.class);
+
+        // Set the product for the bird cage
+        birdCages.setProduct(savedProduct);
+
+        // Set the product ID for the bird cage (assuming savedProduct.getId() returns a valid ID)
+        birdCages.setId(savedProduct.getId());
+
+        // Fetch MaterialDTO and SizeDTO based on the provided IDs
+        var material = materialRepository.findById(cageDTO.getMaterial().getId()).orElse(null);
+        var size = sizeRepository.findById(cageDTO.getSize().getId()).orElse(null);
+
+        if (material != null && size != null) {
+            birdCages.setSize(size);
+            birdCages.setMaterial(material);
+        }
+
+        return birdCages;
+    }
+
+
+
     public void deleteBirdCagesWithNullProductId() {
         List<BirdCages> birdcage=  birdCageRepository.findByProductIdIsNull();
         birdCageRepository.deleteAll(birdcage);
@@ -116,100 +155,64 @@ public class ProductsServiceImpl implements IProductsService {
         accessoriesRepository.deleteAll(accessories);
     }
 
-    public ProductDTO test(ProductDTO productDTO) {
-        if (productDTO != null) {
-            Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
-            if (category != null) {
-                // Save bird cage and accessories first
-                if (productDTO.getCage() != null) {
-                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
-                    birdCages.setProduct(null);
-                    birdCageRepository.save(birdCages);
-                }
-
-                List<Accessories> savedAccessories = new ArrayList<>();
-                if (productDTO.getAccessories() != null) {
-                    for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
-                        Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
-                        accessory.setCustomProduct(false);
-                        accessory.setProduct(null);
-                        savedAccessories.add(accessory);
-                        accessoriesRepository.save(accessory);
-                    }
-                }
-
-                // Save the product after bird cage and accessories are saved
-                Products product = modelMapper.map(productDTO, Products.class);
-                product.setCategory(category);
-                Products savedProduct = productsRepository.save(product);
-
-                // Set the product for the bird cage, if it exists
-                if (productDTO.getCage() != null) {
-                    BirdCages birdCages = modelMapper.map(productDTO.getCage(), BirdCages.class);
-                    birdCages.setProduct(savedProduct);
-                    birdCageRepository.save(birdCages);
-                }
-
-                // Set the product for each accessory
-                for (Accessories accessory : savedAccessories) {
-                    accessory.setProduct(savedProduct);
-                    accessoriesRepository.save(accessory);
-                }
-
-                return modelMapper.map(savedProduct, ProductDTO.class);
-            }
-        }
-        return null;
-    }
-
-
 
 
     @Override
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
-        if (productDTO != null) {
-            Optional<Products> optionalExistingProduct = productsRepository.findById(id);
-            if (optionalExistingProduct.isPresent()) {
-                Products existingProduct = optionalExistingProduct.get();
-
-                // Update fields of the product entity
-                existingProduct.setName(productDTO.getName());
-                existingProduct.setCode(productDTO.getCode());
-                existingProduct.setProductImage(productDTO.getProductImage());
-                existingProduct.setProductDetailImage(productDTO.getProductDetailImage());
-                existingProduct.setStock(productDTO.getStock());
-                existingProduct.setStatus(productDTO.getStatus());
-
-                // Update or add BirdCage if it exists in the DTO
-                if (productDTO.getCage() != null) {
-                    if (existingProduct.getCage() == null) {
-                        existingProduct.setCage(modelMapper.map(productDTO.getCage(), BirdCages.class));
-                    } else {
-                        BirdCages existingCage = existingProduct.getCage();
-                        modelMapper.map(productDTO.getCage(), existingCage);
-                    }
-                }
-
-                // Update or add Accessories if they exist in the DTO
-                if (productDTO.getAccessories() != null) {
-                    List<Accessories> existingAccessories = existingProduct.getAccessories();
-                    existingAccessories.clear(); // Remove existing accessories
-
-                    for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
-                        existingAccessories.add(modelMapper.map(accessoryDTO, Accessories.class));
-                    }
-                }
-
-                // Save the updated product
-                Products updatedProduct = productsRepository.save(existingProduct);
-
-                // Map the updated product to a DTO
-                ProductDTO updatedProductDTO = modelMapper.map(updatedProduct, ProductDTO.class);
-                return updatedProductDTO;
-            }
+        if (productDTO == null) {
+            return null;
         }
+
+        Optional<Products> optionalExistingProduct = productsRepository.findById(id);
+        if (optionalExistingProduct.isPresent()) {
+            Products existingProduct = optionalExistingProduct.get();
+
+            updateProductFields(existingProduct, productDTO);
+            updateOrAddBirdCage(existingProduct, productDTO);
+            updateOrAddAccessories(existingProduct, productDTO);
+
+            // Save the updated product
+            Products updatedProduct = productsRepository.save(existingProduct);
+
+            // Map the updated product to a DTO
+            return modelMapper.map(updatedProduct, ProductDTO.class);
+        }
+
         return null;
     }
+
+    private void updateProductFields(Products existingProduct, ProductDTO productDTO) {
+        existingProduct.setName(productDTO.getName());
+        existingProduct.setCode(productDTO.getCode());
+        existingProduct.setProductImage(productDTO.getProductImage());
+        existingProduct.setProductDetailImage(productDTO.getProductDetailImage());
+        existingProduct.setStock(productDTO.getStock());
+        existingProduct.setStatus(productDTO.getStatus());
+    }
+
+    private void updateOrAddBirdCage(Products existingProduct, ProductDTO productDTO) {
+        if (productDTO.getCage() != null) {
+            BirdCages existingCage = existingProduct.getCage();
+
+            if (existingCage == null) {
+                existingProduct.setCage(modelMapper.map(productDTO.getCage(), BirdCages.class));
+            } else {
+                modelMapper.map(productDTO.getCage(), existingCage);
+            }
+        }
+    }
+
+    private void updateOrAddAccessories(Products existingProduct, ProductDTO productDTO) {
+        if (productDTO.getAccessories() != null) {
+            List<Accessories> existingAccessories = existingProduct.getAccessories();
+            existingAccessories.clear(); // Remove existing accessories
+
+            for (AccessoryDTO accessoryDTO : productDTO.getAccessories()) {
+                existingAccessories.add(modelMapper.map(accessoryDTO, Accessories.class));
+            }
+        }
+    }
+
 
 
     @Override
@@ -228,117 +231,153 @@ public class ProductsServiceImpl implements IProductsService {
     @Override
     public ProductDTO setProductToSellAgain(Long productId) {
         Optional<Products> optionalProduct = productsRepository.findById(productId);
+
         if (optionalProduct.isPresent()) {
             Products product = optionalProduct.get();
 
             // Modify product name and status
-            String name = "[SPECIAL]" + product.getName();
-            product.setName(name);
-            product.setStatus("Available");
+            modifyProductNameAndStatus(product);
 
             // Modify cage price
-            BirdCages cage = product.getCage();
-            if (cage != null) {
-                double cagePrice = cage.getPrice();
-                if (cagePrice - (cagePrice * 0.1) > 0) {
-                    cage.setPrice(cagePrice - (cagePrice * 0.1));
-                }
-            }
+            modifyCagePrice(product);
 
             // Save the updated product
             Products updatedProduct = productsRepository.save(product);
 
             // Map the updated product to a DTO
-            ProductDTO updatedProductDTO = modelMapper.map(updatedProduct, ProductDTO.class);
-            return updatedProductDTO;
+            return modelMapper.map(updatedProduct, ProductDTO.class);
         }
+
         return null;
     }
+
+    private void modifyProductNameAndStatus(Products product) {
+        String name = "[SPECIAL]" + product.getName();
+        product.setName(name);
+        product.setStatus("Available");
+    }
+
+    private void modifyCagePrice(Products product) {
+        BirdCages cage = product.getCage();
+
+        if (cage != null) {
+            double cagePrice = cage.getBirdCagePrice();
+            double discountedPrice = cagePrice - (cagePrice * 0.1);
+
+            // Ensure the discounted price is not negative
+            cage.setBirdCagePrice(Math.max(discountedPrice, 0));
+        }
+    }
+
 
     public ProductDTO cloneAndAddAccessories(Long productId, List<AccessoryDTO> accessories) {
         Optional<Products> optionalProduct = productsRepository.findById(productId);
+
         if (optionalProduct.isPresent()) {
-            Products product = optionalProduct.get();
-            if (product.getStock() > 0) {
-                if(product.getOrderLevel() == null){
-                    product.setOrderLevel(0);
-                }
-                product.setOrderLevel(product.getOrderLevel()+1);
-                product.setStock(product.getStock() - 1);
-                productsRepository.save(product);
-                if (product.getStock() == 0) {
-                    if(product.getOrderLevel() == null){
-                        product.setOrderLevel(0);
-                    }
-                    product.setOrderLevel(product.getOrderLevel()+1);
-                    product.setStatus("OutOfStock");
-                    productsRepository.save(product);
+            Products originalProduct = optionalProduct.get();
+
+            // Check if there is enough stock to clone
+            if (originalProduct.getStock() > 0) {
+                cloneProductAndUpdateStock(originalProduct);
+
+                // Create a new instance for the cloned product
+                Products clonedProduct = createClonedProduct(originalProduct);
+
+                // Clone bird cage, if exists
+                if (originalProduct.getCage() != null) {
+                    cloneBirdCage(originalProduct.getCage(), clonedProduct);
                 }
 
+                // Clone existing accessories and add new accessories
+                List<Accessories> productAccessories = cloneAndAddAccessories(originalProduct, accessories, clonedProduct);
 
-                Products clonedProduct = new Products();
-                clonedProduct.setName(product.getName());
-                clonedProduct.setStock(1);
-                clonedProduct.setMotherProductId(product.getId());
-
-                clonedProduct.setProductImage(product.getProductImage());
-                clonedProduct.setCode(product.getCode());
-                Categories category = categoriesRepository.findById(product.getCategory().getId()).orElse(null);
-                if(category != null){
-
-                    clonedProduct.setCategory(category);
-
-                    }
-
-                if (product.getCage() != null) {
-                    BirdCages originalBirdCage = product.getCage();
-                    BirdCages clonedBirdCage = new BirdCages();
-                    clonedBirdCage.setDescription(originalBirdCage.getDescription());
-                    clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
-                    clonedBirdCage.setSize(originalBirdCage.getSize());
-                    clonedBirdCage.setPrice(originalBirdCage.getPrice());
-                    clonedBirdCage.setProduct(clonedProduct);
-                    clonedProduct.setCage(clonedBirdCage);
-                }
-
-                clonedProduct.setStatus("CustomProduct");
-
-                // Clone existing accessories
-                List<Accessories> productAccessories = new ArrayList<>();
-                for (Accessories originalAccessory : product.getAccessories()) {
-                    Accessories clonedAccessory = new Accessories();
-                    clonedAccessory.setDescription(originalAccessory.getDescription());
-                    clonedAccessory.setPrice(originalAccessory.getPrice());
-                    clonedAccessory.setType(originalAccessory.getType());
-                    clonedAccessory.setProduct(clonedProduct);
-                    productAccessories.add(clonedAccessory);
-                }
-
-                // Add new accessories
-                double result = 0;
-                // Add new accessories
-                for (AccessoryDTO accessoryDTO : accessories) {
-                    Accessories newAccessory = new Accessories();
-                    newAccessory.setDescription(accessoryDTO.getDescription());
-                    newAccessory.setPrice(accessoryDTO.getPrice());
-                    newAccessory.setType(accessoryDTO.getType());
-                    result += newAccessory.getPrice();
-                    newAccessory.setProduct(clonedProduct);
-                    productAccessories.add(newAccessory);
-                }
-                clonedProduct.setTotalPrice(product.getTotalPrice()+result);
+                // Update and save the cloned product
                 clonedProduct.setAccessories(productAccessories);
-
-
-                clonedProduct.setAccessories(productAccessories);
-
                 Products updatedProduct = productsRepository.save(clonedProduct);
+
                 return modelMapper.map(updatedProduct, ProductDTO.class);
             }
-
         }
+
         return null;
     }
+
+    private void cloneProductAndUpdateStock(Products product) {
+        if (product.getOrderLevel() == null) {
+            product.setOrderLevel(0);
+        }
+        product.setOrderLevel(product.getOrderLevel() + 1);
+        product.setStock(product.getStock() - 1);
+
+        // If stock is zero, mark as OutOfStock
+        if (product.getStock() == 0) {
+            product.setOrderLevel(product.getOrderLevel() + 1);
+            product.setStatus("OutOfStock");
+        }
+
+        productsRepository.save(product);
+    }
+
+    private Products createClonedProduct(Products originalProduct) {
+        Products clonedProduct = new Products();
+        clonedProduct.setName(originalProduct.getName());
+        clonedProduct.setStock(1);
+        clonedProduct.setMotherProductId(originalProduct.getId());
+        clonedProduct.setProductImage(originalProduct.getProductImage());
+        clonedProduct.setCode(originalProduct.getCode());
+
+        // Clone the category
+        Categories category = categoriesRepository.findById(originalProduct.getCategory().getId()).orElse(null);
+        if (category != null) {
+            clonedProduct.setCategory(category);
+        }
+
+        clonedProduct.setStatus("CustomProduct");
+        return clonedProduct;
+    }
+
+    private void cloneBirdCage(BirdCages originalBirdCage, Products clonedProduct) {
+        BirdCages clonedBirdCage = new BirdCages();
+        clonedBirdCage.setDescription(originalBirdCage.getDescription());
+        clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
+        clonedBirdCage.setSize(originalBirdCage.getSize());
+        clonedBirdCage.setBirdCagePrice(originalBirdCage.getBirdCagePrice());
+        clonedBirdCage.setProduct(clonedProduct);
+        clonedProduct.setCage(clonedBirdCage);
+    }
+
+    private List<Accessories> cloneAndAddAccessories(
+            Products originalProduct, List<AccessoryDTO> accessories, Products clonedProduct) {
+        List<Accessories> productAccessories = new ArrayList<>();
+
+        // Clone existing accessories
+        for (Accessories originalAccessory : originalProduct.getAccessories()) {
+            Accessories clonedAccessory = new Accessories();
+            clonedAccessory.setDescription(originalAccessory.getDescription());
+            clonedAccessory.setPrice(originalAccessory.getPrice());
+            clonedAccessory.setType(originalAccessory.getType());
+            clonedAccessory.setProduct(clonedProduct);
+            productAccessories.add(clonedAccessory);
+        }
+
+        // Add new accessories
+        double totalPrice = 0;
+        for (AccessoryDTO accessoryDTO : accessories) {
+            Accessories newAccessory = new Accessories();
+            newAccessory.setDescription(accessoryDTO.getDescription());
+            newAccessory.setPrice(accessoryDTO.getPrice());
+            newAccessory.setType(accessoryDTO.getType());
+            totalPrice += newAccessory.getPrice();
+            newAccessory.setProduct(clonedProduct);
+            productAccessories.add(newAccessory);
+        }
+
+        // Update the total price for the cloned product
+        clonedProduct.setTotalPrice(originalProduct.getTotalPrice() + totalPrice);
+
+        return productAccessories;
+    }
+
 
 
     public ProductDTO addAccessoriesToProduct(Long productId, List<AccessoryDTO> accessories) {

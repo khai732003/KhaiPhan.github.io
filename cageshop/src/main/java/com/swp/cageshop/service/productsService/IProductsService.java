@@ -11,7 +11,6 @@ public interface IProductsService {
   public List<ProductDTO> getTop3NewestProductDTOs();
   public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);
-  public ProductDTO test(ProductDTO productDTO);
 
   public ProductDTO updateProduct(long id, ProductDTO productDTO);
 
@@ -76,10 +75,4 @@ public interface IProductsService {
 //  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
 
-
-
-
-//  public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO);
-//  public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories);
-//  public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId);
 }
