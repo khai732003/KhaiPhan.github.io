@@ -17,7 +17,7 @@ const ModalAddNews = (props) => {
     title: '',
     info: '',
     shortinfo: '',
-    img: '', // Update to store the File object
+    img: null, // Update to store the File object
   });
 
   const handleInputChange = (e) => {
@@ -50,13 +50,14 @@ const ModalAddNews = (props) => {
           ...formData,
           img: uploadedImage,
         });
+       
   
       } catch (error) {
         console.error('Error uploading file:', error);
       }
     }
   };
-  
+console.log(formData);
 
   const handleSubmit = async () => {
     try {

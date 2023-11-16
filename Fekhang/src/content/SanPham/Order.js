@@ -71,6 +71,7 @@ const Order = () => {
   const getDiscountedPrices = async () => {
     try {
       const response = await customAxios.get(`/voucher-usage/get-all-price-by/${orderId}`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching discounted prices:', error);

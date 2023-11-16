@@ -385,7 +385,23 @@ const Register = () => {
                                 {[...new Array(1)]
                                   .map(
                                     () =>
-                                      `Phan Quôsc Khải như con cuuuuuuuuuuuuuuuuuuuuuuuuuuuu`
+                                      `
+                                      
+                                      Acceptance of Terms:
+                                      
+                                      Users must accept all terms and conditions before registering an account.
+                                      Registration Information:
+                                      
+                                      Users are required to provide accurate, complete, and up-to-date registration information.
+                                      Age Restrictions:
+                                      
+                                      Only individuals of a certain age are allowed to register. If the website is for users under 18, parental or guardian consent may be required.
+                                      Account Security:
+                                      
+                                      Users are responsible for safeguarding their login information and personal details.
+                                      Privacy Policy:
+                                      
+                                      Describes how user information will be collected, used, and protected, in accordance with the privacy policy.`
                                   )
                                   .join("\n")}
                               </DialogContentText>

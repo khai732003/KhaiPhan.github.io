@@ -3,15 +3,17 @@ import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
 import customAxios from '../../CustomAxios/customAxios';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Voucher() {
+  const navigate = useNavigate();
   const [voucherData, setVoucherData] = useState({
     code: '',
     description: '',
     voucherAmount: '',
     voucherType: '',
-    isActive: true,
-    expiration_date: '',
+    quantity:'',
+    expiration_date: "2023-12-22T15:37:00.000",
   });
 
   const [errors, setErrors] = useState({
@@ -19,9 +21,13 @@ function Voucher() {
     description: '',
     voucherAmount: '',
     voucherType: '',
+    quantity:'',
+  
+    expiration_date: "2023-12-22T15:37:00.000",
   });
 
   useEffect(() => {
+
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 3);
 
@@ -42,6 +48,8 @@ function Voucher() {
       description: '',
       voucherAmount: '',
       voucherType: '',
+      quantity: '',
+      expiration_date: "2023-12-22T15:37:00.000",
     };
 
     if (voucherData.code.trim() === '') {
@@ -59,6 +67,10 @@ function Voucher() {
     if (voucherData.voucherType.trim() === '') {
       newErrors.voucherType = 'Loại Voucher không được bỏ trống';
     }
+    if (isNaN(voucherData.quantity) || voucherData.quantity <= 0) {
+      newErrors.quantity = 'Số Lượng Voucher không hợp lệ';
+    }
+
 
     setErrors(newErrors);
 
@@ -66,17 +78,19 @@ function Voucher() {
   };
 
   const addVoucher = (event) => {
+    console.log("aaaaa")
     event.preventDefault();
 
-    if (validateForm()) {
+    // if (validateForm()) {
       customAxios.post('/voucher/add', voucherData)
         .then(response => {
-          console.log('Voucher added successfully:', response.data);
+          navigate(-1)
         })
         .catch(error => {
           console.error('Error adding voucher:', error);
-        });
-    }
+        }
+        );
+
   };
 
   return (
@@ -91,6 +105,7 @@ function Voucher() {
         />
         <div className="error">{errors.code}</div>
       </div>
+
       <div>
         <TextField
           label="Description"
@@ -113,14 +128,32 @@ function Voucher() {
         <div className="error">{errors.voucherAmount}</div>
       </div>
       <div>
+        <label className="form-label" >
+          Loại Voucher
+        </label>
+        <div className="form-outline mb-4">
+          <select
+            className="form-control form-control-lg"
+            name="voucherType"
+            value={voucherData.voucherType}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">-- Chọn Loại Voucher --</option>
+            <option value="CASH">CASH</option>
+            <option value="FREESHIP">FREESHIP</option>
+          </select>
+        </div>
+      </div>
+      <div>
         <TextField
-          label="Loại Voucher"
-          name="voucherType"
-          value={voucherData.voucherType}
+          label="Số lượng"
+          name="quantity"
+          value={voucherData.quantity}
           onChange={handleInputChange}
           fullWidth
         />
-        <div className="error">{errors.voucherType}</div>
+        <div className="error">{errors.quantity}</div>
       </div>
       <Button
         variant="contained"

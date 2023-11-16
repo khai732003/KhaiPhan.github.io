@@ -66,6 +66,9 @@ public class OrdersServiceImpl implements IOrdersService {
             }else{
                 orderDTO.setShipPrice(200000);
             }
+            if(orderDTO.getTotal_price() <= 0){
+                orderDTO.setTotal_price(0);
+            }
             Orders orders = modelMapper.map(orderDTO, Orders.class);
             Orders orders1 = ordersRepository.save(orders);
             OrderDTO orderDTO1 = modelMapper.map(orders1, OrderDTO.class);
