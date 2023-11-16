@@ -21,14 +21,14 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     Feedback findByUserIdAndProductId(Long userId, Long productId);
 
-<<<<<<< HEAD
+
     List<Feedback> findAllByProductId(Long productId);
-=======
+
     List<Feedback> findByUserIdAndProductIdOrderByIdDesc(Long userId, Long productId);
 
     // Inside FeedbackRepository
     List<Feedback> findAllByProductIdOrderByIdDesc(Long productId);
 
->>>>>>> 6eb8c347e8031bf998f6244cfb07a235e03f179f
+
 
 }

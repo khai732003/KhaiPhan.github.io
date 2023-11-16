@@ -216,11 +216,11 @@ public class ProductsServiceImpl implements IProductsService {
     public boolean deleteProduct(long id) {
         if (id >= 1) {
             Products product = productsRepository.getReferenceById(id);
-<<<<<<< HEAD
+
             if (product != null) {
-=======
+
             if (product != null ) {
->>>>>>> 6eb8c347e8031bf998f6244cfb07a235e03f179f
+
                 productsRepository.delete(product);
                 return true;
             }
