@@ -94,8 +94,7 @@ public class ProductsServiceImpl implements IProductsService {
                     // Additional logic for spokes adjustment
                     if (birdCages.getSize().getMinspokes() > birdCages.getSpokes()) {
                         birdCages.setSpokes(birdCages.getSize().getMinspokes());
-                    } else if ( birdCages.getSize().getMinspokes() < birdCages.getSpokes() ) {
-
+                    } else if ( birdCages.getSize().getMaxspokes() < birdCages.getSpokes() ) {
                         birdCages.setSpokes(birdCages.getSize().getMaxspokes());
                     }
 
