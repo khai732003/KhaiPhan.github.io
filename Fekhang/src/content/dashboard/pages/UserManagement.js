@@ -116,7 +116,7 @@ const UserManagement = () => {
             <Button
               variant="outlined"
               color="error"
-            >Add new User</Button>
+            >Add new Manager</Button>
           </Link>
         </div>
       </div>
@@ -131,6 +131,7 @@ const UserManagement = () => {
               <th className="user-management-header">Full Name</th>
               <th className="user-management-header">Name</th>
               <th className="user-management-header">Email</th>
+              <th className="user-management-header"> Role</th>
               <th className="user-management-header">Address</th>
               <th className="user-management-header">Phone Number</th>
               <th className="user-management-header">Created At</th>
@@ -153,6 +154,7 @@ const UserManagement = () => {
                 <td className="user-management-td smaller-text">{user.fullname}</td>
                 <td className="user-management-td smaller-text">{user.name}</td>
                 <td className="user-management-td smaller-text">{user.email}</td>
+                <td className="user-management-td smaller-text">{user.role.name}</td>
                 <td className="user-management-td smaller-text">{user.address}</td>
                 <td className="user-management-td smaller-text">{user.phone}</td>
                 <td className="user-management-td smaller-text">
