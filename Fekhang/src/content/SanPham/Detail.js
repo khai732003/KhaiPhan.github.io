@@ -140,7 +140,7 @@ function Detail({
 
   useEffect(() => {
     customAxios
-      .get(`/feedback/get-all`)
+      .get(`/feedback/byProductId/${productId}`)
       .then((response) => {
         console.log(response.data); // Log the response to the console
         setFeedback(response.data);
