@@ -24,5 +24,6 @@ public class OrderDTO extends DTOBase{
     private double total_price;
     private List<OrderDetailDTO> orderDetails;
     private Long userId;
+    private Double discount;
 
 }
