@@ -28,7 +28,7 @@ public class Marketings extends EntityBase{
 
   @Lob
   @Column(nullable = false,columnDefinition="BLOB")
-  private String shortinfo;
+  private String shortinfo;               
 
 
 
