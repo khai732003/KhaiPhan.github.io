@@ -1,44 +1,45 @@
-/* AddEditProduct.css */
+.add-edit-product-container {
+  background-color: white;
+}
 
-/* Tùy chỉnh màu nền cho phần tiêu đề */
-.card-body {
-    background-color: #f0f0f0;
-    border-radius: 10px;
-  }
-  
-  /* Tùy chỉnh nút "BACK" */
-  .btn-back {
-    background-color: #e0e0e0;
-    color: #212121;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
-  .btn-back:hover {
-    background-color: #ccc; /* Màu khi di chuột qua */
-  }
-  
-  /* Tùy chỉnh input fields */
-  .form-control {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-  }
-  
-  /* Thêm hiệu ứng hover cho nút "Submit" */
-  .btn-submit {
-    background-color: #393f81;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
-  .btn-submit:hover {
-    background-color: #212121; /* Màu khi di chuột qua */
-  }
-  
+.editpro{
+  margin-top: 80px;
+    margin-bottom: 300px;
+    padding-left: 50px;
+    padding-right: 50px;
+    
+}
+
+.add-edit-pro {
+  max-width: 500px; /* Giới hạn chiều rộng của form */
+  margin: 0 auto 100px auto; /* Canh giữa form */
+  border:3px solid black;
+  padding: 30px;
+}
+
+.form-add-edit-pro {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.form-outline {
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.button-pro {
+  margin-top: 15px;
+}

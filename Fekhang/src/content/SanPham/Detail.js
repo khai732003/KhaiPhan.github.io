@@ -51,7 +51,7 @@ function Detail({
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   const [rate, setRate] = useState(null);
   const [feedback, setFeedback] = useState();
-  const [show, setShow] = useState(null);
+  const [show, setShow] = useState(true);
 
 
   const [quantity, setQuantity] = useState(1); // State for quantity

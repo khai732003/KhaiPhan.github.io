@@ -29,12 +29,12 @@ function VoucherList() {
   );
 
   return (
-    <div style={{ marginLeft: "5rem", marginRight: "9rem" }}>
+    <div style={{ marginLeft: "5rem", marginRight: "9rem", marginBottom: "160px" }}>
       <TableContainer
         component={Paper}
         style={{
           marginTop: "7rem",
-          marginBottom: "10rem",
+          marginBottom: "20rem",
           marginLeft: "2rem",
           marginRight: "2rem",
         }}

@@ -11,7 +11,7 @@ const AddEditProduct = () => {
   const navigate = useNavigate();
 
   const isEditing = !!id;
-  
+
   const [product, setProduct] = useState({
     fullname: "",
     productImage: "",
@@ -62,7 +62,7 @@ const AddEditProduct = () => {
 
   const addNewProduct = async () => {
     try {
-      const response = await customAxios.post('/product/add', product);
+      const response = await customAxios.post("/product/add", product);
       if (response.status === 200 || response.status === 201) {
         navigate("/productmanagement");
       }
@@ -82,124 +82,120 @@ const AddEditProduct = () => {
   };
 
   return (
-    <div>
+    <div className="editpro">
       <div className="alert-container">
         {error && <Alert severity="info">{error}</Alert>}
       </div>
-      <section className="vh-100" style={{ backgroundColor: "#808080" }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col col-xl-10">
-              <div className="card" style={{ borderRadius: "1rem" }}>
-                <div className="row g-0">
-                  <div className="col-md-6 col-lg-6 d-flex align-items-center">
-                    <div className="card-body p-4 p-lg-1.5 text-black">
-                      <h2>{id ? "Update Product" : "Add New Product"}</h2>
-                      <form onSubmit={handleSubmit}>
-                        <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
-                          <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
-                            <Button
-                              sx={{ fontSize: 18 }}
-                              variant="contained"
-                              style={{ backgroundColor: "#e0e0e0", color: "#212121" }}
-                              startIcon={<ArrowBackIosIcon />}
-                              onClick={handleReturnPage}
-                            >
-                              BACK
-                            </Button>
-                          </div>
-                          <span className="h1 fw-bold mb-0">
-                            {id ? "Update Product" : "Add New Product"}
-                          </span>
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Name
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="fullname"
-                            value={product.name}
-                            onChange={handleInputChange}
-                            required
-                            placeholder="Enter Full Name"
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Product Image
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="productImage"
-                            value={product.productImage}
-                            onChange={handleInputChange}
-                            required
-                            placeholder="Enter Product Image URL"
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Stock
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="stock"
-                            value={product.stock}
-                            onChange={handleInputChange}
-                            required
-                            placeholder="Enter Stock"
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Category ID
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="categoryId"
-                            value={product.categoryId}
-                            onChange={handleInputChange}
-                            required
-                            placeholder="Enter Category ID"
-                          />
-                        </div>
-                        <label className="form-label" htmlFor="form2Example17">
-                          Status
-                        </label>
-                        <div className="form-outline mb-4">
-                          <input
-                            type="text"
-                            id="form2Example17"
-                            className="form-control form-control-lg"
-                            name="status"
-                            value={product.status}
-                            onChange={handleInputChange}
-                            required
-                            placeholder="Enter Status"
-                          />
-                        </div>
-                        <div className="pt-1 mb-4">
-                          <button className="btn btn-dark btn-lg btn-block" type="submit">
-                            {id ? "Update" : "Submit"}
-                          </button>
-                        </div>
-                      </form>
-                    </div>
+      <section className="vh-100" style={{ backgroundColor: "white" }}>
+        <div className="add-edit-product-container">
+          <div className="add-edit-pro">
+            
+              <form onSubmit={handleSubmit} className="form-add-edit-pro">
+                <div className="d-flex justify-content-between align-items-center  mb-1 pb-1">
+                  <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+                    <Button
+                      sx={{ fontSize: 18 }}
+                      variant="contained"
+                      style={{ backgroundColor: "white", color: "#212121" }}
+                      startIcon={<ArrowBackIosIcon />}
+                      onClick={handleReturnPage}
+                    >
+                      BACK
+                    </Button>
                   </div>
                 </div>
-              </div>
+
+                <div style={{ alignItems: "center" }}>
+                  <span className="h1 fw-bold">
+                    {id ? "Update Product" : "Add New Product"}
+                  </span>
+                </div>
+                <label className="form-label" htmlFor="form2Example17">
+                  Name
+                </label>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form2Example17"
+                    className="form-control form-control-lg"
+                    name="fullname"
+                    value={product.name}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter Full Name"
+                  />
+                </div>
+                <label className="form-label" htmlFor="form2Example17">
+                  Product Image
+                </label>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form2Example17"
+                    className="form-control form-control-lg"
+                    name="productImage"
+                    value={product.productImage}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter Product Image URL"
+                  />
+                </div>
+                <label className="form-label" htmlFor="form2Example17">
+                  Stock
+                </label>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form2Example17"
+                    className="form-control form-control-lg"
+                    name="stock"
+                    value={product.stock}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter Stock"
+                  />
+                </div>
+                <label className="form-label" htmlFor="form2Example17">
+                  Category ID
+                </label>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form2Example17"
+                    className="form-control form-control-lg"
+                    name="categoryId"
+                    value={product.categoryId}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter Category ID"
+                  />
+                </div>
+                <label className="form-label" htmlFor="form2Example17">
+                  Status
+                </label>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    id="form2Example17"
+                    className="form-control form-control-lg"
+                    name="status"
+                    value={product.status}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Enter Status"
+                  />
+                </div>
+                <div className="button-pro">
+                  <button
+                    className="btn btn-dark btn-lg btn-block"
+                    type="submit"
+                  >
+                    {id ? "Update" : "Submit"}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
       </section>
     </div>
   );
