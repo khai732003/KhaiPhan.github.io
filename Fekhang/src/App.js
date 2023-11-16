@@ -92,6 +92,7 @@ function App() {
               <Route element={<Error />} />
               <Route path="/addfeedback/:productId" element={<AddFeedBack />} />
               <Route path="/detail-news/:id" element={<NewsDetail/>} />
+              <Route path="/*" element={<Error/>} />
 
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />

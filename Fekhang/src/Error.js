@@ -1,10 +1,10 @@
 import React from 'react'
-
+import './content/SanPham/Scss/confirm.scss'
 export default function Error() {
   return (
-    <div>
+    <div className='success'>
 
-        <div>Error 404 Not Found</div>
+        <div style={{fontSize:'5rem'}}>Error 404 Not Found</div>
 
 
     </div>

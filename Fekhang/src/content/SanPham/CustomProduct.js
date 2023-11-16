@@ -14,9 +14,11 @@ import {
 
 import ListCustom from './ListCustom';
 
-
+import { useLocation } from 'react-router-dom';
 
 function CustomProduct() {
+  const location = useLocation();
+  const totalPrice = location.state.totalPrice;
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedAccessories, setSelectedAccessories] = useState([]);
@@ -103,6 +105,7 @@ function CustomProduct() {
           </label>
         </Box>
       ))}<hr/>
+      <div>
       <Button
         variant="contained"
         color="primary"
@@ -111,6 +114,8 @@ function CustomProduct() {
       >
         Buy Custom Product
       </Button>
+      </div>
+      
     </Container>
   );
 

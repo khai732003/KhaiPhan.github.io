@@ -277,7 +277,7 @@ function Detail({
     }
   }, [isReturningFromLogin]);
 
-  const handleCustomProduct = (id) => {
+  const handleCustomProduct = (productDetail) => {
     if (!user) {
       localStorage.setItem('isDetailReturn', 'true');
       localStorage.setItem('cusroid', productId);
@@ -285,7 +285,7 @@ function Detail({
       navigate("/login")
       return;
     }
-    navigate(`/customeproduct/${id}`);
+    navigate(`/customeproduct/${productDetail.id}` ,{ state: { totalPrice: productDetail.totalPrice } });
   };
 
 
@@ -522,7 +522,7 @@ function Detail({
                       <Button
                         className="custom-button-custom-product"
                         variant="contained"
-                        onClick={() => handleCustomProduct(productDetail.id)}
+                        onClick={() => handleCustomProduct(productDetail)}
                       >
                         Custom Product
                       </Button>
