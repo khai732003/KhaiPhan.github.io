@@ -10,8 +10,10 @@ import {
   Rating,
 } from "@mui/material";
 import customAxios from "../../../CustomAxios/customAxios";
+import { useAuth } from "../../SanPham/Context/AuthContext";
 
 function FeedBack() {
+  const {user} = useAuth();
   const [feedbackList, setFeedbackList] = useState([]);
 
   useEffect(() => {
