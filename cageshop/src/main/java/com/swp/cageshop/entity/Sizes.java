@@ -30,8 +30,6 @@ public class Sizes  {
     @Column(nullable = false)
     private int maxspokes;
 
-    @Column(nullable = false)
-    private int spokes;
 
     @Column(nullable = false)
     private double price;

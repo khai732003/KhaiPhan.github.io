@@ -56,6 +56,9 @@ public class ProductsServiceImpl implements IProductsService {
     @Autowired
     private SizeRepository sizeRepository;
 
+    @Autowired
+    private ShapeRepository shapeRepository;
+
     @Override
     public List<ProductDTO> getTop3NewestProductDTOs() {
         // Lấy top 3 sản phẩm mới nhất từ repository
@@ -68,6 +71,7 @@ public class ProductsServiceImpl implements IProductsService {
 
         return productDTOs;
     }
+
 
     @Override
     public void deleteAll() {
@@ -90,8 +94,8 @@ public class ProductsServiceImpl implements IProductsService {
                     // Additional logic for spokes adjustment
                     if (birdCages.getSize().getMinspokes() > birdCages.getSpokes()) {
                         birdCages.setSpokes(birdCages.getSize().getMinspokes());
-                    }
-                    if (birdCages.getSize().getMinspokes() < birdCages.getSpokes()) {
+                    } else if ( birdCages.getSize().getMinspokes() < birdCages.getSpokes() ) {
+
                         birdCages.setSpokes(birdCages.getSize().getMaxspokes());
                     }
 
@@ -131,12 +135,38 @@ public class ProductsServiceImpl implements IProductsService {
         birdCages.setId(savedProduct.getId());
 
         // Fetch MaterialDTO and SizeDTO based on the provided IDs
-        var material = materialRepository.findById(cageDTO.getMaterial().getId()).orElse(null);
-        var size = sizeRepository.findById(cageDTO.getSize().getId()).orElse(null);
+        var material = materialRepository.findById(cageDTO.getMaterialId()).orElse(null);
+        var size = sizeRepository.findById(cageDTO.getSizeId()).orElse(null);
+        var shape = shapeRepository.findById(cageDTO.getShapeId()).orElse(null);
 
-        if (material != null && size != null) {
+        double totalPrice = 0;
+        int spokes = birdCages.getSpokes();
+
+        if (material != null) {
+            totalPrice += material.getPrice();
+        }
+        if (shape != null) {
+            totalPrice += shape.getPrice();
+        }
+
+        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
+            totalPrice +=   size.getPrice() * spokes;
+        }
+
+
+        birdCages.setBirdCagePrice(totalPrice);
+
+
+
+
+
+
+
+
+        if (material != null && size != null && shape !=null) {
             birdCages.setSize(size);
             birdCages.setMaterial(material);
+            birdCages.setShape(shape);
         }
 
         return birdCages;
@@ -341,6 +371,7 @@ public class ProductsServiceImpl implements IProductsService {
         clonedBirdCage.setDescription(originalBirdCage.getDescription());
         clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
         clonedBirdCage.setSize(originalBirdCage.getSize());
+        clonedBirdCage.setMaterial(originalBirdCage.getMaterial());
         clonedBirdCage.setBirdCagePrice(originalBirdCage.getBirdCagePrice());
         clonedBirdCage.setProduct(clonedProduct);
         clonedProduct.setCage(clonedBirdCage);
@@ -450,21 +481,19 @@ public class ProductsServiceImpl implements IProductsService {
     }
 
     @Override
-    public List<ProductDTO> listAllProducts() {
+    public List<Products> listAllProducts() {
         List<Products> products = productsRepository.findAll();
         // Convert the list of Products to a list of ProductDTOs
-        return products.stream()
-                .map(product -> modelMapper.map(product, ProductDTO.class))
-                .collect(Collectors.toList());
+        return products;
     }
 
 
     @Override
-    public ProductDTO listProducts(long id) {
-        Products product = productsRepository.getReferenceById(id);
+    public Optional<Products> listProducts(long id) {
+        Optional<Products> product = productsRepository.findById(id);
         if (product != null) {
-            // Convert the Products entity to ProductDTO
-            return modelMapper.map(product, ProductDTO.class);
+
+            return product;
         }
         return null;
     }

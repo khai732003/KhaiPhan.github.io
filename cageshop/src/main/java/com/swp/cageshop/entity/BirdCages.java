@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.awt.Shape;
+
 @Entity
 @Table(name = "BirdCages")
 @Data
@@ -19,8 +21,9 @@ public class BirdCages{
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private String shape;
+    @ManyToOne
+    @JoinColumn(name = "shape", nullable = false)
+    private Shapes shape;
 
     @ManyToOne
     @JoinColumn(name = "material", nullable = false)

@@ -1,17 +1,12 @@
 package com.swp.cageshop.repository;
 
-import com.swp.cageshop.DTO.ProductDTO;
-import com.swp.cageshop.entity.Accessories;
-import com.swp.cageshop.entity.BirdCages;
 import com.swp.cageshop.entity.Categories;
 import com.swp.cageshop.entity.Products;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +15,7 @@ import java.util.Optional;
 public interface ProductsRepository extends JpaRepository<Products,Long> {
 
     void deleteAll();
+    Optional<Products> findById(Long id);
 
 
 

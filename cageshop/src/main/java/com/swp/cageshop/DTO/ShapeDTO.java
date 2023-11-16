@@ -1,0 +1,16 @@
+package com.swp.cageshop.DTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShapeDTO {
+
+    private Long id;
+    private String shapeName;
+    private double price;
+
+}

@@ -14,27 +14,27 @@ public class BirdCageDTO   {
     private Long id;
 
     private String description;
-    private String shape;
-    private MaterialDTO material;
-    private SizeDTO size;
+    private Long shapeId;
+    private Long materialId;
+    private Long sizeId;
     private double birdCagePrice;
     private int spokes;
 
     private Long productId;
 
 
-    public double getBirdCagePrice() {
-        double totalPrice = 0;
-
-        if (material != null) {
-            totalPrice += material.getPrice();
-        }
-
-        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
-            totalPrice +=   size.getPrice() * spokes;
-        }
-
-
-        return totalPrice;
-    }
+//    public double getBirdCagePrice() {
+//        double totalPrice = 0;
+//
+//        if (material != null) {
+//            totalPrice += material.getPrice();
+//        }
+//
+//        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
+//            totalPrice +=   size.getPrice() * spokes;
+//        }
+//
+//
+//        return totalPrice;
+//    }
 }

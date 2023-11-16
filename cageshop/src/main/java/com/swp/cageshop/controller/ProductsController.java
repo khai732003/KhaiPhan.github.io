@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -143,7 +144,7 @@ public class ProductsController {
 
 
     @GetMapping("/product/get-list")
-    public List<ProductDTO> listProducts() {
+    public List<Products> listProducts() {
         return productsService.listAllProducts();
     }
 
@@ -158,10 +159,10 @@ public class ProductsController {
     }
 
     @GetMapping("/product/select/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable long id) {
-        ProductDTO productDTO = productsService.listProducts(id);
-        if (productDTO != null) {
-            return ResponseEntity.ok(productDTO);
+    public ResponseEntity<Optional<Products>> getProduct(@PathVariable long id) {
+        Optional<Products> products = productsService.listProducts(id);
+        if (products != null) {
+            return ResponseEntity.ok(products);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -387,24 +388,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/product/select/{productId}/birdcage")
-    public ResponseEntity<?> getBirdCageForProduct(@PathVariable Long productId) {
-        // Retrieve the product based on the productId
-        ProductDTO product = productsService.listProducts(productId);
 
-        if (product != null) {
-            // Retrieve the bird cage associated with the product
-            BirdCages birdCage = birdCageService.getBirdCageByProductId(productId);
-
-            if (birdCage != null) {
-                return ResponseEntity.ok(birdCage);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 
 

@@ -3,8 +3,10 @@ package com.swp.cageshop.service.productsService;
 import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Products;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProductsService {
 
@@ -18,9 +20,9 @@ public interface IProductsService {
 
   public ProductDTO setProductToSellAgain(Long productId);
 
-  public List<ProductDTO>listAllProducts();
+  public List<Products> listAllProducts();
 
-  public ProductDTO listProducts(long id);
+  public Optional<Products> listProducts(long id);
 
   public List<ProductDTO> getProductsByCategory(Long categoryId);
 
