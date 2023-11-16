@@ -14,10 +14,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import customAxios from "../../../CustomAxios/customAxios";
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 
 const URL = "http://localhost:8080/cageshop/api/product/get-list";
 
@@ -32,7 +32,7 @@ const ProductManagement = () => {
   const itemsPerPage = 5;
   const [detailPopup, setDetailPopup] = useState(null);
   const [filterProducts, setFilterProducts] = useState([]);
-
+  const [selectedPrice, setSelectedPrice] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all"); // Default to "all" or "available" based on your needs
 
   const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -40,12 +40,26 @@ const ProductManagement = () => {
   const getListProducts = async () => {
     const res = await customAxios.get(`${URL}`);
     if (res.status === 200) {
-      const newProducts = res.data.sort((a, b) => a.id - b.id);
+      let newProducts = res.data.sort((a, b) => a.id - b.id);
+
+      // Sort by price based on the selected option
+      if (selectedPrice === "lowtohigh") {
+        newProducts = newProducts.sort((a, b) => a.price - b.price);
+      } else if (selectedPrice === "hightolow") {
+        newProducts = newProducts.sort((a, b) => b.price - a.price);
+      }
+
+      // Sort by date based on the selected option
+      if (selectedPrice === "newest") {
+        newProducts = newProducts.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));
+      } else if (selectedPrice === "oldest") {
+        newProducts = newProducts.sort((a, b) => new Date(a.createDate) - new Date(b.createDate));
+      }
+
       setProducts(newProducts);
       setFilteredProducts(newProducts);
     }
   };
-
 
   useEffect(() => {
     getListProducts();
@@ -73,6 +87,12 @@ const ProductManagement = () => {
     setCurrentPage(1); // Reset the page when the status changes
   };
 
+  const handlePriceChange = (event) => {
+    const price = event.target.value;
+    setSelectedPrice(price);
+    setCurrentPage(1); // Reset the page when the status changes
+  };
+
   const handleSearch = () => {
     const filtered = products.filter((product) => {
       return (
@@ -83,15 +103,41 @@ const ProductManagement = () => {
     setFilteredProducts(filtered);
     setCurrentPage(1);
   };
-  const handleResetSearch = () => {
-    setSearchTerm("");
-    setFilteredProducts(products);
-    setCurrentPage(1); // Đặt lại trang hiện tại về trang đầu khi đặt lại tìm kiếm
-  };
+  // const handleResetSearch = () => {
+  //   setSearchTerm("");
+  //   setFilteredProducts(products);
+  //   setCurrentPage(1); // Đặt lại trang hiện tại về trang đầu khi đặt lại tìm kiếm
+  // };
 
   const getVisibleProducts = () => {
-    const filteredByStatus = selectedStatus === "all" ? products : products.filter(product => product.status.toLowerCase() === selectedStatus.toLowerCase());
+    const filteredByStatus =
+      selectedStatus === "all"
+        ? products
+        : products.filter(
+            (product) =>
+              product.status.toLowerCase() === selectedStatus.toLowerCase()
+          );
     const filteredBySearch = filteredByStatus.filter((product) => {
+      return (
+        product.name &&
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredBySearch.slice(startIndex, endIndex);
+  };
+
+
+  const getPriceProducts = () => {
+    const filteredByPrice =
+      selectedPrice === "all"
+        ? products
+        : products.filter(
+            (product) =>
+              product.price.toLowerCase() === selectedPrice.toLowerCase()
+          );
+    const filteredBySearch = filteredByPrice.filter((product) => {
       return (
         product.name &&
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -118,9 +164,7 @@ const ProductManagement = () => {
     <div className="user-management-page">
       <div className="search-add-btn">
         <div className="search-name">
-          <div className="search-text">
-
-          </div>
+          <div className="search-text"></div>
           <FormControl sx={{ m: 1, minWidth: 200 }}>
             <InputLabel id="status-label">Status</InputLabel>
             <Select
@@ -137,9 +181,25 @@ const ProductManagement = () => {
               <MenuItem value="Custom Product">Custom Product</MenuItem>
             </Select>
           </FormControl>
-          <div className="search-click" style={{ display: 'flex', alignItems: 'center' }}>
 
-
+          <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="price-label">Price</InputLabel>
+        <Select
+          labelId="price-label"
+          id="price-select"
+          value={selectedPrice}
+          onChange={handlePriceChange}
+        >
+          <MenuItem value="newest">Newest</MenuItem>
+          <MenuItem value="lowtohigh">Price: Low to High</MenuItem>
+          <MenuItem value="hightolow">Price: High to Low</MenuItem>
+          <MenuItem value="oldest">Oldest</MenuItem>
+        </Select>
+      </FormControl>
+          <div
+            className="search-click"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <TextField
             style={{marginRight:'30px'}}
               label="Search"
@@ -147,49 +207,47 @@ const ProductManagement = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-           
 
             <div className="btn-add">
               <Link to={"/addaccessories"}>
-                <Button variant="outlined" color="success" className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</Button>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  className="add-staff-btn"
+                  style={{ marginRight: "20" }}
+                >
+                  Add new Accessories
+                </Button>
               </Link>
             </div>
 
-            <div className="btn-add" style={{ margin: '0 20px' }}>
+            <div className="btn-add" style={{ margin: "0 20px" }}>
               <Link to={"/add-edit-category"}>
-                <Button variant="outlined" color="warning" className="add-staff-btn">Add new Category</Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  className="add-staff-btn"
+                >
+                  Add new Category
+                </Button>
               </Link>
             </div>
 
             <div className="btn-add">
               <Link to={"/addproduct"}>
-                <Button variant="outlined" color="error" className="add-staff-btn">Add new product</Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  className="add-staff-btn"
+                >
+                  Add new product
+                </Button>
               </Link>
             </div>
           </div>
-
         </div>
 
-        {/* <div className="btn-add">
-          <Link to={"/addaccessories"}>
-            <button className="add-staff-btn" style={{ marginRight: '20' }}>Add new Accessories</button>
-          </Link>
-        </div>
-
-        <div className="btn-add">
-          <Link to={"/add-edit-category"}>
-            <button className="add-staff-btn">Add new Category</button>
-          </Link>
-        </div>
-
-        <div className="btn-add">
-          <Link to={"/addproduct"}>
-            <button className="add-staff-btn">Add new product</button>
-          </Link>
-        </div> */}
       </div>
-
-
 
       <div className="table-staff-container">
         <table className="user-table">
@@ -219,7 +277,6 @@ const ProductManagement = () => {
                     src={product.productImage}
                     alt={product.id}
                     className="img-user-management"
-
                   />
                 </td>
                 <td className="user-management-td smaller-text">
@@ -228,9 +285,12 @@ const ProductManagement = () => {
 
                 <td className="user-management-td smaller-text">
                   {
-                    <Button variant="outlined" onClick={() => handleViewPopup(product)}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => handleViewPopup(product)}
+                    >
                       Details
-                    </Button >
+                    </Button>
                   }
                 </td>
 
@@ -260,17 +320,21 @@ const ProductManagement = () => {
             {detailPopup && (
               <div className="popup-Home-Dashboard-container">
                 <div className="popup-content">
-                  <div className="close" style={{ position: 'relative' }} onClick={handleClosePopup}>
+                  <div
+                    className="close"
+                    style={{ position: "relative" }}
+                    onClick={handleClosePopup}
+                  >
                     <Button
-                      style={{ position: 'absolute', top: '0%', right: '47%' }}
+                      style={{ position: "absolute", top: "0%", right: "47%" }}
                       variant="contained"
-                      color="error">
-
+                      color="error"
+                    >
                       <CloseIcon />
                     </Button>
                   </div>
 
-                  <Grid container spacing={2} style={{ marginTop: '20px' }}>
+                  <Grid container spacing={2} style={{ marginTop: "20px" }}>
                     <Grid item xs={12} md={5}>
                       <img
                         src={detailPopup.productImage}

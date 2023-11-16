@@ -55,6 +55,7 @@ import ShowCustom from './content/SanPham/ShowCustom';
 import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
 import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 import ListDelivered from './content/dashboard/pages/ListDelivered';
+import FeedBack from './content/dashboard/pages/FeedBack';
 
 
 
@@ -103,6 +104,7 @@ function App() {
               <Route path="/timeline" element={<PrivateRoute allowedRoles={['ADMIN']} component={TimeLine} path="/TimeLine" />} />
               <Route path="/update-user/:id" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditUser} path="/update-user/:id" />} />
               <Route path="/add-edit-user" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditUser} path="/add-edit-user" />} />
+              <Route path="/list-feedback" element={<PrivateRoute allowedRoles={['ADMIN']} component={FeedBack} path="/list-feedback" />} />
 
 
               {/* Vùng manager */}

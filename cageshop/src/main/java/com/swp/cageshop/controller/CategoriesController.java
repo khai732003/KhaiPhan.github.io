@@ -44,8 +44,8 @@ public class CategoriesController {
         }
     }
 
-    @GetMapping("/category/categorybyid")
-    public ResponseEntity<CategoryDTO> getCategoryById(@RequestParam Long id) {
+    @GetMapping("/category/{id}")
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
         CategoryDTO categoryDTO = categoriesService.getOneCategory(id);
         if (categoryDTO != null) {
             return ResponseEntity.ok(categoryDTO);
@@ -53,6 +53,7 @@ public class CategoriesController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 
     // Lấy danh sách tên của các danh mục

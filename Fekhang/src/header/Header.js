@@ -51,11 +51,10 @@ function Header(props) {
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
   const isListConfirm = location.pathname === "/listconfirm";
-
   const isAddEditUser = location.pathname === "/add-edit-user";
   const isAddCategory = location.pathname === "/add-edit-category";
+  const isFeedBack = location.pathname === "/list-feedback";
   const islistdevered = location.pathname === "/listdelivered";
-
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -117,7 +116,11 @@ const handleCustome = () =>{
     isVoucher ||
     isAdminProfile ||
     isAddAccessories ||
-    isTimeLine || isListConfirm || isAddEditUser || isAddCategory || islistdevered
+
+    isTimeLine || isListConfirm || isAddEditUser || isAddCategory || isFeedBack
+
+   || islistdevered
+
 
   ) {
     return <NavbBar />;

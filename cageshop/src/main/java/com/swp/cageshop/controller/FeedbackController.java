@@ -44,7 +44,8 @@ public class FeedbackController {
 
     @GetMapping("/get-all")
     public ResponseEntity<List<FeedbackDTO>> getAllFeedbacks() {
-        List<FeedbackDTO> feedbacks = feedbackService.getAllFeedbacks();
+        List<FeedbackDTO> feedbacks = feedbackService.getAllFeedbacks()
+                ;
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
 

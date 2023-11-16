@@ -25,6 +25,9 @@ const Footer = (props) => {
   const isError = location.pathname === "/error";
   const isPaypal = location.pathname === "/paypal";
   const isListConfirm = location.pathname === "/listconfirm";
+
+  const isFeedBack = location.pathname === "/list-feedback";
+
   const islistdevered = location.pathname === "/listdelivered";
 
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
@@ -45,9 +48,11 @@ const Footer = (props) => {
       isUpdateProduct ||
       isStaffManager ||
       isAdminProfile ||
-      isTimeLine || islistdevered
+      isTimeLine || isFeedBack
+ || islistdevered
+
     ) {
-      return <FooterAdmin />;
+      return <FooterAdmin />; 
     }
     return (
       <div className="Foot">

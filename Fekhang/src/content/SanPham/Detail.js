@@ -52,6 +52,8 @@ function Detail({
   const [rate, setRate] = useState(null);
   const [feedback, setFeedback] = useState();
   const [show, setShow] = useState(null);
+
+
   const [quantity, setQuantity] = useState(1); // State for quantity
 
   const [feedbackVisible, setFeedbackVisible] = useState(true);
@@ -150,6 +152,7 @@ function Detail({
         setLoading(false);
       });
   }, []);
+
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -460,6 +463,15 @@ function Detail({
                         </Box>
                       </div>
                     </div>
+
+                    {/* {show === true && <div> */}
+                    <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
+                      <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
+                        FeedBack
+                      </Button>
+                    </Stack>
+                    {/* </div>} */}
+
                     <div>
                       <input
                         type="number"
