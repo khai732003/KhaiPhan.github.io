@@ -331,6 +331,18 @@ const NavBar = () => {
                 <ListItemText primary="Voucher" />
               </StyledToggleButton>
 
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/list-voucher"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                  <GroupIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="List Voucher" />
+              </StyledToggleButton>
+
               <div>
                 <p id="navbar-title">Profile</p>
                 <hr />
@@ -359,6 +371,7 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText primary="FeedBack" />
               </StyledToggleButton>
+
               
             </List>
           </div>

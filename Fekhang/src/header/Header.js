@@ -43,10 +43,10 @@ function Header(props) {
   const isTimeLine = location.pathname === "/timeline";
   const isProductManager = location.pathname === "/productmanagement";
   const isAddProduct = location.pathname === "/addproduct";
-  const isUpdateProduct = location.pathname === "/update-product";
+  // const isUpdateProduct = location.pathname === "/update-product";
   const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
-  // const isUpdateProduct = /^\/update\/\d+$/.test(location.pathname);
+  const isUpdateProduct1 = /^\/update\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
@@ -55,6 +55,8 @@ function Header(props) {
   const isAddCategory = location.pathname === "/add-edit-category";
   const isFeedBack = location.pathname === "/list-feedback";
   const islistdevered = location.pathname === "/listdelivered";
+  const isVoucherList = location.pathname === "/list-voucher";
+
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -110,8 +112,7 @@ const handleCustome = () =>{
     isUpdateUser ||
     isRevenue ||
     isProductManager ||
-    isAddProduct ||
-    isUpdateProduct ||
+    isAddProduct  ||
     isStaffManager ||
     isVoucher ||
     isAdminProfile ||
@@ -119,7 +120,7 @@ const handleCustome = () =>{
 
     isTimeLine || isListConfirm || isAddEditUser || isAddCategory || isFeedBack
 
-   || islistdevered
+   || islistdevered || isVoucherList || isUpdateProduct1
 
 
   ) {

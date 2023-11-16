@@ -27,7 +27,7 @@ const Footer = (props) => {
   const isListConfirm = location.pathname === "/listconfirm";
 
   const isFeedBack = location.pathname === "/list-feedback";
-
+  const isVoucherList = location.pathname === "/list-voucher";
   const islistdevered = location.pathname === "/listdelivered";
 
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
@@ -49,7 +49,7 @@ const Footer = (props) => {
       isStaffManager ||
       isAdminProfile ||
       isTimeLine || isFeedBack
- || islistdevered
+ || islistdevered || isVoucherList
 
     ) {
       return <FooterAdmin />; 

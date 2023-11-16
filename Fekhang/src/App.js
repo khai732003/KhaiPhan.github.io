@@ -56,7 +56,7 @@ import ListNotConfirm from './content/dashboard/pages/ListNotConfirm';
 import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 import ListDelivered from './content/dashboard/pages/ListDelivered';
 import FeedBack from './content/dashboard/pages/FeedBack';
-import FeedBack from './content/dashboard/pages/VoucherList';
+import VoucherList from './content/dashboard/pages/VoucherList';
 
 
 

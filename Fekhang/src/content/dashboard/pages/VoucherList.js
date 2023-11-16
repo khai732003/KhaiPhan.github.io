@@ -7,158 +7,191 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TextField,
 } from "@mui/material";
 import customAxios from "../../../CustomAxios/customAxios";
 
 function VoucherList() {
-  const [feedbackList, setFeedbackList] = useState([]);
+  const [voucherList, setVoucherList] = useState([]);
+  const [searchCode, setSearchCode] = useState("");
 
   useEffect(() => {
-    // Fetch feedback data from the API
+    // Fetch voucher data from the API
     customAxios
-      .get("/feedback/get-all")
+      .get("/voucher/get-all")
       .then((response) => response.data)
-      .then((data) => setFeedbackList(data))
-      .catch((error) => console.error("Error fetching feedback data:", error));
+      .then((data) => setVoucherList(data))
+      .catch((error) => console.error("Error fetching voucher data:", error));
   }, []);
 
-  // Group feedback items by id
-  const groupedFeedback = feedbackList.reduce((grouped, feedback) => {
-    const id = feedback.id;
-
-    if (!grouped[id]) {
-      grouped[id] = [];
-    }
-
-    grouped[id].push(feedback);
-
-    return grouped;
-  }, {});
+  const filteredVouchers = voucherList.filter((voucher) =>
+    voucher.code.toLowerCase().includes(searchCode.toLowerCase())
+  );
 
   return (
-    <div style={{marginLeft: "5rem", marginRight: "9rem"}}>
-    <TableContainer
-      component={Paper}
-      style={{
-        marginTop: "10rem",
-        marginBottom: "10rem",
-        marginLeft: "2rem",
-        marginRight: "2rem",
-      }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2", // Change this to your preferred color
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              ID
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              Create Date
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              Rating
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              Content
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              User ID
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              Product ID
-            </TableCell>
-            <TableCell
-              style={{
-                fontWeight: "bold",
-                backgroundColor: "#1976D2",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              User Name
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Object.keys(groupedFeedback).map((id) => (
-            <React.Fragment key={id}>
-              {groupedFeedback[id].map((feedback, index) => (
-                <TableRow key={`${id}-${index}`}>
-                  {/* Render the common information only for the first item in the group */}
-                  {index === 0 && (
-                    <>
-                      <TableCell style={{ textAlign: "center" }}>
-                        {feedback.id}
-                      </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>
-                        {feedback.createDate}
-                      </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>
-                        {feedback.rating}
-                      </TableCell>
-                    </>
+    <div style={{ marginLeft: "5rem", marginRight: "9rem" }}>
+      <TableContainer
+        component={Paper}
+        style={{
+          marginTop: "7rem",
+          marginBottom: "10rem",
+          marginLeft: "2rem",
+          marginRight: "2rem",
+        }}
+      >
+        <h3 style={{ textAlign: "center", marginBottom: "1rem" }}>
+          List Voucher
+        </h3>
+        <div
+          style={{
+            marginRight: "70rem",
+            paddingBottom: "1rem",
+            marginLeft: "2rem",
+          }}
+        >
+          <TextField
+            label="Search by Code"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={searchCode}
+            onChange={(e) => setSearchCode(e.target.value)}
+          />
+        </div>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                ID
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Create Date
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Code
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Description
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Voucher Amount
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Voucher Type
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Expiration Date
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Quantity
+              </TableCell>
+              <TableCell
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Available
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredVouchers.map((voucher) => (
+              <TableRow key={voucher.id}>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.id}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.createDate}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.code}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.description}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.voucherAmount}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.voucherType}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.expiration_date}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.quantity}
+                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {voucher.available ? (
+                    <span style={{ color: "green", fontSize: "2em" }}>•</span>
+                  ) : (
+                    <span style={{ color: "red", fontSize: "2em" }}>•</span>
                   )}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {feedback.content}
-                  </TableCell>
-                  <TableCell style={{ textAlign: "center" }}>
-                    {feedback.userId}
-                  </TableCell>
-                  <TableCell style={{ textAlign: "center" }}>
-                    {feedback.productId}
-                  </TableCell>
-                  <TableCell style={{ textAlign: "center" }}>
-                    {feedback.userName}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </React.Fragment>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }
