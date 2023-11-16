@@ -36,7 +36,9 @@ const Cart = () => {
     }
     navigate(`/order/${orderId}`)
   }
-
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   useEffect(() => {
     // Kiểm tra xem có quay trở lại từ Login.js hay không
     const storedIsReturningFromLogin = localStorage.getItem('isReturningFromLogin');
@@ -151,7 +153,7 @@ const Cart = () => {
         </div>
         <div className="option-cart">
           <div className="total-price">
-            Total: <span className="price">{totalCartPrice.toFixed(0)} VND</span>
+            Total: <span className="price">{formatCurrency(totalCartPrice.toFixed(0))} VND</span>
           </div>
           <div className="dialog-actions">
             <Button variant="contained" color="primary" startIcon={<InventoryIcon />} onClick={handleOrderListClick}>

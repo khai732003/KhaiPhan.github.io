@@ -20,7 +20,7 @@ const UpdateNews = (props) => {
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.put(`https://652b64fe4791d884f1fdc2d3.mockapi.io/swp/news/${idToUpdate}`, formData);
+            const res = await axios.put(`/marketing/update/`, formData);
             if (res) {
                 toast.success('Update sucessful');
                 handleUpdate();

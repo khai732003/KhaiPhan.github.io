@@ -91,7 +91,9 @@ function Detail({
   const handleClose = () => {
     setOpen(false);
   };
-
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   let orderId = localStorage.getItem("orderId");
 
   useEffect(() => {
@@ -399,7 +401,7 @@ function Detail({
                           color: "red",
                         }}
                       >
-                        ${productDetail.totalPrice}
+                        { formatCurrency(productDetail.totalPrice)} VND
                       </div>
                       <div style={{ marginBottom: "20px" }}>
                         <h5

@@ -20,7 +20,7 @@ public class CageshopApplication {
 		return new ModelMapper();
 	}
 
-	
+
 	@Autowired
 	private EmailService senderService;
 

@@ -105,11 +105,14 @@ const ProductPage = () => {
     if (searchKeyword) {
       handleSearch();
     } else {
+      const startIndex = (currentPage - 1) * productsPerPage;
+      const endIndex = startIndex + productsPerPage;
+
       customAxios
         .get(apiUrl, { headers: headers })
         .then((response) => {
           if (Array.isArray(response.data)) {
-            setProducts(response.data);
+            setProducts(response.data.slice(startIndex, endIndex));
             setTotalProducts(response.data.length);
             setHasResults(response.data.length > 0);
           } else {
@@ -126,7 +129,7 @@ const ProductPage = () => {
           setShowNotFoundAlert(true);
         });
     }
-  }, [currentApiUrl, minPrice, maxPrice, searchKeyword]);
+  }, [currentApiUrl, minPrice, maxPrice, searchKeyword, currentPage]);
 
   return (
     <>

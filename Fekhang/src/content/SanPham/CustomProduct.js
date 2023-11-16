@@ -75,6 +75,9 @@ function CustomProduct() {
         console.error("Error while cloning product and adding accessories:", error);
     }
 };
+function formatCurrency(amount) {
+  return amount.toLocaleString('en-US');
+}
 
   return (
     <Container
@@ -101,7 +104,7 @@ function CustomProduct() {
             onChange={() => handleAccessorySelect(accessory.id)}
           />
           <label htmlFor={accessory.id} style={{ marginLeft: 1 }}>
-            {accessory.description} {accessory.price}
+            {accessory.description} {formatCurrency(accessory.price)}
           </label>
         </Box>
       ))}<hr/>
