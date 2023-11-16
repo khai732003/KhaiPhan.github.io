@@ -58,8 +58,10 @@ public class PayController {
     private VoucherUsageRepository voucherUsageRepository;
 
     private VnPayDTO storedVnPayDTO;
+
     @Autowired
     private VouchersRepository voucherRepository;
+
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
         try {
@@ -112,10 +114,10 @@ public class PayController {
                     v.setQuantity(v.getQuantity() - 1);
                     voucherRepository.save(v);
                 }
+                String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
+                response.setStatus(HttpStatus.FOUND.value());
+                response.setHeader("Location", redirectUrl);
             }
-            String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
-            response.setStatus(HttpStatus.FOUND.value());
-            response.setHeader("Location", redirectUrl);
         } else if ("24".equals(responseCode)) {
             String redirectUrl = "http://localhost:3000/";
             response.setStatus(HttpStatus.FOUND.value());

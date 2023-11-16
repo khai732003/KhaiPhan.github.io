@@ -51,7 +51,7 @@ function Detail({
   const [isReturningFromLogin, setIsReturningFromLogin] = useState(false);
   const [rate, setRate] = useState(null);
   const [feedback, setFeedback] = useState();
-  const [show, setShow] = useState(null);
+  const [show, setShow] = useState(true);
 
 
   const [quantity, setQuantity] = useState(1); // State for quantity
@@ -317,7 +317,7 @@ function Detail({
             <Container maxWidth="md">
               <div >
 
-                <div className="list-acc">
+                {/* <div className="list-acc">
                   <div>
                     Accessory
                   </div>
@@ -326,7 +326,7 @@ function Detail({
                       <strong>{accessory.description}:</strong> VND{accessory.price}
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
               <Card style={{ padding: "2rem", borderRadius: "1rem" }}>
                 <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
@@ -352,7 +352,7 @@ function Detail({
                       component="img"
                       alt="Product"
                       image={
-                        selectedImage || productDetail.productDetailImage[0]
+                        selectedImage || productDetail.productImage
                       }
                     />
                     <List style={{ paddingTop: "1rem", paddingBottom: "0" }}>
@@ -464,13 +464,13 @@ function Detail({
                       </div>
                     </div>
 
-                    {/* {show === true && <div> */}
+                    {show === true && <div>
                     <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                       <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
                         FeedBack
                       </Button>
                     </Stack>
-                    {/* </div>} */}
+                    </div>}
 
                     <div>
                       <input
