@@ -3,8 +3,10 @@ import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
 import customAxios from '../../CustomAxios/customAxios';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Voucher() {
+  const navigate = useNavigate();
   const [voucherData, setVoucherData] = useState({
     code: '',
     description: '',
@@ -25,6 +27,7 @@ function Voucher() {
   });
 
   useEffect(() => {
+
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 3);
 
@@ -81,12 +84,13 @@ function Voucher() {
     // if (validateForm()) {
       customAxios.post('/voucher/add', voucherData)
         .then(response => {
-          console.log('Voucher added successfully:', response.data);
+          navigate(-1)
         })
         .catch(error => {
           console.error('Error adding voucher:', error);
-        });
-    // }
+        }
+        );
+
   };
 
   return (
