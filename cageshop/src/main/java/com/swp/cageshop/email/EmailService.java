@@ -53,9 +53,7 @@ public class EmailService {
             StringBuilder order = new StringBuilder();
             for (Orders ordersList : orderList) {
                 String formattedTotalPrice = NumberFormat.getNumberInstance().format(ordersList.getTotal_Price());
-                String formattedShipPrice = NumberFormat.getNumberInstance().format(ordersList.getShipPrice());
                 order.append("<tr>")
-                        .append("<td style='color: red; font-weight: bold;'>").append(formattedShipPrice).append("</td>")
                         .append("<td style='color: red; font-weight: bold;'>").append(formattedTotalPrice).append("</td>")
                         .append("</tr>");
             }

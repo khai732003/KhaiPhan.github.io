@@ -21,8 +21,10 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     Feedback findByUserIdAndProductId(Long userId, Long productId);
 
+    Feedback findUserIdandById(Long feedbackId);
 
-
+    @Query("SELECT f.user.id FROM Feedback f WHERE f.id = :feedbackId")
+    Long findUserIdByFeedbackId(@Param("feedbackId") Long feedbackId);
 
     List<Feedback> findAllByProductId(Long productId);
 

@@ -103,4 +103,14 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbacks);
     }
 
+    @GetMapping("/userId/{feedbackId}")
+    public ResponseEntity<Long> findUserIdByFeedbackId(@PathVariable Long feedbackId) {
+        Long userId = feedbackRepository.findUserIdByFeedbackId(feedbackId);
+        if (userId != null) {
+            return new ResponseEntity<>(userId, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

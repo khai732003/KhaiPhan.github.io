@@ -60,12 +60,6 @@ public class OrdersServiceImpl implements IOrdersService {
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
-            String city = orderDTO.getCity();
-            if(city.equalsIgnoreCase("Hồ Chí Minh")){
-                orderDTO.setShipPrice(100000);
-            }else{
-                orderDTO.setShipPrice(200000);
-            }
             if(orderDTO.getTotal_price() <= 0){
                 orderDTO.setTotal_price(0);
             }
@@ -123,15 +117,11 @@ public class OrdersServiceImpl implements IOrdersService {
                     totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
                 }
             }
-            double shipPrice = orders.getShipPrice();
             if (isFreeShipVoucher && isCashVoucher) {
                 totalCost -= totalVoucherAmount;
             } else if (isFreeShipVoucher) {
                 totalCost -= totalVoucherAmount;
-            } else {
-                totalCost += shipPrice - totalVoucherAmount;
             }
-
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
@@ -181,15 +171,11 @@ public class OrdersServiceImpl implements IOrdersService {
                 totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
             }
         }
-        double shipPrice = order.getShipPrice();
         if (isFreeShipVoucher && isCashVoucher) {
             totalCost -= totalVoucherAmount;
         } else if (isFreeShipVoucher) {
             totalCost -= totalVoucherAmount;
-        } else {
-            totalCost += shipPrice - totalVoucherAmount;
         }
-
         if (totalCost <= 0) {
             order.setTotal_Price(0);
         }
