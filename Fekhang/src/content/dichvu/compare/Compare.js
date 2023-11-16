@@ -51,6 +51,9 @@ function Compare() {
     );
   };
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
     <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "white",   boxShadow: "0 2px 8px darkgray", fontFamily:'Roboto Slab' }}> 
     <CssBaseline />
@@ -148,7 +151,7 @@ function Compare() {
                   <td className="table-compare-property">Total Price</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {product.totalPrice}
+                      {formatCurrency(product.totalPrice)}
                     </td>
                   ))}
                 </tr>

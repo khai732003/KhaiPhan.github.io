@@ -127,6 +127,10 @@ const Product = ({
   function formatCurrency(amount) {
     return amount.toLocaleString('en-US');
   }
+
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
 
 
@@ -156,7 +160,7 @@ const Product = ({
                   <div className="card-info" style={{ fontSize: '15px', paddingLeft: '20px' }}>
                     <p ><strong>Quantity:</strong> {stock}</p>
                     <p className="card-text"><strong>Product code:</strong> {code}</p>
-                    <p className="card-price"><strong>Price: </strong><span>{totalPrice} VND </span></p>
+                    <p className="card-price"><strong>Price: </strong><span>{formatCurrency(totalPrice)} VND </span></p>
                     <div>
                       {accessories.map((accessory, index) => (
                         <div key={index} className="accessory-item">

@@ -28,6 +28,9 @@ const NewProduct = () => {
         // ...
     };
 
+    function formatCurrency(amount) {
+        return amount.toLocaleString('en-US');
+      }
     return (
         <div className='newproduct'>
             <Container className='Container'>
@@ -42,7 +45,7 @@ const NewProduct = () => {
                                 {/* <div className="rating">
                                     {renderStarRating(product.rating)}
                                 </div> */}
-                                <p>Price: {product.totalPrice.toFixed(2)} VND</p>
+                                <p>Price: {formatCurrency(product.totalPrice)} VND</p>
                                 <Button variant="primary" onClick={handleGoToProduct}>Go to shop</Button>
                                 {/* <p>Coupon: {product.coupon}</p> */}
                             </div>

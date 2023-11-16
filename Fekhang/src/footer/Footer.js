@@ -83,7 +83,7 @@ const Footer = (props) => {
           </div>
           <div className="row">
             <div className="col-md-4">
-              <span>GET PROMOTION</span>
+              {/* <span>GET PROMOTION</span>
               <form>
                 <div className="form-group">
                   <div className="input-group">
@@ -101,7 +101,7 @@ const Footer = (props) => {
                     </div>
                   </div>
                 </div>
-              </form>
+              </form> */}
             </div>
             <div className="col-md-4">
               <span>SOCIAL MEDIA</span>

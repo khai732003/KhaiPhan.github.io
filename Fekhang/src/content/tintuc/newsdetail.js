@@ -7,7 +7,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import customAxios from "../../CustomAxios/customAxios";
 import { Link } from "react-router-dom";
 import CardMedia from '@mui/material/CardMedia';
-
+import './newsdetail.scss';
+import { Button } from "@mui/material";
 const NewsDetail = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,13 +44,14 @@ const NewsDetail = () => {
   return (
     <div className="full-container-details">
       <Header />
-      <Container style={{marginTop: 150, marginBottom: 100}}>
+      <Container style={{ marginTop: 150, marginBottom: 100, backgroundColor: '#f8f8ff', padding: '80px 80px' }}>
         <Row>
           <Col md={5}>
             <div className="left-column">
               <CardMedia
+
                 component="img"
-                sx={{ height: 300 }}
+                sx={{ height: 600, borderRadius: '5px' }}
                 image={marketingData.img}
                 alt={marketingData.title}
                 className="card-img-top"
@@ -58,22 +60,32 @@ const NewsDetail = () => {
             </div>
           </Col>
           <Col md={7}>
-            <div className="right-column">
+            <div className="right-column" style={{ marginLeft: '50px', textAlign: 'left' }}>
               <Link to="/news" className="back-link">
-                Back
+                <Button
+                  variant="contained"
+                  style={{ marginBottom: '50px' }}
+                >
+                  Back
+                </Button>
               </Link>
               <div className="centered-line">
                 <h3 id="news-date">{marketingData.date}</h3>
               </div>
-              <h3 id="title-newsdetail">{marketingData.title}</h3>
-              <h4 id="name-newsdetail">{marketingData.name}</h4>
-              <p id="info-newsdetail">{marketingData.shortinfo}</p>
-              <a
+              <h3 id="title-newsdetail" style={{ fontSize: '40px', marginBottom: '20px' }}>{marketingData.title}</h3>
+              <h4 id="name-newsdetail" style={{ fontSize: '20px', marginBottom: '40px', color: 'grey' }}>{marketingData.name}</h4>
+              <p id="info-newsdetail" style={{ textAlign: 'justify' }}>{marketingData.shortinfo}</p>
+              <Link 
                 id="button-newsdetail"
-                href="https://vi.wikipedia.org/wiki/B%C3%B3i_c%C3%A1"
+                to="https://vi.wikipedia.org/wiki/B%C3%B3i_c%C3%A1"
               >
-                Tìm hiểu thêm
-              </a>
+                <Button 
+                variant="outlined"
+                color="success"
+                >
+                  Tìm hiểu thêm
+                </Button>
+              </Link>
               <p>{marketingData.content}</p>
             </div>
           </Col>

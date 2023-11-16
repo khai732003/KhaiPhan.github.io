@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
         {/* Second Column */}
         <div className="card">
           <div className="d-flex align-items-center">
-            <i class="bi bi-box2-heart"></i>
+            <i className="bi bi-box2-heart"></i>
             <div className='content'>
               <h6>Special gift cards</h6>
               <h6>Attractive gifts included</h6>
@@ -33,7 +33,7 @@ const WhyChooseUs = () => {
         {/* Third Column */}
         <div className="card">
           <div className="d-flex align-items-center">
-            <i class="bi bi-telephone"></i>
+            <i className="bi bi-telephone"></i>
             <div className='content'>
               <h6>24/7 customer service</h6>
               <h6>Call us 24/7</h6>

@@ -1,42 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button } from '@mui/material';
 import './Voucher.scss';
 import customAxios from '../../CustomAxios/customAxios';
+
 function Voucher() {
   const [voucherData, setVoucherData] = useState({
     code: '',
     description: '',
     voucherAmount: '',
     voucherType: '',
-    isActive: true,
-    expiration_date: '',
+    quantity:'',
+    expiration_date: "2023-12-22T15:37:00.000",
   });
-
-  // Chuyển chuỗi ngày tháng thành đối tượng Date
-  const expirationDate = new Date(voucherData.expiration_date);
-
-  // Lấy ngày hiện tại
-  const currentDate = new Date();
-
-  // Thêm 3 ngày vào ngày hiện tại
-  currentDate.setDate(currentDate.getDate() + 3);
-
-  // Cập nhật expiration_date trong voucherData
-  const updatedVoucherData = {
-    ...voucherData,
-    expiration_date: currentDate.toISOString(),
-  };
-
-  // Cập nhật state với dữ liệu mới
-  setVoucherData(updatedVoucherData);
 
   const [errors, setErrors] = useState({
     code: '',
     description: '',
     voucherAmount: '',
     voucherType: '',
+    quantity:'',
+  
+    expiration_date: "2023-12-22T15:37:00.000",
   });
+
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 3);
+
+    setVoucherData(prevData => ({
+      ...prevData,
+      expiration_date: expirationDate.toISOString(),
+    }));
+  }, []); // Empty dependency array ensures that this effect runs only once after the initial render
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +46,7 @@ function Voucher() {
       voucherAmount: '',
       voucherType: '',
       quantity: '',
+      expiration_date: "2023-12-22T15:37:00.000",
     };
 
     if (voucherData.code.trim() === '') {
@@ -71,6 +68,7 @@ function Voucher() {
       newErrors.quantity = 'Số Lượng Voucher không hợp lệ';
     }
 
+
     setErrors(newErrors);
 
     return !Object.values(newErrors).some((error) => error);
@@ -79,7 +77,7 @@ function Voucher() {
   const addVoucher = (event) => {
     event.preventDefault();
 
-    if (validateForm()) {
+    // if (validateForm()) {
       customAxios.post('/voucher/add', voucherData)
         .then(response => {
           console.log('Voucher added successfully:', response.data);
@@ -87,7 +85,7 @@ function Voucher() {
         .catch(error => {
           console.error('Error adding voucher:', error);
         });
-    }
+    // }
   };
 
   return (
@@ -102,6 +100,7 @@ function Voucher() {
         />
         <div className="error">{errors.code}</div>
       </div>
+
       <div>
         <TextField
           label="Description"
@@ -123,7 +122,34 @@ function Voucher() {
         />
         <div className="error">{errors.voucherAmount}</div>
       </div>
-    
+      <div>
+        <label className="form-label" >
+          Loại Voucher
+        </label>
+        <div className="form-outline mb-4">
+          <select
+            className="form-control form-control-lg"
+            name="voucherType"
+            value={voucherData.voucherType}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">-- Chọn Loại Voucher --</option>
+            <option value="CASH">CASH</option>
+            <option value="FREESHIP">FREESHIP</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <TextField
+          label="Số lượng"
+          name="quantity"
+          value={voucherData.quantity}
+          onChange={handleInputChange}
+          fullWidth
+        />
+        <div className="error">{errors.quantity}</div>
+      </div>
       <Button
         variant="contained"
         color="primary"

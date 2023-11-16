@@ -77,7 +77,7 @@ public class OrderDetailController {
 
     @PatchMapping("/delete-by/{id}")
     public ResponseEntity<String> deleteOrderDetail(@PathVariable Long id) {
-        orderDetailService.deleteAllOrderDetail(id);
+        orderDetailService.deleteOrderDetail(id);
         return new ResponseEntity<>("Order detail with id " + id + " has been marked as deleted.", HttpStatus.OK);
     }
 

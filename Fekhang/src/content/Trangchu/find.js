@@ -19,7 +19,7 @@ const ProductSearch = () => {
                 <h3><center><strong>SEARCH</strong></center></h3>
                 <Form>
                     <Row className='Row'>
-                        {/* Search Input */}
+                        Search Input
                         <Col md={3}>
                             <Form.Group controlId="searchTerm">
                                 <Form.Control
