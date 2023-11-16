@@ -14,9 +14,11 @@ import {
 
 import ListCustom from './ListCustom';
 
-
+import { useLocation } from 'react-router-dom';
 
 function CustomProduct() {
+  const location = useLocation();
+  const totalPrice = location.state.totalPrice;
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedAccessories, setSelectedAccessories] = useState([]);
@@ -73,6 +75,9 @@ function CustomProduct() {
         console.error("Error while cloning product and adding accessories:", error);
     }
 };
+function formatCurrency(amount) {
+  return amount.toLocaleString('en-US');
+}
 
   return (
     <Container
@@ -99,10 +104,11 @@ function CustomProduct() {
             onChange={() => handleAccessorySelect(accessory.id)}
           />
           <label htmlFor={accessory.id} style={{ marginLeft: 1 }}>
-            {accessory.description} {accessory.price}
+            {accessory.description} {formatCurrency(accessory.price)}
           </label>
         </Box>
       ))}<hr/>
+      <div>
       <Button
         variant="contained"
         color="primary"
@@ -111,6 +117,8 @@ function CustomProduct() {
       >
         Buy Custom Product
       </Button>
+      </div>
+      
     </Container>
   );
 

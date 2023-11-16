@@ -20,7 +20,7 @@ const ImageSlider = () => {
 
     return (
         <div className='slideshow'>
-            <Carousel style={{ width: '80%', height:'550px', }}>
+            <Carousel style={{ width: '60%', height:'550px', }}>
                 {slides.map((slide, index) => (
                     <Carousel.Item key={index}>
                         <img

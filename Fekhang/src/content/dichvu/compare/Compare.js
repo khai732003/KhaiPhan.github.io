@@ -230,16 +230,15 @@ function Compare() {
                   <td className="table-compare-property">Size</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {product.cage.size}
+                      {formatCurrency(product.cage.size)}
                     </td>
                   ))}
                 </tr>
-
                 <tr>
                   <td className="table-compare-property">Price</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {product.cage.price}
+                      {formatCurrency(product.cage.price)}
                     </td>
                   ))}
                 </tr>

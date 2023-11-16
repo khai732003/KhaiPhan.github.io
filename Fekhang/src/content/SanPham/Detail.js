@@ -91,7 +91,9 @@ function Detail({
   const handleClose = () => {
     setOpen(false);
   };
-
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   let orderId = localStorage.getItem("orderId");
 
   useEffect(() => {
@@ -277,7 +279,7 @@ function Detail({
     }
   }, [isReturningFromLogin]);
 
-  const handleCustomProduct = (id) => {
+  const handleCustomProduct = (productDetail) => {
     if (!user) {
       localStorage.setItem('isDetailReturn', 'true');
       localStorage.setItem('cusroid', productId);
@@ -285,7 +287,7 @@ function Detail({
       navigate("/login")
       return;
     }
-    navigate(`/customeproduct/${id}`);
+    navigate(`/customeproduct/${productDetail.id}` ,{ state: { totalPrice: productDetail.totalPrice } });
   };
 
 
@@ -317,7 +319,7 @@ function Detail({
             <Container maxWidth="md">
               <div >
 
-                <div className="list-acc">
+                {/* <div className="list-acc">
                   <div>
                     Accessory
                   </div>
@@ -326,7 +328,7 @@ function Detail({
                       <strong>{accessory.description}:</strong> VND{accessory.price}
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
               <Card style={{ padding: "2rem", borderRadius: "1rem" }}>
                 <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
@@ -352,7 +354,7 @@ function Detail({
                       component="img"
                       alt="Product"
                       image={
-                        selectedImage || productDetail.productDetailImage[0]
+                        selectedImage || productDetail.productImage
                       }
                     />
                     <List style={{ paddingTop: "1rem", paddingBottom: "0" }}>
@@ -399,7 +401,7 @@ function Detail({
                           color: "red",
                         }}
                       >
-                        ${productDetail.totalPrice}
+                        { formatCurrency(productDetail.totalPrice)} VND
                       </div>
                       <div style={{ marginBottom: "20px" }}>
                         <h5
@@ -464,13 +466,13 @@ function Detail({
                       </div>
                     </div>
 
-                    {/* {show === true && <div> */}
+                    {show === true && <div>
                     <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                       <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
                         FeedBack
                       </Button>
                     </Stack>
-                    {/* </div>} */}
+                    </div>}
 
                     <div>
                       <input
@@ -522,7 +524,7 @@ function Detail({
                       <Button
                         className="custom-button-custom-product"
                         variant="contained"
-                        onClick={() => handleCustomProduct(productDetail.id)}
+                        onClick={() => handleCustomProduct(productDetail)}
                       >
                         Custom Product
                       </Button>

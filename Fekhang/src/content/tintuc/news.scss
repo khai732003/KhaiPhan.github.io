@@ -4,46 +4,39 @@
 
 .text-slider-container {
   // border: 2px solid #ddd; /* Viền của khung slider */
-  border-radius: 100px; /* Bo góc */
+  border-radius: 700px; /* Bo góc */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bóng đổ */
   overflow: hidden;
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-left: 70px;
+  margin-right: 00px;
+}
+
+.text-slider-container {
+  display: flex;
+  overflow: hidden;
 }
 
 .text-slider {
-  display: inline-block;
+  width: 700%;
   white-space: nowrap;
-  animation: text-slider-animation 20s linear infinite;
   padding: 5px;
   font-size: smaller;
+  font-weight: bold;
+  transition: transform 1s linear infinite;
+  font-size: 25px;
 }
 
 @keyframes text-slider-animation {
   0% {
-    transform: translateX(100%);
-    color: black; /* Set the color to black */
-  }
-  0.1% {
-    color: black;
+    transform: translateX(280%);
   }
   100% {
-    transform: translateX(-100%);
-    color: black; /* Set the color to black for the loop */
+    transform: translateX(-250%);
   }
 }
 
-.rotate-image {
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-slider {
+  animation: text-slider-animation 9s linear infinite;
 }
 
 .column3-item {

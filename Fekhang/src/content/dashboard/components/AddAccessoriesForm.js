@@ -53,9 +53,9 @@ const AddAccessoriesForm = () => {
                 error={!!methods.formState.errors.type}
                 helperText={methods.formState.errors.type?.message}
               >
-                <MenuItem value="Accessory Type 1">Accessory Type 1</MenuItem>
-                <MenuItem value="Accessory Type 2">Accessory Type 2</MenuItem>
-                <MenuItem value="Accessory Type 3">Accessory Type 3</MenuItem>
+                <MenuItem value="Chum">Chum</MenuItem>
+                <MenuItem value="Stick">Stick</MenuItem>
+                <MenuItem value="Lining">Lining</MenuItem>
               </TextField>
             </FormControl>
           </Grid>

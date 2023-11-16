@@ -178,6 +178,23 @@ const News = () => {
 
     fetchData();
   }, []);
+  const [currentColor, setCurrentColor] = useState("rgba(255, 0, 0, 1)"); // Start with red
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Change the color every second
+      setCurrentColor(generateRandomColor());
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup the interval on component unmount
+  }, []);
+
+  const generateRandomColor = () => {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    return `rgba(${red}, ${green}, ${blue}, 1)`;
+  };
 
   return (
     <Container className="container-fluid-news">
@@ -185,9 +202,9 @@ const News = () => {
         <Col md={12} style={{ marginBottom: 20 }}>
           <div className="text-slider-container">
             {voucher.map((amount, index) => (
-              <p key={index} className="text-slider">
+              <span key={index} style={{ color: currentColor }} className="text-slider">
                 {amount.code}
-              </p>
+              </span>
             ))}
           </div>
         </Col>

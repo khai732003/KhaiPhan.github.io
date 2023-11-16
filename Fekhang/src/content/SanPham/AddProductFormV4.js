@@ -377,9 +377,9 @@ const AddProductForm = () => {
               ]}
             >
               <Select placeholder="Select a material">
-                <Option value="Material 1">Material 1</Option>
-                <Option value="Material 2">Material 2</Option>
-                <Option value="Material 3">Material 3</Option>
+                <Option value="Wood">Wood</Option>
+                <Option value="Silver">Silver</Option>
+                <Option value="Gold">Gold</Option>
               </Select>
             </Form.Item>
 

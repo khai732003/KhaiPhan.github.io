@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, CircularProgress, Container, TextField } from "@mui/material";
 import customAxios from "../../CustomAxios/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -27,7 +27,8 @@ function getLabelText(value) {
 }
 
 function AddFeedBack() {
-  const [loading, setLoading] = useState(false);
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [loading, setLoading] = useState(true); // Set loading to true initially
   const navigate = useNavigate();
   const { user } = useAuth();
   const { productId } = useParams();
@@ -47,6 +48,29 @@ function AddFeedBack() {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const checkUserPurchase = async () => {
+      try {
+        const response = await customAxios.get(
+          `/order/checkUserPurchase/${user.userId}/${productId}`
+        );
+        setHasPurchased(response.data);
+        setLoading(false); // Set loading to false after the purchase check
+        console.log(response.data);
+
+        if (!response.data) {
+          // User has not made a purchase, navigate away
+          navigate('/');
+        }
+      } catch (error) {
+        setLoading(false); // Set loading to false on error
+        console.error(error);
+      }
+    };
+
+    checkUserPurchase();
+  }, [user.userId, productId]);
 
   const handleAddFeedback = async () => {
     if (!feedback.rating || !feedback.content) {
@@ -91,9 +115,7 @@ function AddFeedBack() {
             onChangeActive={(event, newHover) => {
               setHover(newHover);
             }}
-            emptyIcon={
-              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-            }
+            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
           />
           {feedback.rating !== null && (
             <Box sx={{ ml: 2 }}>
