@@ -12,6 +12,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Header from "../../../header/Header";
 
 const AddEditUser = () => {
   const { id } = useParams();
@@ -189,6 +190,7 @@ const AddEditUser = () => {
   };
 
   return (
+    <div>
     <div className="add-edit-container" style={{paddingTop:'70px', margin:'0'}}>
       <div className="form-add-edit">
         <form onSubmit={handleSubmit} style={{ width: 500 }}>
@@ -370,6 +372,7 @@ const AddEditUser = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

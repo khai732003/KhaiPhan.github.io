@@ -38,15 +38,17 @@ function Header(props) {
   const isAdminProfile = location.pathname === "/adminprofile";
   const isAddUser = location.pathname === "/add-user";
   // const isUpdateUser = location.pathname === "/update/*";
-  const isUpdateUser = /^\/update\/\d+$/.test(location.pathname);
+  const userIdPattern = /^\/update-user\/\d+$/;
+  const isUpdateUser = userIdPattern.test(location.pathname);
   const isRevenue = location.pathname === "/revenue";
   const isTimeLine = location.pathname === "/timeline";
   const isProductManager = location.pathname === "/productmanagement";
   const isAddProduct = location.pathname === "/addproduct";
-  // const isUpdateProduct = location.pathname === "/update-product";
+  const isUpdateProduct = location.pathname === "/update-product";
   const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
-  const isUpdateProduct1 = /^\/update\/\d+$/.test(location.pathname);
+// Sửa thành regex kiểm tra đường dẫn "/update-product" hoặc "/update/{số}"
+const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
@@ -120,7 +122,7 @@ const handleCustome = () =>{
 
     isTimeLine || isListConfirm || isAddEditUser || isAddCategory || isFeedBack
 
-   || islistdevered || isVoucherList || isUpdateProduct1
+   || islistdevered || isVoucherList || isUpdateProduct1 || isUpdateProduct
 
 
   ) {

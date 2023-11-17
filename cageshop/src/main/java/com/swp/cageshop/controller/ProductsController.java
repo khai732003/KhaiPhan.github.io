@@ -1,5 +1,6 @@
 package com.swp.cageshop.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.DTO.BirdCageDTO;
 import com.swp.cageshop.DTO.CategoryDTO;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -28,6 +31,9 @@ public class ProductsController {
     @Autowired
     private ICategoriesService categoriesService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @Autowired(required = false)
     private IBirdCagesService birdCageService;
@@ -35,17 +41,29 @@ public class ProductsController {
     @Autowired
     private IOrdersService iOrdersService;
 
-//    @DeleteMapping("/product/deleteall")
-//    public void deleteAll(){
-//        productsService.deleteAll();
-//    }
+    @PostMapping("/createBirdCage")
+    public ResponseEntity<BirdCageDTO> createBirdCage(@RequestBody Map<String, Object> requestBody) {
+        BirdCageDTO birdCageDTO = objectMapper.convertValue(requestBody.get("birdCageDTO"), BirdCageDTO.class);
+        Long materialID = objectMapper.convertValue(requestBody.get("materialID"), Long.class);
+        Long sizeID = objectMapper.convertValue(requestBody.get("sizeID"), Long.class);
+
+        BirdCageDTO createdBirdCage = birdCageService.createBirdCageWithMaterialAndSize(birdCageDTO, materialID, sizeID);
+
+        if (createdBirdCage != null) {
+            return new ResponseEntity<>(createdBirdCage, HttpStatus.CREATED);
+        } else {
+            // Handle the case where either MaterialDTO or SizeDTO is not present
+            // You might want to throw an exception, log a message, or handle it based on your requirements
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/product/top3")
     public List<ProductDTO> getTop3(){
         return productsService.getTop3NewestProductDTOs();
     }
     @PostMapping("/product/test")
-    public ResponseEntity<?> addsProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> addsProducts(@RequestBody ProductDTO productDTO) {
         if (productDTO != null) {
             // Fetch all available categories
             List<CategoryDTO> availableCategories = categoriesService.getAllCategories();
@@ -70,7 +88,6 @@ public class ProductsController {
                 ProductDTO savedProductDTO = productsService.addProduct(productDTO);
 
 
-                Long saveBirdcageID = productDTO.getCage().getId();
 
 
 
@@ -87,31 +104,7 @@ public class ProductsController {
         return ResponseEntity.badRequest().body("ProductDTO is null.");
     }
 
-    @PostMapping("/product/add2")
-    public ResponseEntity<?> addProduct2(@RequestBody ProductDTO productDTO) {
-        if (productDTO != null){
-            Long categoryId = productDTO.getCategoryId();
-            CategoryDTO category = categoriesService.getOneCategory(categoryId);
-            if (category != null) {
-                productDTO.setCategoryId(categoryId);
 
-                productDTO.getCage().setProductId(productDTO.getId());
-
-
-                ProductDTO savedProductDTO = productsService.test(productDTO);
-
-
-                if (savedProductDTO != null) {
-                    return ResponseEntity.ok(savedProductDTO);
-                } else {
-                    return ResponseEntity.badRequest().body("Failed to add product.");
-                }
-            } else {
-                return ResponseEntity.badRequest().body("Category not found.");
-            }
-        }
-        return ResponseEntity.badRequest().body("ProductDTO is null.");
-    }
     @PostMapping("/product/add-accessories")
     public ResponseEntity<?> addAccessoriesToProduct(@RequestBody ProductDTO productDTO) {
         if (productDTO != null) {
@@ -151,7 +144,7 @@ public class ProductsController {
 
 
     @GetMapping("/product/get-list")
-    public List<ProductDTO> listProducts() {
+    public List<Products> listProducts() {
         return productsService.listAllProducts();
     }
 
@@ -166,10 +159,10 @@ public class ProductsController {
     }
 
     @GetMapping("/product/select/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable long id) {
-        ProductDTO productDTO = productsService.listProducts(id);
-        if (productDTO != null) {
-            return ResponseEntity.ok(productDTO);
+    public ResponseEntity<Optional<Products>> getProduct(@PathVariable long id) {
+        Optional<Products> products = productsService.listProducts(id);
+        if (products != null) {
+            return ResponseEntity.ok(products);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -395,24 +388,7 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/product/select/{productId}/birdcage")
-    public ResponseEntity<?> getBirdCageForProduct(@PathVariable Long productId) {
-        // Retrieve the product based on the productId
-        ProductDTO product = productsService.listProducts(productId);
 
-        if (product != null) {
-            // Retrieve the bird cage associated with the product
-            BirdCages birdCage = birdCageService.getBirdCageByProductId(productId);
-
-            if (birdCage != null) {
-                return ResponseEntity.ok(birdCage);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 
 

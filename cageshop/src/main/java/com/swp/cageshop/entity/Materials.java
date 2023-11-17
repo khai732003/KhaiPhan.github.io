@@ -6,34 +6,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
-@Table(name = "Accessories")
+@Table(name = "Materials")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Accessories {
+public class Materials{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false)
-    private String type;
+    private String materialName;
 
     @Column(nullable = false)
     private double price;
 
-    @Column(nullable = true)
-    private Boolean CustomProduct;
-
-
-
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Products product;
-
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL)
+    private List<BirdCages> birdcage;
 
 }

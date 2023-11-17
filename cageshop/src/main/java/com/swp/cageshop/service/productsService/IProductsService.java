@@ -3,15 +3,16 @@ package com.swp.cageshop.service.productsService;
 import com.swp.cageshop.DTO.AccessoryDTO;
 import com.swp.cageshop.DTO.ProductDTO;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Products;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProductsService {
 
   public List<ProductDTO> getTop3NewestProductDTOs();
   public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);
-  public ProductDTO test(ProductDTO productDTO);
 
   public ProductDTO updateProduct(long id, ProductDTO productDTO);
 
@@ -19,9 +20,9 @@ public interface IProductsService {
 
   public ProductDTO setProductToSellAgain(Long productId);
 
-  public List<ProductDTO>listAllProducts();
+  public List<Products> listAllProducts();
 
-  public ProductDTO listProducts(long id);
+  public Optional<Products> listProducts(long id);
 
   public List<ProductDTO> getProductsByCategory(Long categoryId);
 
@@ -76,10 +77,4 @@ public interface IProductsService {
 //  public boolean moveProductToOrderDetail(Long orderId, Long productId);
 
 
-
-
-
-//  public ProductDTO addProductWithBirdCage(ProductDTO productDTO, BirdCageDTO birdCageDTO);
-//  public ProductDTO addProductWithAccessories(ProductDTO productDTO, List<AccessoryDTO> accessories);
-//  public ProductDTO addProductWithAccessories(ProductDTO mainProduct, List<ProductDTO> accessories, Long categoryId);
 }

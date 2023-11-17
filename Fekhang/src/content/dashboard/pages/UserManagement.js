@@ -80,7 +80,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="user-management-page">
+    <div className="user-management-page" style={{marginBottom: "140px"}}>
       <div className="search-add-btn">
         <div className="search-name">
           <div className="search-text">
