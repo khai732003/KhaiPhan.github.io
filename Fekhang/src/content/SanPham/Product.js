@@ -124,9 +124,6 @@ const Product = ({
   };
 
 
-  function formatCurrency(amount) {
-    return amount.toLocaleString('en-US');
-  }
 
   function formatCurrency(amount) {
     return amount.toLocaleString('en-US');

@@ -33,4 +33,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     // Inside FeedbackRepository
     List<Feedback> findAllByProductIdOrderByIdDesc(Long productId);
 
+    boolean existsByUserIdAndProductId(Long userId, Long productId);
+
+
 }

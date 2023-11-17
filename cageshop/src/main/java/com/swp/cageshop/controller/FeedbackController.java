@@ -113,4 +113,19 @@ public class FeedbackController {
         }
     }
 
+
+
+    @GetMapping("/exists/{userId}/{productId}")
+    public boolean existsFeedbackByUserIdAndProductId(@PathVariable Long userId, @PathVariable Long productId) {
+        return feedbackService.existsFeedbackByUserIdAndProductId(userId, productId);
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+
+
 }

@@ -31,4 +31,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     List<Orders> findByUserIdAndPayStatusAndShipStatus(Long userId, String payStatus, String shipStatus);
 
+    boolean existsByUserId(Long userId);
+
 }

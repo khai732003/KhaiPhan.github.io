@@ -56,4 +56,9 @@ public class VouchersController {
         vouchersService.deleteVoucher(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

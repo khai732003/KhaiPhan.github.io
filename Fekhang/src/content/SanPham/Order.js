@@ -26,16 +26,27 @@ const Order = () => {
 
   const [discountedPrices, setDiscountedPrices] = useState([]);
 
-  useEffect(() => {
-    const fetchDiscountedPrices = async () => {
+  const fetchDiscountedPrices = async () => {
+    try {
       const prices = await getDiscountedPrices();
       setDiscountedPrices(prices);
-    };
+    } catch (error) {
+      console.error('Error fetching discounted prices:', error);
+    }
+  };
 
-    fetchDiscountedPrices();
-  }, [orderId]);
+  const fetchData = async () => {
+    try {
+      await fetchOrder();
+      await fetchDiscountedPrices();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-
+  useEffect(() => {
+    fetchData();
+  }, [orderId, voucherCode]);
   const fetchVoucherData = async () => {
     try {
       const response = await customAxios.get('/voucher/get-all');
@@ -104,11 +115,12 @@ const Order = () => {
         orderId: orderId,
         codeVoucher: voucherCode,
       });
-      fetchOrder();
+      await fetchOrder();
+      await fetchDiscountedPrices();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
     }
-  };
+  };  
   function formatCurrency(amount) {
     return amount.toLocaleString('en-US');
   }
@@ -181,14 +193,6 @@ const Order = () => {
                             0
                           )
                         )}
-                      </Grid>
-                    </Grid>
-                    <Grid container>
-                      <Grid className="left" item md={6} xs={12}>
-                        Ship price:
-                      </Grid>
-                      <Grid className="right" item md={6} xs={12}>
-                        {formatCurrency(order.shipPrice)}
                       </Grid>
                     </Grid>
                     <Grid container>

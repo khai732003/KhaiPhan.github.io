@@ -140,4 +140,9 @@ public class FeedbackServiceImpl implements IFeedbackService {
     }
 
 
+    @Override
+    public boolean existsFeedbackByUserIdAndProductId(Long userId, Long productId) {
+        return feedbackRepository.existsByUserIdAndProductId(userId, productId);
+    }
+
 }

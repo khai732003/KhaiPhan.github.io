@@ -29,31 +29,38 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         VoucherUsage savedVoucherUsage = voucherUsageRepository.save(voucherUsage);
         return modelMapper.map(savedVoucherUsage, VoucherUsageDTO.class);
     }
-
-
+    @Override
     public VoucherUsageDTO createVoucherUsageByVoucherCode(VoucherUsageDTO voucherUsageDTO) {
         Long userId = voucherUsageDTO.getUserId();
-        Long voucherId = vouchersRepository.findIdByCode(voucherUsageDTO.getCodeVoucher());
-        if(voucherId !=null){
-        boolean used = voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);
-        if (!used) {
-            VoucherUsage voucherUsage = modelMapper.map(voucherUsageDTO, VoucherUsage.class);
-            Vouchers voucher = vouchersRepository.findByCodeAndIsAvailable(voucherUsageDTO.getCodeVoucher(), true);
-            if (voucher != null && voucher.getQuantity() > 0) {
-                voucherUsage.setVoucher(voucher);
-                VoucherUsage savedVoucherUsage = voucherUsageRepository.save(voucherUsage);
-                return modelMapper.map(savedVoucherUsage, VoucherUsageDTO.class);
+        Vouchers voucher = vouchersRepository.findByCode(voucherUsageDTO.getCodeVoucher());
+        if (voucher != null) {
+            boolean used = voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucher.getId());
+            if (!used) {
+                VoucherUsage voucherUsage = modelMapper.map(voucherUsageDTO, VoucherUsage.class);
+                Vouchers voucher1 = vouchersRepository.findByCodeAndIsAvailable(voucherUsageDTO.getCodeVoucher(), true);
+                if (voucher1 != null && voucher.getQuantity() > 0) {
+                    voucherUsage.setVoucher(voucher);
+                    VoucherUsage existingVoucherUsage = voucherUsageRepository.findByUserIdAndVoucherId(userId, voucher.getId());
+                    if (existingVoucherUsage != null) {
+                        existingVoucherUsage.getVoucher().setId(voucher.getId());
+                        VoucherUsage updatedVoucherUsage = voucherUsageRepository.save(existingVoucherUsage);
+                        return modelMapper.map(updatedVoucherUsage, VoucherUsageDTO.class);
+                    } else {
+                        VoucherUsage savedVoucherUsage = voucherUsageRepository.save(voucherUsage);
+                        return modelMapper.map(savedVoucherUsage, VoucherUsageDTO.class);
+                    }
+                } else {
+                    throw new IllegalArgumentException("Voucher is not available");
+                }
             } else {
-                return null;
+                throw new IllegalArgumentException("User has already used this voucher");
             }
-        }else{
-            throw new IllegalArgumentException("Voucher này đã hết hạn");
-
-        }
-        }else{
-            throw new IllegalArgumentException("User đã xài voucher này rồi, mời nó nhập voucher khác đi");
+        } else {
+            throw new IllegalArgumentException("Voucher not found");
         }
     }
+
+
 
 
     public List<VoucherUsageDTO> getAllVoucherUsageDTO() {
@@ -76,12 +83,24 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         VoucherUsage voucherUsage = voucherUsageRepository.findById(id).orElse(null);
         return modelMapper.map(voucherUsage, VoucherUsageDTO.class);
     }
+    @Override
+    public VoucherUsageDTO updateVoucherUsage(Long orderId, String voucherCode) {
+        List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orderId);
+        Vouchers voucher = vouchersRepository.findByCodeAndIsAvailable(voucherCode, true);
 
-    public VoucherUsageDTO updateVoucherUsage(VoucherUsageDTO voucherUsageDTO) {
-        VoucherUsage voucherUsage = modelMapper.map(voucherUsageDTO, VoucherUsage.class);
-        VoucherUsage updatedVoucherUsage = voucherUsageRepository.save(voucherUsage);
-        return modelMapper.map(updatedVoucherUsage, VoucherUsageDTO.class);
+        if (voucherUsages != null && !voucherUsages.isEmpty() && voucher != null) {
+            for (VoucherUsage voucherUsage : voucherUsages) {
+                if (voucherUsage.getVoucher() != null && voucherUsage.getVoucher().getCode().equals(voucherCode)) {
+                    voucherUsageRepository.delete(voucherUsage);
+                }
+            }
+            return modelMapper.map(voucherUsages.get(0), VoucherUsageDTO.class);
+        } else {
+            throw new IllegalArgumentException("VoucherUsage not found for orderId: " + orderId);
+        }
     }
+
+
 
     public void deleteVoucherUsage(Long id) {
         voucherUsageRepository.deleteById(id);
@@ -105,7 +124,6 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public boolean isUserUsedVoucher(Long userId, Long voucherId) {
         return voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);
     }
-
 
 
 }
