@@ -30,5 +30,9 @@ public class Shipping extends EntityBase{
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Orders order;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
 }
 

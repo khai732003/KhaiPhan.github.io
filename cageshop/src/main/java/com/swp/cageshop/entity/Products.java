@@ -48,6 +48,7 @@ public class Products extends EntityBase {
   @Column(nullable = false)
   private String status;
 
+
   @Column(nullable = true)
   private Integer orderLevel;
 

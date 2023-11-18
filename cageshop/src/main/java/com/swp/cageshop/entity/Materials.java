@@ -27,6 +27,6 @@ public class Materials{
 
     @JsonIgnore
     @OneToMany(mappedBy = "material", cascade = CascadeType.ALL)
-    private List<BirdCages> birdcage;
+    private List<BirdCages> birdcages;
 
 }

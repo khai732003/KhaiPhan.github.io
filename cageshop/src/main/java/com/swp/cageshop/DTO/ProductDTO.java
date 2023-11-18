@@ -31,6 +31,7 @@ public class ProductDTO extends DTOBase {
         private String note;
 
 
+
         public double getTotalPrice() {
                 double totalPrice = 0;
 

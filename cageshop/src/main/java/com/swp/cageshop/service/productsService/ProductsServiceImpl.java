@@ -118,6 +118,7 @@ public class ProductsServiceImpl implements IProductsService {
 
 
 
+
                     birdCageRepository.save(birdCages);
                 }
 
@@ -132,6 +133,9 @@ public class ProductsServiceImpl implements IProductsService {
                     }
                 }
 //                product.setTotalPrice(productDTO.getTotalPrice());
+
+                product.setTotalPrice(productDTO.getTotalPrice());
+
 
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
@@ -156,29 +160,6 @@ public class ProductsServiceImpl implements IProductsService {
         var material = materialRepository.findById(cageDTO.getMaterialId()).orElse(null);
         var size = sizeRepository.findById(cageDTO.getSizeId()).orElse(null);
         var shape = shapeRepository.findById(cageDTO.getShapeId()).orElse(null);
-
-        double totalPrice = 0;
-        int spokes = birdCages.getSpokes();
-
-        if (material != null) {
-            totalPrice += material.getPrice();
-        }
-        if (shape != null) {
-            totalPrice += shape.getPrice();
-        }
-
-        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
-            totalPrice +=   size.getPrice() * spokes;
-        }
-
-
-        birdCages.setBirdCagePrice(totalPrice);
-
-
-
-
-
-
 
 
         if (material != null && size != null && shape !=null) {

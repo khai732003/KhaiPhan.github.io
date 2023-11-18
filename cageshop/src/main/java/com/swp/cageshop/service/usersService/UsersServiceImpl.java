@@ -237,7 +237,7 @@ public class UsersServiceImpl implements IUsersService {
   public ResponseEntity<String> updateStatus(Long id) {
     try {
       Users user = usersRepository.getReferenceById(id);
-      user.setStatus(false);
+//      user.setStatus(false);
       usersRepository.save(user);
       return ResponseEntity.status(HttpStatus.OK).body("Đã update");
     } catch (Exception e) {

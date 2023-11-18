@@ -65,6 +65,9 @@ import UpdateSize from './content/dashboard/components/UpdateSize';
 import UpdateShape from './content/dashboard/components/UpdateShape';
 import UpdateMaterial from './content/dashboard/components/UpdateMaterial';
 import CustomProductManagement from './content/dashboard/pages/CustomProductManagement';
+import MapComponent from './content/SanPham/MapComponent';
+
+
 
 
 
@@ -78,6 +81,8 @@ function App() {
             <Routes useScroll={scrollToTop}>
 
               {/* Vùng all role */}
+              
+              <Route exact path="/map" element={<MapComponent />}> </Route>
               <Route exact path="/" element={<Trangchu />}> </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />

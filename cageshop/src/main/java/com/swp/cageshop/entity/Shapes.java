@@ -29,5 +29,5 @@ public class Shapes {
 
     @JsonIgnore
     @OneToMany(mappedBy = "shape", cascade = CascadeType.ALL)
-    private List<BirdCages> birdcage;
+    private List<BirdCages> birdcages;
 }
