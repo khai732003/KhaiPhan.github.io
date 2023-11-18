@@ -21,5 +21,6 @@ public class ShippingDTO{
     private String city;
     private String status;
     private Long orderId;
+    private Long userId;
     private boolean isDeleted;
 }

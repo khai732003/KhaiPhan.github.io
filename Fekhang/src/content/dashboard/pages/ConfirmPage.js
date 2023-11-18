@@ -25,7 +25,6 @@ export default function ConfirmPage() {
         </Button>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', height:'72.4vh' }}>
-        <ListNotConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <ListConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <UpdateDelivered triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
       </div>

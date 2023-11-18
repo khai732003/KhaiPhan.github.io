@@ -129,6 +129,7 @@ function App() {
               <Route path="/revenue" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={Revenue} path="/revenue" />} />
               <Route path="/addproduct" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={AddProductFormV4} path="/addproduct" />} />             
               <Route path="/listdelivered" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ListDelivered} path="/listdelivered" />} />
+              <Route path="/listnotconfirm" element={<PrivateRoute allowedRoles={['ADMIN', 'MANAGER']} component={ListNotConfirm} path="/listnotconfirm" />} />
 
 
               {/*Vùng Staff*/}

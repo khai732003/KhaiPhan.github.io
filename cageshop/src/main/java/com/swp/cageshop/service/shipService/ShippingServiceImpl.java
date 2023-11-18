@@ -4,8 +4,10 @@ import com.swp.cageshop.DTO.ShippingDTO;
 import com.swp.cageshop.config.ShippingStatus;
 import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.Shipping;
+import com.swp.cageshop.entity.Users;
 import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.ShippingRepository;
+import com.swp.cageshop.repository.UsersRepository;
 import com.swp.cageshop.service.ordersService.IOrdersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,17 @@ import java.util.stream.Collectors;
         private OrdersRepository ordersRepository;
 
         @Autowired
+        private UsersRepository usersRepository;
+
+        @Autowired
         private IOrdersService iOrdersService;
 
         public ShippingDTO createShipping(ShippingDTO shippingDTO) {
             Orders orders = ordersRepository.getReferenceById(shippingDTO.getOrderId());
-            if(orders != null) {
+            Users users = usersRepository.getReferenceById(shippingDTO.getUserId());
+            if(orders != null && users.isShipStatus() == false) {
+                users.setShipStatus(true);
+//                shippingDTO.setUserId(shippingDTO.getUserId());
                 shippingDTO.setAddress(orders.getAddress());
                 shippingDTO.setCity(orders.getCity());
                 orders.setShipStatus(ShippingStatus.CONFIRMED.toString());
@@ -69,9 +77,22 @@ import java.util.stream.Collectors;
 
         public ShippingDTO updateShippingStatusByOrderId(Long orderId, ShippingStatus newStatus) {
             Shipping shipping = shippingRepository.findByOrderId(orderId);
+            Orders orders = ordersRepository.getReferenceById(orderId);
+            Long userId = orders.getShipping().getUser().getId();
+            Users users = usersRepository.getReferenceById(userId);
             if (shipping != null) {
                 shipping.setStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái cho Shipping
                 Shipping updatedShipping = shippingRepository.save(shipping);
+
+
+                if (newStatus == ShippingStatus.DELIVERED) {
+                    if (shipping.getUser() != null) {
+                        users.setShipStatus(false);
+                        users.setShipCount(users.getShipCount() + 1);
+                        // Lưu lại thông tin người dùng
+                        usersRepository.save(users);
+                    }
+                }
                 if (shipping.getOrder() != null) {
                     Orders order = shipping.getOrder();
                     order.setShipStatus(newStatus.name()); // Lấy tên của Enum làm giá trị trạng thái vận chuyển cho đơn hàng

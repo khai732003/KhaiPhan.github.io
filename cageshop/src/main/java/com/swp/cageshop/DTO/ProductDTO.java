@@ -29,25 +29,26 @@ public class ProductDTO extends DTOBase {
         private List<AccessoryDTO> accessories;
         private Long motherProductId;
         private String note;
+        private double extraPrice;
 
 
 
-        public double getTotalPrice() {
-                double totalPrice = 0;
-
-                if (cage != null) {
-                        totalPrice += cage.getBirdCagePrice();
-                }
-
-                // Thêm giá tiền của AccessoryDTO nếu chúng tồn tại
-                if (accessories != null) {
-                        for (AccessoryDTO accessory : accessories) {
-                                totalPrice += accessory.getPrice();
-                        }
-                }
-
-                return totalPrice;
-        }
+//        public double getTotalPrice() {
+//                double totalPrice = 0;
+//
+//                if (cage != null) {
+//                        totalPrice += cage.getBirdCagePrice();
+//                }
+//
+//                // Thêm giá tiền của AccessoryDTO nếu chúng tồn tại
+//                if (accessories != null) {
+//                        for (AccessoryDTO accessory : accessories) {
+//                                totalPrice += accessory.getPrice();
+//                        }
+//                }
+//
+//                return totalPrice;
+//        }
 }
 
 

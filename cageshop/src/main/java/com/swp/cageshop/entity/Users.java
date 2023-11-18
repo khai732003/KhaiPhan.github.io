@@ -3,6 +3,7 @@ package com.swp.cageshop.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -52,9 +53,11 @@ public class Users extends EntityBase{
   @JoinColumn(name = "manager_id")
   private Users manager;
 
-  private boolean ship_status;
+  @Column
+  private int shipCount;
 
-
+  @Column
+  private boolean shipStatus;
 
   @JsonIgnore
   @OneToMany(mappedBy="user")
@@ -80,9 +83,12 @@ public class Users extends EntityBase{
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
 
-
+  @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Shipping> shippings;
 
-
+  @PrePersist
+  public void prePersist() {
+    this.shipStatus = false;
+  }
 }

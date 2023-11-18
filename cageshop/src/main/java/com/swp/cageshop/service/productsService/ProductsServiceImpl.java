@@ -77,6 +77,7 @@ public class ProductsServiceImpl implements IProductsService {
     public void deleteAll() {
         productsRepository.deleteAll();
     }
+
     public ProductDTO addProduct(ProductDTO productDTO) {
         if (productDTO != null) {
             Products product = modelMapper.map(productDTO, Products.class);
@@ -118,8 +119,6 @@ public class ProductsServiceImpl implements IProductsService {
 
 
 
-
-
                     birdCageRepository.save(birdCages);
                 }
 
@@ -128,12 +127,14 @@ public class ProductsServiceImpl implements IProductsService {
                         Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
                         accessory.setCustomProduct(false);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
-
+                        product.setTotalPrice(product.getTotalPrice()+accessory.getPrice());
                         accessoryDTO.setProductId(savedProduct.getId());
                         accessoriesRepository.save(accessory);
                     }
                 }
-                product.setTotalPrice(productDTO.getTotalPrice());
+                if(productDTO.getExtraPrice() > 0){
+                    product.setTotalPrice(product.getTotalPrice() + product.getExtraPrice());
+                }
 
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
