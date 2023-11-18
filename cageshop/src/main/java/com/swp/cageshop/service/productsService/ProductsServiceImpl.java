@@ -85,7 +85,7 @@ public class ProductsServiceImpl implements IProductsService {
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
                 product.setCategory(category);
-
+                product.setTotalPrice(productDTO.getTotalPrice());
                 Products savedProduct = productsRepository.save(product); // Save the product
 
                 if (productDTO.getCage() != null) {
@@ -97,8 +97,26 @@ public class ProductsServiceImpl implements IProductsService {
                     } else if ( birdCages.getSize().getMaxspokes() < birdCages.getSpokes() ) {
                         birdCages.setSpokes(birdCages.getSize().getMaxspokes());
                     }
+                    double totalPrice = 0;
+                    int spokes = birdCages.getSpokes();
 
-                    double totalPrice = birdCages.getBirdCagePrice();
+                    if (birdCages.getMaterial() != null) {
+                        totalPrice += birdCages.getMaterial() .getPrice();
+                    }
+                    if (birdCages.getShape() != null) {
+                        totalPrice += birdCages.getShape().getPrice();
+                    }
+
+                    if (birdCages.getSize() != null && spokes >= birdCages.getSize().getMinspokes() && spokes <= birdCages.getSize().getMaxspokes()) {
+                        totalPrice +=   birdCages.getSize().getPrice() * spokes;
+                    }
+
+
+                    birdCages.setBirdCagePrice(totalPrice);
+
+                    product.setTotalPrice(totalPrice);
+
+
 
                     birdCageRepository.save(birdCages);
                 }
@@ -108,12 +126,13 @@ public class ProductsServiceImpl implements IProductsService {
                         Accessories accessory = modelMapper.map(accessoryDTO, Accessories.class);
                         accessory.setCustomProduct(false);
                         accessory.setProduct(savedProduct); // Set the product for the accessory
-
+                        product.setTotalPrice(product.getTotalPrice()+accessory.getPrice());
                         accessoryDTO.setProductId(savedProduct.getId());
-
                         accessoriesRepository.save(accessory);
                     }
                 }
+//                product.setTotalPrice(productDTO.getTotalPrice());
+
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
                 deleteBirdCagesWithNullProductId();

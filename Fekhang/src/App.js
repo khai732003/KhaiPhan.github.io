@@ -57,7 +57,14 @@ import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 import ListDelivered from './content/dashboard/pages/ListDelivered';
 import FeedBack from './content/dashboard/pages/FeedBack';
 import VoucherList from './content/dashboard/pages/VoucherList';
-
+import CustomList from './content/dashboard/pages/CustomList';
+import AddShape from './content/dashboard/components/AddShape';
+import AddMaterial from './content/dashboard/components/AddMaterial';
+import AddSize from './content/dashboard/components/AddSize';
+import UpdateSize from './content/dashboard/components/UpdateSize';
+import UpdateShape from './content/dashboard/components/UpdateShape';
+import UpdateMaterial from './content/dashboard/components/UpdateMaterial';
+import CustomProductManagement from './content/dashboard/pages/CustomProductManagement';
 
 
 
@@ -108,8 +115,15 @@ function App() {
               <Route path="/add-edit-user" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditUser} path="/add-edit-user" />} />
               <Route path="/list-feedback" element={<PrivateRoute allowedRoles={['ADMIN']} component={FeedBack} path="/list-feedback" />} />
               <Route path="/list-voucher" element={<PrivateRoute allowedRoles={['ADMIN']} component={VoucherList} path="/list-voucher" />} />
-
-
+              <Route path="/custom-list" element={<PrivateRoute allowedRoles={['ADMIN']} component={CustomList} path="/custom-list" />} />
+              <Route path="/add-shape" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddShape} path="/add-shape" />} />
+              <Route path="/add-material" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddMaterial} path="/add-material" />} />
+              <Route path="/add-size" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddSize} path="/add-size" />} />
+              <Route path="/update-size/:id" element={<PrivateRoute allowedRoles={['ADMIN']} component={UpdateSize} path="/update-size" />} />
+              <Route path="/update-shape/:id" element={<PrivateRoute allowedRoles={['ADMIN']} component={UpdateShape} path="/update-shape" />} />
+              <Route path="/update-material/:id" element={<PrivateRoute allowedRoles={['ADMIN']} component={UpdateMaterial} path="/update-material" />} />
+              <Route path="/custom-product" element={<PrivateRoute allowedRoles={['ADMIN']} component={CustomProductManagement} path="/custom-product" />} />
+             
               {/* Vùng manager */}
               <Route path="/staffmanagement" element={<PrivateRoute allowedRoles={['MANAGER']} component={StaffManagement} path="/staffmanagement" />} />
               <Route path="/add-edit-staff" element={<PrivateRoute allowedRoles={['MANAGER']} component={AddEditStaff} path="/add-edit-staff" />} />
