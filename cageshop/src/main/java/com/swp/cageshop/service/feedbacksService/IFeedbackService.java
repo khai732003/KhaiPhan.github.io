@@ -22,4 +22,6 @@ public interface IFeedbackService {
 
     public List<FeedbackDTO> getAllFeedbacksByUserId(Long userId, Long productId);
 
+    public boolean existsFeedbackByUserIdAndProductId(Long userId, Long productId);
+
 }

@@ -15,15 +15,14 @@ public class OrderDTO extends DTOBase{
     private String name;
     private String shipStatus;
     private String payStatus;
+    private Double shipPrice;
     private String paymentMethod;
     private String address;
     private String city;
-    private double shipPrice;
     private String content;
     private String shipDate;
     private double total_price;
     private List<OrderDetailDTO> orderDetails;
     private Long userId;
     private Double discount;
-
 }

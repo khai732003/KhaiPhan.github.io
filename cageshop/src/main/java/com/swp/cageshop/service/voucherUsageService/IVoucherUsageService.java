@@ -14,8 +14,6 @@ public interface IVoucherUsageService{
 
     public VoucherUsageDTO getVoucherUsageById(Long id);
 
-    public VoucherUsageDTO updateVoucherUsage(VoucherUsageDTO voucherUsageDTO);
-
     public void deleteVoucherUsage(Long id);
 
     public List<VoucherUsage> getAllVoucherUsages();
@@ -24,4 +22,5 @@ public interface IVoucherUsageService{
 
     public List<String> findCodeVouchersByOrderId(Long orderId);
     public List<Double> findAmountVouchersByOrderId(Long orderId);
+    public VoucherUsageDTO updateVoucherUsage(Long orderId, String newVoucherCode);
 }

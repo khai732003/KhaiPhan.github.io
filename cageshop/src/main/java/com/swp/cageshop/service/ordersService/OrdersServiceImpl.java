@@ -62,9 +62,9 @@ public class OrdersServiceImpl implements IOrdersService {
         if (orderDTO != null) {
             String city = orderDTO.getCity();
             if(city.equalsIgnoreCase("Hồ Chí Minh")){
-                orderDTO.setShipPrice(100000);
+                orderDTO.setShipPrice(100000.0);
             }else{
-                orderDTO.setShipPrice(200000);
+                orderDTO.setShipPrice(200000.0);
             }
             if(orderDTO.getTotal_price() <= 0){
                 orderDTO.setTotal_price(0);
@@ -115,12 +115,15 @@ public class OrdersServiceImpl implements IOrdersService {
             boolean isFreeShipVoucher = false;
             boolean isCashVoucher = false;
             for (VoucherUsage voucherUsage : voucherUsages) {
-                if (voucherUsage.getVoucher().getVoucherType().equals("FREESHIP")) {
-                    isFreeShipVoucher = true;
-                    totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
-                } else if (voucherUsage.getVoucher().getVoucherType().equals("CASH")) {
-                    isCashVoucher = true;
-                    totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+                Vouchers voucher = voucherUsage.getVoucher();
+                if (voucher != null) {
+                    if ("FREESHIP".equals(voucher.getVoucherType())) {
+                        isFreeShipVoucher = true;
+                        totalVoucherAmount += voucher.getVoucherAmount();
+                    } else if ("CASH".equals(voucher.getVoucherType())) {
+                        isCashVoucher = true;
+                        totalVoucherAmount += voucher.getVoucherAmount();
+                    }
                 }
             }
             double shipPrice = orders.getShipPrice();
@@ -131,7 +134,9 @@ public class OrdersServiceImpl implements IOrdersService {
             } else {
                 totalCost += shipPrice - totalVoucherAmount;
             }
-
+            if(totalCost < 0){
+                throw new IllegalArgumentException("Price must not be < 0");
+            }
             orders.setTotal_Price(totalCost);
             ordersRepository.save(orders);
             OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
@@ -173,12 +178,15 @@ public class OrdersServiceImpl implements IOrdersService {
         boolean isFreeShipVoucher = false;
         boolean isCashVoucher = false;
         for (VoucherUsage voucherUsage : voucherUsages) {
-            if (voucherUsage.getVoucher().getVoucherType().equals("FREESHIP")) {
-                isFreeShipVoucher = true;
-                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
-            } else if (voucherUsage.getVoucher().getVoucherType().equals("CASH")) {
-                isCashVoucher = true;
-                totalVoucherAmount += voucherUsage.getVoucher().getVoucherAmount();
+            Vouchers voucher = voucherUsage.getVoucher();
+            if (voucher != null) {
+                if ("FREESHIP".equals(voucher.getVoucherType())) {
+                    isFreeShipVoucher = true;
+                    totalVoucherAmount += voucher.getVoucherAmount();
+                } else if ("CASH".equals(voucher.getVoucherType())) {
+                    isCashVoucher = true;
+                    totalVoucherAmount += voucher.getVoucherAmount();
+                }
             }
         }
         double shipPrice = order.getShipPrice();
@@ -189,11 +197,9 @@ public class OrdersServiceImpl implements IOrdersService {
         } else {
             totalCost += shipPrice - totalVoucherAmount;
         }
-
-        if (totalCost <= 0) {
-            order.setTotal_Price(0);
+        if(totalCost < 0){
+            throw new IllegalArgumentException("Price must not be < 0");
         }
-
         order.setTotal_Price(totalCost);
         ordersRepository.save(order);
 
@@ -204,7 +210,7 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 
-@Override
+    @Override
     public void updateOrderAndOrderDetailsAndVoucher(Orders order) {
         if (order != null) {
             order.setShipStatus(ShippingStatus.NOT_CONFIRM.toString());
@@ -316,16 +322,23 @@ public class OrdersServiceImpl implements IOrdersService {
     @Override
     public boolean deleteOrderDTO(Long orderId) {
         var orders =ordersRepository.getReferenceById(orderId);
-       List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orderId);
-       if(voucherUsages !=null) {
-           for (VoucherUsage voucherUsage : voucherUsages) {
-               voucherUsage.setOrder(null);
-               voucherUsageRepository.save(voucherUsage);
-           }
-       }
+        List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orderId);
+        if(voucherUsages !=null) {
+            for (VoucherUsage voucherUsage : voucherUsages) {
+                voucherUsage.setOrder(null);
+                voucherUsageRepository.save(voucherUsage);
+            }
+        }
         ordersRepository.deleteById(orderId);
         orderDetailsRepository.deleteAllByOrderId(orderId);
         return true;
     }
+
+
+    @Override
+    public boolean existsByUserId(Long userId) {
+        return ordersRepository.existsByUserId(userId);
+    }
+
 }
 

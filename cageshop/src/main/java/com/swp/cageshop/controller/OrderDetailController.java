@@ -85,4 +85,9 @@ public class OrderDetailController {
         public List<OrderDetail> getAll() {
         return iOrderDetailService.listAll();
         }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }

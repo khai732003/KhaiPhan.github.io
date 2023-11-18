@@ -47,6 +47,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
                 int newStock = product.getStock() - 1;
                 updateProductStockAndStatus(product, newStock);
                 quantity = existing.getQuantity();
+                quantity++;
                 existing.setQuantity(quantity + orderDetailDTO.getQuantity());
                 totalProduct = product.getTotalPrice() * existing.getQuantity();
                 existing.setTotalOfProd(totalProduct);

@@ -60,15 +60,27 @@ public class VoucherUsageController {
     }
 
 
-    @PutMapping("/update")
-    public ResponseEntity<VoucherUsageDTO> updateVoucherUsage(@RequestBody VoucherUsageDTO voucherUsageDTO) {
-        VoucherUsageDTO updatedVoucherUsage = voucherUsageService.updateVoucherUsage(voucherUsageDTO);
-        return new ResponseEntity<>(updatedVoucherUsage, HttpStatus.OK);
+    @PatchMapping("/delete-voucher/{orderId}/{voucherCode}")
+    public ResponseEntity<VoucherUsageDTO> disassociateVoucherFromOrder(
+            @PathVariable Long orderId,
+            @PathVariable String voucherCode) {
+
+        try {
+            VoucherUsageDTO updatedVoucherUsage = voucherUsageService.updateVoucherUsage(orderId, voucherCode);
+            return new ResponseEntity<>(updatedVoucherUsage, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/delete-by/{id}")
     public ResponseEntity<Void> deleteVoucherUsage(@PathVariable Long id) {
         voucherUsageService.deleteVoucherUsage(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

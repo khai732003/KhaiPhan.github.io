@@ -103,4 +103,29 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbacks);
     }
 
+    @GetMapping("/userId/{feedbackId}")
+    public ResponseEntity<Long> findUserIdByFeedbackId(@PathVariable Long feedbackId) {
+        Long userId = feedbackRepository.findUserIdByFeedbackId(feedbackId);
+        if (userId != null) {
+            return new ResponseEntity<>(userId, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+    @GetMapping("/exists/{userId}/{productId}")
+    public boolean existsFeedbackByUserIdAndProductId(@PathVariable Long userId, @PathVariable Long productId) {
+        return feedbackService.existsFeedbackByUserIdAndProductId(userId, productId);
+    }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+
+
 }

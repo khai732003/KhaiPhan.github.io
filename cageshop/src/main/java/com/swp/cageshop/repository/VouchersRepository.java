@@ -21,6 +21,8 @@ public interface VouchersRepository extends JpaRepository<Vouchers, Long> {
     @Query("SELECT v.id FROM Vouchers v WHERE v.code = :code AND v.isAvailable = true")
     Long findIdByCode(@Param("code") String code);
 
+    Vouchers findByCode(String code);
+
     public List<Vouchers> findByVoucherType(String voucherType);
 
     @Query("SELECT v FROM Vouchers v WHERE v.id = :id AND v.isAvailable = true")
