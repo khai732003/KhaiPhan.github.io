@@ -57,6 +57,7 @@ import ConfirmPage from './content/dashboard/pages/ConfirmPage';
 import ListDelivered from './content/dashboard/pages/ListDelivered';
 import FeedBack from './content/dashboard/pages/FeedBack';
 import VoucherList from './content/dashboard/pages/VoucherList';
+import MapComponent from './content/SanPham/MapComponent';
 
 
 
@@ -71,6 +72,8 @@ function App() {
             <Routes useScroll={scrollToTop}>
 
               {/* Vùng all role */}
+              
+              <Route exact path="/map" element={<MapComponent />}> </Route>
               <Route exact path="/" element={<Trangchu />}> </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />

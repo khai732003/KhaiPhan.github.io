@@ -40,29 +40,23 @@ public class Users extends EntityBase{
   @Column(nullable = false)
   private String address;
 
-
-
-//  @Column(nullable = false)
-//  private String verfiCode;
-
   // N:1 with Role
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "role_id")
   private Roles role;
 
-  // N:1 with itself (Users ManyToOne Users)
+
 
 //  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "manager_id")
   private Users manager;
 
-  private boolean status;
+  private boolean ship_status;
 
 
 
   @JsonIgnore
-
   @OneToMany(mappedBy="user")
   private List<VoucherUsage> voucherUsages;
 
@@ -85,6 +79,10 @@ public class Users extends EntityBase{
   @JsonIgnore
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Orders> orders;
+
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Shipping> shippings;
 
 
 }

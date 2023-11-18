@@ -22,15 +22,15 @@ public class BirdCages{
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "shape", nullable = false)
+    @JoinColumn(name = "shape_id", nullable = false)
     private Shapes shape;
 
     @ManyToOne
-    @JoinColumn(name = "material", nullable = false)
+    @JoinColumn(name = "material_id", nullable = false)
     private Materials material;
 
     @ManyToOne
-    @JoinColumn(name = "size", nullable = false)
+    @JoinColumn(name = "size_id", nullable = false)
     private Sizes size;
 
     @Column(nullable = false)

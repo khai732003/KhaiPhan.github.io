@@ -85,7 +85,7 @@ public class ProductsServiceImpl implements IProductsService {
             Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
             if (category != null) {
                 product.setCategory(category);
-
+                product.setTotalPrice(productDTO.getTotalPrice());
                 Products savedProduct = productsRepository.save(product); // Save the product
 
                 if (productDTO.getCage() != null) {
@@ -97,8 +97,24 @@ public class ProductsServiceImpl implements IProductsService {
                     } else if ( birdCages.getSize().getMaxspokes() < birdCages.getSpokes() ) {
                         birdCages.setSpokes(birdCages.getSize().getMaxspokes());
                     }
+                    double totalPrice = 0;
+                    int spokes = birdCages.getSpokes();
 
-                    double totalPrice = birdCages.getBirdCagePrice();
+                    if (birdCages.getMaterial() != null) {
+                        totalPrice += birdCages.getMaterial() .getPrice();
+                    }
+                    if (birdCages.getShape() != null) {
+                        totalPrice += birdCages.getShape().getPrice();
+                    }
+
+                    if (birdCages.getSize() != null && spokes >= birdCages.getSize().getMinspokes() && spokes <= birdCages.getSize().getMaxspokes()) {
+                        totalPrice +=   birdCages.getSize().getPrice() * spokes;
+                    }
+
+
+                    birdCages.setBirdCagePrice(totalPrice);
+                    product.setTotalPrice(totalPrice);
+
 
                     birdCageRepository.save(birdCages);
                 }
@@ -110,10 +126,10 @@ public class ProductsServiceImpl implements IProductsService {
                         accessory.setProduct(savedProduct); // Set the product for the accessory
 
                         accessoryDTO.setProductId(savedProduct.getId());
-
                         accessoriesRepository.save(accessory);
                     }
                 }
+
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
                 deleteBirdCagesWithNullProductId();
@@ -137,30 +153,6 @@ public class ProductsServiceImpl implements IProductsService {
         var material = materialRepository.findById(cageDTO.getMaterialId()).orElse(null);
         var size = sizeRepository.findById(cageDTO.getSizeId()).orElse(null);
         var shape = shapeRepository.findById(cageDTO.getShapeId()).orElse(null);
-
-        double totalPrice = 0;
-        int spokes = birdCages.getSpokes();
-
-        if (material != null) {
-            totalPrice += material.getPrice();
-        }
-        if (shape != null) {
-            totalPrice += shape.getPrice();
-        }
-
-        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
-            totalPrice +=   size.getPrice() * spokes;
-        }
-
-
-        birdCages.setBirdCagePrice(totalPrice);
-
-
-
-
-
-
-
 
         if (material != null && size != null && shape !=null) {
             birdCages.setSize(size);
