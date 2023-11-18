@@ -1,0 +1,12 @@
+/* listsize.css */
+
+.list-size-container .MuiTableContainer-root {
+    overflow-x: auto;
+    display: block;
+  }
+  
+  .list-size-container .MuiTableBody-root {
+    overflow-y: auto;
+    max-height: inherit;
+  }
+  

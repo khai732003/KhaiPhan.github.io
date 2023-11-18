@@ -118,7 +118,6 @@ public class ProductsServiceImpl implements IProductsService {
                     product.setTotalPrice(totalPrice);
 
 
-
                     birdCageRepository.save(birdCages);
                 }
 
@@ -132,9 +131,14 @@ public class ProductsServiceImpl implements IProductsService {
                         accessoriesRepository.save(accessory);
                     }
                 }
+
                 if(productDTO.getExtraPrice() > 0){
                     product.setTotalPrice(product.getTotalPrice() + product.getExtraPrice());
                 }
+
+//                product.setTotalPrice(productDTO.getTotalPrice());
+
+
 
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);

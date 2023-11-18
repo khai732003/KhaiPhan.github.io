@@ -15,7 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Stack from "@mui/material/Stack";
-import BookIcon from '@mui/icons-material/Book';
+import BookIcon from "@mui/icons-material/Book";
 
 import Cart from "../content/SanPham/Cart";
 import NavbBar from "../content/dashboard/components/NavbBar";
@@ -47,8 +47,8 @@ function Header(props) {
   const isUpdateProduct = location.pathname === "/update-product";
   const isAddAccessories = location.pathname === "/addaccessories";
   // const isUpdateProduct = location.pathname === "/update/*";
-// Sửa thành regex kiểm tra đường dẫn "/update-product" hoặc "/update/{số}"
-const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
+  // Sửa thành regex kiểm tra đường dẫn "/update-product" hoặc "/update/{số}"
+  const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
@@ -58,6 +58,18 @@ const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
   const isFeedBack = location.pathname === "/list-feedback";
   const islistdevered = location.pathname === "/listdelivered";
   const isVoucherList = location.pathname === "/list-voucher";
+  const isCustomList = location.pathname === "/custom-list";
+  const isAddShape = location.pathname === "/add-shape";
+  const isAddMaterial = location.pathname === "/add-material";
+  const isAddSize = location.pathname === "/add-size";
+  const isMaterial = location.pathname === "/list-material";
+  const isSize = location.pathname === "/list-size";
+  const isShape = location.pathname === "/list-shape";
+  const isUpdateSize = /^\/update-size\/\d+$/.test(location.pathname);
+  const isUpdateShape = /^\/update-shape\/\d+$/.test(location.pathname);  
+  const isUpdateMaterial = /^\/update-material\/\d+$/.test(location.pathname);
+  const isCustomProductManagement = location.pathname === "/custom-product";
+
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -92,10 +104,10 @@ const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
     logout();
   };
 
-const handleCustome = () =>{
-  const cusProId = localStorage.getItem("cusPro");
-  navigate(`/customdetail/${cusProId}`)
-}
+  const handleCustome = () => {
+    const cusProId = localStorage.getItem("cusPro");
+    navigate(`/customdetail/${cusProId}`);
+  };
 
   useEffect(() => {
     // Kiểm tra xem có "cusPro" trong Local Storage không
@@ -114,22 +126,33 @@ const handleCustome = () =>{
     isUpdateUser ||
     isRevenue ||
     isProductManager ||
-    isAddProduct  ||
+    isAddProduct ||
     isStaffManager ||
     isVoucher ||
     isAdminProfile ||
     isAddAccessories ||
-
-    isTimeLine || isListConfirm || isAddEditUser || isAddCategory || isFeedBack
-
-   || islistdevered || isVoucherList || isUpdateProduct1 || isUpdateProduct
-
-
+    isTimeLine ||
+    isListConfirm ||
+    isAddEditUser ||
+    isAddCategory ||
+    isFeedBack ||
+    islistdevered ||
+    isVoucherList ||
+    isUpdateProduct1 ||
+    isUpdateProduct ||
+    isCustomList ||
+    isAddShape ||
+    isAddMaterial ||
+    isAddSize ||
+    isMaterial ||
+    isShape ||
+    isSize ||
+    isUpdateSize ||
+    isUpdateShape ||
+    isUpdateMaterial || isCustomProductManagement
   ) {
     return <NavbBar />;
   }
-
-
 
   return (
     <div className="fixed-header">
@@ -142,12 +165,12 @@ const handleCustome = () =>{
           fluid
           style={{ backgroundColor: "white", paddingRight: 0, paddingLeft: 0 }}
         >
-          <Navbar.Brand className="brand " to='\'>
-            <Link to='/'>
-            <img
-              className="logo"
-              src="https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg"
-            ></img>
+          <Navbar.Brand className="brand " to="\">
+            <Link to="/">
+              <img
+                className="logo"
+                src="https://static.vecteezy.com/system/resources/previews/008/462/030/non_2x/minimalist-simple-bird-home-logo-design-free-vector.jpg"
+              ></img>
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -180,28 +203,21 @@ const handleCustome = () =>{
                   style={{ textDecoration: "none", color: "#535b62" }}
                   className="nav-link"
                 >
-               SERVICE
+                  SERVICE
                 </NavLink>
-
-
               </div>
-              <NavLink
-                to="/news"
-                activeClassName="active"
-                className="nav-link"
-              >
-               NEWS
+              <NavLink to="/news" activeClassName="active" className="nav-link">
+                NEWS
               </NavLink>
               <NavLink
                 to="/contact"
                 activeClassName="active"
                 className="nav-link"
               >
-               CONTACT
+                CONTACT
               </NavLink>
             </Nav>
-            
-            
+
             <Nav className="toggle-avatar-cart">
               {/* Nút giỏ hàng */}
 
@@ -218,9 +234,7 @@ const handleCustome = () =>{
                       variant="dot"
                       className="avatar"
                     >
-
                       <Avatar alt="User Avatar" src={user.image} />
-
                     </StyledBadge>
 
                     <div className="dropdown-menu">
@@ -245,22 +259,21 @@ const handleCustome = () =>{
 
                       {user.role === "STAFF" && (
                         <>
-                        <NavLink
-                          to="/staffnew"
-                          className="dropdown-item nav-link"
-                          onClick={() => navigate("/staffnew")}
-                        >
-                          NEW MARKETING
-                        </NavLink>
-                        <NavLink
-                          to="/listconfirm"
-                          className="dropdown-item nav-link"
-                          onClick={() => navigate("/staffnew")}
-                        >
-                          LIST CONFIRMING
-                        </NavLink>
+                          <NavLink
+                            to="/staffnew"
+                            className="dropdown-item nav-link"
+                            onClick={() => navigate("/staffnew")}
+                          >
+                            NEW MARKETING
+                          </NavLink>
+                          <NavLink
+                            to="/listconfirm"
+                            className="dropdown-item nav-link"
+                            onClick={() => navigate("/staffnew")}
+                          >
+                            LIST CONFIRMING
+                          </NavLink>
                         </>
-                        
                       )}
 
                       {user.role === "CUSTOMER" && (
@@ -268,19 +281,16 @@ const handleCustome = () =>{
                           <NavLink
                             to="/history"
                             className="dropdown-item nav-link"
-
                           >
                             HISTORY ORDER
                           </NavLink>
                           <NavLink
                             to="/localorder"
                             className="dropdown-item nav-link"
-
                           >
                             MY ORDER
                           </NavLink>
                         </>
-
                       )}
                       <div
                         className="dropdown-item nav-link"
@@ -321,10 +331,10 @@ const handleCustome = () =>{
                 <Cart />
               </IconButton>
               {hasCusPro && (
-                <Button onClick={handleCustome} style={{width:'3rem'}}>
-                  <BookIcon/> 
+                <Button onClick={handleCustome} style={{ width: "3rem" }}>
+                  <BookIcon />
                 </Button>
-            )}
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

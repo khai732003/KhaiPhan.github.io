@@ -41,12 +41,14 @@ const NavBar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await customAxios.get('/cageshop/api/order/list-all-orderPaid-by/NOT_CONFIRM');
-        
+        const response = await customAxios.get(
+          "/cageshop/api/order/list-all-orderPaid-by/NOT_CONFIRM"
+        );
+
         // Assuming the API response contains an array of notifications
         setNotifications(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -61,7 +63,6 @@ const NavBar = () => {
   const handleAvatarClose = () => {
     setAvatarMenuOpen(false);
   };
-  
 
   const notificationCount = notifications.length;
 
@@ -105,11 +106,12 @@ const NavBar = () => {
     setAvatarMenuOpen(false);
   };
 
-  
-
   return (
     <div className="navbar-admin-dashboard">
-      <StyledAppBar position="fixed" style={{ zIndex: 1400,backgroundColor:'#24659d' }}>
+      <StyledAppBar
+        position="fixed"
+        style={{ zIndex: 1400, backgroundColor: "#24659d" }}
+      >
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 10 }}>
             Admin Dashboard
@@ -198,7 +200,11 @@ const NavBar = () => {
         }}
       >
         <Box p={1}>
-          <Button variant="contained" onClick={handleLogout} style={{marginTop: 70}}>
+          <Button
+            variant="contained"
+            onClick={handleLogout}
+            style={{ marginTop: 70 }}
+          >
             Logout
           </Button>
         </Box>
@@ -225,7 +231,7 @@ const NavBar = () => {
             onClick={toggleDrawer}
             onKeyDown={toggleDrawer}
           >
-            <List style={{ padding:'90px 30px 0 30px'}}>
+            <List style={{ padding: "90px 30px 0 30px" }}>
               <StyledToggleButton
                 button
                 component={Link}
@@ -240,7 +246,6 @@ const NavBar = () => {
 
               <div>
                 <p id="navbar-title">Management</p>
-               
               </div>
 
               <StyledToggleButton
@@ -300,6 +305,30 @@ const NavBar = () => {
                   <StoreIcon color="inherit" />
                 </ListItemIcon>
                 <ListItemText primary="Confirm Management" />
+              </StyledToggleButton>
+
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/custom-list"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                <StoreIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Custom List" />
+              </StyledToggleButton>
+
+              <StyledToggleButton
+                button
+                component={Link}
+                to="/custom-product"
+                className="navbar-btn navbar-item"
+              >
+                <ListItemIcon>
+                <StoreIcon color="inherit" />
+                </ListItemIcon>
+                <ListItemText primary="Custom Product Management" />
               </StyledToggleButton>
 
               <div>
@@ -371,8 +400,6 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText primary="FeedBack" />
               </StyledToggleButton>
-
-              
             </List>
           </div>
         </Drawer>
