@@ -97,8 +97,24 @@ public class ProductsServiceImpl implements IProductsService {
                     } else if ( birdCages.getSize().getMaxspokes() < birdCages.getSpokes() ) {
                         birdCages.setSpokes(birdCages.getSize().getMaxspokes());
                     }
+                    double totalPrice = 0;
+                    int spokes = birdCages.getSpokes();
 
-                    double totalPrice = birdCages.getBirdCagePrice();
+                    if (birdCages.getMaterial() != null) {
+                        totalPrice += birdCages.getMaterial() .getPrice();
+                    }
+                    if (birdCages.getShape() != null) {
+                        totalPrice += birdCages.getShape().getPrice();
+                    }
+
+                    if (birdCages.getSize() != null && spokes >= birdCages.getSize().getMinspokes() && spokes <= birdCages.getSize().getMaxspokes()) {
+                        totalPrice +=   birdCages.getSize().getPrice() * spokes;
+                    }
+
+
+                    birdCages.setBirdCagePrice(totalPrice);
+
+
 
                     birdCageRepository.save(birdCages);
                 }
@@ -114,6 +130,7 @@ public class ProductsServiceImpl implements IProductsService {
                         accessoriesRepository.save(accessory);
                     }
                 }
+                product.setTotalPrice(productDTO.getTotalPrice());
 
                 ProductDTO savedProductDTO = modelMapper.map(savedProduct, ProductDTO.class);
                 deleteBirdCagesWithNullProductId();
@@ -138,22 +155,7 @@ public class ProductsServiceImpl implements IProductsService {
         var size = sizeRepository.findById(cageDTO.getSizeId()).orElse(null);
         var shape = shapeRepository.findById(cageDTO.getShapeId()).orElse(null);
 
-        double totalPrice = 0;
-        int spokes = birdCages.getSpokes();
 
-        if (material != null) {
-            totalPrice += material.getPrice();
-        }
-        if (shape != null) {
-            totalPrice += shape.getPrice();
-        }
-
-        if (size != null && spokes >= size.getMinspokes() && spokes <= size.getMaxspokes()) {
-            totalPrice +=   size.getPrice() * spokes;
-        }
-
-
-        birdCages.setBirdCagePrice(totalPrice);
 
 
 
