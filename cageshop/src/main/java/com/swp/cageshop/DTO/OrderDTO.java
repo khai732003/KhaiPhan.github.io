@@ -15,7 +15,7 @@ public class OrderDTO extends DTOBase{
     private String name;
     private String shipStatus;
     private String payStatus;
-    private Double shipPrice;
+//    private Double shipPrice;
     private String paymentMethod;
     private String address;
     private String city;

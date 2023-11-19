@@ -11,6 +11,7 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../CustomAxios/customAxios";
 import "./../dashboard/styles/addedituser.css";
+import { useAuth } from "./Context/AuthContext";
 
 export default function Custom() {
   const navigate = useNavigate();
@@ -21,14 +22,16 @@ export default function Custom() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
-
+  const [product, setProduct] = useState(null);
+  const { user } = useAuth();
+  const [isOperationsCompleted, setOperationsCompleted] = useState(false);
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
     code: "CP PRODUCT",
     categoryId: "",
     productImage:
       "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
-    stock: "",
+    stock: "1",
     status: "customeProduct",
     note: "custome",
     cage: {
@@ -66,26 +69,100 @@ export default function Custom() {
     }
   };
 
+
+
   const addCustomProductManagement = async () => {
     try {
       const response = await customAxios.post("/product/add", formData);
-
-      if (response.status === 200) {
-        navigate("/sanpham");
-      }
+      setOperationsCompleted(true);
+      setProduct(response.data)
     } catch (error) {
-      // Log the detailed error response
       console.error("Detailed error response:", error.response);
 
-      // Log the error message
       console.error("Error message:", error.message);
     }
   };
+  const handleBuy = async () => {
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addCustomProductManagement();
+    if (!isOperationsCompleted) {
+      await addCustomProductManagement();
+    }
+    if (!user) {
+      localStorage.setItem("proId", product.id);
+      localStorage.setItem("toBuy", window.location.pathname);
+      navigate("/login");
+      return;
+    }
+
+    try {
+      // Create an order if it doesn't exist
+      let orderId = localStorage.getItem('orderId');
+      if (!orderId) {
+        const address = user.address;
+        const shipAddress = "hcm";
+        const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
+
+        const orderResponse = await customAxios.post('/order/add', {
+          "name": `Order of${user.userId}`,
+          "status": "pending",
+          "paymentMethod": "credit card",
+          "address": address,
+          "city": "Đà Nẵng",
+          "content": "Đóng gói cẩn thận nhé",
+          userId: user.userId
+        });
+
+        orderId = orderResponse.data.id;
+        localStorage.setItem('orderId', orderId);
+      }
+
+      // // Create order detail for the custom product
+      // const customProduct = {
+      //   name: formData.name,
+      //   code: formData.code,
+      //   categoryId: formData.categoryId,
+      //   productImage: formData.productImage,
+      //   stock: formData.stock,
+      //   status: formData.status,
+      //   note: formData.note,
+      //   cage: {
+      //     description: formData.cage.description,
+      //     shapeId: formData.cage.shapeId,
+      //     materialId: formData.cage.materialId,
+      //     sizeId: formData.cage.sizeId,
+      //     spokes: formData.cage.spokes,
+      //   },
+      // };
+
+      await customAxios.post('/order_detail/add', {
+        quantity: 1,
+        name: product.name,
+        note: `Sản phẩm là ${product.id}`,
+        orderId,
+        productId:product.id,
+        totalCost: product.totalPrice
+      });
+
+      // Navigate to the order page
+      navigate(`/order/${orderId}`);
+    } catch (error) {
+      console.error("Error creating order and order detail:", error);
+    }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await  addCustomProductManagement();
+  };
+
+  useEffect(() => {
+    // Your existing useEffect code
+
+    // Check if the product is available before calling handleBuy
+    if (product) {
+      handleBuy();
+    }
+  }, [product]);
 
   useEffect(() => {
     const fetchShapes = async () => {
@@ -234,7 +311,7 @@ export default function Custom() {
             </FormControl>
 
             {/* Stock Input */}
-            <TextField
+            {/* <TextField
               label="Stock"
               id="stock"
               name="stock"
@@ -244,7 +321,7 @@ export default function Custom() {
               fullWidth
               required
               margin="normal"
-            />
+            /> */}
 
             {/* Select Shape */}
             <FormControl fullWidth margin="normal">
@@ -336,18 +413,6 @@ export default function Custom() {
               required
               margin="normal"
             />
-
-            {/* Uncomment the following block if you plan to use the Accessories field */}
-            {/* <TextField
-                label="Accessories"
-                id="accessories"
-                name="accessories"
-                value={formData.accessories}
-                onChange={handleInputChange}
-                fullWidth
-                required
-                margin="normal"
-              /> */}
 
             {/* Submit Button */}
             <Button
