@@ -7,11 +7,13 @@ import {
   MenuItem,
   FormControl,
   Grid,
+  Typography,
   InputLabel,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../CustomAxios/customAxios";
 import "./../dashboard/styles/addedituser.css";
+import "../SanPham/Scss/custom.scss";
 
 export default function Custom() {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function Custom() {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
   const [sidePanelData, setSidePanelData] = useState([]);
+  const [spokesRange, setSpokesRange] = useState({ min: 0, max: 0 });
 
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
@@ -60,7 +63,25 @@ export default function Custom() {
           [nestedProperty]: value,
         },
       }));
+    } else if (name === "cage.spokes") {
+      const spokesValue = parseInt(value, 10);
+
+      // Giới hạn giá trị trong khoảng min và max
+      const limitedSpokesValue = Math.min(
+        Math.max(spokesValue, spokesRange.min),
+        spokesRange.max
+      );
+
+      // Cập nhật giá trị vào state
+      setFormData((prevData) => ({
+        ...prevData,
+        cage: {
+          ...prevData.cage,
+          spokes: limitedSpokesValue,
+        },
+      }));
     } else {
+      // Xử lý các trường hợp khác
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -88,6 +109,16 @@ export default function Custom() {
     event.preventDefault();
     addCustomProductManagement();
   };
+
+  useEffect(() => {
+    // Tìm sizeData tương ứng với selectedSize
+    const sizeData = sizes.find((size) => size.id === selectedSize);
+
+    // Nếu tìm thấy, cập nhật spokesRange
+    if (sizeData) {
+      setSpokesRange({ min: sizeData.minspokes, max: sizeData.maxspokes });
+    }
+  }, [selectedSize, sizes]);
 
   useEffect(() => {
     const fetchShapes = async () => {
@@ -192,6 +223,23 @@ export default function Custom() {
     // Create an array with selected options and their prices
     const newSidePanelData = [];
 
+    // if (formData.categoryId) {
+    //   const categoryData = categories.find(
+    //     (category) => category.id === formData.categoryId
+    //   );
+    //   newSidePanelData.push({
+    //     label: "Category",
+    //     name: categoryData.name,
+    //   });
+    // }
+
+    // if (formData.stock) {
+    //   newSidePanelData.push({
+    //     label: "Stock",
+    //     name: formData.stock,
+    //   });
+    // }
+
     // Push selected shape data
     if (selectedShape) {
       const shapeData = shapes.find((shape) => shape.id === selectedShape);
@@ -202,16 +250,6 @@ export default function Custom() {
       });
     }
 
-    if (selectedSize) {
-      const sizeData = sizes.find((size) => size.id === selectedSize);
-      newSidePanelData.push({
-        label: "Size",
-        name: sizeData.sizeName,
-        price: sizeData.price,
-      });
-    }
-
-    // Push selected material data
     if (selectedMaterial) {
       const materialData = materials.find(
         (material) => material.id === selectedMaterial
@@ -223,45 +261,41 @@ export default function Custom() {
       });
     }
 
+    if (selectedSize) {
+      const sizeData = sizes.find((size) => size.id === selectedSize);
+      const spokesPrice = calculateSpokesPrice();
+      newSidePanelData.push({
+        label: "Size",
+        name: sizeData.sizeName,
+        price: sizeData.price,
+        minspokes: sizeData.minspokes,
+        maxspokes: sizeData.maxspokes,
+      });
+    }
+
     // Update the state
     setSidePanelData(newSidePanelData);
   };
 
-  // const calculateTotal = () => {
-  //   // Calculate the total price based on selected options
-  //   let total = 0;
-  //   sidePanelData.forEach((item) => {
-  //     total += item.price;
-  //   });
-  //   return total;
-  // };
+  const calculateSpokesPrice = () => {
+    // Tính toán giá tiền dựa trên số lượng spokes và giá của size
+    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    return pricePerSpoke * spokes - pricePerSpoke;
+  };
 
   const calculateTotal = () => {
     // Calculate the total price based on selected options
     let total = 0;
-  
-    // Loop through sidePanelData to calculate the total
     sidePanelData.forEach((item) => {
-      // Check if the item is related to size
-      if (item.label === "Size") {
-        // Get the price per spoke and the number of spokes
-        const pricePerSpoke = selectedSize ? selectedSize.price : 0;
-        const spokes = parseInt(formData.cage.spokes, 10) || 0;
-  
-        // Calculate the price for size based on the number of spokes
-        const sizePrice = pricePerSpoke * spokes;
-  
-        // Add the calculated size price to the total
-        total += sizePrice;
-      } else {
-        // For other items (material, shape), simply add their prices to the total
-        total += item.price;
-      }
+      total += item.price;
     });
-  
+
+    const spokesPrice = calculateSpokesPrice();
+    total += spokesPrice;
     return total;
   };
-  
 
   const calculatePrice = () => {
     // Tính toán giá tiền dựa trên số lượng spokes và giá của size
@@ -309,17 +343,18 @@ export default function Custom() {
             </div>
 
             <div className="side-panel">
-              <h2>Order Summary</h2>
-              <ul>
+              <h2 style={{textAlign: "center"}}>Custom Summary</h2><hr/>
+              <div>
                 {sidePanelData.map((item, index) => (
-                  <li key={index}>
-                    {item.label}: {item.name} - Price: {item.price}
-                  </li>
+                  <div key={index}>
+                    {index + 1}. {item.label}: {item.name} - Price: {item.price}
+                  </div>
                 ))}
-                <li>Spokes Price: {calculatePrice()}</li>
-              </ul>
-              <p>Total: {calculateTotal()}</p>
-            </div>
+                {/* <div>{sidePanelData.length + 1}. Spokes Price: {calculatePrice()}</div> */}
+              </div>
+              <p style={{color: 'red', fontWeight: 'bold', fontSize: "1.5rem",textAlign: "right"}}>Total: {calculateTotal()}</p>
+            </div><hr/>
+            <br/>
 
             {/* Category Select Input */}
             <FormControl fullWidth margin="normal">
@@ -404,6 +439,7 @@ export default function Custom() {
               materials.find((material) => material.id === selectedMaterial)
                 ?.materialName}
 
+            {/* Select Size */}
             <FormControl fullWidth margin="normal">
               <InputLabel id="sizeIdLabel">Select Size</InputLabel>
               <Select
@@ -426,26 +462,52 @@ export default function Custom() {
               </Select>
             </FormControl>
 
+            <div className="side-panel">
+              <p> Customer should choose spokes based on custom size :</p>
+              {selectedSize && (
+                <div style={{ marginLeft: "16rem" }}>
+                  Min Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.minspokes} -{" "}
+                  Max Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.maxspokes}
+                </div>
+              )}
+            </div>
+
             {/* Display selected sizeName based on sizeId */}
             {selectedSize &&
               sizes.find((size) => size.id === selectedSize)?.sizeName}
 
-            
             <TextField
               label="Spokes"
               id="spokes"
               name="spokes"
               type="number"
               value={formData.cage.spokes}
-              onChange={(event) =>
-                setFormData({
-                  ...formData,
+              onChange={(event) => {
+                const spokesValue = parseInt(event.target.value, 10);
+                const minSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.minspokes ||
+                  0;
+                const maxSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.maxspokes ||
+                  0;
+
+                // Giới hạn giá trị trong khoảng min và max
+                const limitedSpokesValue = Math.min(
+                  Math.max(spokesValue, minSpokes),
+                  maxSpokes
+                );
+
+                // Cập nhật giá trị vào state
+                setFormData((prevData) => ({
+                  ...prevData,
                   cage: {
-                    ...formData.cage,
-                    spokes: event.target.value,
+                    ...prevData.cage,
+                    spokes: limitedSpokesValue,
                   },
-                })
-              }
+                }));
+              }}
               fullWidth
               required
               margin="normal"
