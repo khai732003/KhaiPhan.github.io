@@ -140,13 +140,13 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public List<OrderDetailDTO> getAllOrderDetailDTOs() {
         List<OrderDetail> orderDetails = orderDetailRepository.findAll();
         List<OrderDetailDTO> orderDetailDTOs = orderDetails.stream()
-                .map(orderDetail -> {
-                    OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
-                    String productImage = orderDetail.getProduct().getProductImage();
-                    orderDetailDTO.setProductImg(productImage);
-                    return orderDetailDTO;
-                })
-                .collect(Collectors.toList());
+            .map(orderDetail -> {
+                OrderDetailDTO orderDetailDTO = modelMapper.map(orderDetail, OrderDetailDTO.class);
+                String productImage = orderDetail.getProduct().getProductImage();
+                orderDetailDTO.setProductImg(productImage);
+                return orderDetailDTO;
+            })
+            .collect(Collectors.toList());
         return orderDetailDTOs;
     }
 
@@ -177,7 +177,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         if(orderDetail != null ) {
             if (orderDetail.getProduct().getMotherProductId() != null) {
                 Products product = productsRepository.getReferenceById(
-                        orderDetail.getProduct().getMotherProductId());
+                    orderDetail.getProduct().getMotherProductId());
                 if (product != null) {
                     if (product.getStock() == 0) {
                         product.setStatus("Available");
@@ -192,13 +192,13 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             } else {
                 if (orderDetail.getProduct().getId() != null) {
                     Products product = productsRepository.getReferenceById(
-                            orderDetail.getProduct().getId());
+                        orderDetail.getProduct().getId());
                     if (product != null) {
                         if (product.getStock() == 0) {
                             product.setStatus("Available");
                             product.setStock(product.getStock() + orderDetail.getQuantity());
                             product.setOrderLevel(
-                                    product.getOrderLevel() - orderDetail.getQuantity());
+                                product.getOrderLevel() - orderDetail.getQuantity());
                             productsRepository.save(product);
                         } else
                             product.setStock(product.getStock() + orderDetail.getQuantity());

@@ -26,6 +26,8 @@ public interface IOrdersService {
 
     public List<OrderDTO> getPaidAndNotConfirmedOrders(String shipStatus);
 
+    public List<OrderDTO> getPaidAndNotConfirmedOrdersAndShipBy(Long userId, String shipStatus);
+
     public List<OrderDTO> getOrdersByShipStatus(String shipStatus);
 
     public List<String> getAllPayStatusByStatus(String payStatus);

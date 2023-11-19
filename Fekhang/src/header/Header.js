@@ -57,7 +57,7 @@ function Header(props) {
   const isError = location.pathname === "/error";
   const isVoucher = location.pathname === "/voucher";
   const isPaypal = location.pathname === "/paypal";
-  const isListConfirm = location.pathname === "/listconfirm";
+  // const isListConfirm = location.pathname === "/listconfirm";
   const isAddEditUser = location.pathname === "/add-edit-user";
   const isAddCategory = location.pathname === "/add-edit-category";
   const isFeedBack = location.pathname === "/list-feedback";
@@ -136,7 +136,7 @@ function Header(props) {
     isAdminProfile ||
     isAddAccessories ||
     isTimeLine ||
-    isListConfirm ||
+    // isListConfirm ||
     isAddEditUser ||
     isAddCategory ||
     isFeedBack ||

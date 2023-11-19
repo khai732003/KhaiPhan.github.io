@@ -223,7 +223,7 @@ public class ProductsController {
     }
 
     @GetMapping("/product/list-date-desc")
-    public List<ProductDTO> getProductsByCreateDateDesc() {
+    public List<Products> getProductsByCreateDateDesc() {
         return productsService.getProductsSortedByCreateDateDESC();
     }
 

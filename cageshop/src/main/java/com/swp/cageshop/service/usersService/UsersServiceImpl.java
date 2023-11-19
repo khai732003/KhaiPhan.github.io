@@ -234,6 +234,11 @@ public class UsersServiceImpl implements IUsersService {
   }
 
   @Override
+  public List<Users> listAllStaffAndStatusFalse() {
+    return usersRepository.findAllStaffAndStatusFalse();
+  }
+
+  @Override
   public ResponseEntity<String> updateStatus(Long id) {
     try {
       Users user = usersRepository.getReferenceById(id);

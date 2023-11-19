@@ -24,7 +24,7 @@ const Footer = (props) => {
   const isVoucher = location.pathname === "/voucher";
   const isError = location.pathname === "/error";
   const isPaypal = location.pathname === "/paypal";
-  const isListConfirm = location.pathname === "/listconfirm";
+  // const isListConfirm = location.pathname === "/listconfirm";
   const isUpdateProduct1 = /^\/update-product\/\d+$/.test(location.pathname);
   const isCustomList = location.pathname === "/custom-list";
   const isFeedBack = location.pathname === "/list-feedback";
@@ -60,7 +60,7 @@ const Footer = (props) => {
     isAdminProfile ||
     isTimeLine ||
     isAddAccessories ||
-    isListConfirm ||
+    // isListConfirm ||
     isUserManager ||
     isVoucher ||
     isAdmin ||
@@ -123,25 +123,6 @@ const Footer = (props) => {
         </div>
         <div className="row">
           <div className="col-md-4">
-            {/* <span>GET PROMOTION</span>
-              <form>
-                <div className="form-group">
-                  <div className="input-group">
-                    <input
-                    style={{borderRadius:'3px' , margin:'20px 0 20px 0'}}
-                      type="email"
-                      className="form-control"
-                      id="emailInput"
-                      placeholder="Enter your email"
-                    />
-                    <div className="input-group-append">
-                      <button type="submit" className="btn btn-primary" style={{borderRadius:'3px',width:'fit-content'}}>
-                      SIGN UP FOR PROMOTIONS
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form> */}
           </div>
           <div className="col-md-4">
             <span>SOCIAL MEDIA</span>

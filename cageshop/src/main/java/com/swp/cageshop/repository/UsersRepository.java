@@ -28,6 +28,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
   @Query("SELECT u FROM Users u WHERE UPPER(u.role.name) = 'STAFF'")
   List<Users> findAllStaff();
 
+  @Query("SELECT u FROM Users u WHERE UPPER(u.role.name) = 'STAFF' AND u.shipStatus = false ")
+  List<Users> findAllStaffAndStatusFalse();
+
   List<Users> findByManagerId(Long managerId);
 
   @Query("SELECT u.fullname FROM Users u WHERE u.id = :userId")

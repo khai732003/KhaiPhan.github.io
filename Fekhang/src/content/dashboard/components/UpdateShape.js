@@ -15,7 +15,7 @@ const UpdateShape = () => {
   });
 
   const handleReturnPage = () => {
-    navigate("/custom-product"); // Adjust the navigation as needed
+    navigate("/custom-list"); // Adjust the navigation as needed
   };
 
   const handleInputChange = (event) => {
@@ -24,6 +24,14 @@ const UpdateShape = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const validateShapeName = (shapeName) => {
+    return /^[a-zA-Z0-9\s]+$/.test(shapeName);
+  };
+
+  const validatePrice = (price) => {
+    return price >= 0;
   };
 
   const fetchShapeData = async (shapeId) => {
@@ -50,11 +58,21 @@ const UpdateShape = () => {
 
   const updateShape = async () => {
     try {
+      if (!validateShapeName(formData.shapeName)) {
+        alert("Invalid Shape Name. Please use only alphanumeric characters and spaces.");
+        return;
+      }
+
+      if (!validatePrice(formData.price)) {
+        alert("Invalid Price. Please enter a non-negative value.");
+        return;
+      }
+
       const response = await customAxios.put(`/shapes/${id}`, formData);
       console.log(response);
 
       if (response.status === 200) {
-        navigate("/custom-product");
+        navigate("/custom-list");
       }
     } catch (error) {
       console.error(error);

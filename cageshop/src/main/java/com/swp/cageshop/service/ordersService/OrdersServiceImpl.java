@@ -234,6 +234,17 @@ public class OrdersServiceImpl implements IOrdersService {
         return orderDTOs;
     }
 
+    @Override
+    public List<OrderDTO> getPaidAndNotConfirmedOrdersAndShipBy(Long userId, String shipStatus) {
+        List<Orders> paidAndNotConfirmedOrders = ordersRepository.findOrdersByStatusForUser(userId,shipStatus);
+
+        List<OrderDTO> orderDTOs = paidAndNotConfirmedOrders.stream()
+            .map(order -> modelMapper.map(order, OrderDTO.class))
+            .collect(Collectors.toList());
+
+        return orderDTOs;
+    }
+
 
 
 

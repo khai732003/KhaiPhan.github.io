@@ -466,13 +466,6 @@ function Detail({
                       </div>
                     </div>
 
-                    {show === true && <div>
-                    <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
-                      <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
-                        FeedBack
-                      </Button>
-                    </Stack>
-                    </div>}
 
                     <div>
                       <input
@@ -482,13 +475,13 @@ function Detail({
                         min={1}
                         max={productDetail.stock} // Set the maximum quantity based on stock
                       />
-                      {show === true && <div>
+                      {/* {show === true && <div>
                         <Stack direction="row" spacing={2} style={{ justifyContent: "end" }}>
                           <Button variant="contained" endIcon={<SendIcon />} onClick={() => handleFeedback(productId)}>
                             FeedBack
                           </Button>
                         </Stack>
-                      </div>}
+                      </div>} */}
                     </div>
 
                     {show === false && (

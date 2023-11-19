@@ -15,6 +15,13 @@ export default function AddSize() {
     maxspokes: 0,
   });
 
+  const [validationError, setValidationError] = useState({
+    nameError: "",
+    priceError: "",
+    minspokesError: "",
+    maxspokesError: "",
+  });
+
   const handleReturnPage = () => {
     navigate(-1);
   };
@@ -27,16 +34,68 @@ export default function AddSize() {
     }));
   };
 
-  const addSize = async () => {
-    try {
-      const response = await customAxios.post(`/sizes/add`, formData);
-      console.log(response);
+  const validateForm = () => {
+    let isValid = true;
 
-      if (response.status === 201) {
-        navigate("/usermanagement");
+    // Validate name
+    if (!/^[a-zA-Z0-9 ]+$/.test(formData.sizeName)) {
+      setValidationError((prevState) => ({
+        ...prevState,
+        nameError: "Name cannot have special characters.",
+      }));
+      isValid = false;
+    } else {
+      setValidationError((prevState) => ({
+        ...prevState,
+        nameError: "",
+      }));
+    }
+
+    // Validate price
+    if (formData.price < 0) {
+      setValidationError((prevState) => ({
+        ...prevState,
+        priceError: "Price cannot be less than 0.",
+      }));
+      isValid = false;
+    } else {
+      setValidationError((prevState) => ({
+        ...prevState,
+        priceError: "",
+      }));
+    }
+
+    // Validate minspokes and maxspokes
+    if (formData.minspokes > formData.maxspokes) {
+      setValidationError((prevState) => ({
+        ...prevState,
+        minspokesError: "Min Spokes cannot be greater than Max Spokes.",
+        maxspokesError: "Max Spokes cannot be less than Min Spokes.",
+      }));
+      isValid = false;
+    } else {
+      setValidationError((prevState) => ({
+        ...prevState,
+        minspokesError: "",
+        maxspokesError: "",
+      }));
+    }
+
+    return isValid;
+  };
+
+  const addSize = async () => {
+    if (validateForm()) {
+      try {
+        const response = await customAxios.post(`/sizes/add`, formData);
+        console.log(response);
+
+        if (response.status === 200) {
+          navigate("/custom-list");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -71,6 +130,9 @@ export default function AddSize() {
                 required
                 placeholder="Enter Size Name"
               />
+              {validationError.nameError && (
+                <div className="error-message">{validationError.nameError}</div>
+              )}
             </div>
 
             <label className="form-label" htmlFor="price">
@@ -87,6 +149,9 @@ export default function AddSize() {
                 required
                 placeholder="Enter Price"
               />
+              {validationError.priceError && (
+                <div className="error-message">{validationError.priceError}</div>
+              )}
             </div>
 
             <label className="form-label" htmlFor="minspokes">
@@ -103,6 +168,9 @@ export default function AddSize() {
                 required
                 placeholder="Enter Min Spokes"
               />
+              {validationError.minspokesError && (
+                <div className="error-message">{validationError.minspokesError}</div>
+              )}
             </div>
 
             <label className="form-label" htmlFor="maxspokes">
@@ -119,6 +187,9 @@ export default function AddSize() {
                 required
                 placeholder="Enter Max Spokes"
               />
+              {validationError.maxspokesError && (
+                <div className="error-message">{validationError.maxspokesError}</div>
+              )}
             </div>
 
             <button type="submit" className="btn btn-primary btn-lg">
