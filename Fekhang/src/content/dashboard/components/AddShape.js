@@ -30,7 +30,7 @@ export default function AddShape() {
       const response = await customAxios.post(`/shapes/add`, formData);
       console.log(response); // Log the response to check if it's reaching this point
       if (response.status === 201) {
-        navigate("/usermanagement");
+        navigate("/custom-list");
       }
     } catch (error) {
       console.error(error);
