@@ -3,17 +3,19 @@ import React, { useState, useEffect } from 'react';
 import customAxios from '../../../CustomAxios/customAxios';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import PaginationComponent from './PaginationComponent';
+import { useAuth } from '../../SanPham/Context/AuthContext';
 
 const ITEMS_PER_PAGE = 5;
 
 const UpdateDelivered = ({ triggerUpdate, setTriggerUpdate }) => {
+  const {user} = useAuth();
   const [notificationsDelivering, setNotificationsDelivering] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await customAxios.get('/order/list-all-orderPaid-by/DELIVERING');
+        const response = await customAxios.get(`/order/list-all-orderPaid-by/${user.userId}/DELIVERING`);
         setNotificationsDelivering(response.data);
       } catch (error) {
         console.error('Error fetching delivering data:', error);

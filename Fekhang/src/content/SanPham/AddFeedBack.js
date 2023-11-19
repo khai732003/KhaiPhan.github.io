@@ -49,6 +49,8 @@ function AddFeedBack() {
     }));
   };
 
+
+
   useEffect(() => {
     const checkUserPurchase = async () => {
       try {
@@ -136,7 +138,7 @@ function AddFeedBack() {
           className="input-feedback"
         />
 
-        <TextField
+        {/* <TextField
           label="User ID"
           variant="outlined"
           fullWidth
@@ -154,7 +156,7 @@ function AddFeedBack() {
           value={feedback.productId}
           readOnly
           className="input-feedback"
-        />
+        /> */}
 
         <Button
           variant="contained"
@@ -162,6 +164,7 @@ function AddFeedBack() {
           disabled={loading}
           onClick={handleAddFeedback}
           className="input-feedback"
+          style={{marginTop:'2rem'}}
         >
           {loading ? <CircularProgress size={24} /> : "Add Feedback"}
         </Button>

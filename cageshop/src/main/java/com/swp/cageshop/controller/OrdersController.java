@@ -62,6 +62,11 @@ public class OrdersController {
         return ordersService.getPaidAndNotConfirmedOrders(shipStatus);
     }
 
+    @GetMapping("/list-all-orderPaid-by/{userId}/{shipStatus}")
+    public List<OrderDTO> getPaidOrdersAndShipBy(@PathVariable Long userId ,@PathVariable String shipStatus) {
+        return ordersService.getPaidAndNotConfirmedOrdersAndShipBy(userId,shipStatus);
+    }
+
     @GetMapping("/list-by-status/{shipStatus}")
     public List<OrderDTO> getOrdersByShipStatus(@PathVariable String shipStatus) {
         return ordersService.getOrdersByShipStatus(shipStatus);

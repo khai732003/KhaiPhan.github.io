@@ -41,6 +41,8 @@ public List<Users> listAllExpectAdmin();
 
   public List<Users> listAllStaff();
 
+  public List<Users> listAllStaffAndStatusFalse();
+
   public ResponseEntity<String> updateStatus(Long id);
 
 

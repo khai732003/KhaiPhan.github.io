@@ -3,6 +3,7 @@ package com.swp.cageshop.repository;
 import com.swp.cageshop.DTO.OrderDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.Shipping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,6 +27,13 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findOrdersByUserId(@Param("userId") Long userId);
 
     List<Orders> findByPayStatusAndShipStatus(String payStatus, String shipStatus);
+
+    @Query("SELECT o FROM Orders o INNER JOIN Shipping s ON o.id = s.id " +
+        "WHERE s.user.id = :userId AND o.shipStatus = :shipStatus AND o.payStatus = 'PAID'")
+    List<Orders> findOrdersByStatusForUser(
+        @Param("userId") Long userId,
+        @Param("shipStatus") String shipStatus
+    );
 
     void deleteById(Long orderId);
 

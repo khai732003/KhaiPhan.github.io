@@ -46,7 +46,7 @@ public interface IProductsService {
 
   public List<ProductDTO> getProductsSortedByCreateDateASC ();
 
-  public List<ProductDTO> getProductsSortedByCreateDateDESC ();
+  public List<Products> getProductsSortedByCreateDateDESC ();
   public List<ProductDTO> getProductsByPriceRange(double minPrice, double maxPrice);
 
   public List<ProductDTO> searchProductsByKeyword(String keyword);

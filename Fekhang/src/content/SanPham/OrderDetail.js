@@ -24,8 +24,8 @@ const OrderDetail = (props) => {
 
   const handleDeleteOrderDetail = async (orderDetailId) => {
     try {
-      await deleteOrderDetail(orderDetailId); // Wait for the delete operation to complete
-      await fetchOrderDetails(); // Fetch updated order details after successful deletion
+      await deleteOrderDetail(orderDetailId); 
+      await fetchOrderDetails(); 
     } catch (error) {
       console.error("Error deleting order detail:", error);
     }
