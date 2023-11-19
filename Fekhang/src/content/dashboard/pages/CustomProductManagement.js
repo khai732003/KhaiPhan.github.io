@@ -377,8 +377,31 @@ export default function CustomProductManagement() {
             {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
+      
 
-            {/* Select Size */}
+            {/* Select Material */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="materialIdLabel">Select Material</InputLabel>
+              <Select
+                labelId="materialIdLabel"
+                id="materialId"
+                name="materialId"
+                value={selectedMaterial}
+                onChange={handleChangeMaterial}
+                fullWidth
+                required
+              >
+                {materials.map((material) => (
+                  <MenuItem key={material.id} value={material.id}>
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{material.materialName}</Grid>
+                      <Grid item>{material.price}</Grid>
+                    </Grid>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <FormControl fullWidth margin="normal">
               <InputLabel id="sizeIdLabel">Select Size</InputLabel>
               <Select
@@ -404,29 +427,6 @@ export default function CustomProductManagement() {
             {/* Display selected sizeName based on sizeId */}
             {selectedSize &&
               sizes.find((size) => size.id === selectedSize)?.sizeName}
-
-            {/* Select Material */}
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="materialIdLabel">Select Material</InputLabel>
-              <Select
-                labelId="materialIdLabel"
-                id="materialId"
-                name="materialId"
-                value={selectedMaterial}
-                onChange={handleChangeMaterial}
-                fullWidth
-                required
-              >
-                {materials.map((material) => (
-                  <MenuItem key={material.id} value={material.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{material.materialName}</Grid>
-                      <Grid item>{material.price}</Grid>
-                    </Grid>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
 
             {/* Display selected materialName based on materialId */}
             {selectedMaterial &&

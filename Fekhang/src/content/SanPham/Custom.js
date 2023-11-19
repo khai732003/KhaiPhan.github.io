@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Grid,
   InputLabel,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -21,6 +22,7 @@ export default function Custom() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [sidePanelData, setSidePanelData] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
@@ -185,6 +187,95 @@ export default function Custom() {
     }));
   };
   console.log(formData);
+
+  const updateSidePanelData = () => {
+    // Create an array with selected options and their prices
+    const newSidePanelData = [];
+
+    // Push selected shape data
+    if (selectedShape) {
+      const shapeData = shapes.find((shape) => shape.id === selectedShape);
+      newSidePanelData.push({
+        label: "Shape",
+        name: shapeData.shapeName,
+        price: shapeData.price,
+      });
+    }
+
+    if (selectedSize) {
+      const sizeData = sizes.find((size) => size.id === selectedSize);
+      newSidePanelData.push({
+        label: "Size",
+        name: sizeData.sizeName,
+        price: sizeData.price,
+      });
+    }
+
+    // Push selected material data
+    if (selectedMaterial) {
+      const materialData = materials.find(
+        (material) => material.id === selectedMaterial
+      );
+      newSidePanelData.push({
+        label: "Material",
+        name: materialData.materialName,
+        price: materialData.price,
+      });
+    }
+
+    // Update the state
+    setSidePanelData(newSidePanelData);
+  };
+
+  // const calculateTotal = () => {
+  //   // Calculate the total price based on selected options
+  //   let total = 0;
+  //   sidePanelData.forEach((item) => {
+  //     total += item.price;
+  //   });
+  //   return total;
+  // };
+
+  const calculateTotal = () => {
+    // Calculate the total price based on selected options
+    let total = 0;
+  
+    // Loop through sidePanelData to calculate the total
+    sidePanelData.forEach((item) => {
+      // Check if the item is related to size
+      if (item.label === "Size") {
+        // Get the price per spoke and the number of spokes
+        const pricePerSpoke = selectedSize ? selectedSize.price : 0;
+        const spokes = parseInt(formData.cage.spokes, 10) || 0;
+  
+        // Calculate the price for size based on the number of spokes
+        const sizePrice = pricePerSpoke * spokes;
+  
+        // Add the calculated size price to the total
+        total += sizePrice;
+      } else {
+        // For other items (material, shape), simply add their prices to the total
+        total += item.price;
+      }
+    });
+  
+    return total;
+  };
+  
+
+  const calculatePrice = () => {
+    // Tính toán giá tiền dựa trên số lượng spokes và giá của size
+    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    return pricePerSpoke * spokes;
+  };
+
+  useEffect(() => {
+    // Update side panel data whenever the selected options change
+    updateSidePanelData();
+  }, [selectedShape, selectedSize, selectedMaterial]);
+
   return (
     <div>
       <div
@@ -215,6 +306,19 @@ export default function Custom() {
                   BACK
                 </Button>
               </div>
+            </div>
+
+            <div className="side-panel">
+              <h2>Order Summary</h2>
+              <ul>
+                {sidePanelData.map((item, index) => (
+                  <li key={index}>
+                    {item.label}: {item.name} - Price: {item.price}
+                  </li>
+                ))}
+                <li>Spokes Price: {calculatePrice()}</li>
+              </ul>
+              <p>Total: {calculateTotal()}</p>
             </div>
 
             {/* Category Select Input */}
@@ -260,7 +364,10 @@ export default function Custom() {
               >
                 {shapes.map((shape) => (
                   <MenuItem key={shape.id} value={shape.id}>
-                    {shape.shapeName}
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{shape.shapeName}</Grid>
+                      <Grid item>{shape.price}</Grid>
+                    </Grid>
                   </MenuItem>
                 ))}
               </Select>
@@ -269,30 +376,6 @@ export default function Custom() {
             {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
-
-            {/* Select Size */}
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="sizeIdLabel">Select Size</InputLabel>
-              <Select
-                labelId="sizeIdLabel"
-                id="sizeId"
-                name="sizeId"
-                value={selectedSize || ""}
-                onChange={handleChangeSize}
-                fullWidth
-                required
-              >
-                {sizes.map((size) => (
-                  <MenuItem key={size.id} value={size.id}>
-                    {size.sizeName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Display selected sizeName based on sizeId */}
-            {selectedSize &&
-              sizes.find((size) => size.id === selectedSize)?.sizeName}
 
             {/* Select Material */}
             <FormControl fullWidth margin="normal">
@@ -308,20 +391,51 @@ export default function Custom() {
               >
                 {materials.map((material) => (
                   <MenuItem key={material.id} value={material.id}>
-                    {material.materialName}
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{material.materialName}</Grid>
+                      <Grid item>{material.price}</Grid>
+                    </Grid>
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
 
-            {/* Display selected materialName based on materialId */}
             {selectedMaterial &&
               materials.find((material) => material.id === selectedMaterial)
                 ?.materialName}
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="sizeIdLabel">Select Size</InputLabel>
+              <Select
+                labelId="sizeIdLabel"
+                id="sizeId"
+                name="sizeId"
+                value={selectedSize || ""}
+                onChange={handleChangeSize}
+                fullWidth
+                required
+              >
+                {sizes.map((size) => (
+                  <MenuItem key={size.id} value={size.id}>
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{size.sizeName}</Grid>
+                      <Grid item>{size.price}</Grid>
+                    </Grid>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Display selected sizeName based on sizeId */}
+            {selectedSize &&
+              sizes.find((size) => size.id === selectedSize)?.sizeName}
+
+            
             <TextField
               label="Spokes"
               id="spokes"
               name="spokes"
+              type="number"
               value={formData.cage.spokes}
               onChange={(event) =>
                 setFormData({
