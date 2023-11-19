@@ -10,7 +10,7 @@ export default function AddShape() {
 
   const [formData, setFormData] = useState({
     shapeName: "",
-    price: 0, // Assuming the default price is 0
+    price: 0,
   });
 
   const handleReturnPage = () => {
@@ -25,18 +25,36 @@ export default function AddShape() {
     }));
   };
 
+  const validateShapeName = (shapeName) => {
+    return /^[a-zA-Z0-9\s]+$/.test(shapeName);
+  };
+
+  const validatePrice = (price) => {
+    return price >= 0;
+  };
+
   const addShape = async () => {
+    if (!validateShapeName(formData.shapeName)) {
+      alert("Invalid Shape Name. Please use only alphanumeric characters and spaces.");
+      return;
+    }
+
+    if (!validatePrice(formData.price)) {
+      alert("Invalid Price. Please enter a non-negative value.");
+      return;
+    }
+
     try {
       const response = await customAxios.post(`/shapes/add`, formData);
-      console.log(response); // Log the response to check if it's reaching this point
-      if (response.status === 201) {
+      console.log(response);
+
+      if (response.status === 200) {
         navigate("/custom-list");
       }
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();

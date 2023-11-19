@@ -11,15 +11,16 @@ import {
   Pagination,
   Button,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import "../styles/listsize.css";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const itemsPerPage = 5;
 
 const ListSize = () => {
   const [sizes, setSizes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSizes = async () => {
@@ -38,6 +39,21 @@ const ListSize = () => {
     navigate(`/update-size/${id}`);
   };
 
+  const handleDeleteSize = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this size?");
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      await customAxios.delete(`/sizes/${id}`);
+      const updatedSizes = sizes.filter((size) => size.id !== id);
+      setSizes(updatedSizes);
+      toast.success('Delete successful!')
+    } catch (error) {
+      console.error("Error deleting size:", error);
+    }
+  };
+
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
@@ -47,7 +63,7 @@ const ListSize = () => {
   const currentSizes = sizes.slice(startIndex, endIndex);
 
   return (
-    <div className="list-size-container">
+    <div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead style={{backgroundColor: "#3498db", color: "#fff"}}>
@@ -68,13 +84,21 @@ const ListSize = () => {
                 <TableCell>{size.price}</TableCell>
                 <TableCell>{size.minspokes}</TableCell>
                 <TableCell>{size.maxspokes}</TableCell>
-                <TableCell>
+                <TableCell style={{ display: 'flex' }}>
                   <Button
+                    style={{ width: '30px', marginRight: '5px' }}
                     variant="outlined"
                     color="primary"
                     onClick={() => handleUpdateSize(size.id)}
                   >
-                    Update
+                    <span class="bi bi-pencil-square"></span>
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleDeleteSize(size.id)}
+                  >
+                    <i class="bi bi-trash3"></i>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -86,6 +110,18 @@ const ListSize = () => {
         count={Math.ceil(sizes.length / itemsPerPage)}
         page={currentPage}
         onChange={handlePageChange}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
     </div>
   );

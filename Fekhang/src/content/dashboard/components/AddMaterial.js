@@ -40,7 +40,21 @@ export default function AddMaterial() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+  
+    // Validation for Material Name
+    if (!/^[a-zA-Z0-9\s]+$/.test(formData.materialName)) {
+      alert("Material Name can only contain alphanumeric characters and spaces.");
+      return;
+    }
+  
+    // Validation for Price
+    if (formData.price < 0) {
+      alert("Price cannot be less than 0.");
+      return;
+    }
+  
     addMaterial();
+    navigate(-1);
   };
 
   return (

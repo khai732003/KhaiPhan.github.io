@@ -12,14 +12,16 @@ import {
   Pagination,
   Button,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const itemsPerPage = 5;
 
 const ListShape = () => {
   const [shapes, setShapes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShapes = async () => {
@@ -38,6 +40,21 @@ const ListShape = () => {
     navigate(`/update-shape/${id}`);
   };
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this shape?");
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      await customAxios.delete(`/shapes/${id}`);
+      const updatedShapes = shapes.filter((shape) => shape.id !== id);
+      setShapes(updatedShapes);
+      toast.success('Delete successful!')
+    } catch (error) {
+      console.error("Error deleting shape:", error);
+    }
+  };
+
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
@@ -50,12 +67,12 @@ const ListShape = () => {
     <div>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead style={{backgroundColor: "#3498db", color: "#fff"}}>
+          <TableHead style={{ backgroundColor: "#3498db", color: "#fff" }}>
             <TableRow>
-              <TableCell style={{color: "#fff"}}>ID</TableCell>
-              <TableCell style={{color: "#fff"}}>Shape Name</TableCell>
-              <TableCell style={{color: "#fff"}}>Price</TableCell>
-              <TableCell style={{color: "#fff" }}>Action</TableCell>
+              <TableCell style={{ color: "#fff" }}>ID</TableCell>
+              <TableCell style={{ color: "#fff" }}>Shape Name</TableCell>
+              <TableCell style={{ color: "#fff" }}>Price</TableCell>
+              <TableCell style={{ color: "#fff" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,13 +81,21 @@ const ListShape = () => {
                 <TableCell>{shape.id}</TableCell>
                 <TableCell>{shape.shapeName}</TableCell>
                 <TableCell>{shape.price}</TableCell>
-                <TableCell>
+                <TableCell style={{ display: 'flex' }}>
                   <Button
+                    style={{ width: '30px', marginRight: '5px' }}
                     variant="outlined"
                     color="primary"
                     onClick={() => handleUpdateShape(shape.id)}
                   >
-                    Update
+                    <span class="bi bi-pencil-square"></span>
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleDelete(shape.id)}
+                  >
+                    <i class="bi bi-trash3"></i>
                   </Button>
                 </TableCell>
               </TableRow>
@@ -82,6 +107,18 @@ const ListShape = () => {
         count={Math.ceil(shapes.length / itemsPerPage)}
         page={currentPage}
         onChange={handlePageChange}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
     </div>
   );
