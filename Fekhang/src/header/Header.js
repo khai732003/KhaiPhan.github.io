@@ -192,7 +192,7 @@ function Header(props) {
                 INTRODUCTION
               </NavLink>
 
-              <div>
+              <div cla >
                 <div
                   className="custom-dropdown"
                   onMouseEnter={toggleDropdown}
@@ -203,7 +203,8 @@ function Header(props) {
                     style={{ textDecoration: "none", color: "#535b62" }}
                     className="nav-link"
                   >
-                    PRODUCT
+                    <span style={{ paddingRight: '5px' }}>PRODUCTS</span>
+                    <span class="bi bi-chevron-down"></span>
                   </NavLink>
 
                   {isDropdownVisible && (
@@ -214,7 +215,7 @@ function Header(props) {
                   )}
                 </div>
 
-          
+
               </div>
 
               <div className="custom-dropdown">

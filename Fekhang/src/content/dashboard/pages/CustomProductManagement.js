@@ -11,7 +11,7 @@ import {
   List,
   Drawer,
   ListItem,
-  ListItemText, 
+  ListItemText,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../../CustomAxios/customAxios";
@@ -56,6 +56,38 @@ export default function CustomProductManagement() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    // Validation for special characters and numeric values
+    switch (name) {
+      case "name":
+      case "code":
+        // Check if the value contains special characters
+        if (/[^a-zA-Z0-9 ]/.test(value)) {
+          console.error(`${name} cannot have special characters`);
+          return;
+        }
+        break;
+
+
+      case "extraPrice":
+        // Check if the value is not a valid number or is less than 0
+        if (isNaN(value) || parseFloat(value) < 0) {
+          console.error(`${name} must be a non-negative number`);
+          return;
+        }
+        break;
+
+      case "cage.spokes":
+        // Check if the value is not a valid number or is less than 0
+        if (isNaN(value) || parseInt(value) < 0) {
+          console.error(`${name} must be a non-negative integer`);
+          return;
+        }
+        break;
+
+      default:
+        break;
+    }
+
     // If the property is nested, update the state accordingly
     if (name.includes("cage.")) {
       const nestedProperty = name.split("cage.")[1];
@@ -74,6 +106,7 @@ export default function CustomProductManagement() {
     }
     updateSidePanelData();
   };
+
 
   const addCustomProductManagement = async () => {
     try {
@@ -377,7 +410,7 @@ export default function CustomProductManagement() {
             {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
-      
+
 
             {/* Select Material */}
             <FormControl fullWidth margin="normal">
