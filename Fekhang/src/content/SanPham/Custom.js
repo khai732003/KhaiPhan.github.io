@@ -6,18 +6,13 @@ import {
   Select,
   MenuItem,
   FormControl,
-  Grid,
   InputLabel,
-  List,
-  Drawer,
-  ListItem,
-  ListItemText, 
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import customAxios from "../../../CustomAxios/customAxios";
-import "../styles/addedituser.css";
+import customAxios from "../../CustomAxios/customAxios";
+import "./../dashboard/styles/addedituser.css";
 
-export default function CustomProductManagement() {
+export default function Custom() {
   const navigate = useNavigate();
   const [shapes, setShapes] = useState([]);
   const [sizes, setSizes] = useState([]);
@@ -26,18 +21,15 @@ export default function CustomProductManagement() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [sidePanelData, setSidePanelData] = useState([]);
-
 
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
     code: "CP PRODUCT",
-    extraPrice: "",
     categoryId: "",
     productImage:
       "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
     stock: "",
-    status: "Available",
+    status: "customeProduct",
     note: "custome",
     cage: {
       description: "CUSTOME",
@@ -72,7 +64,6 @@ export default function CustomProductManagement() {
         [name]: value,
       }));
     }
-    updateSidePanelData();
   };
 
   const addCustomProductManagement = async () => {
@@ -80,7 +71,7 @@ export default function CustomProductManagement() {
       const response = await customAxios.post("/product/add", formData);
 
       if (response.status === 200) {
-        navigate("/admin");
+        navigate("/sanpham");
       }
     } catch (error) {
       // Log the detailed error response
@@ -166,7 +157,6 @@ export default function CustomProductManagement() {
         shapeId: selectedShapeId,
       },
     }));
-    updateSidePanelData();
   };
 
   const handleChangeSize = (event) => {
@@ -180,7 +170,6 @@ export default function CustomProductManagement() {
         sizeId: selectedSizeId,
       },
     }));
-    updateSidePanelData();
   };
 
   const handleChangeMaterial = (event) => {
@@ -194,69 +183,8 @@ export default function CustomProductManagement() {
         materialId: selectedMaterialId,
       },
     }));
-    updateSidePanelData();
   };
   console.log(formData);
-
-
-  const updateSidePanelData = () => {
-    // Create an array with selected options and their prices
-    const newSidePanelData = [];
-
-    // Push selected shape data
-    if (selectedShape) {
-      const shapeData = shapes.find((shape) => shape.id === selectedShape);
-      newSidePanelData.push({
-        label: "Shape",
-        name: shapeData.shapeName,
-        price: shapeData.price,
-      });
-    }
-
-    if (selectedSize) {
-      const sizeData = sizes.find((size) => size.id === selectedSize);
-      newSidePanelData.push({
-        label: "Size",
-        name: sizeData.sizeName,
-        price: sizeData.price,
-      });
-    }
-
-    // Push selected material data
-    if (selectedMaterial) {
-      const materialData = materials.find(
-        (material) => material.id === selectedMaterial
-      );
-      newSidePanelData.push({
-        label: "Material",
-        name: materialData.materialName,
-        price: materialData.price,
-      });
-    }
-
-    // Update the state
-    setSidePanelData(newSidePanelData);
-  };
-
-  const renderSidePanel = () => {
-    return (
-      <Drawer anchor="left" open={sidePanelData.length > 0} onClose={() => setSidePanelData([])}>
-        <List>
-          {sidePanelData.map((item, index) => (
-            <ListItem key={index}>
-              <ListItemText
-                primary={`${item.label}: ${item.name}`}
-                secondary={`Price: ${item.price}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    );
-  };
-
-
-
   return (
     <div>
       <div
@@ -288,39 +216,6 @@ export default function CustomProductManagement() {
                 </Button>
               </div>
             </div>
-
-            <TextField
-              label="Product Name"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <TextField
-              label="Product Code"
-              id="code"
-              name="code"
-              value={formData.code}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <TextField
-              label="Extra Price"
-              id="extraPrice"
-              name="extraPrice"
-              value={formData.extraPrice}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
 
             {/* Category Select Input */}
             <FormControl fullWidth margin="normal">
@@ -365,10 +260,7 @@ export default function CustomProductManagement() {
               >
                 {shapes.map((shape) => (
                   <MenuItem key={shape.id} value={shape.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{shape.shapeName}</Grid>
-                      <Grid item>{shape.price}</Grid>
-                    </Grid>
+                    {shape.shapeName}
                   </MenuItem>
                 ))}
               </Select>
@@ -392,10 +284,7 @@ export default function CustomProductManagement() {
               >
                 {sizes.map((size) => (
                   <MenuItem key={size.id} value={size.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{size.sizeName}</Grid>
-                      <Grid item>{size.price}</Grid>
-                    </Grid>
+                    {size.sizeName}
                   </MenuItem>
                 ))}
               </Select>
@@ -419,10 +308,7 @@ export default function CustomProductManagement() {
               >
                 {materials.map((material) => (
                   <MenuItem key={material.id} value={material.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{material.materialName}</Grid>
-                      <Grid item>{material.price}</Grid>
-                    </Grid>
+                    {material.materialName}
                   </MenuItem>
                 ))}
               </Select>

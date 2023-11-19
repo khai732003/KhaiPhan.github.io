@@ -26,6 +26,11 @@ function Header(props) {
   const isLoggedIn = user;
   const location = useLocation();
   const [hasCusPro, setHasCusPro] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
 
   // Kiểm tra xem người dùng có đang ở trang đăng nhập hoặc đăng ký không
   const isLoginPage = location.pathname === "/login";
@@ -66,10 +71,9 @@ function Header(props) {
   const isSize = location.pathname === "/list-size";
   const isShape = location.pathname === "/list-shape";
   const isUpdateSize = /^\/update-size\/\d+$/.test(location.pathname);
-  const isUpdateShape = /^\/update-shape\/\d+$/.test(location.pathname);  
+  const isUpdateShape = /^\/update-shape\/\d+$/.test(location.pathname);
   const isUpdateMaterial = /^\/update-material\/\d+$/.test(location.pathname);
   const isCustomProductManagement = location.pathname === "/custom-product";
-
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -149,7 +153,8 @@ function Header(props) {
     isSize ||
     isUpdateSize ||
     isUpdateShape ||
-    isUpdateMaterial || isCustomProductManagement
+    isUpdateMaterial ||
+    isCustomProductManagement
   ) {
     return <NavbBar />;
   }
@@ -187,14 +192,29 @@ function Header(props) {
                 INTRODUCTION
               </NavLink>
 
-              <div className="custom-dropdown">
-                <NavLink
-                  to="/sanpham"
-                  style={{ textDecoration: "none", color: "#535b62" }}
-                  className="nav-link"
+              <div>
+                <div
+                  className="custom-dropdown"
+                  onMouseEnter={toggleDropdown}
+                  onMouseLeave={toggleDropdown}
                 >
-                  PRODUCT
-                </NavLink>
+                  <NavLink
+                    to="/sanpham"
+                    style={{ textDecoration: "none", color: "#535b62" }}
+                    className="nav-link"
+                  >
+                    PRODUCT
+                  </NavLink>
+
+                  {isDropdownVisible && (
+                    <div className="dropdown-content">
+                      <NavLink to="/sanpham">PRODUCT PAGE</NavLink>
+                      <NavLink to="/custom">CUSTOM PAGE</NavLink>
+                    </div>
+                  )}
+                </div>
+
+          
               </div>
 
               <div className="custom-dropdown">

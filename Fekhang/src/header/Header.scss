@@ -136,3 +136,46 @@
   }
 }
 
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px; /* Điều chỉnh khoảng cách giữa các mục dropdown */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.custom-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px; /* Điều chỉnh khoảng cách giữa các mục trong dropdown */
+  text-decoration: none;
+  color: #535b62;
+}
+
+/* Căn chỉnh và đặt xuống dòng */
+.custom-dropdown .dropdown-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%; /* Hiển thị dropdown phía dưới mục gốc */
+  left: 0;
+}
+
+.custom-dropdown .dropdown-content a {
+  white-space: nowrap; /* Ngăn chặn các mục từ việc xuống dòng */
+}
+
+.custom-dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+

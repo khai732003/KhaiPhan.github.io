@@ -66,6 +66,7 @@ import UpdateShape from './content/dashboard/components/UpdateShape';
 import UpdateMaterial from './content/dashboard/components/UpdateMaterial';
 import CustomProductManagement from './content/dashboard/pages/CustomProductManagement';
 import MapComponent from './content/SanPham/MapComponent';
+import Custom from './content/SanPham/Custom';
 
 
 
@@ -92,6 +93,7 @@ function App() {
               <Route path="/customdetail/:productId" element={<ShowCustom />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
+              <Route path="/custom" element={<Custom />} />
               <Route path="/news" element={<News />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
