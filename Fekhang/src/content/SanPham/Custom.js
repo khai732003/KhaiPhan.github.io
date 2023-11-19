@@ -6,12 +6,17 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Grid,
+  Typography,
   InputLabel,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../CustomAxios/customAxios";
 import "./../dashboard/styles/addedituser.css";
+
 import { useAuth } from "./Context/AuthContext";
+
+import "../SanPham/Scss/custom.scss";
 
 export default function Custom() {
   const navigate = useNavigate();
@@ -22,9 +27,14 @@ export default function Custom() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
+
   const [product, setProduct] = useState(null);
   const { user } = useAuth();
   const [isOperationsCompleted, setOperationsCompleted] = useState(false);
+
+  const [sidePanelData, setSidePanelData] = useState([]);
+  const [spokesRange, setSpokesRange] = useState({ min: 0, max: 0 });
+
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
     code: "CP PRODUCT",
@@ -61,7 +71,25 @@ export default function Custom() {
           [nestedProperty]: value,
         },
       }));
+    } else if (name === "cage.spokes") {
+      const spokesValue = parseInt(value, 10);
+
+      // Giới hạn giá trị trong khoảng min và max
+      const limitedSpokesValue = Math.min(
+        Math.max(spokesValue, spokesRange.min),
+        spokesRange.max
+      );
+
+      // Cập nhật giá trị vào state
+      setFormData((prevData) => ({
+        ...prevData,
+        cage: {
+          ...prevData.cage,
+          spokes: limitedSpokesValue,
+        },
+      }));
     } else {
+      // Xử lý các trường hợp khác
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -165,6 +193,16 @@ export default function Custom() {
   }, [product]);
 
   useEffect(() => {
+    // Tìm sizeData tương ứng với selectedSize
+    const sizeData = sizes.find((size) => size.id === selectedSize);
+
+    // Nếu tìm thấy, cập nhật spokesRange
+    if (sizeData) {
+      setSpokesRange({ min: sizeData.minspokes, max: sizeData.maxspokes });
+    }
+  }, [selectedSize, sizes]);
+
+  useEffect(() => {
     const fetchShapes = async () => {
       try {
         const response = await customAxios.get("/shapes/list");
@@ -262,6 +300,98 @@ export default function Custom() {
     }));
   };
   console.log(formData);
+
+  const updateSidePanelData = () => {
+    // Create an array with selected options and their prices
+    const newSidePanelData = [];
+
+    // if (formData.categoryId) {
+    //   const categoryData = categories.find(
+    //     (category) => category.id === formData.categoryId
+    //   );
+    //   newSidePanelData.push({
+    //     label: "Category",
+    //     name: categoryData.name,
+    //   });
+    // }
+
+    // if (formData.stock) {
+    //   newSidePanelData.push({
+    //     label: "Stock",
+    //     name: formData.stock,
+    //   });
+    // }
+
+    // Push selected shape data
+    if (selectedShape) {
+      const shapeData = shapes.find((shape) => shape.id === selectedShape);
+      newSidePanelData.push({
+        label: "Shape",
+        name: shapeData.shapeName,
+        price: shapeData.price,
+      });
+    }
+
+    if (selectedMaterial) {
+      const materialData = materials.find(
+        (material) => material.id === selectedMaterial
+      );
+      newSidePanelData.push({
+        label: "Material",
+        name: materialData.materialName,
+        price: materialData.price,
+      });
+    }
+
+    if (selectedSize) {
+      const sizeData = sizes.find((size) => size.id === selectedSize);
+      const spokesPrice = calculateSpokesPrice();
+      newSidePanelData.push({
+        label: "Size",
+        name: sizeData.sizeName,
+        price: sizeData.price,
+        minspokes: sizeData.minspokes,
+        maxspokes: sizeData.maxspokes,
+      });
+    }
+
+    // Update the state
+    setSidePanelData(newSidePanelData);
+  };
+
+  const calculateSpokesPrice = () => {
+    // Tính toán giá tiền dựa trên số lượng spokes và giá của size
+    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    return pricePerSpoke * spokes - pricePerSpoke;
+  };
+
+  const calculateTotal = () => {
+    // Calculate the total price based on selected options
+    let total = 0;
+    sidePanelData.forEach((item) => {
+      total += item.price;
+    });
+
+    const spokesPrice = calculateSpokesPrice();
+    total += spokesPrice;
+    return total;
+  };
+
+  const calculatePrice = () => {
+    // Tính toán giá tiền dựa trên số lượng spokes và giá của size
+    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    return pricePerSpoke * spokes;
+  };
+
+  useEffect(() => {
+    // Update side panel data whenever the selected options change
+    updateSidePanelData();
+  }, [selectedShape, selectedSize, selectedMaterial]);
+
   return (
     <div>
       <div
@@ -293,6 +423,20 @@ export default function Custom() {
                 </Button>
               </div>
             </div>
+
+            <div className="side-panel">
+              <h2 style={{textAlign: "center"}}>Custom Summary</h2><hr/>
+              <div>
+                {sidePanelData.map((item, index) => (
+                  <div key={index}>
+                    {index + 1}. {item.label}: {item.name} - Price: {item.price}
+                  </div>
+                ))}
+                {/* <div>{sidePanelData.length + 1}. Spokes Price: {calculatePrice()}</div> */}
+              </div>
+              <p style={{color: 'red', fontWeight: 'bold', fontSize: "1.5rem",textAlign: "right"}}>Total: {calculateTotal()}</p>
+            </div><hr/>
+            <br/>
 
             {/* Category Select Input */}
             <FormControl fullWidth margin="normal">
@@ -337,7 +481,10 @@ export default function Custom() {
               >
                 {shapes.map((shape) => (
                   <MenuItem key={shape.id} value={shape.id}>
-                    {shape.shapeName}
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{shape.shapeName}</Grid>
+                      <Grid item>{shape.price}</Grid>
+                    </Grid>
                   </MenuItem>
                 ))}
               </Select>
@@ -346,30 +493,6 @@ export default function Custom() {
             {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
-
-            {/* Select Size */}
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="sizeIdLabel">Select Size</InputLabel>
-              <Select
-                labelId="sizeIdLabel"
-                id="sizeId"
-                name="sizeId"
-                value={selectedSize || ""}
-                onChange={handleChangeSize}
-                fullWidth
-                required
-              >
-                {sizes.map((size) => (
-                  <MenuItem key={size.id} value={size.id}>
-                    {size.sizeName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Display selected sizeName based on sizeId */}
-            {selectedSize &&
-              sizes.find((size) => size.id === selectedSize)?.sizeName}
 
             {/* Select Material */}
             <FormControl fullWidth margin="normal">
@@ -385,30 +508,88 @@ export default function Custom() {
               >
                 {materials.map((material) => (
                   <MenuItem key={material.id} value={material.id}>
-                    {material.materialName}
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{material.materialName}</Grid>
+                      <Grid item>{material.price}</Grid>
+                    </Grid>
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
 
-            {/* Display selected materialName based on materialId */}
             {selectedMaterial &&
               materials.find((material) => material.id === selectedMaterial)
                 ?.materialName}
+
+            {/* Select Size */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="sizeIdLabel">Select Size</InputLabel>
+              <Select
+                labelId="sizeIdLabel"
+                id="sizeId"
+                name="sizeId"
+                value={selectedSize || ""}
+                onChange={handleChangeSize}
+                fullWidth
+                required
+              >
+                {sizes.map((size) => (
+                  <MenuItem key={size.id} value={size.id}>
+                    <Grid container justifyContent="space-between">
+                      <Grid item>{size.sizeName}</Grid>
+                      <Grid item>{size.price}</Grid>
+                    </Grid>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <div className="side-panel">
+              <p> Customer should choose spokes based on custom size :</p>
+              {selectedSize && (
+                <div style={{ marginLeft: "16rem" }}>
+                  Min Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.minspokes} -{" "}
+                  Max Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.maxspokes}
+                </div>
+              )}
+            </div>
+
+            {/* Display selected sizeName based on sizeId */}
+            {selectedSize &&
+              sizes.find((size) => size.id === selectedSize)?.sizeName}
+
             <TextField
               label="Spokes"
               id="spokes"
               name="spokes"
+              type="number"
               value={formData.cage.spokes}
-              onChange={(event) =>
-                setFormData({
-                  ...formData,
+              onChange={(event) => {
+                const spokesValue = parseInt(event.target.value, 10);
+                const minSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.minspokes ||
+                  0;
+                const maxSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.maxspokes ||
+                  0;
+
+                // Giới hạn giá trị trong khoảng min và max
+                const limitedSpokesValue = Math.min(
+                  Math.max(spokesValue, minSpokes),
+                  maxSpokes
+                );
+
+                // Cập nhật giá trị vào state
+                setFormData((prevData) => ({
+                  ...prevData,
                   cage: {
-                    ...formData.cage,
-                    spokes: event.target.value,
+                    ...prevData.cage,
+                    spokes: limitedSpokesValue,
                   },
-                })
-              }
+                }));
+              }}
               fullWidth
               required
               margin="normal"
