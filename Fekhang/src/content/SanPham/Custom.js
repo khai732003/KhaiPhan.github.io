@@ -36,16 +36,16 @@ export default function Custom() {
   const [spokesRange, setSpokesRange] = useState({ min: 0, max: 0 });
 
   const [formData, setFormData] = useState({
-    name: "CUSTOME PRODUCT",
+    name: "CUSTOM PRODUCT",
     code: "CP PRODUCT",
     categoryId: "",
     productImage:
       "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
     stock: "1",
-    status: "customeProduct",
-    note: "custome",
+    status: "customProduct",
+    note: "custom",
     cage: {
-      description: "CUSTOME",
+      description: "CUSTOM",
       shapeId: "",
       materialId: "",
       sizeId: "",
@@ -184,19 +184,13 @@ export default function Custom() {
   };
 
   useEffect(() => {
-    // Your existing useEffect code
-
-    // Check if the product is available before calling handleBuy
     if (product) {
       handleBuy();
     }
   }, [product]);
 
   useEffect(() => {
-    // Tìm sizeData tương ứng với selectedSize
     const sizeData = sizes.find((size) => size.id === selectedSize);
-
-    // Nếu tìm thấy, cập nhật spokesRange
     if (sizeData) {
       setSpokesRange({ min: sizeData.minspokes, max: sizeData.maxspokes });
     }
@@ -305,22 +299,6 @@ export default function Custom() {
     // Create an array with selected options and their prices
     const newSidePanelData = [];
 
-    // if (formData.categoryId) {
-    //   const categoryData = categories.find(
-    //     (category) => category.id === formData.categoryId
-    //   );
-    //   newSidePanelData.push({
-    //     label: "Category",
-    //     name: categoryData.name,
-    //   });
-    // }
-
-    // if (formData.stock) {
-    //   newSidePanelData.push({
-    //     label: "Stock",
-    //     name: formData.stock,
-    //   });
-    // }
 
     // Push selected shape data
     if (selectedShape) {

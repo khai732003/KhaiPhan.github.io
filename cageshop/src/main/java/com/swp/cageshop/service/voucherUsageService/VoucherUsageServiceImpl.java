@@ -1,12 +1,12 @@
 package com.swp.cageshop.service.voucherUsageService;
 
 import com.swp.cageshop.DTO.VoucherUsageDTO;
-import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.DTO.VoucherUsageVoucherAmountDTO;
 import com.swp.cageshop.entity.VoucherUsage;
 import com.swp.cageshop.entity.Vouchers;
-import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.VoucherUsageRepository;
 import com.swp.cageshop.repository.VouchersRepository;
+import java.util.ArrayList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,6 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     private VouchersRepository vouchersRepository;
 
     @Autowired
-    private OrdersRepository ordersRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     public VoucherUsageDTO createVoucherUsage(VoucherUsageDTO voucherUsageDTO) {
@@ -38,7 +35,6 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public VoucherUsageDTO createVoucherUsageByVoucherCode(VoucherUsageDTO voucherUsageDTO) {
         Long userId = voucherUsageDTO.getUserId();
         Vouchers voucher = vouchersRepository.findByCode(voucherUsageDTO.getCodeVoucher());
-        Orders orders = ordersRepository.getReferenceById(voucherUsageDTO.getOrderId());
         if (voucher != null) {
             boolean used = voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucher.getId());
             if (!used) {
@@ -47,9 +43,6 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
                 if (voucher1 != null && voucher.getQuantity() > 0) {
                     voucherUsage.setVoucher(voucher);
                     VoucherUsage existingVoucherUsage = voucherUsageRepository.findByUserIdAndVoucherId(userId, voucher.getId());
-//                    if(voucherUsage.getOrder().getTotal_Price() < 0){
-//                        or
-//                    }
                     if (existingVoucherUsage != null) {
                         existingVoucherUsage.getVoucher().setId(voucher.getId());
                         VoucherUsage updatedVoucherUsage = voucherUsageRepository.save(existingVoucherUsage);
@@ -75,15 +68,15 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public List<VoucherUsageDTO> getAllVoucherUsageDTO() {
         List<VoucherUsage> voucherUsages = voucherUsageRepository.findAll();
         return voucherUsages.stream()
-                .map(voucherUsage -> modelMapper.map(voucherUsage, VoucherUsageDTO.class))
-                .collect(Collectors.toList());
+            .map(voucherUsage -> modelMapper.map(voucherUsage, VoucherUsageDTO.class))
+            .collect(Collectors.toList());
     }
 
     public List<String> findCodeVouchersByOrderId(Long orderId) {
         return voucherUsageRepository.findCodeVouchersByOrderId(orderId);
     }
 
-    @Override
+//    @Override
     public List<Double> findAmountVouchersByOrderId(Long orderId) {
         return voucherUsageRepository.findVoucherAmountsByOrderId(orderId);
     }
@@ -120,15 +113,30 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
         return voucherUsageRepository.findAll();
     }
 
-
+    @Override
     public Double findTotalVoucherAmountByOrderId(Long orderId) {
-        List<Double> voucherAmountList = voucherUsageRepository.findVoucherAmountsByOrderId(orderId);
-        double totalVoucherAmount = 0.0;
-        for (Double voucherAmount : voucherAmountList) {
-            totalVoucherAmount += voucherAmount;
-        }
-        return totalVoucherAmount;
+        return null;
     }
+
+
+    public List<VoucherUsageVoucherAmountDTO> findVuVoucherAmountsByOrderId(Long orderId) {
+        List<Object[]> result = voucherUsageRepository.findVuVoucherAmountsByOrderId(orderId);
+        List<VoucherUsageVoucherAmountDTO> voucherUsageDTOList = new ArrayList<>();
+
+        for (Object[] row : result) {
+            // Sử dụng constructor của DTO để giảm mã boilerplate
+            VoucherUsageVoucherAmountDTO dto = new VoucherUsageVoucherAmountDTO(
+                (Long) row[0],
+                (Long) row[2],
+                (Double) row[5],
+                (String) row[6]
+            );
+            voucherUsageDTOList.add(dto);
+        }
+
+        return voucherUsageDTOList;
+    }
+
 
     public boolean isUserUsedVoucher(Long userId, Long voucherId) {
         return voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucherId);
