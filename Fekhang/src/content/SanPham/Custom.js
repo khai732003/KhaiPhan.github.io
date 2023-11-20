@@ -379,14 +379,6 @@ export default function Custom() {
     return total;
   };
 
-  // const calculatePrice = () => {
-  //   // Tính toán giá tiền dựa trên số lượng spokes và giá của size
-  //   const selectedSizeData = sizes.find((size) => size.id === selectedSize);
-  //   const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
-  //   const spokes = parseInt(formData.cage.spokes, 10) || 0;
-  //   return pricePerSpoke * spokes;
-  // };
-
   useEffect(() => {
     // Update side panel data whenever the selected options change
     updateSidePanelData();
@@ -437,35 +429,6 @@ export default function Custom() {
               <p style={{color: 'red', fontWeight: 'bold', fontSize: "1.5rem",textAlign: "right"}}>Total: {calculateTotal()}</p>
             </div><hr/>
             <br/>
-
-            {/* Category Select Input */}
-            {/* <FormControl fullWidth margin="normal">
-              <InputLabel id="categoryIdLabel">Select Category</InputLabel>
-              <Select
-                labelId="categoryIdLabel"
-                id="categoryId"
-                name="categoryId"
-                value={formData.categoryId}
-                onChange={handleInputChange}
-                fullWidth
-                required
-              >
-                {renderCategories()}
-              </Select>
-            </FormControl> */}
-
-            {/* Stock Input */}
-            {/* <TextField
-              label="Stock"
-              id="stock"
-              name="stock"
-              type="number"
-              value={formData.stock}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            /> */}
 
             {/* Select Shape */}
             <FormControl fullWidth margin="normal">

@@ -27,6 +27,10 @@ export default function CustomProductManagement() {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [categories, setCategories] = useState([]);
   const [sidePanelData, setSidePanelData] = useState([]);
+  const [shapePrice, setShapePrice] = useState(0);
+  const [materialPrice, setMaterialPrice] = useState(0);
+  const [sizePrice, setSizePrice] = useState(0);
+  const [totalSummary, setTotalSummary] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
@@ -39,13 +43,15 @@ export default function CustomProductManagement() {
     status: "Available",
     note: "custome",
     cage: {
-      description: "CUSTOME",
+      description: "",
       shapeId: "",
       materialId: "",
       sizeId: "",
       spokes: "",
     },
-    accessories: [], // Uncomment if you plan to use this field
+    accessories: [],
+    description: "", // Add this line for description
+    status: "",
   });
 
   const handleReturnPage = () => {
@@ -55,11 +61,19 @@ export default function CustomProductManagement() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    // Validation for special characters and numeric values
     switch (name) {
       case "name":
       case "code":
-        // Check if the value contains special characters
+      case "cage.description":
+        // Handle nested property
+        setFormData((prevData) => ({
+          ...prevData,
+          cage: {
+            ...prevData.cage,
+            description: value,
+          },
+        }));
+      case "status":
         if (/[^a-zA-Z0-9 ]/.test(value)) {
           console.error(`${name} cannot have special characters`);
           return;
@@ -67,17 +81,9 @@ export default function CustomProductManagement() {
         break;
 
       case "extraPrice":
-        // Check if the value is not a valid number or is less than 0
+      case "cage.spokes":
         if (isNaN(value) || parseFloat(value) < 0) {
           console.error(`${name} must be a non-negative number`);
-          return;
-        }
-        break;
-
-      case "cage.spokes":
-        // Check if the value is not a valid number or is less than 0
-        if (isNaN(value) || parseInt(value) < 0) {
-          console.error(`${name} must be a non-negative integer`);
           return;
         }
         break;
@@ -86,7 +92,6 @@ export default function CustomProductManagement() {
         break;
     }
 
-    // If the property is nested, update the state accordingly
     if (name.includes("cage.")) {
       const nestedProperty = name.split("cage.")[1];
       setFormData((prevData) => ({
@@ -102,6 +107,7 @@ export default function CustomProductManagement() {
         [name]: value,
       }));
     }
+
     updateSidePanelData();
   };
 
@@ -113,10 +119,7 @@ export default function CustomProductManagement() {
         navigate("/admin");
       }
     } catch (error) {
-      // Log the detailed error response
       console.error("Detailed error response:", error.response);
-
-      // Log the error message
       console.error("Error message:", error.message);
     }
   };
@@ -127,55 +130,112 @@ export default function CustomProductManagement() {
   };
 
   useEffect(() => {
-    const fetchShapes = async () => {
+    const fetchData = async () => {
       try {
-        const response = await customAxios.get("/shapes/list");
-        setShapes(response.data);
+        const shapeResponse = await customAxios.get("/shapes/list");
+        setShapes(shapeResponse.data);
+
+        const sizeResponse = await customAxios.get("/sizes/list");
+        setSizes(sizeResponse.data);
+
+        const materialResponse = await customAxios.get("/materials/list");
+        setMaterials(materialResponse.data);
+
+        const categoryResponse = await customAxios.get("/category/list");
+        setCategories(categoryResponse.data);
       } catch (error) {
-        console.error("Error fetching shapes:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchShapes();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    const fetchSizes = async () => {
-      try {
-        const response = await customAxios.get("/sizes/list");
-        setSizes(response.data);
-      } catch (error) {
-        console.error("Error fetching sizes:", error);
-      }
-    };
-
-    fetchSizes();
-  }, []);
+    updateSidePanelData();
+  }, [formData, selectedShape, selectedMaterial, selectedSize]);
 
   useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        const response = await customAxios.get("/materials/list");
-        setMaterials(response.data);
-      } catch (error) {
-        console.error("Error fetching materials:", error);
-      }
-    };
-
-    fetchMaterials();
-  }, []);
+    if (selectedShape) {
+      const shapeData = shapes.find((shape) => shape.id === selectedShape);
+      setShapePrice(shapeData?.price || 0);
+    }
+  }, [selectedShape, shapes]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await customAxios.get("/category/list");
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-  }, []);
+    if (selectedMaterial) {
+      const materialData = materials.find(
+        (material) => material.id === selectedMaterial
+      );
+      setMaterialPrice(materialData?.price || 0);
+    }
+  }, [selectedMaterial, materials]);
+
+  useEffect(() => {
+    if (selectedSize) {
+      const sizeData = sizes.find((size) => size.id === selectedSize);
+      setSizePrice(sizeData?.price || 0);
+    }
+  }, [selectedSize, sizes]);
+
+  const updateSidePanelData = () => {
+    const newSidePanelData = [];
+
+    if (selectedShape) {
+      const shapeData = shapes.find((shape) => shape.id === selectedShape);
+      newSidePanelData.push({
+        label: "Shape",
+        name: shapeData?.shapeName,
+        price: shapeData?.price || 0,
+      });
+    }
+
+    if (selectedMaterial) {
+      const materialData = materials.find(
+        (material) => material.id === selectedMaterial
+      );
+      newSidePanelData.push({
+        label: "Material",
+        name: materialData?.materialName,
+        price: materialData?.price || 0,
+      });
+    }
+
+    if (selectedSize) {
+      const sizeData = sizes.find((size) => size.id === selectedSize);
+      const spokesPrice = calculateSpokesPrice();
+      newSidePanelData.push({
+        label: "Size",
+        name: sizeData?.sizeName,
+        price: sizeData?.price || 0,
+        minspokes: sizeData?.minspokes,
+        maxspokes: sizeData?.maxspokes,
+      });
+    }
+
+    const total = calculateTotal();
+    setTotalSummary(total);
+
+    setSidePanelData(newSidePanelData);
+  };
+
+  const calculateSpokesPrice = () => {
+    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    return pricePerSpoke * spokes - pricePerSpoke;
+  };
+
+  const calculateTotal = () => {
+    let total = 0;
+    total += shapePrice + materialPrice + sizePrice;
+    const spokesPrice = calculateSpokesPrice();
+    total += spokesPrice;
+
+    const extraPrice = parseFloat(formData.extraPrice) || 0;
+    total += extraPrice;
+    return total;
+  };
 
   const renderCategories = () => {
     return categories.map((category) => (
@@ -188,7 +248,6 @@ export default function CustomProductManagement() {
   const handleChangeShape = (event) => {
     const selectedShapeId = event.target.value;
     setSelectedShape(selectedShapeId);
-    // Update the formData.cage.shapeId instead of formData.shapeId
     setFormData((prevData) => ({
       ...prevData,
       cage: {
@@ -202,7 +261,6 @@ export default function CustomProductManagement() {
   const handleChangeSize = (event) => {
     const selectedSizeId = event.target.value;
     setSelectedSize(selectedSizeId);
-    // Update the formData.cage.sizeId instead of formData.sizeId
     setFormData((prevData) => ({
       ...prevData,
       cage: {
@@ -216,7 +274,6 @@ export default function CustomProductManagement() {
   const handleChangeMaterial = (event) => {
     const selectedMaterialId = event.target.value;
     setSelectedMaterial(selectedMaterialId);
-    // Update the formData.cage.materialId instead of formData.materialId
     setFormData((prevData) => ({
       ...prevData,
       cage: {
@@ -228,46 +285,9 @@ export default function CustomProductManagement() {
   };
   console.log(formData);
 
-  const updateSidePanelData = () => {
-    // Create an array with selected options and their prices
-    const newSidePanelData = [];
-
-    // Push selected shape data
-    if (selectedShape) {
-      const shapeData = shapes.find((shape) => shape.id === selectedShape);
-      newSidePanelData.push({
-        label: "Shape",
-        name: shapeData.shapeName,
-        price: shapeData.price,
-      });
-    }
-
-    if (selectedSize) {
-      const sizeData = sizes.find((size) => size.id === selectedSize);
-      newSidePanelData.push({
-        label: "Size",
-        name: sizeData.sizeName,
-        price: sizeData.price,
-      });
-    }
-
-    // Push selected material data
-    if (selectedMaterial) {
-      const materialData = materials.find(
-        (material) => material.id === selectedMaterial
-      );
-      newSidePanelData.push({
-        label: "Material",
-        name: materialData.materialName,
-        price: materialData.price,
-      });
-    }
-
-    // Update the state
-    setSidePanelData(newSidePanelData);
-  };
-
   const renderSidePanel = () => {
+    const total = calculateTotal();
+
     return (
       <Drawer
         anchor="left"
@@ -283,17 +303,15 @@ export default function CustomProductManagement() {
               />
             </ListItem>
           ))}
+          <ListItem>
+            <ListItemText
+              primary={`Total`}
+              secondary={`Total Price: ${total}`}
+            />
+          </ListItem>
         </List>
       </Drawer>
     );
-  };
-
-  const handleProductImageUpload = async (options) => {
-    console.log("Options:", options);
-    const { file } = options;
-    if (file) {
-      // Your existing code for uploading the image
-    }
   };
 
   return (
@@ -305,7 +323,7 @@ export default function CustomProductManagement() {
         <div className="form-add-edit">
           <form onSubmit={handleSubmit} style={{ width: 500 }}>
             <div
-              className="d-flex justify-content-between align-items-center  mb-1 pb-1"
+              className="d-flex justify-content-between align-items-center mb-1 pb-1"
               style={{ paddingRight: 100 }}
             >
               <div
@@ -327,6 +345,30 @@ export default function CustomProductManagement() {
                 </Button>
               </div>
             </div>
+
+            <div className="side-panel">
+              <h2 style={{ textAlign: "center" }}>Custom Summary</h2>
+              <hr />
+              <div>
+                {sidePanelData.map((item, index) => (
+                  <div key={index}>
+                    {index + 1}. {item.label}: {item.name} - Price: {item.price}
+                  </div>
+                ))}
+              </div>
+              <p
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  textAlign: "right",
+                }}
+              >
+                Total: {totalSummary}
+              </p>
+            </div>
+            <hr />
+            <br />
 
             <TextField
               label="Product Name"
@@ -351,6 +393,35 @@ export default function CustomProductManagement() {
             />
 
             <TextField
+              label="Description"
+              id="cage.description" 
+              name="cage.description"
+              value={formData.cage.description} 
+              onChange={handleInputChange}
+              fullWidth
+              required
+              margin="normal"
+            />
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="statusLabel">Select Status</InputLabel>
+              <Select
+                labelId="statusLabel"
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+                fullWidth
+                required
+              >
+                <MenuItem value="Available">Available</MenuItem>
+                <MenuItem value="New">New</MenuItem>
+                <MenuItem value="Out of Stock">Out of Stock</MenuItem>
+                <MenuItem value="Upcoming">Upcoming</MenuItem>
+              </Select>
+            </FormControl>
+
+            <TextField
               label="Extra Price"
               id="extraPrice"
               name="extraPrice"
@@ -361,7 +432,6 @@ export default function CustomProductManagement() {
               margin="normal"
             />
 
-            {/* Category Select Input */}
             <FormControl fullWidth margin="normal">
               <InputLabel id="categoryIdLabel">Select Category</InputLabel>
               <Select
@@ -377,29 +447,6 @@ export default function CustomProductManagement() {
               </Select>
             </FormControl>
 
-            {/* Add this input inside the form */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                handleProductImageUpload({ file: e.target.files[0] })
-              }
-            />
-
-            {/* Rest of your code */}
-            <TextField
-              label="Product Name"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-            {/* Other form fields */}
-
-            {/* Stock Input */}
             <TextField
               label="Stock"
               id="stock"
@@ -412,7 +459,6 @@ export default function CustomProductManagement() {
               margin="normal"
             />
 
-            {/* Select Shape */}
             <FormControl fullWidth margin="normal">
               <InputLabel id="shapeIdLabel">Select Shape</InputLabel>
               <Select
@@ -435,7 +481,6 @@ export default function CustomProductManagement() {
               </Select>
             </FormControl>
 
-            {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
 
@@ -462,6 +507,10 @@ export default function CustomProductManagement() {
               </Select>
             </FormControl>
 
+            {selectedMaterial &&
+              materials.find((material) => material.id === selectedMaterial)
+                ?.materialName}
+
             <FormControl fullWidth margin="normal">
               <InputLabel id="sizeIdLabel">Select Size</InputLabel>
               <Select
@@ -484,46 +533,56 @@ export default function CustomProductManagement() {
               </Select>
             </FormControl>
 
-            {/* Display selected sizeName based on sizeId */}
+            <div className="side-panel">
+              <p> Customer should choose spokes based on custom size :</p>
+              {selectedSize && (
+                <div style={{ marginLeft: "16rem" }}>
+                  Min Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.minspokes} -{" "}
+                  Max Spokes:{" "}
+                  {sizes.find((size) => size.id === selectedSize)?.maxspokes}
+                </div>
+              )}
+            </div>
+
             {selectedSize &&
               sizes.find((size) => size.id === selectedSize)?.sizeName}
 
-            {/* Display selected materialName based on materialId */}
-            {selectedMaterial &&
-              materials.find((material) => material.id === selectedMaterial)
-                ?.materialName}
             <TextField
               label="Spokes"
               id="spokes"
               name="spokes"
+              type="number"
               value={formData.cage.spokes}
-              onChange={(event) =>
-                setFormData({
-                  ...formData,
+              onChange={(event) => {
+                const spokesValue = parseInt(event.target.value, 10);
+                const minSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.minspokes ||
+                  0;
+                const maxSpokes =
+                  sizes.find((size) => size.id === selectedSize)?.maxspokes ||
+                  0;
+
+                // Giới hạn giá trị trong khoảng min và max
+                const limitedSpokesValue = Math.min(
+                  Math.max(spokesValue, minSpokes),
+                  maxSpokes
+                );
+
+                // Cập nhật giá trị vào state
+                setFormData((prevData) => ({
+                  ...prevData,
                   cage: {
-                    ...formData.cage,
-                    spokes: event.target.value,
+                    ...prevData.cage,
+                    spokes: limitedSpokesValue,
                   },
-                })
-              }
+                }));
+              }}
               fullWidth
               required
               margin="normal"
             />
 
-            {/* Uncomment the following block if you plan to use the Accessories field */}
-            {/* <TextField
-                label="Accessories"
-                id="accessories"
-                name="accessories"
-                value={formData.accessories}
-                onChange={handleInputChange}
-                fullWidth
-                required
-                margin="normal"
-              /> */}
-
-            {/* Submit Button */}
             <Button
               type="submit"
               variant="contained"
