@@ -30,7 +30,7 @@ export default function Custom() {
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
     code: "CP PRODUCT",
-    categoryId: "",
+    categoryId: "1",
     productImage:
       "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
     stock: "",
@@ -297,13 +297,13 @@ export default function Custom() {
     return total;
   };
 
-  const calculatePrice = () => {
-    // Tính toán giá tiền dựa trên số lượng spokes và giá của size
-    const selectedSizeData = sizes.find((size) => size.id === selectedSize);
-    const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
-    const spokes = parseInt(formData.cage.spokes, 10) || 0;
-    return pricePerSpoke * spokes;
-  };
+  // const calculatePrice = () => {
+  //   // Tính toán giá tiền dựa trên số lượng spokes và giá của size
+  //   const selectedSizeData = sizes.find((size) => size.id === selectedSize);
+  //   const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
+  //   const spokes = parseInt(formData.cage.spokes, 10) || 0;
+  //   return pricePerSpoke * spokes;
+  // };
 
   useEffect(() => {
     // Update side panel data whenever the selected options change
@@ -357,7 +357,7 @@ export default function Custom() {
             <br/>
 
             {/* Category Select Input */}
-            <FormControl fullWidth margin="normal">
+            {/* <FormControl fullWidth margin="normal">
               <InputLabel id="categoryIdLabel">Select Category</InputLabel>
               <Select
                 labelId="categoryIdLabel"
@@ -370,7 +370,7 @@ export default function Custom() {
               >
                 {renderCategories()}
               </Select>
-            </FormControl>
+            </FormControl> */}
 
             {/* Stock Input */}
             <TextField

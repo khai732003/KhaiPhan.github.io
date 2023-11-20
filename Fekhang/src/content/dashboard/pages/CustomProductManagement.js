@@ -28,7 +28,6 @@ export default function CustomProductManagement() {
   const [categories, setCategories] = useState([]);
   const [sidePanelData, setSidePanelData] = useState([]);
 
-
   const [formData, setFormData] = useState({
     name: "CUSTOME PRODUCT",
     code: "CP PRODUCT",
@@ -66,7 +65,6 @@ export default function CustomProductManagement() {
           return;
         }
         break;
-
 
       case "extraPrice":
         // Check if the value is not a valid number or is less than 0
@@ -106,7 +104,6 @@ export default function CustomProductManagement() {
     }
     updateSidePanelData();
   };
-
 
   const addCustomProductManagement = async () => {
     try {
@@ -231,7 +228,6 @@ export default function CustomProductManagement() {
   };
   console.log(formData);
 
-
   const updateSidePanelData = () => {
     // Create an array with selected options and their prices
     const newSidePanelData = [];
@@ -273,7 +269,11 @@ export default function CustomProductManagement() {
 
   const renderSidePanel = () => {
     return (
-      <Drawer anchor="left" open={sidePanelData.length > 0} onClose={() => setSidePanelData([])}>
+      <Drawer
+        anchor="left"
+        open={sidePanelData.length > 0}
+        onClose={() => setSidePanelData([])}
+      >
         <List>
           {sidePanelData.map((item, index) => (
             <ListItem key={index}>
@@ -288,7 +288,13 @@ export default function CustomProductManagement() {
     );
   };
 
-
+  const handleProductImageUpload = async (options) => {
+    console.log("Options:", options);
+    const { file } = options;
+    if (file) {
+      // Your existing code for uploading the image
+    }
+  };
 
   return (
     <div>
@@ -371,6 +377,28 @@ export default function CustomProductManagement() {
               </Select>
             </FormControl>
 
+            {/* Add this input inside the form */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                handleProductImageUpload({ file: e.target.files[0] })
+              }
+            />
+
+            {/* Rest of your code */}
+            <TextField
+              label="Product Name"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              fullWidth
+              required
+              margin="normal"
+            />
+            {/* Other form fields */}
+
             {/* Stock Input */}
             <TextField
               label="Stock"
@@ -410,7 +438,6 @@ export default function CustomProductManagement() {
             {/* Display selected shapeName based on shapeId */}
             {selectedShape &&
               shapes.find((shape) => shape.id === selectedShape)?.shapeName}
-
 
             {/* Select Material */}
             <FormControl fullWidth margin="normal">
