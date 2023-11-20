@@ -1,8 +1,10 @@
 package com.swp.cageshop.service.voucherUsageService;
 
 import com.swp.cageshop.DTO.VoucherUsageDTO;
+import com.swp.cageshop.entity.Orders;
 import com.swp.cageshop.entity.VoucherUsage;
 import com.swp.cageshop.entity.Vouchers;
+import com.swp.cageshop.repository.OrdersRepository;
 import com.swp.cageshop.repository.VoucherUsageRepository;
 import com.swp.cageshop.repository.VouchersRepository;
 import org.modelmapper.ModelMapper;
@@ -22,6 +24,9 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     private VouchersRepository vouchersRepository;
 
     @Autowired
+    private OrdersRepository ordersRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public VoucherUsageDTO createVoucherUsage(VoucherUsageDTO voucherUsageDTO) {
@@ -33,6 +38,7 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
     public VoucherUsageDTO createVoucherUsageByVoucherCode(VoucherUsageDTO voucherUsageDTO) {
         Long userId = voucherUsageDTO.getUserId();
         Vouchers voucher = vouchersRepository.findByCode(voucherUsageDTO.getCodeVoucher());
+        Orders orders = ordersRepository.getReferenceById(voucherUsageDTO.getOrderId());
         if (voucher != null) {
             boolean used = voucherUsageRepository.existsByUserIdAndVoucherId(userId, voucher.getId());
             if (!used) {
@@ -41,6 +47,9 @@ public class VoucherUsageServiceImpl implements IVoucherUsageService {
                 if (voucher1 != null && voucher.getQuantity() > 0) {
                     voucherUsage.setVoucher(voucher);
                     VoucherUsage existingVoucherUsage = voucherUsageRepository.findByUserIdAndVoucherId(userId, voucher.getId());
+//                    if(voucherUsage.getOrder().getTotal_Price() < 0){
+//                        or
+//                    }
                     if (existingVoucherUsage != null) {
                         existingVoucherUsage.getVoucher().setId(voucher.getId());
                         VoucherUsage updatedVoucherUsage = voucherUsageRepository.save(existingVoucherUsage);
