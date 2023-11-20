@@ -238,6 +238,8 @@ public class UsersServiceImpl implements IUsersService {
     return usersRepository.findAllStaffAndStatusFalse();
   }
 
+
+
   @Override
   public ResponseEntity<String> updateStatus(Long id) {
     try {
@@ -248,6 +250,11 @@ public class UsersServiceImpl implements IUsersService {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update không thành công.");
     }
+  }
+
+  @Override
+  public String shipNameBy(Long orderId) {
+    return usersRepository.shipNameBy(orderId);
   }
 
 

@@ -47,10 +47,8 @@ export default function AddShape() {
     try {
       const response = await customAxios.post(`/shapes/add`, formData);
       console.log(response);
-
-      if (response.status === 200) {
         navigate("/custom-list");
-      }
+
     } catch (error) {
       console.error(error);
     }

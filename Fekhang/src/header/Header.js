@@ -74,6 +74,7 @@ function Header(props) {
   const isUpdateShape = /^\/update-shape\/\d+$/.test(location.pathname);
   const isUpdateMaterial = /^\/update-material\/\d+$/.test(location.pathname);
   const isCustomProductManagement = location.pathname === "/custom-product";
+  const isNotConfirm = location.pathname === "/listnotconfirm";
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -124,7 +125,7 @@ function Header(props) {
   }
 
   if (
-    isUserManager ||
+    isUserManager || isNotConfirm ||
     isAdmin ||
     isAddUser ||
     isUpdateUser ||

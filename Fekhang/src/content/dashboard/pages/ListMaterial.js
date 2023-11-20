@@ -32,11 +32,12 @@ const ListMaterial = () => {
     };
 
     fetchMaterials();
-  }, []);
+  }, [materials]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
+
 
   const handleUpdateMaterial = (id) => {
     navigate(`/update-material/${id}`);

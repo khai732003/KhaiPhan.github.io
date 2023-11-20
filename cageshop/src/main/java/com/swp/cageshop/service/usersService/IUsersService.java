@@ -45,5 +45,6 @@ public List<Users> listAllExpectAdmin();
 
   public ResponseEntity<String> updateStatus(Long id);
 
+  public String shipNameBy(Long orderId);
 
 }

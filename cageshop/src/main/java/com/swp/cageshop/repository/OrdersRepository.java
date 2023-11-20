@@ -28,7 +28,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     List<Orders> findByPayStatusAndShipStatus(String payStatus, String shipStatus);
 
-    @Query("SELECT o FROM Orders o INNER JOIN Shipping s ON o.id = s.id " +
+    @Query("SELECT o FROM Orders o INNER JOIN Shipping s ON o.id = s.order.id " +
         "WHERE s.user.id = :userId AND o.shipStatus = :shipStatus AND o.payStatus = 'PAID'")
     List<Orders> findOrdersByStatusForUser(
         @Param("userId") Long userId,

@@ -34,7 +34,7 @@ const ListShape = () => {
     };
 
     fetchShapes();
-  }, []);
+  }, [shapes]);
 
   const handleUpdateShape = (id) => {
     navigate(`/update-shape/${id}`);

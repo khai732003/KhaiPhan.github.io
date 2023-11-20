@@ -33,7 +33,7 @@ const ListSize = () => {
     };
 
     fetchSizes();
-  }, []);
+  }, [sizes]);
 
   const handleUpdateSize = (id) => {
     navigate(`/update-size/${id}`);

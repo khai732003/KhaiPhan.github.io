@@ -103,4 +103,8 @@ public List<Users> findByName(@PathVariable String name, @RequestBody Users user
   public List<Users> listAllStaffAndStatusFals(){
     return iUsersService.listAllStaffAndStatusFalse();
   }
+  @GetMapping("/user/shipBy/{orderId}")
+  public String shipNameBy(@PathVariable Long orderId){
+    return iUsersService.shipNameBy(orderId);
+  }
 }

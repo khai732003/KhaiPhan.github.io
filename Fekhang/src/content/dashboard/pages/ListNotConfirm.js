@@ -72,17 +72,17 @@ const ListNotConfirm = () => {
 
   return (
     <>
-      <div style={{ paddingTop: '5rem', paddingBottom: '1rem' }}>
+      <div style={{ paddingTop: '6rem', paddingBottom: '1rem' }}>
         <Button variant='contained' onClick={handleDeliverd}>
           Show Delivered
         </Button>
       </div>
-      <Container style={{ color: '#3f51b5', textAlign: 'center', height: '72.5vh', paddingTop: '7rem' }}>
+      <Container style={{ color: '#3f51b5', textAlign: 'center', height: '70.3vh' }}>
         <Typography variant="h4" className="header" gutterBottom>
           Waiting Confirm
         </Typography>
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{height:'53vh'}}>
           <Table>
             <TableHead>
               <TableRow>

@@ -36,18 +36,18 @@ export default function LocalOrder() {
     fetchOrders();
   }, []);
 
-  useEffect(() => {
-    // Check if the user has any orders
-    customAxios.get(`/order/exists/${user.userId}`)
-      .then(response => {
-        if (!response.data) {
-          navigate('/');
-        }
-      })
-      .catch(error => {
-        console.error('Error checking orders existence:', error);
-      });
-  }, [user.userId, navigate]);
+  // useEffect(() => {
+  //   // Check if the user has any orders
+  //   customAxios.get(`/order/exists/${user.userId}`)
+  //     .then(response => {
+  //       if (!response.data) {
+  //         navigate('/');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error checking orders existence:', error);
+  //     });
+  // }, [user.userId, navigate]);
 
   const steps = ['CONFIRMED', 'DELIVERING', 'DELIVERED'];
 

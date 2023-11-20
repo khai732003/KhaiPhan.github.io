@@ -40,14 +40,14 @@ const Footer = (props) => {
   const isUpdateShape = /^\/update-shape\/\d+$/.test(location.pathname);  
   const isUpdateMaterial = /^\/update-material\/\d+$/.test(location.pathname);
   const isCustomProductManagement = location.pathname === "/custom-product";
-
+  const isNotConfirm = location.pathname === "/listnotconfirm";
 
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
     return null;
   }
 
   if (
-    isUserManager ||
+    isUserManager || isNotConfirm ||
     isVoucher ||
     isAdmin ||
     isAddUser ||

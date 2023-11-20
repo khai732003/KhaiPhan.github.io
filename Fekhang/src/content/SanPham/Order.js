@@ -91,6 +91,18 @@ const Order = () => {
       return [];
     }
   };
+  useEffect(() => {
+    // Check if the user has any orders
+    customAxios.get(`/order/exists/${user.userId}`)
+      .then(response => {
+        if (!response.data) {
+          navigate('/');
+        }
+      })
+      .catch(error => {
+        console.error('Error checking orders existence:', error);
+      });
+  }, [user.userId, navigate]);
 
   useEffect(() => {
     fetchOrder();

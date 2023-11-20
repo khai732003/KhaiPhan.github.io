@@ -60,6 +60,12 @@ public class OrdersServiceImpl implements IOrdersService {
     @Override
     public OrderDTO addOrderDTO(OrderDTO orderDTO) {
         if (orderDTO != null) {
+            String city = orderDTO.getCity();
+//            if(city.equalsIgnoreCase("Hồ Chí Minh")){
+//                orderDTO.setShipPrice(100000.0);
+//            }else{
+//                orderDTO.setShipPrice(200000.0);
+//            }
             if(orderDTO.getTotal_price() <= 0){
                 orderDTO.setTotal_price(0);
             }
@@ -73,13 +79,22 @@ public class OrdersServiceImpl implements IOrdersService {
 
     @Override
     public OrderDTO updateOrderDTO(long id, OrderDTO orderDTO) {
+        // Kiểm tra xem đơn hàng có tồn tại trong cơ sở dữ liệu hay không
         Optional<Orders> optionalOrder = ordersRepository.findById(id);
+
         if (optionalOrder.isPresent()) {
+            // Lấy đơn hàng từ cơ sở dữ liệu
             Orders existingOrder = optionalOrder.get();
+
             Orders updatedOrder = ordersRepository.save(existingOrder);
+
+            // Chuyển đổi đơn hàng đã cập nhật thành DTO và trả về
             OrderDTO updatedOrderDTO = modelMapper.map(updatedOrder, OrderDTO.class);
+
             return updatedOrderDTO;
         } else {
+            // Xử lý trường hợp không tìm thấy đơn hàng với id tương ứng
+            // Có thể trả về null hoặc ném một ngoại lệ tùy thuộc vào quyết định thiết kế của bạn.
             return null;
         }
     }
@@ -97,42 +112,36 @@ public class OrdersServiceImpl implements IOrdersService {
             }
             List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orders.getId());
             double totalVoucherAmount = 0;
+            boolean isFreeShipVoucher = false;
             boolean isCashVoucher = false;
             for (VoucherUsage voucherUsage : voucherUsages) {
                 Vouchers voucher = voucherUsage.getVoucher();
                 if (voucher != null) {
-                    if ("CASH".equals(voucher.getVoucherType())) {
+                    if ("FREESHIP".equals(voucher.getVoucherType())) {
+                        isFreeShipVoucher = true;
+                        totalVoucherAmount += voucher.getVoucherAmount();
+                    } else if ("CASH".equals(voucher.getVoucherType())) {
                         isCashVoucher = true;
                         totalVoucherAmount += voucher.getVoucherAmount();
                     }
                 }
             }
-            if (isCashVoucher) {
+
+            if (isFreeShipVoucher && isCashVoucher) {
+                totalCost -= totalVoucherAmount;
+            } else if (isFreeShipVoucher) {
                 totalCost -= totalVoucherAmount;
             }
-            if(totalCost < 0){
-                orders.setTotal_Price(0);
-                ordersRepository.save(orders);
-                OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
-                List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-                for (OrderDetail detail : orderDetailList) {
-                    OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
-                    orderDetailDTOList.add(orderDetailDTO);
-                }
-                orderDTO.setOrderDetails(orderDetailDTOList);
-                orderDTOList.add(orderDTO);
-            }else {
-                orders.setTotal_Price(totalCost);
-                ordersRepository.save(orders);
-                OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
-                List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-                for (OrderDetail detail : orderDetailList) {
-                    OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
-                    orderDetailDTOList.add(orderDetailDTO);
-                }
-                orderDTO.setOrderDetails(orderDetailDTOList);
-                orderDTOList.add(orderDTO);
+            orders.setTotal_Price(totalCost);
+            ordersRepository.save(orders);
+            OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+            List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+            for (OrderDetail detail : orderDetailList) {
+                OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+                orderDetailDTOList.add(orderDetailDTO);
             }
+            orderDTO.setOrderDetails(orderDetailDTOList);
+            orderDTOList.add(orderDTO);
         }
         return orderDTOList;
     }
@@ -161,32 +170,32 @@ public class OrdersServiceImpl implements IOrdersService {
 
         List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(order.getId());
         double totalVoucherAmount = 0;
+        boolean isFreeShipVoucher = false;
         boolean isCashVoucher = false;
         for (VoucherUsage voucherUsage : voucherUsages) {
             Vouchers voucher = voucherUsage.getVoucher();
             if (voucher != null) {
-                if ("CASH".equals(voucher.getVoucherType())) {
+                if ("FREESHIP".equals(voucher.getVoucherType())) {
+                    isFreeShipVoucher = true;
+                    totalVoucherAmount += voucher.getVoucherAmount();
+                } else if ("CASH".equals(voucher.getVoucherType())) {
                     isCashVoucher = true;
                     totalVoucherAmount += voucher.getVoucherAmount();
                 }
             }
         }
-        if (isCashVoucher) {
+        if (isFreeShipVoucher && isCashVoucher) {
+            totalCost -= totalVoucherAmount;
+        } else if (isFreeShipVoucher) {
             totalCost -= totalVoucherAmount;
         }
-        if(totalCost < 0){
-            order.setTotal_Price(0);
-            ordersRepository.save(order);
-            OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-            orderDTO.setOrderDetails(orderDetailDTOList);
-            return orderDTO;
-        }else {
-            order.setTotal_Price(totalCost);
-            ordersRepository.save(order);
-            OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-            orderDTO.setOrderDetails(orderDetailDTOList);
-            return orderDTO;
-        }
+        order.setTotal_Price(totalCost);
+        ordersRepository.save(order);
+
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        orderDTO.setOrderDetails(orderDetailDTOList);
+
+        return orderDTO;
     }
 
 
@@ -208,8 +217,8 @@ public class OrdersServiceImpl implements IOrdersService {
         List<Orders> paidAndNotConfirmedOrders = ordersRepository.findByPayStatusAndShipStatus("PAID", shipStatus);
 
         List<OrderDTO> orderDTOs = paidAndNotConfirmedOrders.stream()
-            .map(order -> modelMapper.map(order, OrderDTO.class))
-            .collect(Collectors.toList());
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
 
         return orderDTOs;
     }
@@ -226,27 +235,29 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 
+
+
     @Override
     public List<OrderDTO> getOrdersByShipStatus(String shipStatus) {
         List<Orders> orders = ordersRepository.findByShipStatus(shipStatus);
         return orders.stream()
-            .map(order -> modelMapper.map(order, OrderDTO.class))
-            .collect(Collectors.toList());
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<String> getAllPayStatusByStatus(String payStatus) {
         return ordersRepository.findAll().stream()
-            .filter(order -> order.getPayStatus().equals(payStatus))
-            .map(Orders::getPayStatus)
-            .collect(Collectors.toList());
+                .filter(order -> order.getPayStatus().equals(payStatus))
+                .map(Orders::getPayStatus)
+                .collect(Collectors.toList());
     }
     @Override
     public List<String> getAllShipStatusByStatus(String shipStatus) {
         return ordersRepository.findAll().stream()
-            .filter(order -> order.getShipStatus().equals(shipStatus))
-            .map(Orders::getShipStatus)
-            .collect(Collectors.toList());
+                .filter(order -> order.getShipStatus().equals(shipStatus))
+                .map(Orders::getShipStatus)
+                .collect(Collectors.toList());
     }
 
 
@@ -330,3 +341,4 @@ public class OrdersServiceImpl implements IOrdersService {
     }
 
 }
+

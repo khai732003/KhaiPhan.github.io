@@ -38,4 +38,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
 //  @Query("SELECT u FROM Users u WHERE u.phone = :phoneNumber")
   Optional<Users> findByPhone(String phoneNumber);
+
+  @Query("SELECT U.name FROM Users U INNER JOIN Shipping S ON U.id = S.user.id WHERE S.order.id = :orderId")
+  String shipNameBy (@Param("orderId") Long orderId);
 }
