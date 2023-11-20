@@ -16,7 +16,9 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../../CustomAxios/customAxios";
 import "../styles/addedituser.css";
-
+import axios from "axios";
+import { Form, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 export default function CustomProductManagement() {
   const navigate = useNavigate();
   const [shapes, setShapes] = useState([]);
@@ -38,7 +40,7 @@ export default function CustomProductManagement() {
     extraPrice: "",
     categoryId: "",
     productImage:
-      "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
+      "",
     stock: "",
     status: "Available",
     note: "custome",
@@ -112,6 +114,7 @@ export default function CustomProductManagement() {
   };
 
   const addCustomProductManagement = async () => {
+
     try {
       const response = await customAxios.post("/product/add", formData);
 
@@ -126,6 +129,10 @@ export default function CustomProductManagement() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!formData.productImage) {
+      alert("Please upload a product image.");
+      return;
+    }
     addCustomProductManagement();
   };
 
@@ -312,6 +319,57 @@ export default function CustomProductManagement() {
         </List>
       </Drawer>
     );
+  };
+  const [productImage, setProductImage] = useState("");
+  const handleProductImageUpload = async (options) => {
+    const { file } = options;
+
+    if (!file) {
+      console.error("Please select a product image.");
+      return;
+    }
+
+    try {
+      const formData1 = new FormData();
+      formData1.append("file", file);
+      formData1.append("upload_preset", "klbxvzvn");
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcr9jaohf/image/upload",
+        formData1
+      );
+      const uploadedImage = response.data.secure_url;
+      setFormData((prevData) => ({
+        ...prevData,
+        productImage: uploadedImage,
+      }));
+    } catch (error) {
+      console.error("Error uploading product image:", error);
+    }
+  };
+
+  const [productDetailImages, setProductDetailImages] = useState([]);
+  const handleProductDetailImagesUpload = async (options) => {
+    const { fileList } = options;
+    if (fileList && fileList.length) {
+      try {
+        const uploadedImages = await Promise.all(
+          fileList.map(async (file) => {
+            const formData = new FormData();
+            formData.append("file", file.originFileObj);
+            formData.append("upload_preset", "klbxvzvn"); // Replace 'klbxvzvn' with your Cloudinary preset name
+            const response = await customAxios.post(
+              "https://api.cloudinary.com/v1_1/dcr9jaohf/image/upload",
+              formData
+            );
+            return response.data.secure_url;
+          })
+        );
+        console.log(uploadedImages);
+        setProductDetailImages(uploadedImages);
+      } catch (error) {
+        console.error("Error uploading product detail images:", error);
+      }
+    }
   };
 
   return (
@@ -583,6 +641,53 @@ export default function CustomProductManagement() {
               margin="normal"
             />
 
+            <Form.Item
+              style={{ marginTop: '20px' }}
+              label={
+                <span style={{ fontSize: '16px' }}>
+                  Product Image
+                </span>
+              }
+              rules={[{ required: true, message: "Please input the Image name!" }]}
+            >
+              <Upload
+                name="productImage"
+                beforeUpload={() => false}
+                value={productImage}
+                onChange={handleProductImageUpload}
+                listType="picture"
+                maxCount={1}
+              >
+                <Button
+                  variant="contained"
+                  icon={<UploadOutlined />}>
+                  <span class="bi bi-upload"></span>
+                </Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item
+              label={
+                <span style={{ fontSize: '16px' }}>
+                  Product Image Detail
+                </span>
+              }
+              rules={[
+                { required: true, message: "Please input the Detail Image name!" },
+              ]}
+            >
+              <Upload
+                name="productDetailImage"
+                listType="picture"
+                beforeUpload={() => false}
+                onChange={handleProductDetailImagesUpload}
+                multiple
+              >
+                <Button variant="contained"
+                  icon={<UploadOutlined />}>
+                  <span class="bi bi-upload"></span>
+                </Button>
+              </Upload>
+            </Form.Item>
             <Button
               type="submit"
               variant="contained"
