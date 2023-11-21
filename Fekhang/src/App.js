@@ -66,6 +66,7 @@ import UpdateShape from './content/dashboard/components/UpdateShape';
 import UpdateMaterial from './content/dashboard/components/UpdateMaterial';
 import CustomProductManagement from './content/dashboard/pages/CustomProductManagement';
 import MapComponent from './content/SanPham/MapComponent';
+import Custom from './content/SanPham/Custom';
 
 
 
@@ -106,7 +107,7 @@ function App() {
               <Route path="/addfeedback/:productId" element={<AddFeedBack />} />
               <Route path="/detail-news/:id" element={<NewsDetail/>} />
               <Route path="/*" element={<Error/>} />
-
+              <Route path="/custom" element={<Custom/>} />
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
               <Route path="/add-edit-category" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditCategory} path="/add-edit-category" />} />
