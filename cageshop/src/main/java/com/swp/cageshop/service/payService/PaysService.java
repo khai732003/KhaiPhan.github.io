@@ -43,6 +43,7 @@ public class PaysService implements PaysServiceImpl {
     @Autowired
     private ModelMapper modelMapper;
 
+
     public String payWithVNPAY(VnPayDTO vnPayDTO, HttpServletRequest request) throws UnsupportedEncodingException {
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 
@@ -53,6 +54,7 @@ public class PaysService implements PaysServiceImpl {
         String vnp_ExpireDate = formatter.format(cld.getTime());
 
         String randomTxnRef = Config.getRandomNumber(8);
+
         Long orderId = vnPayDTO.getOrderId();
         Orders orders = ordersRepository.getReferenceById(orderId);
         double getPrice = orders.getTotal_Price();

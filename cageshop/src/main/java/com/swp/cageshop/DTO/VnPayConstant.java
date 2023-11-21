@@ -15,7 +15,7 @@ public abstract class VnPayConstant {
     public static String vnp_CurrCode = "VND";
     //    public static String vnp_IpAddr = "0:0:0:0:0:0:0:1";
     public static String vnp_Locale = "vn";
-    public static String vnp_ReturnUrl = "http://localhost:8080/cageshop/api/payment_infor";
+    public static String vnp_ReturnUrl = "http://localhost:8080/cageshop/api/xulithanhtoan";
     //    public static String vnp_ExpireDate = "";
     //vpn_Ammount = tien *100;
     //vpn_OrderInfo = Mo ta;

@@ -119,7 +119,7 @@ export default function CustomProductManagement() {
       const response = await customAxios.post("/product/add", formData);
 
       if (response.status === 200) {
-        navigate("/admin");
+        navigate("/productmanagement");
       }
     } catch (error) {
       console.error("Detailed error response:", error.response);
@@ -193,7 +193,7 @@ export default function CustomProductManagement() {
       newSidePanelData.push({
         label: "Shape",
         name: shapeData?.shapeName,
-        price: shapeData?.price || 0,
+        price: formatCurrency(shapeData?.price) || 0,
       });
     }
 
@@ -204,7 +204,7 @@ export default function CustomProductManagement() {
       newSidePanelData.push({
         label: "Material",
         name: materialData?.materialName,
-        price: materialData?.price || 0,
+        price: formatCurrency(materialData?.price) || 0,
       });
     }
 
@@ -214,7 +214,7 @@ export default function CustomProductManagement() {
       newSidePanelData.push({
         label: "Size",
         name: sizeData?.sizeName,
-        price: sizeData?.price || 0,
+        price: formatCurrency(sizeData?.price) || 0,
         minspokes: sizeData?.minspokes,
         maxspokes: sizeData?.maxspokes,
       });
@@ -241,7 +241,7 @@ export default function CustomProductManagement() {
 
     const extraPrice = parseFloat(formData.extraPrice) || 0;
     total += extraPrice;
-    return total;
+    return formatCurrency(total);
   };
 
   const renderCategories = () => {
@@ -277,6 +277,11 @@ export default function CustomProductManagement() {
     }));
     updateSidePanelData();
   };
+
+  
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
 
   const handleChangeMaterial = (event) => {
     const selectedMaterialId = event.target.value;
@@ -476,6 +481,7 @@ export default function CustomProductManagement() {
                 <MenuItem value="New">New</MenuItem>
                 <MenuItem value="Out of Stock">Out of Stock</MenuItem>
                 <MenuItem value="Upcoming">Upcoming</MenuItem>
+                <MenuItem value="customeProduct">Customized Product</MenuItem>
               </Select>
             </FormControl>
 
@@ -532,7 +538,7 @@ export default function CustomProductManagement() {
                   <MenuItem key={shape.id} value={shape.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{shape.shapeName}</Grid>
-                      <Grid item>{shape.price}</Grid>
+                      <Grid item>{formatCurrency(shape.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}
@@ -558,7 +564,7 @@ export default function CustomProductManagement() {
                   <MenuItem key={material.id} value={material.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{material.materialName}</Grid>
-                      <Grid item>{material.price}</Grid>
+                      <Grid item>{formatCurrency(material.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}
@@ -584,7 +590,7 @@ export default function CustomProductManagement() {
                   <MenuItem key={size.id} value={size.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{size.sizeName}</Grid>
-                      <Grid item>{size.price}</Grid>
+                      <Grid item>{formatCurrency(size.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}

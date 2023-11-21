@@ -152,9 +152,6 @@ const Order = () => {
       await fetchDiscountedPrices();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
-       if (error.response && error.response.data && error.response.data.message) {
-      toast.error(`Có lỗi xảy ra: ${error.response.data.message}`);
-       }
     }
   };
   function formatCurrency(amount) {

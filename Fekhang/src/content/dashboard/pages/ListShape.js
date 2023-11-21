@@ -63,6 +63,10 @@ const ListShape = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentShapes = shapes.slice(startIndex, endIndex);
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -80,7 +84,7 @@ const ListShape = () => {
               <TableRow key={shape.id}>
                 <TableCell>{shape.id}</TableCell>
                 <TableCell>{shape.shapeName}</TableCell>
-                <TableCell>{shape.price}</TableCell>
+                <TableCell>{formatCurrency(shape.price)}</TableCell>
                 <TableCell style={{ display: 'flex' }}>
                   <Button
                     style={{ width: '30px', marginRight: '5px' }}

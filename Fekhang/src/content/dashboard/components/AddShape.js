@@ -59,6 +59,8 @@ export default function AddShape() {
     addShape();
   };
 
+  
+
   return (
     <div>
       <div className="add-edit-container" style={{ paddingTop: "70px", margin: "0" }}>

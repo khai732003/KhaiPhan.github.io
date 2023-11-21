@@ -37,6 +37,8 @@
   font-size: 24px;
   cursor: pointer;
   color: red;
+  margin-right: 20px;
+
 }
 
 .popup-content .img-fluid {
@@ -73,6 +75,12 @@
 .product-info li {
   margin-bottom: 10px;
   font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-section {
+  margin-bottom: 20px;
 }
 
 .detail-info {
@@ -80,6 +88,52 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #9c8f8f;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.sub-info {
+  padding-left: 20px;
+}
+
+.info-item {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between; 
+}
+
+.info-item .name {
+  color: green; /* Màu xanh cho phần "Name" */
+}
+
+.info-item .price {
+  color: red; /* Màu đỏ cho phần "Price" */
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  flex-grow: 1;
+}
+
+.accessories-section {
+  padding: 10px 40px 20px 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #9c8f8f;
+  display: flex;
+  flex-direction: column;
 }
 
 .info-title {
@@ -90,8 +144,6 @@
 
 .info-item {
   margin-bottom: 10px;
-  display: flex; /* Display labels and values in a flex container */
-  align-items: center; /* Align items vertically */
   position: relative;
 }
 
@@ -99,13 +151,6 @@
   font-weight: bold;
   width: 100px;
   text-align: left;
-  position: relative;
-  counter-reset: line-number;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  display: inline-block;
 }
 
