@@ -219,7 +219,12 @@ public class ProductsServiceImpl implements IProductsService {
         existingProduct.setProductImage(productDTO.getProductImage());
         existingProduct.setProductDetailImage(productDTO.getProductDetailImage());
         existingProduct.setStock(productDTO.getStock());
+        existingProduct.setExtraPrice(productDTO.getExtraPrice());
         existingProduct.setStatus(productDTO.getStatus());
+        Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+        if (category != null) {
+            existingProduct.setCategory(category);
+        }
     }
 
     private void updateOrAddBirdCage(Products existingProduct, ProductDTO productDTO) {
@@ -227,9 +232,20 @@ public class ProductsServiceImpl implements IProductsService {
             BirdCages existingCage = existingProduct.getCage();
 
             if (existingCage == null) {
-                existingProduct.setCage(modelMapper.map(productDTO.getCage(), BirdCages.class));
+                // If no existing cage, create a new one and set its properties
+                BirdCages newCage = modelMapper.map(productDTO.getCage(), BirdCages.class);
+                newCage.setProduct(existingProduct);
+                existingProduct.setCage(newCage);
             } else {
-                modelMapper.map(productDTO.getCage(), existingCage);
+                // If existing cage, update its properties
+                BirdCages updatedCage = modelMapper.map(productDTO.getCage(), BirdCages.class);
+
+                // Set the existing cage's ID and product reference
+                updatedCage.setId(existingCage.getId());
+                updatedCage.setProduct(existingProduct);
+
+                // Update the existing cage with the mapped values
+                modelMapper.map(updatedCage, existingCage);
             }
         }
     }
