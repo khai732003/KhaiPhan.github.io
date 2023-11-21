@@ -51,9 +51,13 @@ const ProductManagement = () => {
 
       // Sort by date based on the selected option
       if (selectedPrice === "newest") {
-        newProducts = newProducts.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));
+        newProducts = newProducts.sort(
+          (a, b) => new Date(b.createDate) - new Date(a.createDate)
+        );
       } else if (selectedPrice === "oldest") {
-        newProducts = newProducts.sort((a, b) => new Date(a.createDate) - new Date(b.createDate));
+        newProducts = newProducts.sort(
+          (a, b) => new Date(a.createDate) - new Date(b.createDate)
+        );
       }
 
       setProducts(newProducts);
@@ -82,9 +86,9 @@ const ProductManagement = () => {
   };
 
   const handleStatusChange = (event) => {
-    const status = event.target.value;
+    const status = event.target.value.toLowerCase(); // Convert to lowercase
     setSelectedStatus(status);
-    setCurrentPage(1); // Reset the page when the status changes
+    setCurrentPage(1);
   };
 
   const handlePriceChange = (event) => {
@@ -128,14 +132,14 @@ const ProductManagement = () => {
     return filteredBySearch.slice(startIndex, endIndex);
   };
 
-
   const getPriceProducts = () => {
     const filteredByPrice =
       selectedPrice === "all"
         ? products
         : products.filter(
             (product) =>
-              product.price.toLowerCase() === selectedPrice.toLowerCase()
+              // Adjust the condition based on your actual data structure
+              product.price === selectedPrice
           );
     const filteredBySearch = filteredByPrice.filter((product) => {
       return (
@@ -147,6 +151,7 @@ const ProductManagement = () => {
     const endIndex = startIndex + itemsPerPage;
     return filteredBySearch.slice(startIndex, endIndex);
   };
+  
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -161,7 +166,7 @@ const ProductManagement = () => {
   };
 
   return (
-    <div className="user-management-page" style={{marginBottom: "160px"}}>
+    <div className="user-management-page" style={{ marginBottom: "160px" }}>
       <div className="search-add-btn">
         <div className="search-name">
           <div className="search-text"></div>
@@ -178,30 +183,30 @@ const ProductManagement = () => {
               <MenuItem value="new">New</MenuItem>
               <MenuItem value="Out Of Stock">Out Of Stock</MenuItem>
               <MenuItem value="No More Made">No More Made</MenuItem>
-              <MenuItem value="Custom Product">Custom Product</MenuItem>
+              <MenuItem value="customeProduct">Custom Product</MenuItem>
             </Select>
           </FormControl>
 
           <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="price-label">Price</InputLabel>
-        <Select
-          labelId="price-label"
-          id="price-select"
-          value={selectedPrice}
-          onChange={handlePriceChange}
-        >
-          <MenuItem value="newest">Newest</MenuItem>
-          <MenuItem value="lowtohigh">Price: Low to High</MenuItem>
-          <MenuItem value="hightolow">Price: High to Low</MenuItem>
-          <MenuItem value="oldest">Oldest</MenuItem>
-        </Select>
-      </FormControl>
+            <InputLabel id="price-label">Price</InputLabel>
+            <Select
+              labelId="price-label"
+              id="price-select"
+              value={selectedPrice}
+              onChange={handlePriceChange}
+            >
+              <MenuItem value="newest">Newest</MenuItem>
+              <MenuItem value="lowtohigh">Price: Low to High</MenuItem>
+              <MenuItem value="hightolow">Price: High to Low</MenuItem>
+              <MenuItem value="oldest">Oldest</MenuItem>
+            </Select>
+          </FormControl>
           <div
             className="search-click"
             style={{ display: "flex", alignItems: "center" }}
           >
             <TextField
-            style={{marginRight:'30px'}}
+              style={{ marginRight: "30px" }}
               label="Search"
               variant="outlined"
               value={searchTerm}
@@ -246,7 +251,6 @@ const ProductManagement = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       <div className="table-staff-container">
@@ -257,8 +261,9 @@ const ProductManagement = () => {
               <th className="user-management-header">ID</th>
               <th className="user-management-header">Product Image</th>
               <th className="user-management-header">Product Name</th>
+              <th className="user-management-header">Total Price</th>
               <th className="user-management-header">Cage and Accessories</th>
-              <th className="user-management-header">Category ID</th>
+              <th className="user-management-header">Category Name</th>
               <th className="user-management-header">Status</th>
               <th className="user-management-header">Created At</th>
               <th className="user-management-header">Action</th>
@@ -284,6 +289,10 @@ const ProductManagement = () => {
                 </td>
 
                 <td className="user-management-td smaller-text">
+                  {product.totalPrice}
+                </td>
+
+                <td className="user-management-td smaller-text">
                   {
                     <Button
                       variant="outlined"
@@ -295,7 +304,7 @@ const ProductManagement = () => {
                 </td>
 
                 <td className="user-management-td smaller-text">
-                  {product.categoryId}
+                  {product.category.name}
                 </td>
                 <td className="user-management-td smaller-text">
                   {product.status}
@@ -320,21 +329,13 @@ const ProductManagement = () => {
             {detailPopup && (
               <div className="popup-Home-Dashboard-container">
                 <div className="popup-content">
-                  <div
-                    className="close"
-                    style={{ position: "relative" }}
-                    onClick={handleClosePopup}
-                  >
-                    <Button
-                      style={{ position: "absolute", top: "0%", right: "47%" }}
-                      variant="contained"
-                      color="error"
-                    >
+                  <div className="close" onClick={handleClosePopup}>
+                    <Button variant="contained" color="error">
                       <CloseIcon />
                     </Button>
                   </div>
 
-                  <Grid container spacing={2} style={{ marginTop: "20px" }}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12} md={5}>
                       <img
                         src={detailPopup.productImage}
@@ -344,72 +345,106 @@ const ProductManagement = () => {
                     </Grid>
                     <Grid item xs={12} md={7}>
                       <div className="detail-info">
-                        <Typography variant="h5">{detailPopup.name}</Typography>
-                        <hr />
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">CategoryID</span>:
-                          {detailPopup.categoryId}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Code</span>:
-                          {detailPopup.code}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Stock</span>:
-                          {detailPopup.stock}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Status</span>:
-                          {detailPopup.status}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h6" className="info-label">
-                          {<p>Cage</p>}
-                        </Typography>
-                        <hr />
-                        {/* <Typography variant="body1" className="info-item">
-                          <span className="info-label">Description</span>:
+                        <Typography variant="h5" className="product-name">
                           {detailPopup.name}
                         </Typography>
-                          {detailPopup.cage.description}
-                        </Typography> */}
-
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Material</span>:
-                          {detailPopup.cage.material}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Size</span>:
-                          {detailPopup.cage.size}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Price</span>:
-                          {detailPopup.cage.price}
-                        </Typography>
-                        <hr />
-                        <Typography variant="h6" className="info-label">
-                          Accessories
-                        </Typography>
                         <hr />
 
-                        {detailPopup.accessories.map((accessory, index) => (
-                          <Typography key={index} variant="body1" className="info-item">
-                            <span className="info-label">Description:</span> {accessory.description}
-                            <br />
-                            <span className="info-label">Price:</span> {accessory.price}
-                            <br />
-                            <span className="info-label">Type:</span> {accessory.type}
+                        <ul className="product-info">
+                          <li>
+                            <span className="info-label">Total Price:</span>{" "}
+                            {detailPopup.totalPrice}
+                          </li>
+                          <li>
+                            <span className="info-label">Code:</span>{" "}
+                            {detailPopup.code}
+                          </li>
+                          <li>
+                            <span className="info-label">Stock:</span>{" "}
+                            {detailPopup.stock}
+                          </li>
+                          <li>
+                            <span className="info-label">Status:</span>{" "}
+                            {detailPopup.status}
+                          </li>
+                        </ul>
+
+                        <div className="info-section">
+                          <Typography variant="h6" className="info-title">
+                            Cage
                           </Typography>
-                        ))}
+                          <hr />
+                          <Typography variant="body1" className="info-item">
+                            <span className="info-label">Description:</span>{" "}
+                            {detailPopup.cage.description}
+                          </Typography>
 
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Type</span>:
-                          {detailPopup.accessories.type}
-                        </Typography>
-                        <Typography variant="body1" className="info-item">
-                          <span className="info-label">Price</span>:
-                          {detailPopup.accessories.price}
-                        </Typography>
+                          <div className="sub-info">
+                            <Typography variant="body1" className="info-item">
+                              <span className="info-label">Shape:</span>{" "}
+                              <span className="name">Name:</span>
+                              {detailPopup.cage.shape.shapeName}
+                              <hr />
+                              <span className="price">Price:</span>
+                              {detailPopup.cage.shape.price}
+                            </Typography>
+                            <Typography variant="body1" className="info-item">
+                              <span className="info-label">Material:</span>{" "}
+                              <span className="name">Name:</span>
+                              {detailPopup.cage.material.materialName}
+                              <hr />
+                              <span className="price">Price:</span>
+                              {detailPopup.cage.material.price}
+                            </Typography>
+                            <Typography variant="body1" className="info-item">
+                              <span className="info-label">Size:</span> Name:{" "}
+                              <br />
+                              {detailPopup.cage.size.sizeName}
+                              <hr />
+                              Min: <br />
+                              {detailPopup.cage.size.minspokes}
+                              <hr />
+                              Max: <br />
+                              {detailPopup.cage.size.maxspokes}
+                              <hr />
+                              Price: <br />
+                              {detailPopup.cage.size.price}
+                            </Typography>
+                          </div>
+                        </div>
+
+                        <div className="info-section accessories-section">
+                          <Typography variant="h6" className="info-title">
+                            Accessories
+                          </Typography>
+                          <hr />
+
+                          {detailPopup.accessories.map((accessory, index) => (
+                            <Typography
+                              key={index}
+                              variant="body1"
+                              className="info-item"
+                            >
+                              <span className="info-label">Description:</span>{" "}
+                              {accessory.description}
+                              <br />
+                              <span className="info-label">Price:</span>{" "}
+                              {accessory.price}
+                              <br />
+                              <span className="info-label">Type:</span>{" "}
+                              {accessory.type}
+                            </Typography>
+                          ))}
+
+                          <Typography variant="body1" className="info-item">
+                            <span className="info-label">Type:</span>{" "}
+                            {detailPopup.accessories.type}
+                          </Typography>
+                          <Typography variant="body1" className="info-item">
+                            <span className="info-label">Price:</span>{" "}
+                            {detailPopup.accessories.price}
+                          </Typography>
+                        </div>
                       </div>
                     </Grid>
                   </Grid>

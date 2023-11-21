@@ -476,6 +476,7 @@ export default function CustomProductManagement() {
                 <MenuItem value="New">New</MenuItem>
                 <MenuItem value="Out of Stock">Out of Stock</MenuItem>
                 <MenuItem value="Upcoming">Upcoming</MenuItem>
+                <MenuItem value="customeProduct">Customized Product</MenuItem>
               </Select>
             </FormControl>
 
