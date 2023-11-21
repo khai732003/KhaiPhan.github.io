@@ -62,9 +62,12 @@ public class SizeServiceImpl implements ISizeService {
 
     @Override
     public boolean deleteSize(Long id) {
-        if (sizeRepository.existsById(id)) {
-            sizeRepository.deleteById(id);
-            return true;
+        if (id >= 1) {
+            Sizes size = sizeRepository.getReferenceById(id);
+            if (size != null && size.getBirdcages().isEmpty()) {
+                sizeRepository.delete(size);
+                return true;
+            }
         }
         return false;
     }

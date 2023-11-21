@@ -54,6 +54,16 @@ public class CategoriesController {
         }
     }
 
+    @DeleteMapping("/category/delete/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable long id) {
+        boolean deleted = categoriesService.deleteCategory(id);
+        if (deleted) {
+            return ResponseEntity.ok("Category deleted successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to delete Category.");
+        }
+    }
+
 
 
     // Lấy danh sách tên của các danh mục

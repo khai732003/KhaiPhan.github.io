@@ -39,7 +39,14 @@ public class ShapeServiceImpl implements IShapeService {
                 .orElse(null); // or throw an exception if not found
     }
     @Override
-    public void deleteShape(Long id) {
-        shapeRepository.deleteById(id);
+    public boolean deleteShape(Long id) {
+        if (id >= 1) {
+            Shapes shape = shapeRepository.getReferenceById(id);
+            if (shape != null && shape.getBirdcages().isEmpty()) {
+                shapeRepository.delete(shape);
+                return true;
+            }
+        }
+        return false;
     }
 }

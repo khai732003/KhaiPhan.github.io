@@ -40,8 +40,13 @@ public class SizeController {
         return sizeService.updateSize(id, sizeDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteSize(@PathVariable Long id) {
-        sizeService.deleteSize(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteSize(@PathVariable long id) {
+        boolean deleted = sizeService.deleteSize(id);
+        if (deleted) {
+            return ResponseEntity.ok("Size deleted successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to delete Size.");
+        }
     }
 }

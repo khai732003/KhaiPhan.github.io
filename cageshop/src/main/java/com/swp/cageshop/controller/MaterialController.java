@@ -42,8 +42,13 @@ public class MaterialController {
         return materialService.updateMaterial(id, materialDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteMaterial(@PathVariable Long id) {
-        materialService.deleteMaterial(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMaterial(@PathVariable long id) {
+        boolean deleted = materialService.deleteMaterial(id);
+        if (deleted) {
+            return ResponseEntity.ok("Material deleted successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to delete Material.");
+        }
     }
 }

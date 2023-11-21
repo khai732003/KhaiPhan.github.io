@@ -43,15 +43,17 @@ const ListShape = () => {
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this shape?");
     if (!confirmDelete) {
+      toast.error("Shape not found!");
       return;
     }
     try {
-      await customAxios.delete(`/shapes/${id}`);
+      await customAxios.delete(`/shapes/delete/${id}`);
       const updatedShapes = shapes.filter((shape) => shape.id !== id);
       setShapes(updatedShapes);
       toast.success('Delete successful!')
     } catch (error) {
       console.error("Error deleting shape:", error);
+      toast.error('Cannot delete shape. It is associated with one or more products.');
     }
   };
 
