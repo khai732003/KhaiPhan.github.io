@@ -8,10 +8,10 @@ export default function HistoryOrder() {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const userId = user.userId;
+
   useEffect(() => {
     // Gọi API sử dụng customAxios để lấy danh sách các đơn hàng đã thanh toán của người dùng với userId là 3
-    customAxios.get(`/order/list-by-user-and-pay-status/${userId}/PAID`)
+    customAxios.get(`/order/list-by-user-and-pay-status/${user.userId}/PAID`)
       .then(response => {
         // Lưu kết quả trả về vào state
         setOrders(response.data);
@@ -24,6 +24,19 @@ export default function HistoryOrder() {
   const handleFeedBack = (productId) => {
     navigate(`/addfeedback/${productId}`);
   };
+
+  // useEffect(() => {
+  //   // Check if the user has any orders
+  //   customAxios.get(`/order/exists/${user.userId}`)
+  //     .then(response => {
+  //       if (!response.data) {
+  //         navigate('/');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error checking orders existence:', error);
+  //     });
+  // }, [user.userId, navigate]);
 
   const steps = [
     'CONFIRMED',
@@ -45,9 +58,6 @@ export default function HistoryOrder() {
         return 0; // Set a default step number if the status is unknown
     }
   };
-  // const handleFeedBack = (productId) => {
-  //   navigate(`/detail/${productId}`)
-  // }
 
   return (
     <Container className="history-order-container">

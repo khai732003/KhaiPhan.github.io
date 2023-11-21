@@ -1,6 +1,7 @@
 package com.swp.cageshop.controller;
 
 import com.swp.cageshop.DTO.VoucherUsageDTO;
+import com.swp.cageshop.DTO.VoucherUsageVoucherAmountDTO;
 import com.swp.cageshop.service.voucherUsageService.IVoucherUsageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,16 @@ public class VoucherUsageController {
 
 
     @PostMapping("/add-by-voucher")
-    public ResponseEntity<VoucherUsageDTO> createVoucherUsageByVoucherCode(@RequestBody VoucherUsageDTO voucherUsageDTO) {
+    public ResponseEntity<?> createVoucherUsageByVoucherCode(@RequestBody VoucherUsageDTO voucherUsageDTO) {
+        try {
             VoucherUsageDTO createdVoucherUsage = voucherUsageService.createVoucherUsageByVoucherCode(voucherUsageDTO);
             return new ResponseEntity<>(createdVoucherUsage, HttpStatus.CREATED);
+        } catch (Exception e) {
+            String errorMessage = "Failed to create voucher usage. Reason: " + e.getMessage();
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
 
 
     @GetMapping("/get-all")
@@ -44,10 +51,15 @@ public class VoucherUsageController {
     }
 
     @GetMapping("/get-all-price-by/{orderId}")
-    public ResponseEntity<List<Double>> listAmountVouchersByOrderId(@PathVariable Long orderId) {
-        List<Double> codeVouchers = voucherUsageService.findAmountVouchersByOrderId(orderId);
-        return new ResponseEntity<>(codeVouchers, HttpStatus.OK);
+    public ResponseEntity<List<VoucherUsageVoucherAmountDTO>> listAmountVouchersByOrderId(@PathVariable Long orderId) {
+        List<VoucherUsageVoucherAmountDTO> voucherUsageList = voucherUsageService.findVuVoucherAmountsByOrderId(orderId);
+        if (voucherUsageList != null) {
+            return new ResponseEntity<>(voucherUsageList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+
 
     @GetMapping("/get-by/{id}")
     public ResponseEntity<VoucherUsageDTO> getVoucherUsageById(@PathVariable Long id) {

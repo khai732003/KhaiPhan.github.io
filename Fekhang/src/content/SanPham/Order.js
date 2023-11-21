@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import ConfirmEmail from './ConfirmEmail';
 import './Scss/Order.scss';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   Grid,
   Button,
@@ -25,11 +29,13 @@ const Order = () => {
   const orderId = localStorage.getItem('orderId');
 
   const [discountedPrices, setDiscountedPrices] = useState([]);
+  const [deleted, setDeleted] = useState(false);
 
   const fetchDiscountedPrices = async () => {
     try {
       const prices = await getDiscountedPrices();
       setDiscountedPrices(prices);
+      console.log(prices)
     } catch (error) {
       console.error('Error fetching discounted prices:', error);
     }
@@ -82,22 +88,34 @@ const Order = () => {
   const getDiscountedPrices = async () => {
     try {
       const response = await customAxios.get(`/voucher-usage/get-all-price-by/${orderId}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching discounted prices:', error);
       return [];
     }
   };
+  useEffect(() => {
+    // Check if the user has any orders
+    customAxios.get(`/order/exists/${user.userId}`)
+      .then(response => {
+        if (!response.data) {
+          navigate('/');
+        }
+      })
+      .catch(error => {
+        console.error('Error checking orders existence:', error);
+      });
+  }, [user.userId, navigate]);
 
   useEffect(() => {
     fetchOrder();
-  }, [orderId]);
+    fetchDiscountedPrices();
+    setDeleted(false)
+  }, [orderId, voucherCode, deleted]);
 
   const deleteOrderDetail = async (orderDetailId) => {
     try {
       await customAxios.patch(`/order_detail/delete-by/${orderDetailId}`);
-      // After successful deletion, update the state to trigger re-render
       setOrder((prevOrder) => ({
         ...prevOrder,
         orderDetails: prevOrder.orderDetails.filter((item) => item.id !== orderDetailId),
@@ -107,6 +125,21 @@ const Order = () => {
       console.error("Error deleting order detail:", error);
     }
   };
+  const deleteVoucherUsage = async (price) => {
+    try {
+      const response = await customAxios.patch(`/voucher-usage/delete-voucher/${price.orderId}/${price.code}`);
+
+      setDeleted(true);
+      if (response.status === 200) {
+        console.log('VoucherUsage deleted successfully');
+      } else {
+        console.error('Failed to delete VoucherUsage');
+      }
+    } catch (error) {
+      console.error('Error deleting VoucherUsage:', error);
+    }
+  }
+  console.log(deleted)
 
   const applyVoucher = async () => {
     try {
@@ -119,12 +152,16 @@ const Order = () => {
       await fetchDiscountedPrices();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
+       if (error.response && error.response.data && error.response.data.message) {
+      toast.error(`Có lỗi xảy ra: ${error.response.data.message}`);
+       }
     }
-  };  
+  };
   function formatCurrency(amount) {
     return amount.toLocaleString('en-US');
   }
 
+  console.log(voucherCode)
   return (
     <div className="order-container">
       {order && order.orderDetails.length > 0 ? (
@@ -144,8 +181,10 @@ const Order = () => {
                     onChange={(e) => setVoucherCode(e.target.value)}
                   >
                     {voucherData.map((voucher) => (
-                      <MenuItem key={voucher.id} value={voucher.code}>
-                        {voucher.code}
+                      <MenuItem key={voucher.id} value={voucher.code} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                          {voucher.code}
+                        </div>
                       </MenuItem>
                     ))}
                   </Select>
@@ -201,11 +240,31 @@ const Order = () => {
                       </Grid>
                       <Grid className="right" item md={6} xs={12}>
                         {discountedPrices && discountedPrices.length > 0 && (
-                            <div>
-                              {discountedPrices.map((price, index) => (
-                                <div key={index}>{formatCurrency(-price)}</div>
-                              ))}
-                            </div>
+                          <div>
+                            {discountedPrices.map((price) => (
+
+                              <Grid container>
+
+                                <Grid key={price.id} item md={9} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                  <div>
+                                    {price.code}
+                                  </div>
+                                  <div>
+                                    {formatCurrency(-price.voucherAmount)}
+                                  </div>
+
+                                </Grid>
+                                <Grid item md={3}>
+                                  <Button onClick={() => deleteVoucherUsage(price)}>
+                                    <DeleteIcon />
+                                  </Button>
+                                </Grid>
+                              </Grid>
+
+                            ))}
+
+                          </div>
+
                         )}
 
                       </Grid>

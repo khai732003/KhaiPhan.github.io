@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp.cageshop.DTO.OrderDetailDTO;
 import com.swp.cageshop.entity.OrderDetail;
 import com.swp.cageshop.entity.Orders;
+import com.swp.cageshop.entity.VoucherUsage;
 import com.swp.cageshop.repository.OrderDetailsRepository;
 import com.swp.cageshop.repository.OrdersRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.swp.cageshop.repository.VoucherUsageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,6 +29,9 @@ public class EmailService {
 
     @Autowired
     OrderDetailsRepository orderDetailsRepository;
+
+    @Autowired
+    VoucherUsageRepository voucherUsageRepository;
     @Autowired
     private JavaMailSender mailSender;
 
@@ -40,6 +46,7 @@ public class EmailService {
             Orders orders = ordersRepository.getReferenceById(orderId);
             List<OrderDetail> orderDetails = orderDetailsRepository.findAllByOrderId(orderId);
             List<Orders> orderList = ordersRepository.findAllById(orderId);
+            List<VoucherUsage> voucherUsageList = voucherUsageRepository.findByOrderId(orderId);
             StringBuilder orderDetailsHtml = new StringBuilder();
             for (OrderDetail orderDetail : orderDetails) {
                 String formattedTotalPriceProd = NumberFormat.getNumberInstance().format(orderDetail.getTotalOfProd());
@@ -52,8 +59,15 @@ public class EmailService {
             }
             StringBuilder order = new StringBuilder();
             for (Orders ordersList : orderList) {
+                double  formattedDiscount = 0;
                 String formattedTotalPrice = NumberFormat.getNumberInstance().format(ordersList.getTotal_Price());
+                for(VoucherUsage voucherUsage : voucherUsageList){
+                    double discount = voucherUsage.getVoucher().getVoucherAmount();
+                    formattedDiscount += discount;
+                }
+                String formatted = NumberFormat.getNumberInstance().format(formattedDiscount);
                 order.append("<tr>")
+                        .append("<td style='color: red; font-weight: bold;'> -").append(formatted).append("</td>")
                         .append("<td style='color: red; font-weight: bold;'>").append(formattedTotalPrice).append("</td>")
                         .append("</tr>");
             }

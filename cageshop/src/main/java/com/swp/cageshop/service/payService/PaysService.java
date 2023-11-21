@@ -49,7 +49,7 @@ public class PaysService implements PaysServiceImpl {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
 
-        cld.add(Calendar.MINUTE, 2);
+        cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
 
         String randomTxnRef = Config.getRandomNumber(8);

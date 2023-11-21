@@ -4,6 +4,8 @@ import { Button } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../../CustomAxios/customAxios";
 import "../styles/addedituser.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateSize = () => {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const UpdateSize = () => {
   });
 
   const handleReturnPage = () => {
-    navigate("/custom-product"); // Adjust the navigation as needed
+    navigate("/custom-list"); // Adjust the navigation as needed
   };
 
   const handleInputChange = (event) => {
@@ -54,14 +56,31 @@ const UpdateSize = () => {
 
   const updateSize = async () => {
     try {
+      // Validation checks
+      if (formData.sizeName.includes("@")) {
+        toast.error("Size Name cannot contain special characters like '@'");
+        return;
+      }
+
+      if (formData.price < 0) {
+        toast.error("Price cannot be less than 0");
+        return;
+      }
+
+      if (formData.minspokes > formData.maxspokes) {
+        toast.error("Min Spokes cannot be greater than Max Spokes");
+        return;
+      }
+
       const response = await customAxios.put(`/sizes/${id}`, formData);
-      console.log(response);
 
       if (response.status === 200) {
-        navigate("/custom-product");
+        navigate("/custom-list");
+        toast.success("Update successful!");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error updating size:", error);
+      toast.error("Error updating size");
     }
   };
 
@@ -152,6 +171,18 @@ const UpdateSize = () => {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

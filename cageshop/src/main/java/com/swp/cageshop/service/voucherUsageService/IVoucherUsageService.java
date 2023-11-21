@@ -1,6 +1,7 @@
 package com.swp.cageshop.service.voucherUsageService;
 
 import com.swp.cageshop.DTO.VoucherUsageDTO;
+import com.swp.cageshop.DTO.VoucherUsageVoucherAmountDTO;
 import com.swp.cageshop.entity.VoucherUsage;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface IVoucherUsageService{
     public Double findTotalVoucherAmountByOrderId(Long orderId);
 
     public List<String> findCodeVouchersByOrderId(Long orderId);
-    public List<Double> findAmountVouchersByOrderId(Long orderId);
+
+    public List<VoucherUsageVoucherAmountDTO> findVuVoucherAmountsByOrderId(Long orderId);
+
     public VoucherUsageDTO updateVoucherUsage(Long orderId, String newVoucherCode);
 }

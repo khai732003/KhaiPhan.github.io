@@ -62,10 +62,12 @@ public class Products extends EntityBase {
   @JoinColumn(name = "category_id", nullable = true)
   private Categories category;
 
+  @JsonIgnore
   // 1:N voi Comments
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Comments> comments;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<Feedback> feedback;
 

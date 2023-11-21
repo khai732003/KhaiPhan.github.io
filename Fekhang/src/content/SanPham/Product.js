@@ -88,7 +88,7 @@ const Product = ({
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
         const orderResponse = await customAxios.post('/order/add', {
-          "name": "Tổng hóa đơn",
+          "name": `Order of${user.userId}`,
           "status": "pending",
           "paymentMethod": "credit card",
           "address": address,

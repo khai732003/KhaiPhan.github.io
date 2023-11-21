@@ -101,7 +101,7 @@ public class OrdersServiceImpl implements IOrdersService {
             for (VoucherUsage voucherUsage : voucherUsages) {
                 Vouchers voucher = voucherUsage.getVoucher();
                 if (voucher != null) {
-                     if ("CASH".equals(voucher.getVoucherType())) {
+                    if ("CASH".equals(voucher.getVoucherType())) {
                         isCashVoucher = true;
                         totalVoucherAmount += voucher.getVoucherAmount();
                     }
@@ -110,8 +110,8 @@ public class OrdersServiceImpl implements IOrdersService {
             if (isCashVoucher) {
                 totalCost -= totalVoucherAmount;
             }
-            if(totalCost < 0){
-                orders.setTotal_Price(0);
+            if (totalCost < 0) {
+                orders.setTotal_Price(5000);
                 ordersRepository.save(orders);
                 OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
                 List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class OrdersServiceImpl implements IOrdersService {
                 }
                 orderDTO.setOrderDetails(orderDetailDTOList);
                 orderDTOList.add(orderDTO);
-            }else {
+            } else {
                 orders.setTotal_Price(totalCost);
                 ordersRepository.save(orders);
                 OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
@@ -134,7 +134,7 @@ public class OrdersServiceImpl implements IOrdersService {
                 orderDTOList.add(orderDTO);
             }
         }
-        return orderDTOList;
+            return orderDTOList;
     }
 
 
@@ -174,13 +174,13 @@ public class OrdersServiceImpl implements IOrdersService {
         if (isCashVoucher) {
             totalCost -= totalVoucherAmount;
         }
-        if(totalCost < 0){
-            order.setTotal_Price(0);
+        if (totalCost < 0) {
+            order.setTotal_Price(5000);
             ordersRepository.save(order);
             OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
             orderDTO.setOrderDetails(orderDetailDTOList);
             return orderDTO;
-        }else {
+        } else {
             order.setTotal_Price(totalCost);
             ordersRepository.save(order);
             OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
@@ -210,6 +210,17 @@ public class OrdersServiceImpl implements IOrdersService {
         List<OrderDTO> orderDTOs = paidAndNotConfirmedOrders.stream()
                 .map(order -> modelMapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());
+
+        return orderDTOs;
+    }
+
+    @Override
+    public List<OrderDTO> getPaidAndNotConfirmedOrdersAndShipBy(Long userId, String shipStatus) {
+        List<Orders> paidAndNotConfirmedOrders = ordersRepository.findOrdersByStatusForUser(userId,shipStatus);
+
+        List<OrderDTO> orderDTOs = paidAndNotConfirmedOrders.stream()
+            .map(order -> modelMapper.map(order, OrderDTO.class))
+            .collect(Collectors.toList());
 
         return orderDTOs;
     }

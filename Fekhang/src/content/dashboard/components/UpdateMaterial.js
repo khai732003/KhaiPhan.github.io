@@ -15,7 +15,7 @@ const UpdateMaterial = () => {
   });
 
   const handleReturnPage = () => {
-    navigate("/custom-product"); // Adjust the navigation as needed
+    navigate("/custom-list"); // Adjust the navigation as needed
   };
 
   const handleInputChange = (event) => {
@@ -24,6 +24,14 @@ const UpdateMaterial = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const validateMaterialName = (materialName) => {
+    return /^[a-zA-Z0-9\s]+$/.test(materialName);
+  };
+
+  const validatePrice = (price) => {
+    return price >= 0;
   };
 
   const fetchMaterialData = async (materialId) => {
@@ -50,11 +58,21 @@ const UpdateMaterial = () => {
 
   const updateMaterial = async () => {
     try {
+      if (!validateMaterialName(formData.materialName)) {
+        alert("Invalid Material Name. Please use only alphanumeric characters and spaces.");
+        return;
+      }
+
+      if (!validatePrice(formData.price)) {
+        alert("Invalid Price. Please enter a non-negative value.");
+        return;
+      }
+
       const response = await customAxios.put(`/materials/${id}`, formData);
       console.log(response);
 
       if (response.status === 200) {
-        navigate("/custom-product");
+        navigate("/custom-list");
       }
     } catch (error) {
       console.error(error);

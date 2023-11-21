@@ -14,17 +14,10 @@ export default function ConfirmPage() {
   useEffect(() => {
   }, [triggerUpdate]);
 
-  const handleDeliverd = () => {
-    navigate('/listdelivered');
-  }
+
   return (
     <div >
-      <div style={{paddingTop:'5rem', paddingBottom:'1rem'}}>
-        <Button variant='contained' onClick={handleDeliverd}>
-          Show Delivered
-        </Button>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row', height:'72.4vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', height:'72.4vh', paddingTop:'7rem' }}>
         <ListConfirm triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
         <UpdateDelivered triggerUpdate={triggerUpdate} setTriggerUpdate={setTriggerUpdate} />
       </div>

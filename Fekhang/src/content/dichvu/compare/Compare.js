@@ -221,7 +221,7 @@ function Compare() {
                   <td className="table-compare-property">Material</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {product.cage.material}
+                      {product.cage.material.materialName}
                     </td>
                   ))}
                 </tr>
@@ -230,18 +230,18 @@ function Compare() {
                   <td className="table-compare-property">Size</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {formatCurrency(product.cage.size)}
+                      {product.cage.size.sizeName}
                     </td>
                   ))}
                 </tr>
-                <tr>
+                {/* <tr>
                   <td className="table-compare-property">Price</td>
                   {selectedProducts.map((product) => (
                     <td className="compare-product-name">
-                      {formatCurrency(product.cage.price)}
+                      {product.cage.price}
                     </td>
                   ))}
-                </tr>
+                </tr> */}
 
                 <tr>
                   <td className="table-compare-property">Rating</td>

@@ -8,6 +8,17 @@ const ListDelivered = ({ triggerUpdate }) => {
   const [notificationsDelivered, setNotificationsDelivered] = useState([]);
   const [page, setPage] = useState(1);
 
+  // Hàm này sẽ lấy nameBy dựa trên orderId
+  const getNameBy = async (orderId) => {
+    try {
+      const response = await customAxios.get(`/user/shipBy/${orderId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching delivered data:', error);
+      return '';
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,18 +44,19 @@ const ListDelivered = ({ triggerUpdate }) => {
   };
 
   return (
-    <Container className="history-order-container" style={{height:'100vh'}}>
+    <Container className="history-order-container" >
       <Typography variant="h4" className="header" gutterBottom>
         Delivered Orders
       </Typography>
 
-      <TableContainer component={Paper} >
+      <TableContainer component={Paper} style={{ height: '57vh' }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Ship Status</TableCell>
+              <TableCell>Ship By</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -53,6 +65,12 @@ const ListDelivered = ({ triggerUpdate }) => {
                 <TableCell>{notification.id}</TableCell>
                 <TableCell>{notification.name}</TableCell>
                 <TableCell>{notification.shipStatus}</TableCell>
+                <TableCell>
+                  {/* Sử dụng orderId từ notification để gọi API */}
+                  {notification.id && (
+                    <NameByComponent orderId={notification.id} getNameBy={getNameBy} />
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -66,14 +84,30 @@ const ListDelivered = ({ triggerUpdate }) => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          marginY: 2, // Điều chỉnh khoảng cách giữa bảng và trang trình chiếu
+          marginY: 2,
         }}
-        shape="rounded" // Thiết lập hình dạng là hình tròn
-        color="primary" // Màu chữ là màu đen
+        shape="rounded"
+        color="primary"
       />
 
     </Container>
   );
+};
+
+// Component mới để lấy nameBy dựa trên orderId
+const NameByComponent = ({ orderId, getNameBy }) => {
+  const [nameBy, setNameBy] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getNameBy(orderId);
+      setNameBy(result);
+    };
+
+    fetchData();
+  }, [orderId, getNameBy]);
+
+  return <span>{nameBy}</span>;
 };
 
 export default ListDelivered;
