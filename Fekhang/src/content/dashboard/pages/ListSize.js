@@ -62,6 +62,9 @@ const ListSize = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentSizes = sizes.slice(startIndex, endIndex);
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
     <div>
       <TableContainer component={Paper}>
@@ -81,7 +84,7 @@ const ListSize = () => {
               <TableRow key={size.id}>
                 <TableCell>{size.id}</TableCell>
                 <TableCell>{size.sizeName}</TableCell>
-                <TableCell>{size.price}</TableCell>
+                <TableCell>{formatCurrency(size.price)}</TableCell>
                 <TableCell>{size.minspokes}</TableCell>
                 <TableCell>{size.maxspokes}</TableCell>
                 <TableCell style={{ display: 'flex' }}>

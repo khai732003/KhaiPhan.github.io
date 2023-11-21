@@ -318,17 +318,6 @@ function Detail({
           <Grid item xs={12} md={11} style={{ margin: "" }}>
             <Container maxWidth="md">
               <div >
-
-                {/* <div className="list-acc">
-                  <div>
-                    Accessory
-                  </div>
-                  {productDetail.accessories.map((accessory, index) => (
-                    <div key={index} className="sub-acc">
-                      <strong>{accessory.description}:</strong> VND{accessory.price}
-                    </div>
-                  ))}
-                </div> */}
               </div>
               <Card style={{ padding: "2rem", borderRadius: "1rem" }}>
                 <div className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
@@ -403,6 +392,7 @@ function Detail({
                       >
                         { formatCurrency(productDetail.totalPrice)} VND
                       </div>
+                    
                       <div style={{ marginBottom: "20px" }}>
                         <h5
                           style={{
@@ -412,6 +402,33 @@ function Detail({
                           }}
                         >
                           Product Configuration
+                        </h5>
+                        <h5
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Shape: {productDetail.cage.shape.shapeName}
+                        </h5>
+                        <h5
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Matirial: {productDetail.cage.material.materialName}
+                        </h5>
+                        <h5
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Size: {productDetail.cage.size.sizeName} ({productDetail.cage.spokes} spokes)
                         </h5>
                         <div className="color-choose">
                           {productDetail.colors &&
@@ -492,7 +509,7 @@ function Detail({
                     <div
                       style={{
                         position: "absolute",
-                        bottom: "5rem",
+                        bottom: "1rem",
                         width: "100%",
                         display: "flex",
                         justifyContent: "space-around",

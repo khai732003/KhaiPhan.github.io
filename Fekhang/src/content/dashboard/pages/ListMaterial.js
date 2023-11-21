@@ -61,6 +61,10 @@ const ListMaterial = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentMaterials = materials.slice(startIndex, endIndex);
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -78,7 +82,7 @@ const ListMaterial = () => {
               <TableRow key={material.id}>
                 <TableCell>{material.id}</TableCell>
                 <TableCell>{material.materialName}</TableCell>
-                <TableCell>{material.price}</TableCell>
+                <TableCell>{formatCurrency(material.price)}</TableCell>
                 <TableCell style={{ display: 'flex' }}>
                   <Button
                     style={{width:'30px', marginRight:'5px'}}

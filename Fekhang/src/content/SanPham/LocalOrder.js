@@ -175,7 +175,7 @@ export default function LocalOrder() {
                 {order.payStatus === 'PAID' && (
                   <div>
                     <Typography gutterBottom>
-                      <VerifiedIcon fontSize="small" /> COMPLETE CONFIRM
+                      <VerifiedIcon fontSize="small" />PAY COMPLETE 
                     </Typography>
                   </div>
                 )}
