@@ -354,13 +354,17 @@ export default function Custom() {
 
     const spokesPrice = calculateSpokesPrice();
     total += spokesPrice;
-    return total;
+    return formatCurrency(total);
   };
 
   useEffect(() => {
     // Update side panel data whenever the selected options change
     updateSidePanelData();
   }, [selectedShape, selectedSize, selectedMaterial]);
+
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
 
   return (
     <div>
@@ -399,7 +403,7 @@ export default function Custom() {
               <div>
                 {sidePanelData.map((item, index) => (
                   <div key={index}>
-                    {index + 1}. {item.label}: {item.name} - Price: {item.price}
+                    {index + 1}. {item.label}: {item.name} - Price: {formatCurrency(item.price)}
                   </div>
                 ))}
                 {/* <div>{sidePanelData.length + 1}. Spokes Price: {calculatePrice()}</div> */}
@@ -424,7 +428,7 @@ export default function Custom() {
                   <MenuItem key={shape.id} value={shape.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{shape.shapeName}</Grid>
-                      <Grid item>{shape.price}</Grid>
+                      <Grid item>{formatCurrency(shape.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}
@@ -451,7 +455,7 @@ export default function Custom() {
                   <MenuItem key={material.id} value={material.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{material.materialName}</Grid>
-                      <Grid item>{material.price}</Grid>
+                      <Grid item>{formatCurrency(material.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}
@@ -478,7 +482,7 @@ export default function Custom() {
                   <MenuItem key={size.id} value={size.id}>
                     <Grid container justifyContent="space-between">
                       <Grid item>{size.sizeName}</Grid>
-                      <Grid item>{size.price}</Grid>
+                      <Grid item>{formatCurrency(size.price)}</Grid>
                     </Grid>
                   </MenuItem>
                 ))}

@@ -112,36 +112,42 @@ public class OrdersServiceImpl implements IOrdersService {
             }
             List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(orders.getId());
             double totalVoucherAmount = 0;
-            boolean isFreeShipVoucher = false;
             boolean isCashVoucher = false;
             for (VoucherUsage voucherUsage : voucherUsages) {
                 Vouchers voucher = voucherUsage.getVoucher();
                 if (voucher != null) {
-                    if ("FREESHIP".equals(voucher.getVoucherType())) {
-                        isFreeShipVoucher = true;
-                        totalVoucherAmount += voucher.getVoucherAmount();
-                    } else if ("CASH".equals(voucher.getVoucherType())) {
+                    if ("CASH".equals(voucher.getVoucherType())) {
                         isCashVoucher = true;
                         totalVoucherAmount += voucher.getVoucherAmount();
                     }
                 }
             }
-
-            if (isFreeShipVoucher && isCashVoucher) {
-                totalCost -= totalVoucherAmount;
-            } else if (isFreeShipVoucher) {
+            if (isCashVoucher) {
                 totalCost -= totalVoucherAmount;
             }
-            orders.setTotal_Price(totalCost);
-            ordersRepository.save(orders);
-            OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
-            List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-            for (OrderDetail detail : orderDetailList) {
-                OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
-                orderDetailDTOList.add(orderDetailDTO);
+            if (totalCost < 0) {
+                orders.setTotal_Price(0);
+                ordersRepository.save(orders);
+                OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+                List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+                for (OrderDetail detail : orderDetailList) {
+                    OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+                    orderDetailDTOList.add(orderDetailDTO);
+                }
+                orderDTO.setOrderDetails(orderDetailDTOList);
+                orderDTOList.add(orderDTO);
+            } else {
+                orders.setTotal_Price(totalCost);
+                ordersRepository.save(orders);
+                OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+                List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+                for (OrderDetail detail : orderDetailList) {
+                    OrderDetailDTO orderDetailDTO = modelMapper.map(detail, OrderDetailDTO.class);
+                    orderDetailDTOList.add(orderDetailDTO);
+                }
+                orderDTO.setOrderDetails(orderDetailDTOList);
+                orderDTOList.add(orderDTO);
             }
-            orderDTO.setOrderDetails(orderDetailDTOList);
-            orderDTOList.add(orderDTO);
         }
         return orderDTOList;
     }
@@ -170,32 +176,32 @@ public class OrdersServiceImpl implements IOrdersService {
 
         List<VoucherUsage> voucherUsages = voucherUsageRepository.findByOrderId(order.getId());
         double totalVoucherAmount = 0;
-        boolean isFreeShipVoucher = false;
         boolean isCashVoucher = false;
         for (VoucherUsage voucherUsage : voucherUsages) {
             Vouchers voucher = voucherUsage.getVoucher();
             if (voucher != null) {
-                if ("FREESHIP".equals(voucher.getVoucherType())) {
-                    isFreeShipVoucher = true;
-                    totalVoucherAmount += voucher.getVoucherAmount();
-                } else if ("CASH".equals(voucher.getVoucherType())) {
+                if ("CASH".equals(voucher.getVoucherType())) {
                     isCashVoucher = true;
                     totalVoucherAmount += voucher.getVoucherAmount();
                 }
             }
         }
-        if (isFreeShipVoucher && isCashVoucher) {
-            totalCost -= totalVoucherAmount;
-        } else if (isFreeShipVoucher) {
+        if (isCashVoucher) {
             totalCost -= totalVoucherAmount;
         }
-        order.setTotal_Price(totalCost);
-        ordersRepository.save(order);
-
-        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-        orderDTO.setOrderDetails(orderDetailDTOList);
-
-        return orderDTO;
+        if (totalCost < 0) {
+            order.setTotal_Price(0);
+            ordersRepository.save(order);
+            OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+            orderDTO.setOrderDetails(orderDetailDTOList);
+            return orderDTO;
+        } else {
+            order.setTotal_Price(totalCost);
+            ordersRepository.save(order);
+            OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+            orderDTO.setOrderDetails(orderDetailDTOList);
+            return orderDTO;
+        }
     }
 
 
