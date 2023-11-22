@@ -15,8 +15,9 @@ const VNPayPayment = () => {
   const handlePayment = async () => {
     try {
       const response = await customAxios.post("/pay", orderInfo);
-      console.log(response.data.url);
+      localStorage.removeItem('orderId');
       window.location.href = response.data.url;
+
     } catch (error) {
       console.error("Lỗi khi gọi API thanh toán VNPay:", error);
     }

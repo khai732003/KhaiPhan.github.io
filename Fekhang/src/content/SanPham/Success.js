@@ -6,10 +6,9 @@ export default function Success() {
   const [count, setCount] = useState(4);
   const navigate = useNavigate()
   useEffect(() => {
-    // Đặt hẹn giờ để chuyển hướng sau 3 giây
+
     const redirectTimeout = setTimeout(() => {
       localStorage.removeItem('orderId');
-      // Chuyển hướng đến localhost:3000
       navigate('/')
     }, 4000);
 
