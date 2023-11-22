@@ -93,7 +93,6 @@ function App() {
               <Route path="/customdetail/:productId" element={<ShowCustom />} />
               <Route path="/sanpham" element={<ProductPage />} />
               <Route path="/product" element={<Product />} />
-              <Route path="/custom" element={<Custom />} />
               <Route path="/news" element={<News />} />
               <Route path="/dichvu" element={<Compare />} />
               <Route path="/profile" element={<Profile />} />
@@ -108,7 +107,7 @@ function App() {
               <Route path="/addfeedback/:productId" element={<AddFeedBack />} />
               <Route path="/detail-news/:id" element={<NewsDetail/>} />
               <Route path="/*" element={<Error/>} />
-
+              <Route path="/custom" element={<Custom/>} />
               {/* Vùng Admin */}
               <Route path="/addaccessories" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddAccessoriesForm} path="/addaccessories" />} />
               <Route path="/add-edit-category" element={<PrivateRoute allowedRoles={['ADMIN']} component={AddEditCategory} path="/add-edit-category" />} />

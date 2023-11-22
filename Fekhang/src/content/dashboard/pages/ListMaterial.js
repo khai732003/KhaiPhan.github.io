@@ -12,8 +12,8 @@ import {
   Button,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const itemsPerPage = 5;
 
 const ListMaterial = () => {
@@ -38,22 +38,38 @@ const ListMaterial = () => {
     setCurrentPage(page);
   };
 
-
   const handleUpdateMaterial = (id) => {
     navigate(`/update-material/${id}`);
   };
+
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this material?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this material?"
+    );
     if (!confirmDelete) {
       return;
     }
+
     try {
-      await customAxios.delete(`/materials/${id}`);
-      const updatedMaterials = materials.filter((material) => material.id !== id);
+      // Check if the material exists
+      const existingMaterial = materials.find((material) => material.id === id);
+
+      if (!existingMaterial) {
+        toast.error("Material not found!");
+        return;
+      }
+
+      await customAxios.delete(`/materials/delete/${id}`);
+      const updatedMaterials = materials.filter(
+        (material) => material.id !== id
+      );
       setMaterials(updatedMaterials);
-      toast.success('Delete sucessful !')
+      toast.success("Delete successful!");
     } catch (error) {
       console.error("Error deleting material:", error);
+      toast.error(
+        'Cannot delete Material. It is associated with one or more products.'
+      );
     }
   };
 
@@ -62,7 +78,7 @@ const ListMaterial = () => {
   const currentMaterials = materials.slice(startIndex, endIndex);
 
   function formatCurrency(amount) {
-    return amount.toLocaleString('en-US');
+    return amount.toLocaleString("en-US");
   }
 
   return (
@@ -83,9 +99,9 @@ const ListMaterial = () => {
                 <TableCell>{material.id}</TableCell>
                 <TableCell>{material.materialName}</TableCell>
                 <TableCell>{formatCurrency(material.price)}</TableCell>
-                <TableCell style={{ display: 'flex' }}>
+                <TableCell style={{ display: "flex" }}>
                   <Button
-                    style={{width:'30px', marginRight:'5px'}}
+                    style={{ width: "30px", marginRight: "5px" }}
                     variant="outlined"
                     color="primary"
                     onClick={() => handleUpdateMaterial(material.id)}

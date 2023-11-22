@@ -26,10 +26,16 @@ public class VoucherUsageController {
 
 
     @PostMapping("/add-by-voucher")
-    public ResponseEntity<VoucherUsageDTO> createVoucherUsageByVoucherCode(@RequestBody VoucherUsageDTO voucherUsageDTO) {
+    public ResponseEntity<?> createVoucherUsageByVoucherCode(@RequestBody VoucherUsageDTO voucherUsageDTO) {
+        try {
             VoucherUsageDTO createdVoucherUsage = voucherUsageService.createVoucherUsageByVoucherCode(voucherUsageDTO);
             return new ResponseEntity<>(createdVoucherUsage, HttpStatus.CREATED);
+        } catch (Exception e) {
+            String errorMessage = "Failed to create voucher usage. Reason: " + e.getMessage();
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
 
 
     @GetMapping("/get-all")

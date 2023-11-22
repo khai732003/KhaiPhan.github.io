@@ -61,9 +61,12 @@ public class MaterialService implements IMaterialService {
 
     @Override
     public boolean deleteMaterial(Long id) {
-        if (materialRepository.existsById(id)) {
-            materialRepository.deleteById(id);
-            return true;
+        if (id >= 1) {
+            Materials material = materialRepository.getReferenceById(id);
+            if (material != null && material.getBirdcages().isEmpty()) {
+                materialRepository.delete(material);
+                return true;
+            }
         }
         return false;
     }

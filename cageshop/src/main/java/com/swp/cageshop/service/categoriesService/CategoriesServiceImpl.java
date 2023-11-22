@@ -79,7 +79,7 @@ public class CategoriesServiceImpl implements ICategoriesService{
     public boolean deleteCategory(Long id) {
         if (id >= 1) {
             Categories category = categoriesRepository.getReferenceById(id);
-            if (category != null) {
+            if (category != null && category.getProducts().isEmpty()) {
                 categoriesRepository.delete(category);
                 return true;
             }

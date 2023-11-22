@@ -6,6 +6,9 @@ import { useAuth } from "./Context/AuthContext";
 import ConfirmEmail from './ConfirmEmail';
 import './Scss/Order.scss';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   Grid,
   Button,

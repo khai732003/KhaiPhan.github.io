@@ -42,15 +42,19 @@ const ListSize = () => {
   const handleDeleteSize = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this size?");
     if (!confirmDelete) {
+      toast.error("Size not found!");
       return;
     }
     try {
-      await customAxios.delete(`/sizes/${id}`);
+      await customAxios.delete(`/sizes/delete/${id}`);
       const updatedSizes = sizes.filter((size) => size.id !== id);
       setSizes(updatedSizes);
       toast.success('Delete successful!')
     } catch (error) {
       console.error("Error deleting size:", error);
+      toast.error(
+        'Cannot delete Size. It is associated with one or more products.'
+      );
     }
   };
 

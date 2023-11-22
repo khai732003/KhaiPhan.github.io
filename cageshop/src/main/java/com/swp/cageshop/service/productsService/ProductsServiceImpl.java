@@ -199,10 +199,11 @@ public class ProductsServiceImpl implements IProductsService {
         if (optionalExistingProduct.isPresent()) {
             Products existingProduct = optionalExistingProduct.get();
 
-            updateProductFields(existingProduct, productDTO);
             updateOrAddBirdCage(existingProduct, productDTO);
             updateOrAddAccessories(existingProduct, productDTO);
+            updateProductFields(existingProduct, productDTO);
 
+            existingProduct.setTotalPrice(existingProduct.getExtraPrice() + existingProduct.getCage().getBirdCagePrice());
             // Save the updated product
             Products updatedProduct = productsRepository.save(existingProduct);
 
@@ -218,21 +219,51 @@ public class ProductsServiceImpl implements IProductsService {
         existingProduct.setCode(productDTO.getCode());
         existingProduct.setProductImage(productDTO.getProductImage());
         existingProduct.setProductDetailImage(productDTO.getProductDetailImage());
+//        existingProduct.setTotalPrice(existingProduct.getTotalPrice()-existingProduct.getExtraPrice()+productDTO.getExtraPrice());
         existingProduct.setStock(productDTO.getStock());
+        existingProduct.setExtraPrice(productDTO.getExtraPrice());
         existingProduct.setStatus(productDTO.getStatus());
+        Categories category = categoriesRepository.findById(productDTO.getCategoryId()).orElse(null);
+        if (category != null) {
+            existingProduct.setCategory(category);
+        }
     }
 
     private void updateOrAddBirdCage(Products existingProduct, ProductDTO productDTO) {
         if (productDTO.getCage() != null) {
             BirdCages existingCage = existingProduct.getCage();
 
-            if (existingCage == null) {
-                existingProduct.setCage(modelMapper.map(productDTO.getCage(), BirdCages.class));
-            } else {
-                modelMapper.map(productDTO.getCage(), existingCage);
+//            if (existingCage == null) {
+//                // If no existing cage, create a new one and set its properties
+//                BirdCages newCage = modelMapper.map(productDTO.getCage(), BirdCages.class);
+//                newCage.setProduct(existingProduct);
+////                existingProduct.setTotalPrice(existingProduct.getTotalPrice()-existingProduct.getCage().getBirdCagePrice() + newCage.getBirdCagePrice());
+//                existingProduct.setCage(newCage);
+//            } else {
+                // If existing cage, update its properties
+                BirdCages updatedCage = modelMapper.map(productDTO.getCage(), BirdCages.class);
+
+                // Set the existing cage's ID and product reference
+//                existingProduct.setTotalPrice(existingProduct.getTotalPrice()-existingProduct.getCage().getBirdCagePrice() + updatedCage.getBirdCagePrice());
+                updatedCage.setId(existingCage.getId());
+                updatedCage.setProduct(existingProduct);
+            var material = materialRepository.findById(productDTO.getCage().getMaterialId()).orElse(null);
+            var size = sizeRepository.findById(productDTO.getCage().getSizeId()).orElse(null);
+            var shape = shapeRepository.findById(productDTO.getCage().getShapeId()).orElse(null);
+
+
+            if (material != null && size != null && shape !=null) {
+                updatedCage.setSize(size);
+                updatedCage.setMaterial(material);
+                updatedCage.setShape(shape);
+            }
+
+                // Update the existing cage with the mapped values
+                modelMapper.map(updatedCage, existingCage);
+                existingCage.setBirdCagePrice(existingCage.getMaterial().getPrice() + existingCage.getShape().getPrice() + (existingCage.getSize().getPrice()*existingCage.getSpokes()));
             }
         }
-    }
+//    }
 
     private void updateOrAddAccessories(Products existingProduct, ProductDTO productDTO) {
         if (productDTO.getAccessories() != null) {
@@ -251,13 +282,16 @@ public class ProductsServiceImpl implements IProductsService {
     public boolean deleteProduct(long id) {
         if (id >= 1) {
             Products product = productsRepository.getReferenceById(id);
-            if (product != null) {
+            BirdCages deletedbirdcage = product.getCage();
+            if (product != null && product.getOrderDetail().isEmpty()) {
                 productsRepository.delete(product);
+                birdCageRepository.delete(deletedbirdcage);
                 return true;
             }
         }
         return false;
     }
+
 
 
     @Override

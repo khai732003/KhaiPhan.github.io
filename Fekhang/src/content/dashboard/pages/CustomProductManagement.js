@@ -410,7 +410,7 @@ export default function CustomProductManagement() {
             </div>
 
             <div className="side-panel">
-              <h2 style={{ textAlign: "center" }}>Custom Summary</h2>
+              <h2 style={{ textAlign: "center" }}>Add Product</h2>
               <hr />
               <div>
                 {sidePanelData.map((item, index) => (
@@ -481,6 +481,7 @@ export default function CustomProductManagement() {
                 <MenuItem value="New">New</MenuItem>
                 <MenuItem value="Out of Stock">Out of Stock</MenuItem>
                 <MenuItem value="Upcoming">Upcoming</MenuItem>
+                <MenuItem value="customeProduct">Customized Product</MenuItem>
               </Select>
             </FormControl>
 

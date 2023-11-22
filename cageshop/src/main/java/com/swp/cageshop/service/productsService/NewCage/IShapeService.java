@@ -18,5 +18,5 @@ public interface IShapeService {
 
     public Shapes updateShape(Long id, Shapes updatedShape) ;
 
-    public void deleteShape(Long id);
+    public boolean deleteShape(Long id);
 }

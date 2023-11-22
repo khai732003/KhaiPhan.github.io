@@ -46,9 +46,13 @@ public class ShapeController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteShape(@PathVariable Long id) {
-        shapeService.deleteShape(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteShape(@PathVariable long id) {
+        boolean deleted = shapeService.deleteShape(id);
+        if (deleted) {
+            return ResponseEntity.ok("Shape deleted successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to delete Shape.");
+        }
     }
 }

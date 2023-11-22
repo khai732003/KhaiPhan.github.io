@@ -19,7 +19,6 @@ public class BirdCageDTO   {
     private Long sizeId;
     private double birdCagePrice;
     private int spokes;
-
     private Long productId;
 
 

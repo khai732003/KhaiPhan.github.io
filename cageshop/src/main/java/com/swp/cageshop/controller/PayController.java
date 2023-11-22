@@ -1,6 +1,7 @@
 package com.swp.cageshop.controller;
 
 import com.swp.cageshop.DTO.*;
+import com.swp.cageshop.config.Config;
 import com.swp.cageshop.entity.*;
 import com.swp.cageshop.repository.*;
 import com.swp.cageshop.service.ordersService.IOrdersService;
@@ -65,66 +66,60 @@ public class PayController {
     @PostMapping("/pay")
     public ResponseEntity<PayResponseDTO> pay(@RequestBody VnPayDTO vnPayDTO, HttpServletRequest request) {
         try {
-            Long orderId = vnPayDTO.getOrderId();
-            Optional<Orders> orderOptional = ordersRepository.findById(orderId);
-            if (!orderOptional.isPresent()) {
+            Orders orders = ordersRepository.getReferenceById(vnPayDTO.orderId);
+            if (orders == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
             String paymentResult = payService.payWithVNPAY(vnPayDTO, request);
-            PayResponseDTO paymentResponseDTO = new PayResponseDTO();
-            paymentResponseDTO.setStatus("Sucess");
-            paymentResponseDTO.setMessage("Ok");
-            paymentResponseDTO.setUrl(paymentResult);
-            storedVnPayDTO = vnPayDTO;
-            return ResponseEntity.ok(paymentResponseDTO);
+            if(paymentResult != null) {
+                PayResponseDTO paymentResponseDTO = new PayResponseDTO();
+                paymentResponseDTO.setUrl(paymentResult);
+                storedVnPayDTO = vnPayDTO;
+                return ResponseEntity.ok(paymentResponseDTO);
+            }else{
+                return null;
+            }
         } catch (UnsupportedEncodingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     // String responseCode, = 00
-    @GetMapping("/payment_infor")
+    @GetMapping("/xulithanhtoan")
     public void transaction(
-            @RequestParam(value = "vnp_Amount") Long amount,
-            @RequestParam(value = "vnp_BankCode") String bankCode,
             @RequestParam(value = "vnp_ResponseCode") String responseCode,
             @RequestParam(value = "vnp_TxnRef") String txnRef,
-
         HttpServletResponse response
-
     ) {
-        TransactionDTO transactionDTO = new TransactionDTO();
-        if ("00".equals(responseCode)) {
-            VNPayPayment vnPayEntity = modelMapper.map(storedVnPayDTO, VNPayPayment.class);
-            paysRepository.save(vnPayEntity);
-            Pays pays = paysRepository.findByPaymentCode(txnRef);
-            if (pays != null) {
-                pays.setStatus("COMPLETED");
-                paysRepository.save(pays);
-                transactionDTO.setStatus("OK");
-                transactionDTO.setMessage("Success");
-                transactionDTO.setData("");
-                Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
-                orders.setPayStatus("PAID");
-                ordersRepository.save(orders);
-                iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
-                VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
-                if (vu != null) {
-                    Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
-                    v.setQuantity(v.getQuantity() - 1);
-                    voucherRepository.save(v);
+        if (txnRef.equals(storedVnPayDTO.getPaymentCode())) {
+            if ("00".equals(responseCode)) {
+                VNPayPayment vnPayEntity = modelMapper.map(storedVnPayDTO, VNPayPayment.class);
+                paysRepository.save(vnPayEntity);
+                Pays pays = paysRepository.findByPaymentCode(txnRef);
+                if (pays != null) {
+                    pays.setStatus("COMPLETED");
+                    paysRepository.save(pays);
+                    Orders orders = ordersRepository.getReferenceById(pays.getOrder().getId());
+                    orders.setPayStatus("PAID");
+                    ordersRepository.save(orders);
+                    iOrdersService.updateOrderAndOrderDetailsAndVoucher(orders);
+                    VoucherUsage vu = voucherUsageRepository.findByOrderId1(orders.getId());
+                    if (vu != null) {
+                        Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
+                        v.setQuantity(v.getQuantity() - 1);
+                        voucherRepository.save(v);
+                    }
+                    String redirectUrl = "http://localhost:3000/paysuccess";
+                    response.setStatus(HttpStatus.FOUND.value());
+                    response.setHeader("Location", redirectUrl);
                 }
-                String redirectUrl = "http://localhost:3000/paysuccess"; // Địa chỉ bạn muốn chuyển hướng đến
+            } else if ("24".equals(responseCode)) {
+                String redirectUrl = "http://localhost:3000/";
                 response.setStatus(HttpStatus.FOUND.value());
                 response.setHeader("Location", redirectUrl);
             }
-        } else if ("24".equals(responseCode)) {
-            String redirectUrl = "http://localhost:3000/";
-            response.setStatus(HttpStatus.FOUND.value());
-            response.setHeader("Location", redirectUrl);
-            transactionDTO.setStatus("No");
-            transactionDTO.setMessage("Fail");
-            transactionDTO.setData("");
+        }else{
+            System.out.println("Sai code");
         }
     }
 

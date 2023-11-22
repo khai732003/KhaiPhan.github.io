@@ -43,16 +43,18 @@ public class PaysService implements PaysServiceImpl {
     @Autowired
     private ModelMapper modelMapper;
 
+
     public String payWithVNPAY(VnPayDTO vnPayDTO, HttpServletRequest request) throws UnsupportedEncodingException {
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnp_CreateDate = formatter.format(cld.getTime());
 
-        cld.add(Calendar.MINUTE, 2);
+        cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
 
         String randomTxnRef = Config.getRandomNumber(8);
+
         Long orderId = vnPayDTO.getOrderId();
         Orders orders = ordersRepository.getReferenceById(orderId);
         double getPrice = orders.getTotal_Price();

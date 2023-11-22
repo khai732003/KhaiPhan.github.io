@@ -38,10 +38,6 @@ public class VouchersServiceImpl implements IVouchersService{
         if (voucherType.equals(VoucherType.CASH.toString())) {
             Vouchers savedVoucher = voucherRepository.save(voucher);
             return modelMapper.map(savedVoucher, VoucherDTO.class);
-        } else if(voucherType.equals(VoucherType.FREESHIP.toString())){
-            voucher.setVoucherAmount(0);
-            Vouchers savedVoucher = voucherRepository.save(voucher);
-            return modelMapper.map(savedVoucher, VoucherDTO.class);
         } else{
             throw new IllegalArgumentException("Invalid voucher type.");
         }

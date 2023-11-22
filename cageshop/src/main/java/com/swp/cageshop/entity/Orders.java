@@ -25,9 +25,6 @@ public class Orders extends EntityBase {
   @Column(nullable = false)
   private String payStatus;
 
-//  @Column
-//  private Double shipPrice;
-
   @Column
   private String paymentMethod;
 
