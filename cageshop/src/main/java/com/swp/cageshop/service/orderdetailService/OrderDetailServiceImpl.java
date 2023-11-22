@@ -85,7 +85,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
     private void updateProductStockAndStatus(Products product, int newStock) {
-        if (newStock == 0) {
+        if (newStock == 0 && !product.getStatus().contains("CustomProduct")) {
             product.setStock(0);
             product.setStatus("OutOfStock");
             if(product.getOrderLevel() == null){
