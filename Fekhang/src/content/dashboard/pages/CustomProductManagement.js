@@ -299,9 +299,10 @@ export default function CustomProductManagement() {
 
   const calculateTotal = () => {
     let total = 0;
-    total += shapePrice + materialPrice + sizePrice;
+    // total += shapePrice + materialPrice;
     const spokesPrice = calculateSpokesPrice();
-    total += spokesPrice;
+    // total += spokesPrice;
+    total += shapePrice + materialPrice + spokesPrice;
 
     const extraPrice = parseFloat(formData.extraPrice) || 0;
     total += extraPrice;
