@@ -13,7 +13,7 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../../CustomAxios/customAxios";
 import axios from "axios";
-
+import { ToastContainer, toast } from "react-toastify";
 import { Form, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "../styles/addeditproduct.css";
@@ -34,11 +34,24 @@ const AddEditProduct = () => {
   const [sizePrice, setSizePrice] = useState(0);
   const [totalSummary, setTotalSummary] = useState([]);
   const [productImage, setProductImage] = useState("");
+  const [isImageValid, setIsImageValid] = useState(false);
+  const isImageType = (file) => {
+    const imageTypes = ['image/jpeg', 'image/png', 'image/gif']; // Add more image types if needed
+    return imageTypes.includes(file.type);
+  };
+
   const handleProductImageUpload = async (options) => {
     const { file } = options;
 
     if (!file) {
-      console.error("Please select a product image.");
+      toast.error("Please select a product image.");
+      setIsImageValid(false);
+      return;
+    }
+
+    if (!isImageType(file)) {
+      toast.error("Invalid file type. Please upload an image.");
+      setIsImageValid(false);
       return;
     }
 
@@ -51,12 +64,12 @@ const AddEditProduct = () => {
         formData1
       );
       const uploadedImage = response.data.secure_url;
-      setFormData((prevData) => ({
-        ...prevData,
-        productImage: uploadedImage,
-      }));
+      setProductImage(uploadedImage);
+
+      toast.success("Product image uploaded successfully!");
     } catch (error) {
       console.error("Error uploading product image:", error);
+      toast.error("Error uploading product image.");
     }
   };
 
@@ -79,8 +92,10 @@ const AddEditProduct = () => {
         );
         console.log(uploadedImages);
         setProductDetailImages(uploadedImages);
+        toast.success("Product detail images uploaded successfully!");
       } catch (error) {
         console.error("Error uploading product detail images:", error);
+        toast.error("Error uploading product detail images. Please try again.");
       }
     }
   };
@@ -157,7 +172,7 @@ const AddEditProduct = () => {
   const updateProduct = async () => {
     try {
       const response = await customAxios.put(`/product/update/${id}`, formData);
-  
+
       if (response.status === 200) {
         navigate("/productmanagement");
       } else {
@@ -191,6 +206,7 @@ const AddEditProduct = () => {
           return;
         }
         break;
+      case "stock":
       case "extraPrice":
       case "cage.spokes":
         if (isNaN(value) || parseFloat(value) < 0) {
@@ -224,7 +240,7 @@ const AddEditProduct = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!formData.productImage) {
-      alert("Please upload a product image.");
+      toast.error("Please upload a valid product image.");
       return;
     }
     updateProduct();
@@ -369,7 +385,7 @@ const AddEditProduct = () => {
 
   const renderSidePanel = () => {
     const total = calculateTotal();
-console.log(formData)
+    console.log(formData);
     return (
       <div className="editpro">
         <div className="alert-container">
@@ -393,7 +409,13 @@ console.log(formData)
                   </div>
                 </div>
 
-                <div style={{ alignItems: "center" }}>
+                <div
+                  style={{
+                    alignItems: "center",
+                    marginBottom: "4rem",
+                    marginLeft: "4rem",
+                  }}
+                >
                   <span className="h1 fw-bold">
                     {isEditing ? "Update Product" : "Add New Product"}
                   </span>
@@ -683,6 +705,18 @@ console.log(formData)
             </div>
           </div>
         </section>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     );
   };

@@ -42,7 +42,7 @@ const Footer = (props) => {
   const isCustomProductManagement = location.pathname === "/custom-product";
   const isNotConfirm = location.pathname === "/listnotconfirm";
 
-  if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError) {
+  if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError || isUpdateProduct1) {
     return null;
   }
 
@@ -76,7 +76,6 @@ const Footer = (props) => {
     isFeedBack ||
     islistdevered ||
     isVoucherList ||
-    isUpdateProduct1 ||
     isCustomList ||
     isAddShape ||
     isAddMaterial ||

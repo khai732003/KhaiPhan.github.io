@@ -14,6 +14,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { ToastContainer, toast } from "react-toastify";
 import customAxios from "../../../CustomAxios/customAxios";
 import "../styles/addedituser.css";
 import axios from "axios";
@@ -35,12 +36,11 @@ export default function CustomProductManagement() {
   const [totalSummary, setTotalSummary] = useState([]);
 
   const [formData, setFormData] = useState({
-    name: "CUSTOME PRODUCT",
-    code: "CP PRODUCT",
+    name: "Customized Product",
+    code: "SP***",
     extraPrice: "",
     categoryId: "",
-    productImage:
-      "",
+    productImage: "",
     stock: "",
     status: "Available",
     note: "custome",
@@ -75,6 +75,7 @@ export default function CustomProductManagement() {
             description: value,
           },
         }));
+
       case "status":
         if (/[^a-zA-Z0-9 ]/.test(value)) {
           console.error(`${name} cannot have special characters`);
@@ -83,10 +84,29 @@ export default function CustomProductManagement() {
         break;
 
       case "extraPrice":
+      case "stock":
+        if (/[^0-9 ]/.test(value)) {
+          console.error(`${name} cannot have special characters`);
+          return;
+        }
+        break;
       case "cage.spokes":
         if (isNaN(value) || parseFloat(value) < 0) {
           console.error(`${name} must be a non-negative number`);
           return;
+        }
+        break;
+      case "productImage":
+        if (value.trim() === "") {
+          setFormData((prevErrors) => ({
+            ...prevErrors,
+            [name]: "This field is required",
+          }));
+        } else {
+          setFormData((prevErrors) => ({
+            ...prevErrors,
+            [name]: "",
+          }));
         }
         break;
 
@@ -110,11 +130,17 @@ export default function CustomProductManagement() {
       }));
     }
 
+    if (name === "stock" || name === "cage.spokes") {
+      if (/[^0-9]/.test(value)) {
+        toast.error(`${name} cannot have special characters or letters.`);
+        return;
+      }
+    }
+
     updateSidePanelData();
   };
 
   const addCustomProductManagement = async () => {
-
     try {
       const response = await customAxios.post("/product/add", formData);
 
@@ -129,8 +155,8 @@ export default function CustomProductManagement() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!formData.productImage) {
-      alert("Please upload a product image.");
+    if (!formData.productImage && !isImageValid) {
+      toast.error("Please upload a product image.");
       return;
     }
     addCustomProductManagement();
@@ -278,9 +304,8 @@ export default function CustomProductManagement() {
     updateSidePanelData();
   };
 
-  
   function formatCurrency(amount) {
-    return amount.toLocaleString('en-US');
+    return amount.toLocaleString("en-US");
   }
 
   const handleChangeMaterial = (event) => {
@@ -326,11 +351,26 @@ export default function CustomProductManagement() {
     );
   };
   const [productImage, setProductImage] = useState("");
+  const [isImageValid, setIsImageValid] = useState(false);
+
+  const isImageType = (file) => {
+    // Kiểm tra loại MIME của file
+    const acceptedImageTypes = ["image/jpeg", "image/png", "image/gif"];
+    return acceptedImageTypes.includes(file.type);
+  };
+
   const handleProductImageUpload = async (options) => {
     const { file } = options;
 
     if (!file) {
-      console.error("Please select a product image.");
+      toast.error("Please select a product image.");
+      return;
+    }
+
+    if (!isImageType(file)) {
+      toast.error("Invalid file type. Please upload an image.");
+      setIsImageValid(false);
+
       return;
     }
 
@@ -347,8 +387,12 @@ export default function CustomProductManagement() {
         ...prevData,
         productImage: uploadedImage,
       }));
+      setIsImageValid(true); // Đặt là true nếu hình ảnh hợp lệ
     } catch (error) {
       console.error("Error uploading product image:", error);
+      toast.error("Error uploading product image.");
+      setIsImageValid(false);
+
     }
   };
 
@@ -356,6 +400,12 @@ export default function CustomProductManagement() {
   const handleProductDetailImagesUpload = async (options) => {
     const { fileList } = options;
     if (fileList && fileList.length) {
+
+      if (!fileList.every((file) => isImageType(file.originFileObj))) {
+        toast.error("Invalid file type. Please upload only images.");
+        return;
+      }
+
       try {
         const uploadedImages = await Promise.all(
           fileList.map(async (file) => {
@@ -373,6 +423,7 @@ export default function CustomProductManagement() {
         setProductDetailImages(uploadedImages);
       } catch (error) {
         console.error("Error uploading product detail images:", error);
+        toast.error("Error uploading product detail images.");
       }
     }
   };
@@ -457,9 +508,9 @@ export default function CustomProductManagement() {
 
             <TextField
               label="Description"
-              id="cage.description" 
+              id="cage.description"
               name="cage.description"
-              value={formData.cage.description} 
+              value={formData.cage.description}
               onChange={handleInputChange}
               fullWidth
               required
@@ -648,13 +699,11 @@ export default function CustomProductManagement() {
             />
 
             <Form.Item
-              style={{ marginTop: '20px' }}
-              label={
-                <span style={{ fontSize: '16px' }}>
-                  Product Image
-                </span>
-              }
-              rules={[{ required: true, message: "Please input the Image name!" }]}
+              style={{ marginTop: "20px" }}
+              label={<span style={{ fontSize: "16px" }}>Product Image</span>}
+              rules={[
+                { required: true, message: "Please input the Image name!" },
+              ]}
             >
               <Upload
                 name="productImage"
@@ -664,21 +713,20 @@ export default function CustomProductManagement() {
                 listType="picture"
                 maxCount={1}
               >
-                <Button
-                  variant="contained"
-                  icon={<UploadOutlined />}>
+                <Button variant="contained" icon={<UploadOutlined />}>
                   <span class="bi bi-upload"></span>
                 </Button>
               </Upload>
             </Form.Item>
             <Form.Item
               label={
-                <span style={{ fontSize: '16px' }}>
-                  Product Image Detail
-                </span>
+                <span style={{ fontSize: "16px" }}>Product Image Detail</span>
               }
               rules={[
-                { required: true, message: "Please input the Detail Image name!" },
+                {
+                  required: true,
+                  message: "Please input the Detail Image name!",
+                },
               ]}
             >
               <Upload
@@ -688,8 +736,7 @@ export default function CustomProductManagement() {
                 onChange={handleProductDetailImagesUpload}
                 multiple
               >
-                <Button variant="contained"
-                  icon={<UploadOutlined />}>
+                <Button variant="contained" icon={<UploadOutlined />}>
                   <span class="bi bi-upload"></span>
                 </Button>
               </Upload>
@@ -705,6 +752,19 @@ export default function CustomProductManagement() {
           </form>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
