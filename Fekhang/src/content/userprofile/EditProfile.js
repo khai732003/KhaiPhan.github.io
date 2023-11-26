@@ -49,9 +49,9 @@ const EditProfile = () => {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.email.endsWith('@gmail.com')) {
-      errors.email = 'Email must end with @gmail.com';
-    }
+    // if (!formData.email.endsWith('@gmail.com')) {
+    //   errors.email = 'Email must end with @gmail.com';
+    // }
 
     if (!/^[a-zA-Z\s]*$/.test(formData.fullname) || formData.fullname.length >= 200) {
       errors.fullname = 'Fullname must not contain numbers and should be less than 200 characters';

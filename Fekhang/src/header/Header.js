@@ -16,7 +16,6 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Stack from "@mui/material/Stack";
 import BookIcon from "@mui/icons-material/Book";
-
 import Cart from "../content/SanPham/Cart";
 import NavbBar from "../content/dashboard/components/NavbBar";
 function Header(props) {
@@ -125,7 +124,8 @@ function Header(props) {
   }
 
   if (
-    isUserManager || isNotConfirm ||
+    isUserManager ||
+    isNotConfirm ||
     isAdmin ||
     isAddUser ||
     isUpdateUser ||
@@ -193,7 +193,7 @@ function Header(props) {
                 INTRODUCTION
               </NavLink>
 
-              <div cla >
+              <div cla>
                 <div
                   className="custom-dropdown"
                   onMouseEnter={toggleDropdown}
@@ -204,7 +204,7 @@ function Header(props) {
                     style={{ textDecoration: "none", color: "#535b62" }}
                     className="nav-link"
                   >
-                    <span style={{ paddingRight: '5px' }}>PRODUCTS</span>
+                    <span style={{ paddingRight: "5px" }}>PRODUCTS</span>
                     <span class="bi bi-chevron-down"></span>
                   </NavLink>
 
@@ -215,8 +215,6 @@ function Header(props) {
                     </div>
                   )}
                 </div>
-
-
               </div>
 
               <div className="custom-dropdown">

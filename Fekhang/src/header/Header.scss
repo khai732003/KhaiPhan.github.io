@@ -102,6 +102,26 @@
   animation: slideFromRight 5s linear infinite;
 }
 
+.thinking-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: thinkingAnimation 1s infinite alternate;
+}
+
+@keyframes thinkingAnimation {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
 .custom-dropdown .dropdown-menu {
   display: none;
 
