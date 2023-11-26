@@ -99,8 +99,6 @@ function App() {
               <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/paysuccess" element={<Success />} />
               <Route path="/paypal" element={<PaypalButton />} />
-              <Route path="/localorder" element={<LocalOrder />} />
-              <Route path="/pay/:orderId" element={<VNPayPayment />} />
               <Route path="/customeproduct/:id" element={<CustomProduct />} />
               <Route path="/email/:orderId" element={<ConfirmEmail />} />
               <Route element={<Error />} />
@@ -158,8 +156,9 @@ function App() {
               {/* Vùng Customer */}
               <Route path="/order/:orderId1" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={Order} path="/order/:orderId" />} />
               <Route path="/history" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={HistoryOrder} path="/history" />} />
-              
-              {/* <Route path="/history" element={<HistoryOrder />} /> */}
+              <Route path="/localorder" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={LocalOrder} path="/localorder" />} />
+              <Route path="/pay/:orderId" element={<PrivateRoute allowedRoles={['CUSTOMER']} component={VNPayPayment} path="/pay/:orderId" />} />
+
               <Route path='/error' element={<Error />} />
 
             </Routes>

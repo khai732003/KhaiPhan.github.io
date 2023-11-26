@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './content/SanPham/Context/AuthContext';
 import Login from './content/SanPham/Login';
 
@@ -13,7 +13,8 @@ const PrivateRoute = ({ allowedRoles, component: Component, path }) => {
 
   // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
   if (!isAuthenticated) {
-    return <Login currentPath={thisPath}/>;
+    localStorage.setItem("toBuy", thisPath)
+    return <Navigate to={`/login`} />;
   }
 
   // Kiểm tra xem người dùng có quyền không (nếu allowedRoles được truyền vào)
