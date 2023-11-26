@@ -30,6 +30,11 @@ public class VouchersServiceImpl implements IVouchersService{
     private ModelMapper modelMapper;
 
 
+    @Override
+    public List<Vouchers> listByUserId(Long userId){
+        return voucherRepository.findUnusedVouchersForUser(userId);
+    }
+
     public VoucherDTO createVoucher(VoucherDTO voucherDTO) {
         Vouchers voucher = modelMapper.map(voucherDTO, Vouchers.class);
         voucher.setVoucherType(voucher.getVoucherType().toUpperCase());

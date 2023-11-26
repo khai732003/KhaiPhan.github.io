@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface IVouchersService {
 
-
+    public List<Vouchers> listByUserId(Long userId);
+    
     public VoucherDTO createVoucher(VoucherDTO voucherDTO);
 
     public List<VoucherDTO> getAllVoucherDTO();

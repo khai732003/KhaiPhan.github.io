@@ -53,9 +53,10 @@ const Order = () => {
   useEffect(() => {
     fetchData();
   }, [orderId, voucherCode]);
+
   const fetchVoucherData = async () => {
     try {
-      const response = await customAxios.get('/voucher/get-all');
+      const response = await customAxios.get(`/voucher/get-all/${user.userId}`);
       if (response.data) {
         setVoucherData(response.data);
       } else {
@@ -68,7 +69,7 @@ const Order = () => {
 
   useEffect(() => {
     fetchVoucherData();
-  }, []); // Fetch data on component mount
+  }, [deleted]); // Fetch data on component mount
 
   const fetchOrder = async () => {
     try {
@@ -156,6 +157,7 @@ const Order = () => {
       });
       await fetchOrder();
       await fetchDiscountedPrices();
+      await fetchVoucherData();
     } catch (error) {
       console.error('Lỗi khi áp dụng mã giảm giá:', error);
     }

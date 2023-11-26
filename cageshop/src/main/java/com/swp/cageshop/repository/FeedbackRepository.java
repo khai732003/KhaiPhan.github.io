@@ -13,6 +13,10 @@ import java.util.List;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
+    @Query("SELECT f FROM Feedback f " +
+        "INNER JOIN OrderDetail od ON od.product.id = f.product.id WHERE od.id = :orderDetailId")
+    Feedback checkFeedbackByOrderId(@Param("orderDetailId") Long orderDetailId);
+
     @Query("SELECT f FROM Feedback f WHERE f.product.id = :productId AND f.user.id = :userId")
     Feedback findFeedbackByProductIdAndUserId(@Param("productId") Long productId, @Param("userId") Long userId);
 

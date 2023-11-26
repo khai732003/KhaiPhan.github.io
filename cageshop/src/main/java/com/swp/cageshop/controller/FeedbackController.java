@@ -23,6 +23,10 @@ public class FeedbackController {
     private IFeedbackService feedbackService;
 
 
+    @GetMapping("/check-by-orderdetail/{orderDetailId}")
+    public boolean checkByOrderDetail(@PathVariable Long orderDetailId){
+        return feedbackService.checkF(orderDetailId);
+    }
     @PostMapping("/add")
     public ResponseEntity<FeedbackDTO> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
         Feedback existingFeedback = feedbackRepository.findByUserIdAndProductId(feedbackDTO.getUserId(), feedbackDTO.getProductId());

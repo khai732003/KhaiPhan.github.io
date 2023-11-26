@@ -5,7 +5,9 @@ import { Container, Typography, Paper, Divider, Grid, StepLabel, Step, Box, Step
 import './Scss/HistoryDetail.scss'
 import { useNavigate } from 'react-router-dom';
 export default function HistoryOrder() {
+  const [checkF, setCheckF] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [listDetail, setListDetail] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -15,28 +17,52 @@ export default function HistoryOrder() {
       .then(response => {
         // Lưu kết quả trả về vào state
         setOrders(response.data);
+  
+        // Accumulate all orderDetails into a single list
+        const allOrderDetails = response.data.reduce((acc, order) => {
+          return acc.concat(order.orderDetails);
+        }, []);
+  
+        // Set listDetail to the accumulated orderDetails
+        setListDetail(allOrderDetails);
+  
+        console.log(response.data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
   }, []);
+  
+  useEffect(() => {
+    console.log(listDetail);
+  
+    // Extract and log the IDs of each orderDetail
+    const orderDetailIds = listDetail.map(orderDetail => orderDetail.id);
+    console.log('OrderDetail IDs:', orderDetailIds);
+  }, [listDetail]);
+  
 
   const handleFeedBack = (productId) => {
     navigate(`/addfeedback/${productId}`);
   };
 
   // useEffect(() => {
-  //   // Check if the user has any orders
-  //   customAxios.get(`/order/exists/${user.userId}`)
-  //     .then(response => {
-  //       if (!response.data) {
-  //         navigate('/');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error checking orders existence:', error);
-  //     });
-  // }, [user.userId, navigate]);
+  //   const checkUserPurchase = async () => {
+  //     try { 
+  //       const orderDetailIds = listDetail.map(orderDetail => orderDetail.id);
+        
+  //       const response = await customAxios.get(`/feedback/check-by-orderdetail/${orderDetailIds}`);
+  //       setCheckF(response.data);
+  //       console.log(response.data)
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  
+  //   checkUserPurchase();
+  // }, [listDetail]);
+  // console.log(checkF)
+  
 
   const steps = [
     'CONFIRMED',
@@ -80,13 +106,12 @@ export default function HistoryOrder() {
             </Grid>
             <Grid item xs={12} sm={6} style={{ textAlign: 'left' }}>
               <Typography variant="h6" className="order-id" gutterBottom>
-                Mã đơn hàng: {order.id}
+                Code: {order.id}
               </Typography>
               <Typography className="order-info">
-                Ngày tạo:<span style={{ fontWeight: '80', color: 'rgb(60,179,113)' }}> {new Date(order.createDate).toLocaleString()}</span><br />
-                Địa chỉ: {order.address}<br />
-                Giá ship: {order.shipPrice}<br />
-                Tổng giá: <span style={{ color: 'rgb(127,255,0)' }}>{order.total_price}</span><br />
+                Create Date :<span style={{ fontWeight: '80', color: 'rgb(60,179,113)' }}> {new Date(order.createDate).toLocaleString()}</span><br />
+                Address: {order.address}<br />
+                Total Price: <span style={{ color: 'rgb(127,255,0)' }}>{order.total_price}</span><br />
               </Typography>
 
             </Grid>
@@ -96,7 +121,7 @@ export default function HistoryOrder() {
                 <div key={product.id} className="order-details">
                   <Typography variant="subtitle1" gutteBottom className="product-info">
                     {product.name} x{product.quantity}<br />
-                    Tổng giá sản phẩm: {product.totalCost}
+                    Total product price: {product.totalCost}
                   </Typography>
                   {order.shipStatus === 'DELIVERED' && (
                     <Button onClick={() => handleFeedBack(product.productId)}>FeedBack</Button>

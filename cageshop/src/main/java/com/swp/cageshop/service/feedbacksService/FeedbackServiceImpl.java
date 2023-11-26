@@ -34,6 +34,15 @@ public class FeedbackServiceImpl implements IFeedbackService {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Override
+    public boolean checkF(Long orderDetailId){
+        Feedback feedback = feedbackRepository.checkFeedbackByOrderId(orderDetailId);
+        if(feedback != null){
+            return true;
+        }
+        return false;
+    }
     @Override
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO) {
         Users users = userRepository.getReferenceById(feedbackDTO.getUserId());

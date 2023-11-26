@@ -5,6 +5,7 @@ import com.swp.cageshop.DTO.FeedbackDTO;
 import java.util.List;
 
 public interface IFeedbackService {
+    public boolean checkF(Long orderDetailId);
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO);
     public List<FeedbackDTO> getAllFeedbacks() ;
 

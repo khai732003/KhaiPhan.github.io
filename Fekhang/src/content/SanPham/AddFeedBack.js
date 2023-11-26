@@ -74,6 +74,25 @@ function AddFeedBack() {
     checkUserPurchase();
   }, [user.userId, productId]);
 
+  useEffect(() => {
+    const checkUserPurchase = async () => {
+      try {
+        const response = await customAxios.get(`/feedback/exists/${user.userId}/${productId}`
+        );
+        if (response.data) {
+          // User has not made a purchase, navigate away
+    
+      navigate('/');        
+    }
+      } catch (error) {
+        setLoading(false); // Set loading to false on error
+        console.error(error);
+      }
+    };
+
+    checkUserPurchase();
+  }, [user.userId, productId]);
+
   const handleAddFeedback = async () => {
     if (!feedback.rating || !feedback.content) {
       console.error("Please provide both rating and feedback content.");

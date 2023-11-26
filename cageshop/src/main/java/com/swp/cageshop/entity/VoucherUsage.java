@@ -1,5 +1,6 @@
 package com.swp.cageshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class VoucherUsage extends EntityBase{
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private Users user;

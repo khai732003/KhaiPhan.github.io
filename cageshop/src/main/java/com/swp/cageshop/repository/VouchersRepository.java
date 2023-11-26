@@ -17,6 +17,10 @@ import java.util.List;
 public interface VouchersRepository extends JpaRepository<Vouchers, Long> {
     Vouchers findByCodeAndIsAvailable(String code, boolean isAvailable);
 
+    @Query("SELECT v FROM Vouchers v " +
+        "LEFT JOIN VoucherUsage vu ON vu.voucher.id = v.id AND vu.user.id = :userId " +
+        "WHERE vu.voucher.id IS NULL")
+    List<Vouchers> findUnusedVouchersForUser(@Param("userId") Long userId);
 
     @Query("SELECT v.id FROM Vouchers v WHERE v.code = :code AND v.isAvailable = true")
     Long findIdByCode(@Param("code") String code);

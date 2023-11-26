@@ -24,9 +24,9 @@ public class VouchersController {
         return new ResponseEntity<>(createdVoucher, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<List<VoucherDTO>> getAllVouchers() {
-        List<VoucherDTO> vouchers = vouchersService.getAllVoucherDTO();
+    @GetMapping("/get-all/{userId}")
+    public ResponseEntity<List<Vouchers>> getAllVouchers(@PathVariable Long userId) {
+        List<Vouchers> vouchers = vouchersService.listByUserId(userId);
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
