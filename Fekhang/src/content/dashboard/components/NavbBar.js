@@ -328,7 +328,7 @@ const NavBar = () => {
                 <ListItemIcon>
                 <StoreIcon color="inherit" />
                 </ListItemIcon>
-                <ListItemText primary="Custom Product Management" />
+                <ListItemText primary="Add New Product" />
               </StyledToggleButton>
 
               <div>

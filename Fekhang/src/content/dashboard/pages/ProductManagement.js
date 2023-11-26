@@ -183,7 +183,7 @@ const ProductManagement = () => {
               <MenuItem value="new">New</MenuItem>
               <MenuItem value="Out Of Stock">Out Of Stock</MenuItem>
               <MenuItem value="No More Made">No More Made</MenuItem>
-              <MenuItem value="customeProduct">Custom Product</MenuItem>
+              <MenuItem value="CustomProduct">Custom Product</MenuItem>
             </Select>
           </FormControl>
 
@@ -238,7 +238,7 @@ const ProductManagement = () => {
               </Link>
             </div>
 
-            <div className="btn-add">
+            {/* <div className="btn-add">
               <Link to={"/addproduct"}>
                 <Button
                   variant="outlined"
@@ -248,7 +248,7 @@ const ProductManagement = () => {
                   Add new product
                 </Button>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -409,6 +409,11 @@ const ProductManagement = () => {
                               <hr />
                               Price: <br />
                               {detailPopup.cage.size.price}
+                            </Typography>
+
+                            <Typography variant="body1" className="info-item">                
+                              <span className="info-label">Spokes:</span>
+                              {detailPopup.cage.spokes}
                             </Typography>
                           </div>
                         </div>

@@ -157,6 +157,21 @@ export default function CustomProductManagement() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Kiểm tra nếu spokes không nằm trong khoảng min và max của size
+    const minSpokes =
+      sizes.find((size) => size.id === selectedSize)?.minspokes || 0;
+    const maxSpokes =
+      sizes.find((size) => size.id === selectedSize)?.maxspokes || 0;
+    const spokesValue = parseInt(formData.cage.spokes, 10);
+
+    if (spokesValue < minSpokes || spokesValue > maxSpokes) {
+      toast.error(
+        `Spokes value must be between ${minSpokes} and ${maxSpokes}. Please enter a valid value.`
+      );
+      return;
+    }
+
     if (!formData.productImage && !isImageValid) {
       toast.error("Please upload a product image.");
       return;
@@ -555,9 +570,6 @@ export default function CustomProductManagement() {
                     <MenuItem value="New">New</MenuItem>
                     <MenuItem value="Out of Stock">Out of Stock</MenuItem>
                     <MenuItem value="Upcoming">Upcoming</MenuItem>
-                    <MenuItem value="customeProduct">
-                      Customized Product
-                    </MenuItem>
                   </Select>
                 </FormControl>
 
@@ -715,6 +727,14 @@ export default function CustomProductManagement() {
                       maxSpokes
                     );
 
+                    // Kiểm tra giá trị và thiết lập giá trị mặc định là 1 nếu giá trị là 0 hoặc âm
+                    if (spokesValue <= 0) {
+                      toast.error(
+                        "Please enter a value greater than 0 or different value for spokes."
+                      );
+                      return;
+                    }
+
                     // Cập nhật giá trị vào state
                     setFormData((prevData) => ({
                       ...prevData,
@@ -807,8 +827,7 @@ export default function CustomProductManagement() {
                     style={{ marginBottom: "1rem", display: "flex" }}
                   >
                     <div style={{ minWidth: "100px" }}>
-                      {index === 0}{" "}
-                      {item.label}: {item.name}
+                      {index === 0} {item.label}: {item.name}
                     </div>
                     {item.label !== "Extra Price" && item.label !== "Stock" && (
                       <div style={{ marginLeft: "auto", minWidth: "80px" }}>
@@ -817,7 +836,7 @@ export default function CustomProductManagement() {
                     )}
                   </div>
                 ))}
-                <hr/>
+                <hr />
                 <p
                   style={{
                     color: "red",

@@ -13,6 +13,7 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import customAxios from "../../CustomAxios/customAxios";
 import "./../dashboard/styles/addedituser.css";
+import { toast, ToastContainer } from "react-toastify";
 
 import { useAuth } from "./Context/AuthContext";
 
@@ -42,10 +43,10 @@ export default function Custom() {
     productImage:
       "https://tse3.mm.bing.net/th?id=OIP.U5UDLyjPeHOjMtyEuBWr7gHaKe&pid=Api&P=0&h=180",
     stock: "1",
-    status: "customProduct",
+    status: "CustomProduct",
     note: "custom",
     cage: {
-      description: "CUSTOM",
+      description: "CUSTOM PRODUCT",
       shapeId: "",
       materialId: "",
       sizeId: "",
@@ -97,13 +98,11 @@ export default function Custom() {
     }
   };
 
-
-
   const addCustomProductManagement = async () => {
     try {
       const response = await customAxios.post("/product/add", formData);
       setOperationsCompleted(true);
-      setProduct(response.data)
+      setProduct(response.data);
     } catch (error) {
       console.error("Detailed error response:", error.response);
 
@@ -111,7 +110,6 @@ export default function Custom() {
     }
   };
   const handleBuy = async () => {
-
     if (!isOperationsCompleted) {
       await addCustomProductManagement();
     }
@@ -124,24 +122,24 @@ export default function Custom() {
 
     try {
       // Create an order if it doesn't exist
-      let orderId = localStorage.getItem('orderId');
+      let orderId = localStorage.getItem("orderId");
       if (!orderId) {
         const address = user.address;
         const shipAddress = "hcm";
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
-        const orderResponse = await customAxios.post('/order/add', {
-          "name": `Order of${user.userId}`,
-          "status": "pending",
-          "paymentMethod": "credit card",
-          "address": address,
-          "city": "Đà Nẵng",
-          "content": "Đóng gói cẩn thận nhé",
-          userId: user.userId
+        const orderResponse = await customAxios.post("/order/add", {
+          name: `Order of${user.userId}`,
+          status: "pending",
+          paymentMethod: "credit card",
+          address: address,
+          city: "Đà Nẵng",
+          content: "Đóng gói cẩn thận nhé",
+          userId: user.userId,
         });
 
         orderId = orderResponse.data.id;
-        localStorage.setItem('orderId', orderId);
+        localStorage.setItem("orderId", orderId);
       }
 
       // // Create order detail for the custom product
@@ -162,13 +160,13 @@ export default function Custom() {
       //   },
       // };
 
-      await customAxios.post('/order_detail/add', {
+      await customAxios.post("/order_detail/add", {
         quantity: 1,
         name: product.name,
         note: `Sản phẩm là ${product.id}`,
         orderId,
-        productId:product.id,
-        totalCost: product.totalPrice
+        productId: product.id,
+        totalCost: product.totalPrice,
       });
 
       // Navigate to the order page
@@ -180,7 +178,24 @@ export default function Custom() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await  addCustomProductManagement();
+    // Kiểm tra nếu spokes không nằm trong khoảng min và max của size
+    const minSpokes =
+      sizes.find((size) => size.id === selectedSize)?.minspokes || 0;
+    const maxSpokes =
+      sizes.find((size) => size.id === selectedSize)?.maxspokes || 0;
+    const spokesValue = parseInt(formData.cage.spokes, 10);
+
+    console.log("spokesValue:", spokesValue);
+  console.log("minSpokes:", minSpokes);
+  console.log("maxSpokes:", maxSpokes);
+
+    if (spokesValue < minSpokes || spokesValue > maxSpokes) {
+      toast.error(
+        `Spokes value must be between ${minSpokes} and ${maxSpokes}. Please enter a valid value.`
+      );
+      return;
+    }
+   addCustomProductManagement();
   };
 
   useEffect(() => {
@@ -299,7 +314,6 @@ export default function Custom() {
     // Create an array with selected options and their prices
     const newSidePanelData = [];
 
-
     // Push selected shape data
     if (selectedShape) {
       const shapeData = shapes.find((shape) => shape.id === selectedShape);
@@ -363,7 +377,7 @@ export default function Custom() {
   }, [selectedShape, selectedSize, selectedMaterial]);
 
   function formatCurrency(amount) {
-    return amount.toLocaleString('en-US');
+    return amount.toLocaleString("en-US");
   }
 
   return (
@@ -399,18 +413,30 @@ export default function Custom() {
             </div>
 
             <div className="side-panel">
-              <h2 style={{textAlign: "center"}}>Custom Summary</h2><hr/>
+              <h2 style={{ textAlign: "center" }}>Custom Summary</h2>
+              <hr />
               <div>
                 {sidePanelData.map((item, index) => (
                   <div key={index}>
-                    {index + 1}. {item.label}: {item.name} - Price: {formatCurrency(item.price)}
+                    {index + 1}. {item.label}: {item.name} - Price:{" "}
+                    {formatCurrency(item.price)}
                   </div>
                 ))}
                 {/* <div>{sidePanelData.length + 1}. Spokes Price: {calculatePrice()}</div> */}
               </div>
-              <p style={{color: 'red', fontWeight: 'bold', fontSize: "1.5rem",textAlign: "right"}}>Total: {calculateTotal()}</p>
-            </div><hr/>
-            <br/>
+              <p
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  textAlign: "right",
+                }}
+              >
+                Total: {calculateTotal()}
+              </p>
+            </div>
+            <hr />
+            <br />
 
             {/* Select Shape */}
             <FormControl fullWidth margin="normal">
@@ -552,6 +578,18 @@ export default function Custom() {
           </form>
         </div>
       </div>
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
     </div>
   );
 }

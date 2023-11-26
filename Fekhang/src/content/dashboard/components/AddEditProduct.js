@@ -239,6 +239,19 @@ const AddEditProduct = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const minSpokes =
+      sizes.find((size) => size.id === selectedSize)?.minspokes || 0;
+    const maxSpokes =
+      sizes.find((size) => size.id === selectedSize)?.maxspokes || 0;
+    const spokesValue = parseInt(formData.cage.spokes, 10);
+
+    if (spokesValue < minSpokes || spokesValue > maxSpokes) {
+      toast.error(
+        `Spokes value must be between ${minSpokes} and ${maxSpokes}. Please enter a valid value.`
+      );
+      return;
+    }
     if (!formData.productImage) {
       toast.error("Please upload a valid product image.");
       return;

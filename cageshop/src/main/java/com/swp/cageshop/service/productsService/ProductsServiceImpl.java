@@ -283,7 +283,7 @@ public class ProductsServiceImpl implements IProductsService {
         if (id >= 1) {
             Products product = productsRepository.getReferenceById(id);
             BirdCages deletedbirdcage = product.getCage();
-            if (product != null && product.getOrderDetail().isEmpty()) {
+            if (product != null) {
                 productsRepository.delete(product);
                 birdCageRepository.delete(deletedbirdcage);
                 return true;
