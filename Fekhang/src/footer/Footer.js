@@ -41,6 +41,8 @@ const Footer = (props) => {
   const isUpdateMaterial = /^\/update-material\/\d+$/.test(location.pathname);
   const isCustomProductManagement = location.pathname === "/custom-product";
   const isNotConfirm = location.pathname === "/listnotconfirm";
+  const isAddEditUser = location.pathname === "/add-edit-user";
+
 
   if (isLoginPage || isRegisterPage || isSuccess || isPaypal || isError || isUpdateProduct1) {
     return null;
@@ -84,7 +86,7 @@ const Footer = (props) => {
     isShape ||
     isSize || isUpdateSize ||
     isUpdateShape ||
-    isUpdateMaterial || isCustomProductManagement
+    isUpdateMaterial || isCustomProductManagement || isAddEditUser
   ) {
     return <FooterAdmin />;
   }

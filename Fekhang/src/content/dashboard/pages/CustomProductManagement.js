@@ -20,6 +20,8 @@ import "../styles/addedituser.css";
 import axios from "axios";
 import { Form, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 export default function CustomProductManagement() {
   const navigate = useNavigate();
   const [shapes, setShapes] = useState([]);
@@ -57,7 +59,7 @@ export default function CustomProductManagement() {
   });
 
   const handleReturnPage = () => {
-    navigate(-1);
+    navigate("/productmanagement");
   };
 
   const handleInputChange = (event) => {
@@ -214,6 +216,21 @@ export default function CustomProductManagement() {
   const updateSidePanelData = () => {
     const newSidePanelData = [];
 
+    if (formData.extraPrice !== "") {
+      newSidePanelData.push({
+        label: "Extra Price",
+        name: formData.extraPrice || 0,
+      });
+    }
+
+    // Stock
+    if (formData.stock) {
+      newSidePanelData.push({
+        label: "Stock",
+        name: formData.stock || 0,
+      });
+    }
+
     if (selectedShape) {
       const shapeData = shapes.find((shape) => shape.id === selectedShape);
       newSidePanelData.push({
@@ -244,6 +261,12 @@ export default function CustomProductManagement() {
         minspokes: sizeData?.minspokes,
         maxspokes: sizeData?.maxspokes,
       });
+
+      newSidePanelData.push({
+        label: "Spokes",
+        name: formData.cage.spokes || 0,
+        price: formatCurrency(spokesPrice),
+      });
     }
 
     const total = calculateTotal();
@@ -255,7 +278,7 @@ export default function CustomProductManagement() {
   const calculateSpokesPrice = () => {
     const selectedSizeData = sizes.find((size) => size.id === selectedSize);
     const pricePerSpoke = selectedSizeData ? selectedSizeData.price : 0;
-    const spokes = parseInt(formData.cage.spokes, 10) || 0;
+    const spokes = parseInt(formData.cage.spokes, 11) || 0;
     return pricePerSpoke * spokes - pricePerSpoke;
   };
 
@@ -392,7 +415,6 @@ export default function CustomProductManagement() {
       console.error("Error uploading product image:", error);
       toast.error("Error uploading product image.");
       setIsImageValid(false);
-
     }
   };
 
@@ -400,7 +422,6 @@ export default function CustomProductManagement() {
   const handleProductDetailImagesUpload = async (options) => {
     const { fileList } = options;
     if (fileList && fileList.length) {
-
       if (!fileList.every((file) => isImageType(file.originFileObj))) {
         toast.error("Invalid file type. Please upload only images.");
         return;
@@ -429,327 +450,392 @@ export default function CustomProductManagement() {
   };
 
   return (
-    <div>
-      <div
-        className="add-edit-container"
-        style={{ paddingTop: "70px", margin: "0" }}
-      >
-        <div className="form-add-edit">
-          <form onSubmit={handleSubmit} style={{ width: 500 }}>
-            <div
-              className="d-flex justify-content-between align-items-center mb-1 pb-1"
-              style={{ paddingRight: 100 }}
-            >
-              <div
-                className="mb-5 pb-lg-2"
-                style={{
-                  color: "#393f81",
-                  position: "absolute",
-                  left: "10%",
-                  top: "20%",
-                }}
-              >
-                <Button
-                  sx={{ fontSize: 18 }}
-                  variant="outlined"
-                  startIcon={<ArrowBackIosIcon />}
-                  onClick={handleReturnPage}
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-9">
+          <div
+            className="add-edit-container"
+            style={{ paddingTop: "70px", margin: "0" }}
+          >
+            <div className="form-add-edit">
+              <form onSubmit={handleSubmit} style={{ width: 500 }}>
+                <div
+                  className="d-flex justify-content-between align-items-center mb-1 pb-1"
+                  style={{ paddingRight: 100 }}
                 >
-                  BACK
-                </Button>
-              </div>
-            </div>
+                  <div
+                    className="mb-5 pb-lg-2"
+                    style={{
+                      color: "#393f81",
+                      position: "absolute",
+                      left: "15%",
+                      top: "20%",
+                    }}
+                  >
+                    <Button
+                      sx={{ fontSize: 18 }}
+                      variant="outlined"
+                      startIcon={<ArrowBackIosIcon />}
+                      onClick={handleReturnPage}
+                    >
+                      BACK
+                    </Button>
+                  </div>
+                </div>
 
-            <div className="side-panel">
-              <h2 style={{ textAlign: "center" }}>Add Product</h2>
-              <hr />
+                <div className="side-panel">
+                  <h2 style={{ textAlign: "center" }}>Add Product</h2>
+
+                  {/* <div>
+                    {sidePanelData.map((item, index) => (
+                      <div key={index}>
+                        {index + 1}. {item.label}: {item.name} - Price:{" "}
+                        {item.price}
+                      </div>
+                    ))}
+                  </div>
+                  <p
+                    style={{
+                      color: "red",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      textAlign: "right",
+                    }}
+                  >
+                    Total: {totalSummary}
+                  </p> */}
+                </div>
+                <br />
+
+                <TextField
+                  label="Product Name"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <TextField
+                  label="Product Code"
+                  id="code"
+                  name="code"
+                  value={formData.code}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <TextField
+                  label="Description"
+                  id="cage.description"
+                  name="cage.description"
+                  value={formData.cage.description}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="statusLabel">Select Status</InputLabel>
+                  <Select
+                    labelId="statusLabel"
+                    id="status"
+                    name="status"
+                    value={formData.status}
+                    onChange={handleInputChange}
+                    fullWidth
+                    required
+                  >
+                    <MenuItem value="Available">Available</MenuItem>
+                    <MenuItem value="New">New</MenuItem>
+                    <MenuItem value="Out of Stock">Out of Stock</MenuItem>
+                    <MenuItem value="Upcoming">Upcoming</MenuItem>
+                    <MenuItem value="customeProduct">
+                      Customized Product
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  label="Extra Price"
+                  id="extraPrice"
+                  name="extraPrice"
+                  value={formData.extraPrice}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="categoryIdLabel">Select Category</InputLabel>
+                  <Select
+                    labelId="categoryIdLabel"
+                    id="categoryId"
+                    name="categoryId"
+                    value={formData.categoryId}
+                    onChange={handleInputChange}
+                    fullWidth
+                    required
+                  >
+                    {renderCategories()}
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  label="Stock"
+                  id="stock"
+                  name="stock"
+                  type="number"
+                  value={formData.stock}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="shapeIdLabel">Select Shape</InputLabel>
+                  <Select
+                    labelId="shapeIdLabel"
+                    id="shapeId"
+                    name="shapeId"
+                    value={selectedShape || ""}
+                    onChange={handleChangeShape}
+                    fullWidth
+                    required
+                  >
+                    {shapes.map((shape) => (
+                      <MenuItem key={shape.id} value={shape.id}>
+                        <Grid container justifyContent="space-between">
+                          <Grid item>{shape.shapeName}</Grid>
+                          <Grid item>{formatCurrency(shape.price)}</Grid>
+                        </Grid>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {selectedShape &&
+                  shapes.find((shape) => shape.id === selectedShape)?.shapeName}
+
+                {/* Select Material */}
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="materialIdLabel">Select Material</InputLabel>
+                  <Select
+                    labelId="materialIdLabel"
+                    id="materialId"
+                    name="materialId"
+                    value={selectedMaterial}
+                    onChange={handleChangeMaterial}
+                    fullWidth
+                    required
+                  >
+                    {materials.map((material) => (
+                      <MenuItem key={material.id} value={material.id}>
+                        <Grid container justifyContent="space-between">
+                          <Grid item>{material.materialName}</Grid>
+                          <Grid item>{formatCurrency(material.price)}</Grid>
+                        </Grid>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {selectedMaterial &&
+                  materials.find((material) => material.id === selectedMaterial)
+                    ?.materialName}
+
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="sizeIdLabel">Select Size</InputLabel>
+                  <Select
+                    labelId="sizeIdLabel"
+                    id="sizeId"
+                    name="sizeId"
+                    value={selectedSize || ""}
+                    onChange={handleChangeSize}
+                    fullWidth
+                    required
+                  >
+                    {sizes.map((size) => (
+                      <MenuItem key={size.id} value={size.id}>
+                        <Grid container justifyContent="space-between">
+                          <Grid item>{size.sizeName}</Grid>
+                          <Grid item>{formatCurrency(size.price)}</Grid>
+                        </Grid>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <div className="side-panel">
+                  <p> Customer should choose spokes based on custom size :</p>
+                  {selectedSize && (
+                    <div style={{ marginLeft: "16rem" }}>
+                      Min Spokes:{" "}
+                      {
+                        sizes.find((size) => size.id === selectedSize)
+                          ?.minspokes
+                      }{" "}
+                      - Max Spokes:{" "}
+                      {
+                        sizes.find((size) => size.id === selectedSize)
+                          ?.maxspokes
+                      }
+                    </div>
+                  )}
+                </div>
+
+                {selectedSize &&
+                  sizes.find((size) => size.id === selectedSize)?.sizeName}
+
+                <TextField
+                  label="Spokes"
+                  id="spokes"
+                  name="spokes"
+                  type="number"
+                  value={formData.cage.spokes}
+                  onChange={(event) => {
+                    const spokesValue = parseInt(event.target.value, 10);
+                    const minSpokes =
+                      sizes.find((size) => size.id === selectedSize)
+                        ?.minspokes || 0;
+                    const maxSpokes =
+                      sizes.find((size) => size.id === selectedSize)
+                        ?.maxspokes || 0;
+
+                    // Giới hạn giá trị trong khoảng min và max
+                    const limitedSpokesValue = Math.min(
+                      Math.max(spokesValue, minSpokes),
+                      maxSpokes
+                    );
+
+                    // Cập nhật giá trị vào state
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      cage: {
+                        ...prevData.cage,
+                        spokes: limitedSpokesValue,
+                      },
+                    }));
+                  }}
+                  fullWidth
+                  required
+                  margin="normal"
+                />
+
+                <Form.Item
+                  style={{ marginTop: "20px" }}
+                  label={
+                    <span style={{ fontSize: "16px" }}>Product Image</span>
+                  }
+                  rules={[
+                    { required: true, message: "Please input the Image name!" },
+                  ]}
+                >
+                  <Upload
+                    name="productImage"
+                    beforeUpload={() => false}
+                    value={productImage}
+                    onChange={handleProductImageUpload}
+                    listType="picture"
+                    maxCount={1}
+                  >
+                    <Button variant="contained" icon={<UploadOutlined />}>
+                      <span class="bi bi-upload"></span>
+                    </Button>
+                  </Upload>
+                </Form.Item>
+                <Form.Item
+                  label={
+                    <span style={{ fontSize: "16px" }}>
+                      Product Image Detail
+                    </span>
+                  }
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the Detail Image name!",
+                    },
+                  ]}
+                >
+                  <Upload
+                    name="productDetailImage"
+                    listType="picture"
+                    beforeUpload={() => false}
+                    onChange={handleProductDetailImagesUpload}
+                    multiple
+                  >
+                    <Button variant="contained" icon={<UploadOutlined />}>
+                      <span class="bi bi-upload"></span>
+                    </Button>
+                  </Upload>
+                </Form.Item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
+                  Submit
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Total and Submit Button */}
+        <div className="col-md-3">
+          <div
+            className="side-panel"
+            style={{ position: "sticky", top: "70px" }}
+          >
+            <h2 style={{ textAlign: "center", marginTop: "7rem" }}>
+              Total Summary
+            </h2>
+            <hr />
+            {sidePanelData.length > 0 ? (
               <div>
                 {sidePanelData.map((item, index) => (
-                  <div key={index}>
-                    {index + 1}. {item.label}: {item.name} - Price: {item.price}
+                  <div
+                    key={index}
+                    style={{ marginBottom: "1rem", display: "flex" }}
+                  >
+                    <div style={{ minWidth: "100px" }}>
+                      {index === 0}{" "}
+                      {item.label}: {item.name}
+                    </div>
+                    {item.label !== "Extra Price" && item.label !== "Stock" && (
+                      <div style={{ marginLeft: "auto", minWidth: "80px" }}>
+                        Price: {item.price}
+                      </div>
+                    )}
                   </div>
                 ))}
+                <hr/>
+                <p
+                  style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    textAlign: "right",
+                  }}
+                >
+                  Total: {totalSummary}
+                </p>
               </div>
-              <p
-                style={{
-                  color: "red",
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                  textAlign: "right",
-                }}
-              >
-                Total: {totalSummary}
-              </p>
-            </div>
-            <hr />
-            <br />
-
-            <TextField
-              label="Product Name"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <TextField
-              label="Product Code"
-              id="code"
-              name="code"
-              value={formData.code}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <TextField
-              label="Description"
-              id="cage.description"
-              name="cage.description"
-              value={formData.cage.description}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="statusLabel">Select Status</InputLabel>
-              <Select
-                labelId="statusLabel"
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                fullWidth
-                required
-              >
-                <MenuItem value="Available">Available</MenuItem>
-                <MenuItem value="New">New</MenuItem>
-                <MenuItem value="Out of Stock">Out of Stock</MenuItem>
-                <MenuItem value="Upcoming">Upcoming</MenuItem>
-                <MenuItem value="customeProduct">Customized Product</MenuItem>
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Extra Price"
-              id="extraPrice"
-              name="extraPrice"
-              value={formData.extraPrice}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="categoryIdLabel">Select Category</InputLabel>
-              <Select
-                labelId="categoryIdLabel"
-                id="categoryId"
-                name="categoryId"
-                value={formData.categoryId}
-                onChange={handleInputChange}
-                fullWidth
-                required
-              >
-                {renderCategories()}
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Stock"
-              id="stock"
-              name="stock"
-              type="number"
-              value={formData.stock}
-              onChange={handleInputChange}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="shapeIdLabel">Select Shape</InputLabel>
-              <Select
-                labelId="shapeIdLabel"
-                id="shapeId"
-                name="shapeId"
-                value={selectedShape || ""}
-                onChange={handleChangeShape}
-                fullWidth
-                required
-              >
-                {shapes.map((shape) => (
-                  <MenuItem key={shape.id} value={shape.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{shape.shapeName}</Grid>
-                      <Grid item>{formatCurrency(shape.price)}</Grid>
-                    </Grid>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {selectedShape &&
-              shapes.find((shape) => shape.id === selectedShape)?.shapeName}
-
-            {/* Select Material */}
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="materialIdLabel">Select Material</InputLabel>
-              <Select
-                labelId="materialIdLabel"
-                id="materialId"
-                name="materialId"
-                value={selectedMaterial}
-                onChange={handleChangeMaterial}
-                fullWidth
-                required
-              >
-                {materials.map((material) => (
-                  <MenuItem key={material.id} value={material.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{material.materialName}</Grid>
-                      <Grid item>{formatCurrency(material.price)}</Grid>
-                    </Grid>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {selectedMaterial &&
-              materials.find((material) => material.id === selectedMaterial)
-                ?.materialName}
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="sizeIdLabel">Select Size</InputLabel>
-              <Select
-                labelId="sizeIdLabel"
-                id="sizeId"
-                name="sizeId"
-                value={selectedSize || ""}
-                onChange={handleChangeSize}
-                fullWidth
-                required
-              >
-                {sizes.map((size) => (
-                  <MenuItem key={size.id} value={size.id}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>{size.sizeName}</Grid>
-                      <Grid item>{formatCurrency(size.price)}</Grid>
-                    </Grid>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <div className="side-panel">
-              <p> Customer should choose spokes based on custom size :</p>
-              {selectedSize && (
-                <div style={{ marginLeft: "16rem" }}>
-                  Min Spokes:{" "}
-                  {sizes.find((size) => size.id === selectedSize)?.minspokes} -{" "}
-                  Max Spokes:{" "}
-                  {sizes.find((size) => size.id === selectedSize)?.maxspokes}
-                </div>
-              )}
-            </div>
-
-            {selectedSize &&
-              sizes.find((size) => size.id === selectedSize)?.sizeName}
-
-            <TextField
-              label="Spokes"
-              id="spokes"
-              name="spokes"
-              type="number"
-              value={formData.cage.spokes}
-              onChange={(event) => {
-                const spokesValue = parseInt(event.target.value, 10);
-                const minSpokes =
-                  sizes.find((size) => size.id === selectedSize)?.minspokes ||
-                  0;
-                const maxSpokes =
-                  sizes.find((size) => size.id === selectedSize)?.maxspokes ||
-                  0;
-
-                // Giới hạn giá trị trong khoảng min và max
-                const limitedSpokesValue = Math.min(
-                  Math.max(spokesValue, minSpokes),
-                  maxSpokes
-                );
-
-                // Cập nhật giá trị vào state
-                setFormData((prevData) => ({
-                  ...prevData,
-                  cage: {
-                    ...prevData.cage,
-                    spokes: limitedSpokesValue,
-                  },
-                }));
-              }}
-              fullWidth
-              required
-              margin="normal"
-            />
-
-            <Form.Item
-              style={{ marginTop: "20px" }}
-              label={<span style={{ fontSize: "16px" }}>Product Image</span>}
-              rules={[
-                { required: true, message: "Please input the Image name!" },
-              ]}
-            >
-              <Upload
-                name="productImage"
-                beforeUpload={() => false}
-                value={productImage}
-                onChange={handleProductImageUpload}
-                listType="picture"
-                maxCount={1}
-              >
-                <Button variant="contained" icon={<UploadOutlined />}>
-                  <span class="bi bi-upload"></span>
-                </Button>
-              </Upload>
-            </Form.Item>
-            <Form.Item
-              label={
-                <span style={{ fontSize: "16px" }}>Product Image Detail</span>
-              }
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the Detail Image name!",
-                },
-              ]}
-            >
-              <Upload
-                name="productDetailImage"
-                listType="picture"
-                beforeUpload={() => false}
-                onChange={handleProductDetailImagesUpload}
-                multiple
-              >
-                <Button variant="contained" icon={<UploadOutlined />}>
-                  <span class="bi bi-upload"></span>
-                </Button>
-              </Upload>
-            </Form.Item>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              Submit
-            </Button>
-          </form>
+            ) : (
+              <Alert severity="info">
+                <AlertTitle>No data available</AlertTitle>
+                Please add items to see the total summary.
+              </Alert>
+            )}
+          </div>
         </div>
       </div>
 

@@ -52,7 +52,7 @@ const CustomProductManagement = () => {
       
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <Paper elevation={3} style={{ padding: "20px", textAlign: "center" }}>
             <Typography variant="h4" gutterBottom>
               Material List
@@ -70,7 +70,7 @@ const CustomProductManagement = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <Paper elevation={3} style={{ padding: "20px" , textAlign: "center"}}>
             <Typography variant="h4" gutterBottom>
               Size List
