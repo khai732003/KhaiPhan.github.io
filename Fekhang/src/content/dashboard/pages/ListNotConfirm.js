@@ -67,7 +67,7 @@ const ListNotConfirm = () => {
       });
       console.log('Confirmation response:', confirmResponse.data);
       setTriggerUpdate(true);
-      toast.success('Delete successful!')
+      toast.success('Shipping successful!')
     } catch (error) {
       console.error('Error confirming order:', error);
       toast.error(

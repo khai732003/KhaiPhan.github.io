@@ -14,6 +14,12 @@ import java.util.Optional;
 @Repository
 public interface ProductsRepository extends JpaRepository<Products,Long> {
 
+  @Query("SELECT p FROM Products p " +
+      "INNER JOIN OrderDetail od ON p.id = od.product.id " +
+      "INNER JOIN Orders o ON od.order.id = o.id " +
+      "WHERE o.id = :orderId")
+  List<Products> listProByOrderId(@Param("orderId") Long orderId);
+
     void deleteAll();
     Optional<Products> findById(Long id);
 

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductsService {
-
+  public List<Products> listByOrderId(Long orderId);
   public List<ProductDTO> getTop3NewestProductDTOs();
   public void deleteAll();
   public ProductDTO addProduct(ProductDTO productDTO);

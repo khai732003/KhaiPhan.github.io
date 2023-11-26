@@ -41,6 +41,12 @@ public class ProductsController {
     @Autowired
     private IOrdersService iOrdersService;
 
+
+    @GetMapping("/product/select-by-order/{orderId}")
+    public List<Products> listByOrderId(@PathVariable Long orderId){
+        return productsService.listByOrderId(orderId);
+    }
+
     @PostMapping("/createBirdCage")
     public ResponseEntity<BirdCageDTO> createBirdCage(@RequestBody Map<String, Object> requestBody) {
         BirdCageDTO birdCageDTO = objectMapper.convertValue(requestBody.get("birdCageDTO"), BirdCageDTO.class);

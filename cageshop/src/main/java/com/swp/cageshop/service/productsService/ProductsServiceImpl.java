@@ -59,6 +59,12 @@ public class ProductsServiceImpl implements IProductsService {
     @Autowired
     private ShapeRepository shapeRepository;
 
+
+    @Override
+    public List<Products> listByOrderId(Long orderId){
+        return productsRepository.listProByOrderId(orderId);
+    }
+
     @Override
     public List<ProductDTO> getTop3NewestProductDTOs() {
         // Lấy top 3 sản phẩm mới nhất từ repository

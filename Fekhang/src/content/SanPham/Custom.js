@@ -129,7 +129,7 @@ export default function Custom() {
         const shipPrice = shipAddress === "hcm" ? 10.0 : 20.0;
 
         const orderResponse = await customAxios.post("/order/add", {
-          name: `Order of${user.userId}`,
+          name: `Order of ${user.userId}`,
           status: "pending",
           paymentMethod: "credit card",
           address: address,
@@ -141,24 +141,6 @@ export default function Custom() {
         orderId = orderResponse.data.id;
         localStorage.setItem("orderId", orderId);
       }
-
-      // // Create order detail for the custom product
-      // const customProduct = {
-      //   name: formData.name,
-      //   code: formData.code,
-      //   categoryId: formData.categoryId,
-      //   productImage: formData.productImage,
-      //   stock: formData.stock,
-      //   status: formData.status,
-      //   note: formData.note,
-      //   cage: {
-      //     description: formData.cage.description,
-      //     shapeId: formData.cage.shapeId,
-      //     materialId: formData.cage.materialId,
-      //     sizeId: formData.cage.sizeId,
-      //     spokes: formData.cage.spokes,
-      //   },
-      // };
 
       await customAxios.post("/order_detail/add", {
         quantity: 1,
