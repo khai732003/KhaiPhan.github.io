@@ -27,4 +27,6 @@ public interface PaysServiceImpl {
 
     public double getTotalRevenueByDateFromCompletedPays(Date date);
 
+    public boolean checkPays(Long orderId);
+
 }

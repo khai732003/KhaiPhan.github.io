@@ -91,6 +91,7 @@ public class PayController {
             @RequestParam(value = "vnp_TxnRef") String txnRef,
         HttpServletResponse response
     ) {
+        if (txnRef != null && !txnRef.isEmpty() && storedVnPayDTO.getPaymentCode() != null && !storedVnPayDTO.getPaymentCode().isEmpty()) {
         if (txnRef.equals(storedVnPayDTO.getPaymentCode())) {
             if ("00".equals(responseCode)) {
                 VNPayPayment vnPayEntity = modelMapper.map(storedVnPayDTO, VNPayPayment.class);
@@ -120,6 +121,13 @@ public class PayController {
             }
         }else{
             System.out.println("Sai code");
+            String redirectUrl = "http://localhost:3000/error";
+            response.setStatus(HttpStatus.FOUND.value());
+            response.setHeader("Location", redirectUrl);
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+        }
+    }else {
+            response.setStatus(HttpStatus.NOT_FOUND.value()); // Trả về mã trạng thái 404 nếu một trong hai chuỗi là null hoặc trống
         }
     }
 
@@ -184,6 +192,11 @@ public class PayController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/check/{orderId}")
+    public boolean checkPayWithOrderId(@PathVariable Long orderId){
+        return payService.checkPays(orderId);
     }
 
 }

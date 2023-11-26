@@ -30,4 +30,6 @@ public interface PaysRepository extends JpaRepository<Pays, Long> {
 
     Pays findByOrderId(Long orderId);
 
+    boolean existsByOrderId(Long orderId);
+
 }

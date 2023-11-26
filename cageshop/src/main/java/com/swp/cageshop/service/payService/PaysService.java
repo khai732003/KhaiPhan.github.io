@@ -249,5 +249,8 @@ public class PaysService implements PaysServiceImpl {
         } else {
         }
     }
+    public boolean checkPays(Long orderId){
+        return paysRepository.existsByOrderId(orderId);
+    }
 
 }

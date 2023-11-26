@@ -33,7 +33,7 @@ export default function ConfirmEmail({ orderId2 }) {
   return (
     <div className='confirm'>
       <Button variant='contained' onClick={handleConfirmOrder}>Confirm Order</Button>
-      {confirmStatus && <p>{confirmStatus}</p>}
+      {/* {confirmStatus && <p>{confirmStatus}</p>} */}
     </div>
   );
 }

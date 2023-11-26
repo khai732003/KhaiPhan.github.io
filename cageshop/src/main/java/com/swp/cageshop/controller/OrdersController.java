@@ -113,10 +113,10 @@ public class OrdersController {
 
         return new ResponseEntity<>(hasPurchased, HttpStatus.OK);
     }
-    @GetMapping("/exists/{userId}")
-    public ResponseEntity<Boolean> checkUserHasOrder(@PathVariable Long userId) {
+    @GetMapping("/exists/{orderId}/{userId}")
+    public ResponseEntity<Boolean> checkUserHasOrder(@PathVariable Long orderId,@PathVariable Long userId) {
         // Kiểm tra xem userId có tồn tại trong đơn hàng hay không
-        boolean userHasOrder = ordersService.existsByUserId(userId);
+        boolean userHasOrder = ordersService.existsByUserId(orderId,userId);
 
         return ResponseEntity.ok(userHasOrder);
     }

@@ -111,7 +111,7 @@ public class OrdersServiceImpl implements IOrdersService {
                 totalCost -= totalVoucherAmount;
             }
             if (totalCost < 0) {
-                orders.setTotal_Price(5000);
+                orders.setTotal_Price(6000);
                 ordersRepository.save(orders);
                 OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
                 List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
@@ -175,7 +175,7 @@ public class OrdersServiceImpl implements IOrdersService {
             totalCost -= totalVoucherAmount;
         }
         if (totalCost < 0) {
-            order.setTotal_Price(5000);
+            order.setTotal_Price(6000);
             ordersRepository.save(order);
             OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
             orderDTO.setOrderDetails(orderDetailDTOList);
@@ -327,8 +327,13 @@ public class OrdersServiceImpl implements IOrdersService {
 
 
     @Override
-    public boolean existsByUserId(Long userId) {
-        return ordersRepository.existsByUserId(userId);
+    public boolean existsByUserId(Long orderId, Long userId) {
+
+        Orders orders = ordersRepository.existsByUserId(orderId,userId);
+        if(orders != null){
+            return true;
+        }
+        return false;
     }
 
 }

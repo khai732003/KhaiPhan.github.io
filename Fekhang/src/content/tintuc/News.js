@@ -216,7 +216,7 @@ const News = () => {
               <h4>{marketingData[0].title}</h4>
               <p>{marketingData[0].info}</p>
               {marketingData[0].img && (
-                <img src={marketingData[0].img} alt="Column 1" />
+                <img src={marketingData[0].img} alt="Column 1" style={{height:'100%', width:'100%'}}/>
               )}
             </div>
           )}

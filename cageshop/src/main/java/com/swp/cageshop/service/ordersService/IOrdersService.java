@@ -42,7 +42,7 @@ public interface IOrdersService {
 
     public boolean checkIfUserHasPurchasedProduct1(Long userId, Long productId);
 
-    public boolean existsByUserId(Long userId);
+    public boolean existsByUserId(Long orderId,Long userId);
 
 
 }

@@ -39,6 +39,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     List<Orders> findByUserIdAndPayStatusAndShipStatus(Long userId, String payStatus, String shipStatus);
 
-    boolean existsByUserId(Long userId);
+    @Query("SELECT o FROM Orders o WHERE o.id = :orderId AND o.user.id = :userId")
+    Orders existsByUserId(Long orderId,Long userId);
 
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import customAxios from '../../CustomAxios/customAxios';
 import OrderDetail from "./OrderDetail";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "./Context/AuthContext";
 import ConfirmEmail from './ConfirmEmail';
 import './Scss/Order.scss';
@@ -21,6 +21,7 @@ import {
 } from '@mui/material';
 
 const Order = () => {
+  const {orderId1} = useParams();
   const { user } = useAuth();
   const [order, setOrder] = useState(null);
   const [voucherCode, setVoucherCode] = useState("");
@@ -35,7 +36,6 @@ const Order = () => {
     try {
       const prices = await getDiscountedPrices();
       setDiscountedPrices(prices);
-      console.log(prices)
     } catch (error) {
       console.error('Error fetching discounted prices:', error);
     }
@@ -96,16 +96,23 @@ const Order = () => {
   };
   useEffect(() => {
     // Check if the user has any orders
-    customAxios.get(`/order/exists/${user.userId}`)
-      .then(response => {
+    const fetchData = async () => {
+      try {
+        const response = await customAxios.get(`/order/exists/${orderId1}/${user.userId}`);
+        console.log(response.data);
+        console.log(user.userId)
         if (!response.data) {
+
           navigate('/');
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error checking orders existence:', error);
-      });
-  }, [user.userId, navigate]);
+      }
+    };
+  
+    fetchData();
+  }, [user.userId]);
+  
 
   useEffect(() => {
     fetchOrder();
@@ -139,7 +146,6 @@ const Order = () => {
       console.error('Error deleting VoucherUsage:', error);
     }
   }
-  console.log(deleted)
 
   const applyVoucher = async () => {
     try {
@@ -157,8 +163,6 @@ const Order = () => {
   function formatCurrency(amount) {
     return amount.toLocaleString('en-US');
   }
-
-  console.log(voucherCode)
   return (
     <div className="order-container">
       {order && order.orderDetails.length > 0 ? (

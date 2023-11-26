@@ -16,6 +16,8 @@ import {
 } from '@mui/material';
 import PaginationComponent from './PaginationComponent';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -65,8 +67,12 @@ const ListNotConfirm = () => {
       });
       console.log('Confirmation response:', confirmResponse.data);
       setTriggerUpdate(true);
+      toast.success('Delete successful!')
     } catch (error) {
       console.error('Error confirming order:', error);
+      toast.error(
+        'Choose a staff to deliver'
+      );
     }
   };
 
@@ -89,8 +95,9 @@ const ListNotConfirm = () => {
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Ship Status</TableCell>
+                <TableCell>Ship by</TableCell>
                 <TableCell>Action</TableCell>
-                <TableCell>User</TableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -99,11 +106,6 @@ const ListNotConfirm = () => {
                   <TableCell>{notification.id}</TableCell>
                   <TableCell>{notification.name}</TableCell>
                   <TableCell>{notification.shipStatus}</TableCell>
-                  <TableCell>
-                    <Button onClick={() => handleConfirm(notification.id)}>
-                      UPDATE CONFIRMED
-                    </Button>
-                  </TableCell>
                   <TableCell>
                     {/* User selection dropdown for each item */}
                     <Select
@@ -123,6 +125,11 @@ const ListNotConfirm = () => {
                       ))}
                     </Select>
                   </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleConfirm(notification.id)}>
+                      CONFIRM DELIVERING
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -130,6 +137,18 @@ const ListNotConfirm = () => {
         </TableContainer>
 
         <PaginationComponent items={notifications} onPageChange={handlePageChange} />
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       </Container>
     </>
   );
