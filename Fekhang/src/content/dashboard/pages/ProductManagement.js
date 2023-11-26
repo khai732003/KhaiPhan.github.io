@@ -165,6 +165,9 @@ const ProductManagement = () => {
     setDetailPopup(null);
   };
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
     <div className="user-management-page" style={{ marginBottom: "160px" }}>
       <div className="search-add-btn">
@@ -289,7 +292,7 @@ const ProductManagement = () => {
                 </td>
 
                 <td className="user-management-td smaller-text">
-                  {product.totalPrice}
+                  {formatCurrency(product.totalPrice)}
                 </td>
 
                 <td className="user-management-td smaller-text">
@@ -353,7 +356,7 @@ const ProductManagement = () => {
                         <ul className="product-info">
                           <li>
                             <span className="info-label">Total Price:</span>{" "}
-                            {detailPopup.totalPrice}
+                            {formatCurrency(detailPopup.totalPrice)}
                           </li>
                           <li>
                             <span className="info-label">Code:</span>{" "}
@@ -386,7 +389,7 @@ const ProductManagement = () => {
                               {detailPopup.cage.shape.shapeName}
                               <hr />
                               <span className="price">Price:</span>
-                              {detailPopup.cage.shape.price}
+                              {formatCurrency(detailPopup.cage.shape.price)}
                             </Typography>
                             <Typography variant="body1" className="info-item">
                               <span className="info-label">Material:</span>{" "}
@@ -394,7 +397,7 @@ const ProductManagement = () => {
                               {detailPopup.cage.material.materialName}
                               <hr />
                               <span className="price">Price:</span>
-                              {detailPopup.cage.material.price}
+                              {formatCurrency(detailPopup.cage.material.price)}
                             </Typography>
                             <Typography variant="body1" className="info-item">
                               <span className="info-label">Size:</span> Name:{" "}
@@ -408,7 +411,7 @@ const ProductManagement = () => {
                               {detailPopup.cage.size.maxspokes}
                               <hr />
                               Price: <br />
-                              {detailPopup.cage.size.price}
+                              {formatCurrency(detailPopup.cage.size.price)}
                             </Typography>
 
                             <Typography variant="body1" className="info-item">                

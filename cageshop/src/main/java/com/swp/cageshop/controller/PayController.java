@@ -108,6 +108,10 @@ public class PayController {
                     if (vu != null) {
                         Vouchers v = voucherRepository.getReferenceById(vu.getVoucher().getId());
                         v.setQuantity(v.getQuantity() - 1);
+                        if(v.getQuantity() == 0){
+                            v.setAvailable(false);
+                            voucherRepository.save(v);
+                        }
                         voucherRepository.save(v);
                     }
                     String redirectUrl = "http://localhost:3000/paysuccess";

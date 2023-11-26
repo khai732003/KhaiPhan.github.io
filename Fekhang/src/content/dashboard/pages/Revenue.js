@@ -76,12 +76,16 @@ const Revenue = () => {
     getListProducts();
   }, []);
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
+
   return (
     <Container maxWidth="lg" style={{ paddingTop: "20px", backgroundColor: "darkgray" }}>
       <CssBaseline />
       <Box mt={7.4} mb={0}>
         <Typography variant="h4" component="div" gutterBottom>
-          Biểu Đồ Doanh Thu
+          Revenue Chart
         </Typography>
       </Box>
 
@@ -98,7 +102,7 @@ const Revenue = () => {
                 type="monotone"
                 dataKey="revenue"
                 stroke="#8884d8"
-                name="Doanh thu"
+                name="Revenue"
               />
             </LineChart>
           </ResponsiveContainer>
@@ -109,19 +113,19 @@ const Revenue = () => {
         <Row>
           <Col sm={7}>
             <div>
-              <h2>Danh sách doanh thu</h2>
+              <h2>List of Revenue</h2>
               <Table className="table table-bordered table-striped">
                 <TableHead className="table-list-revenue-head">
                   <TableRow>
-                    <TableCell className="list-revenue">Data</TableCell>
-                    <TableCell className="list-revenue">Doanh thu</TableCell>
+                    <TableCell className="list-revenue">Date</TableCell>
+                    <TableCell className="list-revenue">Revenue</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody className="table-list-reveneu-body">
                   {itemsToDisplay.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>{item.date}</TableCell>
-                      <TableCell>{item.revenue}</TableCell>
+                      <TableCell>{formatCurrency(item.revenue)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -137,7 +141,7 @@ const Revenue = () => {
 
           <Col sm={5}>
             <Box p={2} className="revenue-total-table">
-            <h3>Tổng Số Doanh Thu</h3>
+            <h3>Total Revenue</h3>
               <Table className="user-table">
                 <TableHead>
                   <TableRow>
@@ -147,7 +151,7 @@ const Revenue = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody className="revenue-total-body">   
-                    {products}
+                    {formatCurrency(products)}
                 </TableBody>
               </Table>
             </Box>

@@ -18,7 +18,7 @@ function VoucherList() {
   useEffect(() => {
     // Fetch voucher data from the API
     customAxios
-      .get("/voucher/get-all")
+      .get("/voucher/get-all/0")
       .then((response) => response.data)
       .then((data) => setVoucherList(data))
       .catch((error) => console.error("Error fetching voucher data:", error));
@@ -28,6 +28,9 @@ function VoucherList() {
     voucher.code.toLowerCase().includes(searchCode.toLowerCase())
   );
 
+  function formatCurrency(amount) {
+    return amount.toLocaleString('en-US');
+  }
   return (
     <div style={{ marginLeft: "5rem", marginRight: "9rem", marginBottom: "160px" }}>
       <TableContainer
@@ -169,7 +172,7 @@ function VoucherList() {
                   {voucher.description}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
-                  {voucher.voucherAmount}
+                  {formatCurrency(voucher.voucherAmount)}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {voucher.voucherType}

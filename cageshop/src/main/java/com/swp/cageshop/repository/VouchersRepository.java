@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 
 public interface VouchersRepository extends JpaRepository<Vouchers, Long> {
+    
     Vouchers findByCodeAndIsAvailable(String code, boolean isAvailable);
 
     @Query("SELECT v FROM Vouchers v " +

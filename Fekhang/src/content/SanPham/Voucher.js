@@ -141,7 +141,6 @@ function Voucher() {
           >
             <option value="">-- Chọn Loại Voucher --</option>
             <option value="CASH">CASH</option>
-            <option value="FREESHIP">FREESHIP</option>
           </select>
         </div>
       </div>
